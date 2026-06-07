@@ -1,6 +1,11 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - "*.qmd"
+    - "*.md"
+    - "research_data/data-vis/*.ipynb"
+    - "!research_data/data-import/"
 
 website:
   title: "Climate-KG Data Analysis"
@@ -12,6 +17,22 @@ website:
         file: research_data/data-vis/ar6-authors-distribution-analysis.ipynb
       - text: "Wikibase Inventory"
         file: research_data/data-vis/wikibase-inventory-dashboard.ipynb
+      - text: "Data Documentation"
+        menu:
+          - text: "XML/HTML Pipeline Overview"
+            file: xml-html-documentation.md
+          - text: "---"
+          - text: "Generated Data Pages"
+          - text: "Authors Directory"
+            href: data/authors-ar6.html
+          - text: "Acronyms Index"
+            href: data/acronyms-ar6.html
+          - text: "Bibliography"
+            href: data/bibliographic-ar6.html
+          - text: "Corpus Structure"
+            href: data/corpus-ar6.html
+          - text: "Glossary"
+            href: data/glossary-ar6.html
 
 format:
   html:

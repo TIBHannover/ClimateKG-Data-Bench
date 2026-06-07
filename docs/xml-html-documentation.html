@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>xml-html-documentation – Climate-KG Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Climate-KG Data Analysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./research_data/data-vis/ar6-authors-distribution-analysis.html"> 
+<span class="menu-text">AR6 Authors Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./research_data/data-vis/wikibase-inventory-dashboard.html"> 
+<span class="menu-text">Wikibase Inventory</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Documentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-documentation">    
+        <li>
+    <a class="dropdown-item" href="./xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="./data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ipcc-ar6-xml-to-html-transformations" id="toc-ipcc-ar6-xml-to-html-transformations" class="nav-link active" data-scroll-target="#ipcc-ar6-xml-to-html-transformations">IPCC AR6 XML to HTML Transformations</a>
+  <ul class="collapse">
+  <li><a href="#overview-csv-to-xml-to-wikibase-pipeline" id="toc-overview-csv-to-xml-to-wikibase-pipeline" class="nav-link" data-scroll-target="#overview-csv-to-xml-to-wikibase-pipeline">Overview: CSV to XML to Wikibase Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#step-1-csv-normalization" id="toc-step-1-csv-normalization" class="nav-link" data-scroll-target="#step-1-csv-normalization">Step 1: CSV Normalization</a></li>
+  <li><a href="#step-2-xml-generation-with-dtd-validation" id="toc-step-2-xml-generation-with-dtd-validation" class="nav-link" data-scroll-target="#step-2-xml-generation-with-dtd-validation">Step 2: XML Generation with DTD Validation</a></li>
+  <li><a href="#step-3a-xslt-transformation-to-html" id="toc-step-3a-xslt-transformation-to-html" class="nav-link" data-scroll-target="#step-3a-xslt-transformation-to-html">Step 3a: XSLT Transformation to HTML</a></li>
+  <li><a href="#step-3b-python-based-wikibase-import" id="toc-step-3b-python-based-wikibase-import" class="nav-link" data-scroll-target="#step-3b-python-based-wikibase-import">Step 3b: Python-Based Wikibase Import</a></li>
+  <li><a href="#tools-for-working-with-xml" id="toc-tools-for-working-with-xml" class="nav-link" data-scroll-target="#tools-for-working-with-xml">Tools for Working with XML</a></li>
+  </ul></li>
+  <li><a href="#generated-html-pages" id="toc-generated-html-pages" class="nav-link" data-scroll-target="#generated-html-pages">Generated HTML Pages</a>
+  <ul class="collapse">
+  <li><a href="#authors-ar6.html" id="toc-authors-ar6.html" class="nav-link" data-scroll-target="#authors-ar6.html">1. <strong>authors-ar6.html</strong></a></li>
+  <li><a href="#acronyms-ar6.html" id="toc-acronyms-ar6.html" class="nav-link" data-scroll-target="#acronyms-ar6.html">2. <strong>acronyms-ar6.html</strong></a></li>
+  <li><a href="#bibliographic-ar6.html" id="toc-bibliographic-ar6.html" class="nav-link" data-scroll-target="#bibliographic-ar6.html">3. <strong>bibliographic-ar6.html</strong></a></li>
+  <li><a href="#corpus-ar6.html" id="toc-corpus-ar6.html" class="nav-link" data-scroll-target="#corpus-ar6.html">4. <strong>corpus-ar6.html</strong></a></li>
+  <li><a href="#glossary-ar6.html" id="toc-glossary-ar6.html" class="nav-link" data-scroll-target="#glossary-ar6.html">5. <strong>glossary-ar6.html</strong></a></li>
+  </ul></li>
+  <li><a href="#file-structure" id="toc-file-structure" class="nav-link" data-scroll-target="#file-structure">File Structure</a></li>
+  <li><a href="#generating-html-files" id="toc-generating-html-files" class="nav-link" data-scroll-target="#generating-html-files">Generating HTML Files</a>
+  <ul class="collapse">
+  <li><a href="#option-1-using-the-powershell-script-recommended" id="toc-option-1-using-the-powershell-script-recommended" class="nav-link" data-scroll-target="#option-1-using-the-powershell-script-recommended">Option 1: Using the PowerShell Script (Recommended)</a></li>
+  <li><a href="#option-2-manual-transformation" id="toc-option-2-manual-transformation" class="nav-link" data-scroll-target="#option-2-manual-transformation">Option 2: Manual Transformation</a></li>
+  </ul></li>
+  <li><a href="#xslt-features" id="toc-xslt-features" class="nav-link" data-scroll-target="#xslt-features">XSLT Features</a>
+  <ul class="collapse">
+  <li><a href="#visual-design" id="toc-visual-design" class="nav-link" data-scroll-target="#visual-design">Visual Design</a></li>
+  <li><a href="#functionality" id="toc-functionality" class="nav-link" data-scroll-target="#functionality">Functionality</a></li>
+  <li><a href="#styling" id="toc-styling" class="nav-link" data-scroll-target="#styling">Styling</a></li>
+  </ul></li>
+  <li><a href="#technical-details" id="toc-technical-details" class="nav-link" data-scroll-target="#technical-details">Technical Details</a>
+  <ul class="collapse">
+  <li><a href="#dtd-processing" id="toc-dtd-processing" class="nav-link" data-scroll-target="#dtd-processing">DTD Processing</a></li>
+  <li><a href="#xslt-version" id="toc-xslt-version" class="nav-link" data-scroll-target="#xslt-version">XSLT Version</a></li>
+  <li><a href="#browser-compatibility" id="toc-browser-compatibility" class="nav-link" data-scroll-target="#browser-compatibility">Browser Compatibility</a></li>
+  </ul></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
+  <li><a href="#maintenance" id="toc-maintenance" class="nav-link" data-scroll-target="#maintenance">Maintenance</a></li>
+  <li><a href="#related-files" id="toc-related-files" class="nav-link" data-scroll-target="#related-files">Related Files</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="ipcc-ar6-xml-to-html-transformations" class="level1">
+<h1>IPCC AR6 XML to HTML Transformations</h1>
+<p>This directory contains XML data files and XSLT stylesheets to generate HTML documentation pages for IPCC AR6 data.</p>
+<section id="overview-csv-to-xml-to-wikibase-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="overview-csv-to-xml-to-wikibase-pipeline">Overview: CSV to XML to Wikibase Pipeline</h2>
+<p>The IPCC AR6 data follows a structured pipeline from source data to knowledge base:</p>
+<pre><code>CSV files → Normalization → XML + DTD → Multiple outputs:
+                                         ├─ HTML (via XSLT)
+                                         ├─ Wikibase import (via Python)
+                                         └─ Other formats (via XSLT)</code></pre>
+<section id="step-1-csv-normalization" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-csv-normalization">Step 1: CSV Normalization</h3>
+<p>Source data starts as CSV files (e.g., <code>ipccglossary.csv</code>, <code>authors-source.csv</code>, <code>acronyms-ar6.csv</code>), which undergo normalization in the <code>research_data/data-import/</code> directories:</p>
+<ul>
+<li><strong>Whitespace cleaning</strong>: Remove leading/trailing spaces</li>
+<li><strong>Standardization</strong>: Normalize country names, convert case (e.g., <code>SMITH</code> → <code>Smith</code>)</li>
+<li><strong>Enrichment</strong>: Look up Wikibase QIDs via SPARQL, add stable IDs</li>
+<li><strong>Column mapping</strong>: Rename and reorder columns for XML compatibility</li>
+<li><strong>Validation</strong>: Check data consistency and completeness</li>
+</ul>
+<p>Scripts: <code>normalise_*.py</code> in each data-import subdirectory</p>
+</section>
+<section id="step-2-xml-generation-with-dtd-validation" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-xml-generation-with-dtd-validation">Step 2: XML Generation with DTD Validation</h3>
+<p>Normalized CSVs are converted to structured XML using Python scripts:</p>
+<ul>
+<li><strong>Scripts</strong>: <code>csv_to_xml.py</code> or <code>csv_to_xml.ipynb</code> (Jupyter notebook)</li>
+<li><strong>Libraries</strong>: <code>xml.etree.ElementTree</code> (Python) or <code>lxml</code> (notebook)</li>
+<li><strong>Validation</strong>: Each XML file is validated against its Document Type Definition (DTD)</li>
+<li><strong>Output</strong>: Clean, validated XML files in <code>outputs/</code> or <code>data-xml-dtd/</code></li>
+</ul>
+<p><strong>DTD files</strong> (e.g., <code>glossary.dtd</code>, <code>authors-ar6.dtd</code>) define the structure and constraints: - Required vs.&nbsp;optional elements - Element nesting rules - Attribute definitions - Data types and patterns</p>
+<p>Example DTD excerpt:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode dtd code-with-copy"><code class="sourceCode dtd"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">term</span> <span class="dv">(</span><span class="fu">name</span><span class="dv">,</span> <span class="fu">also_known_as</span><span class="fl">?</span><span class="dv">,</span> <span class="fu">definition</span><span class="dv">,</span> <span class="fu">series</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ATTLIST</span> <span class="fu">term</span> <span class="fu">id</span> <span class="kw">ID</span> <span class="kw">#REQUIRED</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">series</span> <span class="dv">(</span><span class="fu">series_ref</span><span class="fl">+</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">series_ref</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ATTLIST</span> <span class="fu">series_ref</span> <span class="fu">qid</span> <span class="kw">CDATA</span> <span class="kw">#REQUIRED</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-3a-xslt-transformation-to-html" class="level3">
+<h3 class="anchored" data-anchor-id="step-3a-xslt-transformation-to-html">Step 3a: XSLT Transformation to HTML</h3>
+<p>XSLT (eXtensible Stylesheet Language Transformations) converts XML to HTML for human-readable documentation:</p>
+<ul>
+<li><strong>Flexibility</strong>: XSLT can transform XML to <strong>any text format</strong> (HTML, CSV, JSON, LaTeX, Markdown, etc.)</li>
+<li><strong>Reusability</strong>: Same XML file can generate multiple outputs with different stylesheets</li>
+<li><strong>Standards-based</strong>: XSLT 1.0 is widely supported across languages (.NET, Java, Python lxml, browser engines)</li>
+<li><strong>Template-driven</strong>: Declarative pattern matching makes transformations maintainable</li>
+</ul>
+<p>This repository uses XSLT 1.0 stylesheets (e.g., <code>authors-ar6.xslt</code>) with .NET’s <code>XslCompiledTransform</code> for HTML generation.</p>
+</section>
+<section id="step-3b-python-based-wikibase-import" class="level3">
+<h3 class="anchored" data-anchor-id="step-3b-python-based-wikibase-import">Step 3b: Python-Based Wikibase Import</h3>
+<p>XML is ideal for Wikibase imports because:</p>
+<ul>
+<li><strong>Structured validation</strong>: DTD ensures data integrity before import</li>
+<li><strong>Hierarchical data</strong>: Natural representation of entities and relationships (e.g., author → contributions → chapters)</li>
+<li><strong>Namespace handling</strong>: Clean separation of metadata and content</li>
+<li><strong>Parsing libraries</strong>: Python’s <code>xml.etree.ElementTree</code> and <code>lxml</code> provide robust parsing</li>
+<li><strong>Error handling</strong>: XML validation catches issues early, before touching the knowledge base</li>
+<li><strong>Documentation</strong>: Self-documenting with DTD, unlike raw CSVs</li>
+</ul>
+<p><strong>Import library</strong>: <a href="https://github.com/LeMyst/WikibaseIntegrator">wikibaseintegrator</a> - High-level Python API for creating/editing Wikibase items and properties - Handles authentication, item creation, statements, qualifiers, and references - Works in both Python scripts (<code>.py</code>) and Jupyter notebooks (<code>.ipynb</code>) - Install: <code>pip install wikibaseintegrator</code></p>
+<p><strong>Example scripts</strong>: <code>upload_to_wikibase.py</code> in each <code>data-import/*/</code> directory - <a href="research_data/data-import/authors-XML-DTD/upload_to_wikibase.py">research_data/data-import/authors-XML-DTD/upload_to_wikibase.py</a> - Complete example with bootstrap pattern, XML parsing, and item creation - <a href="research_data/data-import/ipcc-glossary-XML-DTD/upload_to_wikibase.ipynb">research_data/data-import/ipcc-glossary-XML-DTD/upload_to_wikibase.ipynb</a> - Jupyter notebook version for interactive imports - Each script demonstrates XML parsing, statement creation with qualifiers/references, and error handling</p>
+</section>
+<section id="tools-for-working-with-xml" class="level3">
+<h3 class="anchored" data-anchor-id="tools-for-working-with-xml">Tools for Working with XML</h3>
+<p><strong>Microsoft XML Notepad</strong> (free) - Recommended XML viewer/editor: - Download: https://microsoft.github.io/XmlNotepad/ - Features: Tree view, DTD validation, XSLT transformation preview, syntax highlighting - Use case: Review generated XML files, validate against DTD, test XSLT stylesheets</p>
+<p>Other tools: - <strong>VS Code</strong> with XML extensions (Red Hat XML, XML Tools) - <strong>Python lxml</strong>: <code>lxml.etree.fromstring()</code> with DTD validation - <strong>xmllint</strong> (Linux/Mac): Command-line validation tool</p>
+</section>
+</section>
+<section id="generated-html-pages" class="level2">
+<h2 class="anchored" data-anchor-id="generated-html-pages">Generated HTML Pages</h2>
+<p>The following HTML pages are generated from XML data using XSLT transformations:</p>
+<section id="authors-ar6.html" class="level3">
+<h3 class="anchored" data-anchor-id="authors-ar6.html">1. <strong>authors-ar6.html</strong></h3>
+<ul>
+<li><strong>Source:</strong> <code>authors-ar6.xml</code></li>
+<li><strong>Stylesheet:</strong> <code>authors-ar6.xslt</code></li>
+<li><strong>Content:</strong> Comprehensive directory of IPCC AR6 authors with:
+<ul>
+<li>Full name, gender, citizenship, country of residence</li>
+<li>Institutional affiliations</li>
+<li>Chapter contributions and roles (Lead Author, Review Editor, etc.)</li>
+<li>Statistics: total authors, contributions, gender distribution</li>
+<li>Searchable interface</li>
+</ul></li>
+</ul>
+</section>
+<section id="acronyms-ar6.html" class="level3">
+<h3 class="anchored" data-anchor-id="acronyms-ar6.html">2. <strong>acronyms-ar6.html</strong></h3>
+<ul>
+<li><strong>Source:</strong> <code>acronyms-ar6.xml</code></li>
+<li><strong>Stylesheet:</strong> <code>acronyms-ar6.xslt</code></li>
+<li><strong>Content:</strong> Complete list of acronyms used across IPCC AR6 reports:
+<ul>
+<li>Acronym codes and definitions</li>
+<li>Multiple definitions where applicable (with source attribution)</li>
+<li>Report badges showing which reports use each acronym (WGI, WGII, WGIII, SR1.5, etc.)</li>
+<li>Statistics by working group</li>
+<li>Searchable interface</li>
+</ul></li>
+</ul>
+</section>
+<section id="bibliographic-ar6.html" class="level3">
+<h3 class="anchored" data-anchor-id="bibliographic-ar6.html">3. <strong>bibliographic-ar6.html</strong></h3>
+<ul>
+<li><strong>Source:</strong> <code>bibliographc-ar6.xml</code></li>
+<li><strong>Stylesheet:</strong> <code>bibliographic-ar6.xslt</code></li>
+<li><strong>Content:</strong> Bibliographic metadata enriched from Crossref DOI data:
+<ul>
+<li>Publisher information</li>
+<li>ISBN numbers (electronic and print)</li>
+<li>License URLs</li>
+<li>Abstracts</li>
+<li>DOI references</li>
+<li>Searchable interface with expandable abstracts</li>
+</ul></li>
+</ul>
+</section>
+<section id="corpus-ar6.html" class="level3">
+<h3 class="anchored" data-anchor-id="corpus-ar6.html">4. <strong>corpus-ar6.html</strong></h3>
+<ul>
+<li><strong>Source:</strong> <code>corpus-ar6.xml</code></li>
+<li><strong>Stylesheet:</strong> <code>corpus-ar6.xslt</code></li>
+<li><strong>Content:</strong> Hierarchical structure of IPCC AR6 publications:
+<ul>
+<li>Publication and series information</li>
+<li>Working Group books (WGI, WGII, WGIII) and Special Reports</li>
+<li>Front matter and chapter organization</li>
+<li>DOI, PDF, Wiki, Source, and OpenAlex links for each chapter</li>
+<li>License and date metadata</li>
+<li>Clean hierarchical navigation</li>
+</ul></li>
+</ul>
+</section>
+<section id="glossary-ar6.html" class="level3">
+<h3 class="anchored" data-anchor-id="glossary-ar6.html">5. <strong>glossary-ar6.html</strong></h3>
+<ul>
+<li><strong>Source:</strong> <code>glossary-ar6.xml</code></li>
+<li><strong>Stylesheet:</strong> <code>glossary-ar6.xslt</code></li>
+<li><strong>Content:</strong> IPCC glossary terms with:
+<ul>
+<li>Term names and aliases (also known as)</li>
+<li>Definitions</li>
+<li>Series badges (WGI, WGII, WGIII, SR15, etc.) with QID references</li>
+<li>Statistics by working group</li>
+<li>Searchable interface with real-time filtering</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="file-structure" class="level2">
+<h2 class="anchored" data-anchor-id="file-structure">File Structure</h2>
+<pre><code>data-xml-dtd/
+├── authors-ar6.xml          # Author data
+├── authors-ar6.dtd          # Document Type Definition for authors
+├── authors-ar6.xslt         # XSLT stylesheet for authors
+├── authors-ar6.html         # Generated HTML page
+│
+├── acronyms-ar6.xml         # Acronyms data
+├── acronyms-ar6.dtd         # DTD for acronyms
+├── acronyms-ar6.xslt        # XSLT stylesheet for acronyms
+├── acronyms-ar6.html        # Generated HTML page
+│
+├── bibliographc-ar6.xml     # Bibliographic enrichment data
+├── bibliographic-ar6.dtd    # DTD for bibliographic data
+├── bibliographic-ar6.xslt   # XSLT stylesheet for bibliography
+├── bibliographic-ar6.html   # Generated HTML page
+│
+├── corpus-ar6.xml           # Corpus structure data
+├── corpus-ar6.dtd           # DTD for corpus
+├── corpus-ar6.xslt          # XSLT stylesheet for corpus
+├── corpus-ar6.html          # Generated HTML page
+│
+├── glossary-ar6.xml         # Glossary data
+├── glossary-ar6.dtd         # DTD for glossary
+├── glossary-ar6.xslt        # XSLT stylesheet for glossary
+├── glossary-ar6.html        # Generated HTML page
+│
+└── generate-html.ps1        # PowerShell script to regenerate all HTML</code></pre>
+</section>
+<section id="generating-html-files" class="level2">
+<h2 class="anchored" data-anchor-id="generating-html-files">Generating HTML Files</h2>
+<section id="option-1-using-the-powershell-script-recommended" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-using-the-powershell-script-recommended">Option 1: Using the PowerShell Script (Recommended)</h3>
+<p>Run the provided script to regenerate all HTML files:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> research_data<span class="op">/</span>data-xml-dtd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\generate-html<span class="op">.</span><span class="fu">ps1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script will: - Check for required XML and XSLT files - Transform each XML file using its corresponding XSLT stylesheet - Report success/failure for each transformation - Display file sizes of generated HTML - <strong>Copy HTML files to <code>../../docs/data/</code> for the Quarto website</strong></p>
+<p><strong>Note</strong>: After running <code>quarto render</code>, re-run <code>.\generate-html.ps1</code> to ensure the HTML files are copied to the Quarto output directory, as Quarto may clean the output directory during rendering.</p>
+</section>
+<section id="option-2-manual-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-manual-transformation">Option 2: Manual Transformation</h3>
+<p>To manually transform an XML file to HTML:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to the directory</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> research_data<span class="op">/</span>data-xml-dtd</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create XSLT transformer and configure DTD processing</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">$xslt</span> <span class="op">=</span> <span class="fu">New-Object</span> System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">Xsl</span><span class="op">.</span><span class="fu">XslCompiledTransform</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="va">$xslt</span><span class="op">.</span><span class="fu">Load</span><span class="op">(</span><span class="st">"authors-ar6.xslt"</span><span class="op">)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">$settings</span> <span class="op">=</span> <span class="fu">New-Object</span> System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">XmlReaderSettings</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="va">$settings</span><span class="op">.</span><span class="fu">DtdProcessing</span> <span class="op">=</span> <span class="op">[</span>System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">DtdProcessing</span><span class="op">]::</span>Parse</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create reader and writer</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="va">$reader</span> <span class="op">=</span> <span class="op">[</span>System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">XmlReader</span><span class="op">]::</span>Create<span class="op">(</span><span class="st">"authors-ar6.xml"</span><span class="op">,</span> <span class="va">$settings</span><span class="op">)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="va">$writer</span> <span class="op">=</span> <span class="op">[</span>System<span class="op">.</span><span class="fu">Xml</span><span class="op">.</span><span class="fu">XmlWriter</span><span class="op">]::</span>Create<span class="op">(</span><span class="st">"authors-ar6.html"</span><span class="op">)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="va">$xslt</span><span class="op">.</span><span class="fu">Transform</span><span class="op">(</span><span class="va">$reader</span><span class="op">,</span> <span class="va">$writer</span><span class="op">)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="va">$reader</span><span class="op">.</span><span class="fu">Close</span><span class="op">()</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="va">$writer</span><span class="op">.</span><span class="fu">Close</span><span class="op">()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Repeat for other files by changing the filenames.</p>
+</section>
+</section>
+<section id="xslt-features" class="level2">
+<h2 class="anchored" data-anchor-id="xslt-features">XSLT Features</h2>
+<p>All XSLT stylesheets follow a consistent design pattern:</p>
+<section id="visual-design" class="level3">
+<h3 class="anchored" data-anchor-id="visual-design">Visual Design</h3>
+<ul>
+<li>Clean, modern interface with responsive layout</li>
+<li>IPCC blue color scheme (#1a5490)</li>
+<li>Card-based design with subtle shadows and borders</li>
+<li>Mobile-friendly responsive design</li>
+</ul>
+</section>
+<section id="functionality" class="level3">
+<h3 class="anchored" data-anchor-id="functionality">Functionality</h3>
+<ul>
+<li><strong>Search:</strong> Real-time JavaScript-based search filtering</li>
+<li><strong>Statistics:</strong> Summary cards showing key metrics</li>
+<li><strong>Badges:</strong> Color-coded badges for reports, roles, and categories</li>
+<li><strong>Interactive Elements:</strong> Expandable abstracts, hover effects</li>
+</ul>
+</section>
+<section id="styling" class="level3">
+<h3 class="anchored" data-anchor-id="styling">Styling</h3>
+<ul>
+<li>Uses system fonts for better performance and native look</li>
+<li>Consistent spacing and typography</li>
+<li>Accessible color contrasts</li>
+<li>Print-friendly styles</li>
+</ul>
+</section>
+</section>
+<section id="technical-details" class="level2">
+<h2 class="anchored" data-anchor-id="technical-details">Technical Details</h2>
+<section id="dtd-processing" class="level3">
+<h3 class="anchored" data-anchor-id="dtd-processing">DTD Processing</h3>
+<p>The XML files reference Document Type Definitions (DTDs) which must be processed during transformation. The PowerShell scripts configure <code>DtdProcessing = Parse</code> to enable this.</p>
+</section>
+<section id="xslt-version" class="level3">
+<h3 class="anchored" data-anchor-id="xslt-version">XSLT Version</h3>
+<p>All stylesheets use XSLT 1.0 for maximum compatibility with .NET’s <code>XslCompiledTransform</code> class.</p>
+</section>
+<section id="browser-compatibility" class="level3">
+<h3 class="anchored" data-anchor-id="browser-compatibility">Browser Compatibility</h3>
+<p>Generated HTML files are compatible with all modern browsers (Chrome, Firefox, Safari, Edge).</p>
+</section>
+</section>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
+<p>The XML files in this directory are generated from CSV source data processed in <code>research_data/data-import/</code>:</p>
+<ul>
+<li><strong>Authors:</strong> <code>data-import/authors-XML-DTD/</code> - IPCC official author listings from https://apps.ipcc.ch/report/authors/</li>
+<li><strong>Acronyms:</strong> <code>data-import/ipcc-acronyms-XML-DTD/</code> - Compiled from IPCC AR6 reports</li>
+<li><strong>Bibliography:</strong> <code>data-import/bibliographic-XML-DTD/</code> - Enriched with Crossref DOI metadata</li>
+<li><strong>Corpus:</strong> <code>data-import/corpus-backbone-XML-DTD/</code> - IPCC AR6 publication structure with chapter metadata and links</li>
+<li><strong>Glossary:</strong> <code>data-import/ipcc-glossary-XML-DTD/</code> - IPCC official glossary from https://apps.ipcc.ch/glossary/</li>
+</ul>
+<p>Each data-import directory contains: - Source CSV files - Normalization scripts (<code>normalise_*.py</code>) - CSV-to-XML conversion scripts (<code>csv_to_xml.py</code> or <code>csv_to_xml.ipynb</code>) - DTD files for validation - Wikibase upload scripts (<code>upload_to_wikibase.py</code>) - Documentation (<code>README.md</code> or <code>instructions.md</code>)</p>
+</section>
+<section id="maintenance" class="level2">
+<h2 class="anchored" data-anchor-id="maintenance">Maintenance</h2>
+<p>To update the HTML pages after XML data changes:</p>
+<ol type="1">
+<li><strong>If source data changed</strong>: Re-run the normalization and XML generation in the appropriate <code>data-import/</code> directory</li>
+<li><strong>If XML changed</strong>: Copy updated XML file to this <code>data-xml-dtd/</code> directory</li>
+<li>Run <code>.\generate-html.ps1</code> to regenerate HTML</li>
+<li>Verify the output by opening the HTML file in a browser</li>
+</ol>
+</section>
+<section id="related-files" class="level2">
+<h2 class="anchored" data-anchor-id="related-files">Related Files</h2>
+<ul>
+<li><strong>Source data</strong>: <code>research_data/data-import/*/</code> - CSV files and conversion scripts</li>
+<li>CSV source files: <code>*.csv</code> - Original data in CSV format</li>
+<li>DTD files: <code>*.dtd</code> - Document Type Definitions for XML validation</li>
+<li>XML files: <code>*.xml</code> - Structured data</li>
+<li>XSLT files: <code>*.xslt</code> - Transformation stylesheets</li>
+<li>HTML files: <code>*.html</code> - Generated documentation pages</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># IPCC AR6 XML to HTML Transformations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>This directory contains XML data files and XSLT stylesheets to generate HTML documentation pages for IPCC AR6 data.</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview: CSV to XML to Wikibase Pipeline</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>The IPCC AR6 data follows a structured pipeline from source data to knowledge base:</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="in">CSV files → Normalization → XML + DTD → Multiple outputs:</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="in">                                         ├─ HTML (via XSLT)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="in">                                         ├─ Wikibase import (via Python)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="in">                                         └─ Other formats (via XSLT)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1: CSV Normalization</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>Source data starts as CSV files (e.g., <span class="in">`ipccglossary.csv`</span>, <span class="in">`authors-source.csv`</span>, <span class="in">`acronyms-ar6.csv`</span>), which undergo normalization in the <span class="in">`research_data/data-import/`</span> directories:</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Whitespace cleaning**: Remove leading/trailing spaces</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Standardization**: Normalize country names, convert case (e.g., <span class="in">`SMITH`</span> → <span class="in">`Smith`</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Enrichment**: Look up Wikibase QIDs via SPARQL, add stable IDs</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Column mapping**: Rename and reorder columns for XML compatibility</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Validation**: Check data consistency and completeness</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>Scripts: <span class="in">`normalise_*.py`</span> in each data-import subdirectory</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2: XML Generation with DTD Validation</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>Normalized CSVs are converted to structured XML using Python scripts:</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Scripts**: <span class="in">`csv_to_xml.py`</span> or <span class="in">`csv_to_xml.ipynb`</span> (Jupyter notebook)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Libraries**: <span class="in">`xml.etree.ElementTree`</span> (Python) or <span class="in">`lxml`</span> (notebook)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Validation**: Each XML file is validated against its Document Type Definition (DTD)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Output**: Clean, validated XML files in <span class="in">`outputs/`</span> or <span class="in">`data-xml-dtd/`</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>**DTD files** (e.g., <span class="in">`glossary.dtd`</span>, <span class="in">`authors-ar6.dtd`</span>) define the structure and constraints:</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Required vs. optional elements</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Element nesting rules</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Attribute definitions</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Data types and patterns</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>Example DTD excerpt:</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="in">```dtd</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT term (name, also_known_as?, definition, series)&gt;</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ATTLIST term id ID #REQUIRED&gt;</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT series (series_ref+)&gt;</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT series_ref (#PCDATA)&gt;</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ATTLIST series_ref qid CDATA #REQUIRED&gt;</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3a: XSLT Transformation to HTML</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>XSLT (eXtensible Stylesheet Language Transformations) converts XML to HTML for human-readable documentation:</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Flexibility**: XSLT can transform XML to **any text format** (HTML, CSV, JSON, LaTeX, Markdown, etc.)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reusability**: Same XML file can generate multiple outputs with different stylesheets</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Standards-based**: XSLT 1.0 is widely supported across languages (.NET, Java, Python lxml, browser engines)</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Template-driven**: Declarative pattern matching makes transformations maintainable</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>This repository uses XSLT 1.0 stylesheets (e.g., <span class="in">`authors-ar6.xslt`</span>) with .NET's <span class="in">`XslCompiledTransform`</span> for HTML generation.</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3b: Python-Based Wikibase Import</span></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>XML is ideal for Wikibase imports because:</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Structured validation**: DTD ensures data integrity before import</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hierarchical data**: Natural representation of entities and relationships (e.g., author → contributions → chapters)</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Namespace handling**: Clean separation of metadata and content</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parsing libraries**: Python's <span class="in">`xml.etree.ElementTree`</span> and <span class="in">`lxml`</span> provide robust parsing</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Error handling**: XML validation catches issues early, before touching the knowledge base</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Documentation**: Self-documenting with DTD, unlike raw CSVs</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>**Import library**: <span class="co">[</span><span class="ot">wikibaseintegrator</span><span class="co">](https://github.com/LeMyst/WikibaseIntegrator)</span></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>High-level Python API for creating/editing Wikibase items and properties</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Handles authentication, item creation, statements, qualifiers, and references</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Works in both Python scripts (<span class="in">`.py`</span>) and Jupyter notebooks (<span class="in">`.ipynb`</span>)</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Install: <span class="in">`pip install wikibaseintegrator`</span></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>**Example scripts**: <span class="in">`upload_to_wikibase.py`</span> in each <span class="in">`data-import/*/`</span> directory</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">research_data/data-import/authors-XML-DTD/upload_to_wikibase.py</span><span class="co">](research_data/data-import/authors-XML-DTD/upload_to_wikibase.py)</span> - Complete example with bootstrap pattern, XML parsing, and item creation</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">research_data/data-import/ipcc-glossary-XML-DTD/upload_to_wikibase.ipynb</span><span class="co">](research_data/data-import/ipcc-glossary-XML-DTD/upload_to_wikibase.ipynb)</span> - Jupyter notebook version for interactive imports</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Each script demonstrates XML parsing, statement creation with qualifiers/references, and error handling</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tools for Working with XML</span></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>**Microsoft XML Notepad** (free) - Recommended XML viewer/editor:</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Download: https://microsoft.github.io/XmlNotepad/</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Features: Tree view, DTD validation, XSLT transformation preview, syntax highlighting</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use case: Review generated XML files, validate against DTD, test XSLT stylesheets</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>Other tools:</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**VS Code** with XML extensions (Red Hat XML, XML Tools)</span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Python lxml**: <span class="in">`lxml.etree.fromstring()`</span> with DTD validation</span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**xmllint** (Linux/Mac): Command-line validation tool</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generated HTML Pages</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>The following HTML pages are generated from XML data using XSLT transformations:</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. **authors-ar6.html**</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Source:** <span class="in">`authors-ar6.xml`</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stylesheet:** <span class="in">`authors-ar6.xslt`</span></span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Content:** Comprehensive directory of IPCC AR6 authors with:</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Full name, gender, citizenship, country of residence</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Institutional affiliations</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Chapter contributions and roles (Lead Author, Review Editor, etc.)</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Statistics: total authors, contributions, gender distribution</span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Searchable interface</span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. **acronyms-ar6.html**</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Source:** <span class="in">`acronyms-ar6.xml`</span></span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stylesheet:** <span class="in">`acronyms-ar6.xslt`</span></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Content:** Complete list of acronyms used across IPCC AR6 reports:</span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Acronym codes and definitions</span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Multiple definitions where applicable (with source attribution)</span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Report badges showing which reports use each acronym (WGI, WGII, WGIII, SR1.5, etc.)</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Statistics by working group</span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Searchable interface</span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. **bibliographic-ar6.html**</span></span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Source:** <span class="in">`bibliographc-ar6.xml`</span></span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stylesheet:** <span class="in">`bibliographic-ar6.xslt`</span></span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Content:** Bibliographic metadata enriched from Crossref DOI data:</span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Publisher information</span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>ISBN numbers (electronic and print)</span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>License URLs</span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Abstracts</span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>DOI references</span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Searchable interface with expandable abstracts</span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. **corpus-ar6.html**</span></span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Source:** <span class="in">`corpus-ar6.xml`</span></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stylesheet:** <span class="in">`corpus-ar6.xslt`</span></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Content:** Hierarchical structure of IPCC AR6 publications:</span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Publication and series information</span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Working Group books (WGI, WGII, WGIII) and Special Reports</span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Front matter and chapter organization</span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>DOI, PDF, Wiki, Source, and OpenAlex links for each chapter</span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>License and date metadata</span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Clean hierarchical navigation</span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5. **glossary-ar6.html**</span></span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Source:** <span class="in">`glossary-ar6.xml`</span></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stylesheet:** <span class="in">`glossary-ar6.xslt`</span></span>
+<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Content:** IPCC glossary terms with:</span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Term names and aliases (also known as)</span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Definitions</span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Series badges (WGI, WGII, WGIII, SR15, etc.) with QID references</span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Statistics by working group</span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Searchable interface with real-time filtering</span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## File Structure</span></span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a><span class="in">data-xml-dtd/</span></span>
+<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a><span class="in">├── authors-ar6.xml          # Author data</span></span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a><span class="in">├── authors-ar6.dtd          # Document Type Definition for authors</span></span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a><span class="in">├── authors-ar6.xslt         # XSLT stylesheet for authors</span></span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a><span class="in">├── authors-ar6.html         # Generated HTML page</span></span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a><span class="in">│</span></span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a><span class="in">├── acronyms-ar6.xml         # Acronyms data</span></span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a><span class="in">├── acronyms-ar6.dtd         # DTD for acronyms</span></span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a><span class="in">├── acronyms-ar6.xslt        # XSLT stylesheet for acronyms</span></span>
+<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a><span class="in">├── acronyms-ar6.html        # Generated HTML page</span></span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a><span class="in">│</span></span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a><span class="in">├── bibliographc-ar6.xml     # Bibliographic enrichment data</span></span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a><span class="in">├── bibliographic-ar6.dtd    # DTD for bibliographic data</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a><span class="in">├── bibliographic-ar6.xslt   # XSLT stylesheet for bibliography</span></span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a><span class="in">├── bibliographic-ar6.html   # Generated HTML page</span></span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a><span class="in">│</span></span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a><span class="in">├── corpus-ar6.xml           # Corpus structure data</span></span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a><span class="in">├── corpus-ar6.dtd           # DTD for corpus</span></span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a><span class="in">├── corpus-ar6.xslt          # XSLT stylesheet for corpus</span></span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a><span class="in">├── corpus-ar6.html          # Generated HTML page</span></span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a><span class="in">│</span></span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a><span class="in">├── glossary-ar6.xml         # Glossary data</span></span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a><span class="in">├── glossary-ar6.dtd         # DTD for glossary</span></span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a><span class="in">├── glossary-ar6.xslt        # XSLT stylesheet for glossary</span></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a><span class="in">├── glossary-ar6.html        # Generated HTML page</span></span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a><span class="in">│</span></span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a><span class="in">└── generate-html.ps1        # PowerShell script to regenerate all HTML</span></span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generating HTML Files</span></span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a><span class="fu">### Option 1: Using the PowerShell Script (Recommended)</span></span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>Run the provided script to regenerate all HTML files:</span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a><span class="in">cd research_data/data-xml-dtd</span></span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a><span class="in">.\generate-html.ps1</span></span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>The script will:</span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Check for required XML and XSLT files</span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Transform each XML file using its corresponding XSLT stylesheet</span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Report success/failure for each transformation</span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Display file sizes of generated HTML</span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Copy HTML files to `../../docs/data/` for the Quarto website**</span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>**Note**: After running <span class="in">`quarto render`</span>, re-run <span class="in">`.\generate-html.ps1`</span> to ensure the HTML files are copied to the Quarto output directory, as Quarto may clean the output directory during rendering.</span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### Option 2: Manual Transformation</span></span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a>To manually transform an XML file to HTML:</span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a><span class="in"># Navigate to the directory</span></span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a><span class="in">cd research_data/data-xml-dtd</span></span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a><span class="in"># Create XSLT transformer and configure DTD processing</span></span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a><span class="in">$xslt = New-Object System.Xml.Xsl.XslCompiledTransform</span></span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a><span class="in">$xslt.Load("authors-ar6.xslt")</span></span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a><span class="in">$settings = New-Object System.Xml.XmlReaderSettings</span></span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a><span class="in">$settings.DtdProcessing = [System.Xml.DtdProcessing]::Parse</span></span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a><span class="in"># Create reader and writer</span></span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a><span class="in">$reader = [System.Xml.XmlReader]::Create("authors-ar6.xml", $settings)</span></span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a><span class="in">$writer = [System.Xml.XmlWriter]::Create("authors-ar6.html")</span></span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a><span class="in"># Transform</span></span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a><span class="in">$xslt.Transform($reader, $writer)</span></span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a><span class="in"># Clean up</span></span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a><span class="in">$reader.Close()</span></span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a><span class="in">$writer.Close()</span></span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a>Repeat for other files by changing the filenames.</span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a><span class="fu">## XSLT Features</span></span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a>All XSLT stylesheets follow a consistent design pattern:</span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visual Design</span></span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Clean, modern interface with responsive layout</span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>IPCC blue color scheme (#1a5490)</span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Card-based design with subtle shadows and borders</span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mobile-friendly responsive design</span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Functionality</span></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Search:** Real-time JavaScript-based search filtering</span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Statistics:** Summary cards showing key metrics</span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Badges:** Color-coded badges for reports, roles, and categories</span>
+<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interactive Elements:** Expandable abstracts, hover effects</span>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### Styling</span></span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Uses system fonts for better performance and native look</span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Consistent spacing and typography</span>
+<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Accessible color contrasts</span>
+<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Print-friendly styles</span>
+<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Technical Details</span></span>
+<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-258"><a href="#cb6-258" aria-hidden="true" tabindex="-1"></a><span class="fu">### DTD Processing</span></span>
+<span id="cb6-259"><a href="#cb6-259" aria-hidden="true" tabindex="-1"></a>The XML files reference Document Type Definitions (DTDs) which must be processed during transformation. The PowerShell scripts configure <span class="in">`DtdProcessing = Parse`</span> to enable this.</span>
+<span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-261"><a href="#cb6-261" aria-hidden="true" tabindex="-1"></a><span class="fu">### XSLT Version</span></span>
+<span id="cb6-262"><a href="#cb6-262" aria-hidden="true" tabindex="-1"></a>All stylesheets use XSLT 1.0 for maximum compatibility with .NET's <span class="in">`XslCompiledTransform`</span> class.</span>
+<span id="cb6-263"><a href="#cb6-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-264"><a href="#cb6-264" aria-hidden="true" tabindex="-1"></a><span class="fu">### Browser Compatibility</span></span>
+<span id="cb6-265"><a href="#cb6-265" aria-hidden="true" tabindex="-1"></a>Generated HTML files are compatible with all modern browsers (Chrome, Firefox, Safari, Edge).</span>
+<span id="cb6-266"><a href="#cb6-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-267"><a href="#cb6-267" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Sources</span></span>
+<span id="cb6-268"><a href="#cb6-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-269"><a href="#cb6-269" aria-hidden="true" tabindex="-1"></a>The XML files in this directory are generated from CSV source data processed in <span class="in">`research_data/data-import/`</span>:</span>
+<span id="cb6-270"><a href="#cb6-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-271"><a href="#cb6-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Authors:** <span class="in">`data-import/authors-XML-DTD/`</span> - IPCC official author listings from https://apps.ipcc.ch/report/authors/</span>
+<span id="cb6-272"><a href="#cb6-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Acronyms:** <span class="in">`data-import/ipcc-acronyms-XML-DTD/`</span> - Compiled from IPCC AR6 reports</span>
+<span id="cb6-273"><a href="#cb6-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bibliography:** <span class="in">`data-import/bibliographic-XML-DTD/`</span> - Enriched with Crossref DOI metadata</span>
+<span id="cb6-274"><a href="#cb6-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Corpus:** <span class="in">`data-import/corpus-backbone-XML-DTD/`</span> - IPCC AR6 publication structure with chapter metadata and links</span>
+<span id="cb6-275"><a href="#cb6-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Glossary:** <span class="in">`data-import/ipcc-glossary-XML-DTD/`</span> - IPCC official glossary from https://apps.ipcc.ch/glossary/</span>
+<span id="cb6-276"><a href="#cb6-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-277"><a href="#cb6-277" aria-hidden="true" tabindex="-1"></a>Each data-import directory contains:</span>
+<span id="cb6-278"><a href="#cb6-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Source CSV files</span>
+<span id="cb6-279"><a href="#cb6-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Normalization scripts (<span class="in">`normalise_*.py`</span>)</span>
+<span id="cb6-280"><a href="#cb6-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>CSV-to-XML conversion scripts (<span class="in">`csv_to_xml.py`</span> or <span class="in">`csv_to_xml.ipynb`</span>)</span>
+<span id="cb6-281"><a href="#cb6-281" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>DTD files for validation</span>
+<span id="cb6-282"><a href="#cb6-282" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wikibase upload scripts (<span class="in">`upload_to_wikibase.py`</span>)</span>
+<span id="cb6-283"><a href="#cb6-283" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Documentation (<span class="in">`README.md`</span> or <span class="in">`instructions.md`</span>)</span>
+<span id="cb6-284"><a href="#cb6-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-285"><a href="#cb6-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Maintenance</span></span>
+<span id="cb6-286"><a href="#cb6-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-287"><a href="#cb6-287" aria-hidden="true" tabindex="-1"></a>To update the HTML pages after XML data changes:</span>
+<span id="cb6-288"><a href="#cb6-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-289"><a href="#cb6-289" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**If source data changed**: Re-run the normalization and XML generation in the appropriate <span class="in">`data-import/`</span> directory</span>
+<span id="cb6-290"><a href="#cb6-290" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**If XML changed**: Copy updated XML file to this <span class="in">`data-xml-dtd/`</span> directory</span>
+<span id="cb6-291"><a href="#cb6-291" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Run <span class="in">`.\generate-html.ps1`</span> to regenerate HTML</span>
+<span id="cb6-292"><a href="#cb6-292" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Verify the output by opening the HTML file in a browser</span>
+<span id="cb6-293"><a href="#cb6-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-294"><a href="#cb6-294" aria-hidden="true" tabindex="-1"></a><span class="fu">## Related Files</span></span>
+<span id="cb6-295"><a href="#cb6-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-296"><a href="#cb6-296" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Source data**: <span class="in">`research_data/data-import/*/`</span> - CSV files and conversion scripts</span>
+<span id="cb6-297"><a href="#cb6-297" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>CSV source files: <span class="in">`*.csv`</span> - Original data in CSV format</span>
+<span id="cb6-298"><a href="#cb6-298" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>DTD files: <span class="in">`*.dtd`</span> - Document Type Definitions for XML validation</span>
+<span id="cb6-299"><a href="#cb6-299" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>XML files: <span class="in">`*.xml`</span> - Structured data</span>
+<span id="cb6-300"><a href="#cb6-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>XSLT files: <span class="in">`*.xslt`</span> - Transformation stylesheets</span>
+<span id="cb6-301"><a href="#cb6-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>HTML files: <span class="in">`*.html`</span> - Generated documentation pages</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
