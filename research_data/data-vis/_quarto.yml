@@ -1,0 +1,30 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Climate-KG Data Analysis"
+  navbar:
+    left:
+      - text: "Home"
+        file: index.qmd
+      - text: "AR6 Authors Analysis"
+        file: ar6-authors-distribution-analysis.ipynb
+      - text: "Wikibase Inventory"
+        file: wikibase-inventory-dashboard.ipynb
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    code-summary: "Show code"
+    number-sections: false
+    fig-width: 10
+    fig-height: 7
+
+execute:
+  freeze: auto
+  warning: false

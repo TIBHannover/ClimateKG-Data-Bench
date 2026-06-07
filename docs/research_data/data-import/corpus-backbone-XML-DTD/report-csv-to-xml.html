@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>report-csv-to-xml – Climate-KG Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Climate-KG Data Analysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../research_data/data-vis/ar6-authors-distribution-analysis.html"> 
+<span class="menu-text">AR6 Authors Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../research_data/data-vis/wikibase-inventory-dashboard.html"> 
+<span class="menu-text">Wikibase Inventory</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#report-csv-to-xml-conversion-ipcc-ar6-all-7-series" id="toc-report-csv-to-xml-conversion-ipcc-ar6-all-7-series" class="nav-link active" data-scroll-target="#report-csv-to-xml-conversion-ipcc-ar6-all-7-series">Report: CSV to XML Conversion — IPCC AR6 (All 7 Series)</a>
+  <ul class="collapse">
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective">1. Objective</a></li>
+  <li><a href="#inputs" id="toc-inputs" class="nav-link" data-scroll-target="#inputs">2. Inputs</a></li>
+  <li><a href="#steps-followed" id="toc-steps-followed" class="nav-link" data-scroll-target="#steps-followed">3. Steps Followed</a>
+  <ul class="collapse">
+  <li><a href="#planning" id="toc-planning" class="nav-link" data-scroll-target="#planning">3.1 Planning</a></li>
+  <li><a href="#environment-setup" id="toc-environment-setup" class="nav-link" data-scroll-target="#environment-setup">3.2 Environment Setup</a></li>
+  <li><a href="#notebook-construction" id="toc-notebook-construction" class="nav-link" data-scroll-target="#notebook-construction">3.3 Notebook Construction</a></li>
+  <li><a href="#csv-parsing-logic" id="toc-csv-parsing-logic" class="nav-link" data-scroll-target="#csv-parsing-logic">3.4 CSV Parsing Logic</a></li>
+  <li><a href="#validation-and-verification-results" id="toc-validation-and-verification-results" class="nav-link" data-scroll-target="#validation-and-verification-results">3.5 Validation and Verification Results</a></li>
+  </ul></li>
+  <li><a href="#issues-discovered" id="toc-issues-discovered" class="nav-link" data-scroll-target="#issues-discovered">4. Issues Discovered</a>
+  <ul class="collapse">
+  <li><a href="#dtd-syntax-errors-in-work.dtd" id="toc-dtd-syntax-errors-in-work.dtd" class="nav-link" data-scroll-target="#dtd-syntax-errors-in-work.dtd">4.1 DTD Syntax Errors in <code>work.dtd</code></a></li>
+  </ul></li>
+  <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">5. Output</a></li>
+  <li><a href="#follow-up-tasks" id="toc-follow-up-tasks" class="nav-link" data-scroll-target="#follow-up-tasks">6. Follow-up Tasks</a>
+  <ul class="collapse">
+  <li><a href="#p1-fix-work.dtd" id="toc-p1-fix-work.dtd" class="nav-link" data-scroll-target="#p1-fix-work.dtd">P1 — Fix <code>work.dtd</code></a></li>
+  <li><a href="#p2-reference-xml-benchmark-validation" id="toc-p2-reference-xml-benchmark-validation" class="nav-link" data-scroll-target="#p2-reference-xml-benchmark-validation">P2 — Reference XML benchmark validation</a></li>
+  <li><a href="#p3-add-a-publication-config-row-to-the-csv-optional" id="toc-p3-add-a-publication-config-row-to-the-csv-optional" class="nav-link" data-scroll-target="#p3-add-a-publication-config-row-to-the-csv-optional">P3 — Add a publication config row to the CSV (optional)</a></li>
+  <li><a href="#p4-restore-full-dtd-validation-in-cell-17" id="toc-p4-restore-full-dtd-validation-in-cell-17" class="nav-link" data-scroll-target="#p4-restore-full-dtd-validation-in-cell-17">P4 — Restore full DTD validation in Cell 17</a></li>
+  <li><a href="#p5-add-isbn-data-to-csv-if-applicable" id="toc-p5-add-isbn-data-to-csv-if-applicable" class="nav-link" data-scroll-target="#p5-add-isbn-data-to-csv-if-applicable">P5 — Add <code>isbn</code> data to CSV (if applicable)</a></li>
+  </ul></li>
+  <li><a href="#files-changed-created" id="toc-files-changed-created" class="nav-link" data-scroll-target="#files-changed-created">7. Files Changed / Created</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="report-csv-to-xml-conversion-ipcc-ar6-all-7-series" class="level1">
+<h1>Report: CSV to XML Conversion — IPCC AR6 (All 7 Series)</h1>
+<p><strong>Date:</strong> 2026-04-28<br>
+<strong>Authored by:</strong> <a href="https://github.com/features/copilot">GitHub Copilot</a> (Claude Haiku 4.5) using the VS Code Agent mode<br>
+<strong>Reviewed by:</strong> Simon Worthington<br>
+<strong>Plan:</strong> <a href="../../../research_data/data-import/corpus-backbone-XML-DTD/plan-csvToXmlNotebook-promot.prompt.html"><code>plan-csvToXmlNotebook-promot.prompt.md</code></a><br>
+<strong>Notebook:</strong> <a href="../../../research_data/data-import/corpus-backbone-XML-DTD/csv_to_xml.html"><code>csv_to_xml.ipynb</code></a><br>
+<strong>Output:</strong> <a href="outputs-inc-dtd/work.xml"><code>outputs-inc-dtd/work.xml</code></a></p>
+<hr>
+<section id="objective" class="level2">
+<h2 class="anchored" data-anchor-id="objective">1. Objective</h2>
+<p>Convert the structured CSV file <code>AR6.csv</code> into a well-formed XML document conforming to the <code>work.dtd</code> schema. The process is implemented as a Jupyter Notebook to make every step transparent, reproducible and shareable. The notebook was originally built for the single-series <code>WGII.csv</code> and extended to cover the full 7-series, 105-row AR6 dataset without code changes — only the input path and <code>SERIES_ID_MAP</code> configuration were updated.</p>
+<hr>
+</section>
+<section id="inputs" class="level2">
+<h2 class="anchored" data-anchor-id="inputs">2. Inputs</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input/AR6.csv</code></td>
+<td>Source data — 106 rows encoding a SERIES / BOOK / CHAPTER hierarchy for all 7 AR6 reports</td>
+</tr>
+<tr class="even">
+<td><code>work.dtd</code></td>
+<td>Target schema</td>
+</tr>
+<tr class="odd">
+<td><code>reference-point/work-reference-point.xml</code></td>
+<td>Optional reference benchmark — used for validation</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="steps-followed" class="level2">
+<h2 class="anchored" data-anchor-id="steps-followed">3. Steps Followed</h2>
+<section id="planning" class="level3">
+<h3 class="anchored" data-anchor-id="planning">3.1 Planning</h3>
+<p>A structured plan was drafted covering:</p>
+<ul>
+<li>CSV parsing logic (row-type encoding via BOOK / CHAPTER column values)</li>
+<li>Notebook cell layout (19 cells: markdown + code alternating)</li>
+<li>Configuration decisions: publication metadata as constants, output to <code>outputs-inc-dtd/</code>, <code>lxml</code> for validation, optional comparison step against reference file</li>
+</ul>
+<p>The plan was saved as <a href="../../../research_data/data-import/corpus-backbone-XML-DTD/plan-csvToXmlNotebook-promot.prompt.html"><code>plan-csvToXmlNotebook-promot.prompt.md</code></a> for review and refinement before execution.</p>
+</section>
+<section id="environment-setup" class="level3">
+<h3 class="anchored" data-anchor-id="environment-setup">3.2 Environment Setup</h3>
+<ul>
+<li>Kernel: Python 3.11.9 (<code>.venv</code>)</li>
+<li>Packages: <code>pandas 3.0.2</code>, <code>lxml 6.1.0</code></li>
+</ul>
+</section>
+<section id="notebook-construction" class="level3">
+<h3 class="anchored" data-anchor-id="notebook-construction">3.3 Notebook Construction</h3>
+<p>The notebook was built cell by cell following the plan:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 26%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cell #</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Markdown</td>
+<td>Title, objective, inputs/outputs, design note</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Code</td>
+<td>Imports (<code>pandas</code>, <code>xml.etree.ElementTree</code>, <code>lxml.etree</code>, <code>pathlib</code>, <code>re</code>, <code>sys</code>)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Markdown</td>
+<td>Configuration section header</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Code</td>
+<td>Path constants, publication metadata, <code>SERIES_ID_MAP</code> (all 7 series)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Markdown</td>
+<td>Data loading section header</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Code</td>
+<td>Load CSV, normalise column names, cast hierarchy columns to <code>int</code></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Markdown</td>
+<td>CSV structure encoding table</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Code</td>
+<td>Row-type classifier, structure preview</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Markdown</td>
+<td>Helper functions section header</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Code</td>
+<td><code>build_chapter_element()</code> — builds a single <code>&lt;chapter&gt;</code> element</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Code</td>
+<td><code>build_xml()</code> — main converter, iterates SERIES → front matter → books</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Markdown</td>
+<td>Pretty-printing note</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>Code</td>
+<td><code>indent_xml()</code> — Python ≥3.9 <code>ET.indent()</code> with <code>minidom</code> fallback</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>Code</td>
+<td>Build tree, pretty-print, preview first 60 lines</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>Code</td>
+<td>Write <code>outputs-inc-dtd/work.xml</code> with XML prologue and DOCTYPE declaration</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>Markdown</td>
+<td>DTD validation section header and known-issue note</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>Code</td>
+<td>Well-formedness check + structural audit (see §3.5)</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>Markdown</td>
+<td>Comparison section header</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>Code</td>
+<td>Recursive element-by-element diff against optional reference XML</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="csv-parsing-logic" class="level3">
+<h3 class="anchored" data-anchor-id="csv-parsing-logic">3.4 CSV Parsing Logic</h3>
+<p>The <code>BOOK</code> and <code>CHAPTER</code> columns encode the XML hierarchy as follows:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 26%">
+<col style="width: 24%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>BOOK</code></th>
+<th><code>CHAPTER</code></th>
+<th>Row type</th>
+<th>XML target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>Series metadata</td>
+<td><code>&lt;series&gt;</code> title / description / doi / license / tags / date</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>&gt; 0</td>
+<td>Front-matter chapter</td>
+<td><code>&lt;front_matter&gt;&lt;chapter id=N&gt;</code></td>
+</tr>
+<tr class="odd">
+<td>&gt; 0</td>
+<td>10</td>
+<td>Book header</td>
+<td><code>&lt;book id=BOOK&gt;&lt;title&gt;</code></td>
+</tr>
+<tr class="even">
+<td>&gt; 0</td>
+<td>&gt; 10</td>
+<td>Chapter in book</td>
+<td><code>&lt;chapter id=CHAPTER−10&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Chapter IDs within a book are offset: <code>id = CHAPTER − 10</code><br>
+(e.g.&nbsp;<code>CHAPTER=11</code> → <code>id="1"</code>, <code>CHAPTER=28</code> → <code>id="18"</code>).</p>
+</section>
+<section id="validation-and-verification-results" class="level3">
+<h3 class="anchored" data-anchor-id="validation-and-verification-results">3.5 Validation and Verification Results</h3>
+<section id="well-formedness" class="level4">
+<h4 class="anchored" data-anchor-id="well-formedness">Well-formedness</h4>
+<pre><code>✓ outputs-inc-dtd\work.xml is well-formed XML (lxml parse passed)</code></pre>
+</section>
+<section id="structural-audit" class="level4">
+<h4 class="anchored" data-anchor-id="structural-audit">Structural audit</h4>
+<pre><code>&lt;work&gt;                :  1 element
+&lt;publication&gt;         :  1 child
+&lt;series&gt;              :  7
+&lt;books&gt;               :  7
+&lt;book&gt;                : 11
+front-matter chapters : 13
+body chapters         : 75
+total elements        : 715</code></pre>
+</section>
+<section id="comparison-against-reference" class="level4">
+<h4 class="anchored" data-anchor-id="comparison-against-reference">Comparison against reference</h4>
+<p>Reference XML present at <code>reference-point/work-reference-point.xml</code> — generated XML matches reference exactly (0 mismatches).</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="issues-discovered" class="level2">
+<h2 class="anchored" data-anchor-id="issues-discovered">4. Issues Discovered</h2>
+<section id="dtd-syntax-errors-in-work.dtd" class="level3">
+<h3 class="anchored" data-anchor-id="dtd-syntax-errors-in-work.dtd">4.1 DTD Syntax Errors in <code>work.dtd</code></h3>
+<p>Strict DTD validation via <code>lxml</code> was <strong>not possible</strong> because <code>work.dtd</code> itself contains three syntax errors. These do not affect the generated XML (which matches the reference exactly), but they must be fixed before DTD-validated import pipelines can use this schema.</p>
+<section id="issue-1-work-element-content-model-line-1" class="level4">
+<h4 class="anchored" data-anchor-id="issue-1-work-element-content-model-line-1">Issue 1 — <code>work</code> element content model (Line 1)</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode dtd code-with-copy"><code class="sourceCode dtd"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">work</span> <span class="dv">(</span><span class="fu">publication</span> <span class="dv">|</span> <span class="kw">ANY</span><span class="dv">)</span><span class="dt">&gt;</span>   ← INVALID</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>ANY</code> is a DTD keyword, not an element name. It cannot appear inside a choice group <code>(... | ...)</code>.</p>
+<p><strong>Fix (choose one):</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode dtd code-with-copy"><code class="sourceCode dtd"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">work</span> <span class="dv">(</span><span class="fu">publication</span><span class="dv">)</span><span class="dt">&gt;</span>   ← only &lt;publication&gt; allowed</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- or --&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">work</span> <span class="kw">ANY</span><span class="dt">&gt;</span>             ← any content permitted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="issue-2-isbn-element-undeclared-lines-9-and-22" class="level4">
+<h4 class="anchored" data-anchor-id="issue-2-isbn-element-undeclared-lines-9-and-22">Issue 2 — <code>isbn</code> element undeclared (Lines 9 and 22)</h4>
+<p><code>isbn</code> is referenced in the content models of <code>&lt;series&gt;</code> and <code>&lt;book&gt;</code> but is never declared as an element.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode dtd code-with-copy"><code class="sourceCode dtd"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">series</span> <span class="dv">(</span>...<span class="dv">,</span> <span class="dv">(</span><span class="fu">doi</span><span class="dv">,</span> <span class="fu">isbn</span><span class="fl">?</span> <span class="dv">|</span> <span class="fu">isbn</span><span class="dv">,</span> <span class="fu">doi</span><span class="fl">?</span><span class="dv">),</span> ...<span class="dv">)</span><span class="dt">&gt;</span>   ← isbn used but not declared</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">book</span>   <span class="dv">(</span>...<span class="dv">,</span> <span class="dv">(</span><span class="fu">doi</span><span class="dv">,</span> <span class="fu">isbn</span><span class="fl">?</span> <span class="dv">|</span> <span class="fu">isbn</span><span class="dv">,</span> <span class="fu">doi</span><span class="fl">?</span><span class="dv">),</span> ...<span class="dv">)</span><span class="dt">&gt;</span>   ← isbn used but not declared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Fix:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode dtd code-with-copy"><code class="sourceCode dtd"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">isbn</span> <span class="dv">(</span><span class="kw">#PCDATA</span><span class="dv">)</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="issue-3-book-requires-doiisbn-but-data-has-none-line-22" class="level4">
+<h4 class="anchored" data-anchor-id="issue-3-book-requires-doiisbn-but-data-has-none-line-22">Issue 3 — <code>&lt;book&gt;</code> requires doi/isbn, but data has none (Line 22)</h4>
+<p>Book-header rows in the CSV are structural grouping nodes (title only) and carry no DOI or ISBN. This matches the reference <code>work.xml</code> exactly. The current DTD would therefore invalidate any conformant XML that follows the reference.</p>
+<p><strong>Fix — make the content model optional:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode dtd code-with-copy"><code class="sourceCode dtd"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Current (INVALID for the data): --&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">book</span> <span class="dv">(</span><span class="fu">title</span><span class="dv">,</span> <span class="fu">description</span><span class="fl">?</span><span class="dv">,</span> <span class="dv">(</span><span class="fu">doi</span><span class="dv">,</span> <span class="fu">isbn</span><span class="fl">?</span> <span class="dv">|</span> <span class="fu">isbn</span><span class="dv">,</span> <span class="fu">doi</span><span class="fl">?</span><span class="dv">),</span> <span class="fu">license</span><span class="fl">?</span><span class="dv">,</span> ...<span class="dv">)</span><span class="dt">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Proposed: --&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!ELEMENT</span> <span class="fu">book</span> <span class="dv">(</span><span class="fu">title</span><span class="dv">,</span> <span class="fu">description</span><span class="fl">?</span><span class="dv">,</span> <span class="dv">((</span><span class="fu">doi</span><span class="dv">,</span> <span class="fu">isbn</span><span class="fl">?</span><span class="dv">)</span> <span class="dv">|</span> <span class="dv">(</span><span class="fu">isbn</span><span class="dv">,</span> <span class="fu">doi</span><span class="fl">?</span><span class="dv">))</span><span class="fl">?</span><span class="dv">,</span> <span class="fu">license</span><span class="fl">?</span><span class="dv">,</span> ...<span class="dv">)</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+</section>
+<section id="output" class="level2">
+<h2 class="anchored" data-anchor-id="output">5. Output</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Size</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>outputs-inc-dtd/work.xml</code></td>
+<td>48,364 bytes</td>
+<td>✓ Written</td>
+</tr>
+<tr class="even">
+<td><code>csv_to_xml.ipynb</code></td>
+<td>—</td>
+<td>✓ All 19 cells executed</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="follow-up-tasks" class="level2">
+<h2 class="anchored" data-anchor-id="follow-up-tasks">6. Follow-up Tasks</h2>
+<section id="p1-fix-work.dtd" class="level3">
+<h3 class="anchored" data-anchor-id="p1-fix-work.dtd">P1 — Fix <code>work.dtd</code></h3>
+<p>Apply the three amendments described in §4.1.<br>
+Once fixed, replace the well-formedness-only check in Cell 17 with full <code>lxml</code> DTD validation.</p>
+</section>
+<section id="p2-reference-xml-benchmark-validation" class="level3">
+<h3 class="anchored" data-anchor-id="p2-reference-xml-benchmark-validation">P2 — Reference XML benchmark validation</h3>
+<p>Reference XML is available at <code>reference-point/work-reference-point.xml</code> and has been used to validate the generated output. All elements match exactly.</p>
+</section>
+<section id="p3-add-a-publication-config-row-to-the-csv-optional" class="level3">
+<h3 class="anchored" data-anchor-id="p3-add-a-publication-config-row-to-the-csv-optional">P3 — Add a publication config row to the CSV (optional)</h3>
+<p>Currently <code>PUB_ID</code>, <code>PUB_TITLE</code>, and <code>PUB_DESCRIPTION</code> are hardcoded as constants. For a fully data-driven pipeline, consider a <code>SERIES=−1, BOOK=0, CHAPTER=0</code> (or equivalent) row in the CSV that carries publication-level metadata, making the notebook completely config-free.</p>
+</section>
+<section id="p4-restore-full-dtd-validation-in-cell-17" class="level3">
+<h3 class="anchored" data-anchor-id="p4-restore-full-dtd-validation-in-cell-17">P4 — Restore full DTD validation in Cell 17</h3>
+<p>After fixing <code>work.dtd</code> (P1), update Cell 17 to:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(DTD_FILE) <span class="im">as</span> f:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    dtd <span class="op">=</span> lxml_etree.DTD(f)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> lxml_etree.parse(<span class="bu">str</span>(OUTPUT_XML))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>valid <span class="op">=</span> dtd.validate(tree)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> valid:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'✓ DTD validation passed'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> err <span class="kw">in</span> dtd.error_log.filter_from_errors():</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'  Line </span><span class="sc">{</span>err<span class="sc">.</span>line<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>err<span class="sc">.</span>message<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="p5-add-isbn-data-to-csv-if-applicable" class="level3">
+<h3 class="anchored" data-anchor-id="p5-add-isbn-data-to-csv-if-applicable">P5 — Add <code>isbn</code> data to CSV (if applicable)</h3>
+<p>If any series or book in the dataset has an ISBN, add an <code>ISBN</code> column to the CSV and update <code>build_chapter_element</code> and <code>build_xml</code> to emit <code>&lt;isbn&gt;</code> elements.</p>
+<hr>
+</section>
+</section>
+<section id="files-changed-created" class="level2">
+<h2 class="anchored" data-anchor-id="files-changed-created">7. Files Changed / Created</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Path</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data-import/XML-DTD/csv_to_xml.ipynb</code></td>
+<td>Created (initially for WGII), updated for full AR6</td>
+</tr>
+<tr class="even">
+<td><code>data-import/XML-DTD/outputs-inc-dtd/work.xml</code></td>
+<td>Created (generated output, all 7 series)</td>
+</tr>
+<tr class="odd">
+<td><code>data-import/XML-DTD/plan-csvToXmlNotebook-promot.prompt.md</code></td>
+<td>Created (planning document)</td>
+</tr>
+<tr class="even">
+<td><code>data-import/XML-DTD/report-csv-to-xml.md</code></td>
+<td>Updated (this report)</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Report: CSV to XML Conversion — IPCC AR6 (All 7 Series)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>**Date:** 2026-04-28  </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>**Authored by:** <span class="co">[</span><span class="ot">GitHub Copilot</span><span class="co">](https://github.com/features/copilot)</span> (Claude Haiku 4.5) using the VS Code Agent mode  </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>**Reviewed by:** Simon Worthington  </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>**Plan:** <span class="co">[</span><span class="ot">`plan-csvToXmlNotebook-promot.prompt.md`</span><span class="co">](plan-csvToXmlNotebook-promot.prompt.md)</span>  </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>**Notebook:** <span class="co">[</span><span class="ot">`csv_to_xml.ipynb`</span><span class="co">](csv_to_xml.ipynb)</span>  </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>**Output:** <span class="co">[</span><span class="ot">`outputs-inc-dtd/work.xml`</span><span class="co">](outputs-inc-dtd/work.xml)</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Objective</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Convert the structured CSV file <span class="in">`AR6.csv`</span> into a well-formed XML document conforming to the <span class="in">`work.dtd`</span> schema. The process is implemented as a Jupyter Notebook to make every step transparent, reproducible and shareable. The notebook was originally built for the single-series <span class="in">`WGII.csv`</span> and extended to cover the full 7-series, 105-row AR6 dataset without code changes — only the input path and <span class="in">`SERIES_ID_MAP`</span> configuration were updated.</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Inputs</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>| File | Role |</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>|------|------|</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>| <span class="in">`input/AR6.csv`</span> | Source data — 106 rows encoding a SERIES / BOOK / CHAPTER hierarchy for all 7 AR6 reports |</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>| <span class="in">`work.dtd`</span> | Target schema |</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>| <span class="in">`reference-point/work-reference-point.xml`</span> | Optional reference benchmark — used for validation |</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Steps Followed</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.1 Planning</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>A structured plan was drafted covering:</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>CSV parsing logic (row-type encoding via BOOK / CHAPTER column values)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Notebook cell layout (19 cells: markdown + code alternating)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Configuration decisions: publication metadata as constants, output to <span class="in">`outputs-inc-dtd/`</span>, <span class="in">`lxml`</span> for validation, optional comparison step against reference file</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>The plan was saved as <span class="co">[</span><span class="ot">`plan-csvToXmlNotebook-promot.prompt.md`</span><span class="co">](plan-csvToXmlNotebook-promot.prompt.md)</span> for review and refinement before execution.</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.2 Environment Setup</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Kernel: Python 3.11.9 (<span class="in">`.venv`</span>)</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Packages: <span class="in">`pandas 3.0.2`</span>, <span class="in">`lxml 6.1.0`</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.3 Notebook Construction</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>The notebook was built cell by cell following the plan:</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>| Cell # | Type | Purpose |</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>|--------|------|---------|</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>| 1 | Markdown | Title, objective, inputs/outputs, design note |</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>| 2 | Code | Imports (<span class="in">`pandas`</span>, <span class="in">`xml.etree.ElementTree`</span>, <span class="in">`lxml.etree`</span>, <span class="in">`pathlib`</span>, <span class="in">`re`</span>, <span class="in">`sys`</span>) |</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>| 3 | Markdown | Configuration section header |</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>| 4 | Code | Path constants, publication metadata, <span class="in">`SERIES_ID_MAP`</span> (all 7 series) |</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>| 5 | Markdown | Data loading section header |</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>| 6 | Code | Load CSV, normalise column names, cast hierarchy columns to <span class="in">`int`</span> |</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>| 7 | Markdown | CSV structure encoding table |</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>| 8 | Code | Row-type classifier, structure preview |</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>| 9 | Markdown | Helper functions section header |</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>| 10 | Code | <span class="in">`build_chapter_element()`</span> — builds a single <span class="in">`&lt;chapter&gt;`</span> element |</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>| 11 | Code | <span class="in">`build_xml()`</span> — main converter, iterates SERIES → front matter → books |</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>| 12 | Markdown | Pretty-printing note |</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>| 13 | Code | <span class="in">`indent_xml()`</span> — Python ≥3.9 <span class="in">`ET.indent()`</span> with <span class="in">`minidom`</span> fallback |</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>| 14 | Code | Build tree, pretty-print, preview first 60 lines |</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>| 15 | Code | Write <span class="in">`outputs-inc-dtd/work.xml`</span> with XML prologue and DOCTYPE declaration |</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>| 16 | Markdown | DTD validation section header and known-issue note |</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>| 17 | Code | Well-formedness check + structural audit (see §3.5) |</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>| 18 | Markdown | Comparison section header |</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>| 19 | Code | Recursive element-by-element diff against optional reference XML |</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.4 CSV Parsing Logic</span></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>The <span class="in">`BOOK`</span> and <span class="in">`CHAPTER`</span> columns encode the XML hierarchy as follows:</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>| <span class="in">`BOOK`</span> | <span class="in">`CHAPTER`</span> | Row type | XML target |</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>|--------|-----------|----------|------------|</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>| 0 | 0 | Series metadata | <span class="in">`&lt;series&gt;`</span> title / description / doi / license / tags / date |</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>| 0 | &gt; 0 | Front-matter chapter | <span class="in">`&lt;front_matter&gt;&lt;chapter id=N&gt;`</span> |</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>| &gt; 0 | 10 | Book header | <span class="in">`&lt;book id=BOOK&gt;&lt;title&gt;`</span> |</span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>| &gt; 0 | &gt; 10 | Chapter in book | <span class="in">`&lt;chapter id=CHAPTER−10&gt;`</span> |</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>Chapter IDs within a book are offset: <span class="in">`id = CHAPTER − 10`</span>  </span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>(e.g. <span class="in">`CHAPTER=11`</span> → <span class="in">`id="1"`</span>, <span class="in">`CHAPTER=28`</span> → <span class="in">`id="18"`</span>).</span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.5 Validation and Verification Results</span></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Well-formedness</span></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="in">✓ outputs-inc-dtd\work.xml is well-formed XML (lxml parse passed)</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Structural audit</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;work&gt;                :  1 element</span></span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;publication&gt;         :  1 child</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;series&gt;              :  7</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;books&gt;               :  7</span></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;book&gt;                : 11</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="in">front-matter chapters : 13</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="in">body chapters         : 75</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="in">total elements        : 715</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Comparison against reference</span></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>Reference XML present at <span class="in">`reference-point/work-reference-point.xml`</span> — generated XML matches reference exactly (0 mismatches).</span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Issues Discovered</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4.1 DTD Syntax Errors in `work.dtd`</span></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>Strict DTD validation via <span class="in">`lxml`</span> was **not possible** because <span class="in">`work.dtd`</span> itself contains three syntax errors. These do not affect the generated XML (which matches the reference exactly), but they must be fixed before DTD-validated import pipelines can use this schema.</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Issue 1 — `work` element content model (Line 1)</span></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="in">```dtd</span></span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT work (publication | ANY)&gt;   ← INVALID</span></span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a><span class="in">`ANY`</span> is a DTD keyword, not an element name. It cannot appear inside a choice group <span class="in">`(... | ...)`</span>.</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>**Fix (choose one):**</span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a><span class="in">```dtd</span></span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT work (publication)&gt;   ← only &lt;publication&gt; allowed</span></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!-- or --&gt;</span></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT work ANY&gt;             ← any content permitted</span></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Issue 2 — `isbn` element undeclared (Lines 9 and 22)</span></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="in">`isbn`</span> is referenced in the content models of <span class="in">`&lt;series&gt;`</span> and <span class="in">`&lt;book&gt;`</span> but is never declared as an element.</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="in">```dtd</span></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT series (..., (doi, isbn? | isbn, doi?), ...)&gt;   ← isbn used but not declared</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT book   (..., (doi, isbn? | isbn, doi?), ...)&gt;   ← isbn used but not declared</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>**Fix:**</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="in">```dtd</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT isbn (#PCDATA)&gt;</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Issue 3 — `&lt;book&gt;` requires doi/isbn, but data has none (Line 22)</span></span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>Book-header rows in the CSV are structural grouping nodes (title only) and carry no DOI or ISBN. This matches the reference <span class="in">`work.xml`</span> exactly. The current DTD would therefore invalidate any conformant XML that follows the reference.</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>**Fix — make the content model optional:**</span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a><span class="in">```dtd</span></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!-- Current (INVALID for the data): --&gt;</span></span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT book (title, description?, (doi, isbn? | isbn, doi?), license?, ...)&gt;</span></span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!-- Proposed: --&gt;</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!ELEMENT book (title, description?, ((doi, isbn?) | (isbn, doi?))?, license?, ...)&gt;</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. Output</span></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>| File | Size | Status |</span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>|------|------|--------|</span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>| <span class="in">`outputs-inc-dtd/work.xml`</span> | 48,364 bytes | ✓ Written |</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>| <span class="in">`csv_to_xml.ipynb`</span> | — | ✓ All 19 cells executed |</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. Follow-up Tasks</span></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### P1 — Fix `work.dtd`</span></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>Apply the three amendments described in §4.1.  </span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>Once fixed, replace the well-formedness-only check in Cell 17 with full <span class="in">`lxml`</span> DTD validation.</span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### P2 — Reference XML benchmark validation</span></span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>Reference XML is available at <span class="in">`reference-point/work-reference-point.xml`</span> and has been used to validate the generated output. All elements match exactly.</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### P3 — Add a publication config row to the CSV (optional)</span></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>Currently <span class="in">`PUB_ID`</span>, <span class="in">`PUB_TITLE`</span>, and <span class="in">`PUB_DESCRIPTION`</span> are hardcoded as constants. For a fully data-driven pipeline, consider a <span class="in">`SERIES=−1, BOOK=0, CHAPTER=0`</span> (or equivalent) row in the CSV that carries publication-level metadata, making the notebook completely config-free.</span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a><span class="fu">### P4 — Restore full DTD validation in Cell 17</span></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>After fixing <span class="in">`work.dtd`</span> (P1), update Cell 17 to:</span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(DTD_FILE) <span class="im">as</span> f:</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>    dtd <span class="op">=</span> lxml_etree.DTD(f)</span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> lxml_etree.parse(<span class="bu">str</span>(OUTPUT_XML))</span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>valid <span class="op">=</span> dtd.validate(tree)</span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> valid:</span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'✓ DTD validation passed'</span>)</span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> err <span class="kw">in</span> dtd.error_log.filter_from_errors():</span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'  Line </span><span class="sc">{</span>err<span class="sc">.</span>line<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>err<span class="sc">.</span>message<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### P5 — Add `isbn` data to CSV (if applicable)</span></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a>If any series or book in the dataset has an ISBN, add an <span class="in">`ISBN`</span> column to the CSV and update <span class="in">`build_chapter_element`</span> and <span class="in">`build_xml`</span> to emit <span class="in">`&lt;isbn&gt;`</span> elements.</span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## 7. Files Changed / Created</span></span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>| Path | Action |</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>|------|--------|</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>| <span class="in">`data-import/XML-DTD/csv_to_xml.ipynb`</span> | Created (initially for WGII), updated for full AR6 |</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>| <span class="in">`data-import/XML-DTD/outputs-inc-dtd/work.xml`</span> | Created (generated output, all 7 series) |</span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>| <span class="in">`data-import/XML-DTD/plan-csvToXmlNotebook-promot.prompt.md`</span> | Created (planning document) |</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>| <span class="in">`data-import/XML-DTD/report-csv-to-xml.md`</span> | Updated (this report) |</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

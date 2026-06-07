@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>instructions – Climate-KG Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Climate-KG Data Analysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../research_data/data-vis/ar6-authors-distribution-analysis.html"> 
+<span class="menu-text">AR6 Authors Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../research_data/data-vis/wikibase-inventory-dashboard.html"> 
+<span class="menu-text">Wikibase Inventory</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ipcc-ar6-bibliographic-references" id="toc-ipcc-ar6-bibliographic-references" class="nav-link active" data-scroll-target="#ipcc-ar6-bibliographic-references">IPCC AR6 Bibliographic References</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#files" id="toc-files" class="nav-link" data-scroll-target="#files">Files</a></li>
+  <li><a href="#source-data" id="toc-source-data" class="nav-link" data-scroll-target="#source-data">Source Data</a></li>
+  <li><a href="#data-normalisation-references-source.csv-references_normalised.csv" id="toc-data-normalisation-references-source.csv-references_normalised.csv" class="nav-link" data-scroll-target="#data-normalisation-references-source.csv-references_normalised.csv">Data normalisation — <code>references-source.csv</code> → <code>references_normalised.csv</code></a>
+  <ul class="collapse">
+  <li><a href="#normalisation-steps-tbc" id="toc-normalisation-steps-tbc" class="nav-link" data-scroll-target="#normalisation-steps-tbc">Normalisation steps (TBC)</a></li>
+  </ul></li>
+  <li><a href="#xml-structure-summary" id="toc-xml-structure-summary" class="nav-link" data-scroll-target="#xml-structure-summary">XML structure summary</a></li>
+  <li><a href="#wikibase-data-model" id="toc-wikibase-data-model" class="nav-link" data-scroll-target="#wikibase-data-model">Wikibase data model</a></li>
+  <li><a href="#ipcc-ar6-report-qid-map" id="toc-ipcc-ar6-report-qid-map" class="nav-link" data-scroll-target="#ipcc-ar6-report-qid-map">IPCC AR6 report QID map</a></li>
+  <li><a href="#import-workflow-two-run-bootstrap" id="toc-import-workflow-two-run-bootstrap" class="nav-link" data-scroll-target="#import-workflow-two-run-bootstrap">Import workflow (two-run bootstrap)</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#step-0-experimental-workflow-snapshot-recommended" id="toc-step-0-experimental-workflow-snapshot-recommended" class="nav-link" data-scroll-target="#step-0-experimental-workflow-snapshot-recommended">Step 0 — Experimental workflow snapshot (recommended)</a></li>
+  <li><a href="#step-1-normalise-source-csv" id="toc-step-1-normalise-source-csv" class="nav-link" data-scroll-target="#step-1-normalise-source-csv">Step 1 — Normalise source CSV</a></li>
+  <li><a href="#step-2-generate-xml" id="toc-step-2-generate-xml" class="nav-link" data-scroll-target="#step-2-generate-xml">Step 2 — Generate XML</a></li>
+  <li><a href="#step-3-bootstrap-first-run-creates-class-item-and-properties" id="toc-step-3-bootstrap-first-run-creates-class-item-and-properties" class="nav-link" data-scroll-target="#step-3-bootstrap-first-run-creates-class-item-and-properties">Step 3 — Bootstrap (first run — creates class item and properties)</a></li>
+  <li><a href="#step-4-full-import" id="toc-step-4-full-import" class="nav-link" data-scroll-target="#step-4-full-import">Step 4 — Full import</a></li>
+  <li><a href="#step-5-approve-or-rollback" id="toc-step-5-approve-or-rollback" class="nav-link" data-scroll-target="#step-5-approve-or-rollback">Step 5 — Approve or rollback</a></li>
+  <li><a href="#bootstrap-qids" id="toc-bootstrap-qids" class="nav-link" data-scroll-target="#bootstrap-qids">Bootstrap QIDs</a></li>
+  <li><a href="#completed-import-record" id="toc-completed-import-record" class="nav-link" data-scroll-target="#completed-import-record">Completed import record</a></li>
+  </ul></li>
+  <li><a href="#doi-enrichment-pipeline" id="toc-doi-enrichment-pipeline" class="nav-link" data-scroll-target="#doi-enrichment-pipeline">DOI Enrichment Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#pipeline" id="toc-pipeline" class="nav-link" data-scroll-target="#pipeline">Pipeline</a></li>
+  <li><a href="#files-1" id="toc-files-1" class="nav-link" data-scroll-target="#files-1">Files</a></li>
+  <li><a href="#bootstrapped-properties-local-june-2026" id="toc-bootstrapped-properties-local-june-2026" class="nav-link" data-scroll-target="#bootstrapped-properties-local-june-2026">Bootstrapped properties (LOCAL, June 2026)</a></li>
+  <li><a href="#implementation-notes" id="toc-implementation-notes" class="nav-link" data-scroll-target="#implementation-notes">Implementation notes</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#completed-import-record-1" id="toc-completed-import-record-1" class="nav-link" data-scroll-target="#completed-import-record-1">Completed import record</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="ipcc-ar6-bibliographic-references" class="level1">
+<h1>IPCC AR6 Bibliographic References</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This project imports IPCC AR6 bibliographic references into ClimateKG Wikibase. Each reference becomes a Wikibase item linked to the chapter(s) in which it is cited.</p>
+<p>The pipeline follows the standard ClimateKG import pattern:</p>
+<pre><code>source CSV  →  normalise_refs.py  →  references_normalised.csv
+                                           │
+                                    csv_to_xml.py
+                                           │
+                                    outputs/references.xml  (validated against bibliographic.dtd)
+                                           │
+                                    upload_to_wikibase.py
+                                           │
+                                    Wikibase items</code></pre>
+<hr>
+</section>
+<section id="files" class="level2">
+<h2 class="anchored" data-anchor-id="files">Files</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>references-source.csv</code></td>
+<td><em>(to be added)</em> Original source CSV of bibliographic references</td>
+</tr>
+<tr class="even">
+<td><code>references_normalised.csv</code></td>
+<td>Output of <code>normalise_refs.py</code> — cleaned, deduplicated references</td>
+</tr>
+<tr class="odd">
+<td><code>bibliographic.dtd</code></td>
+<td>DTD defining the XML structure</td>
+</tr>
+<tr class="even">
+<td><code>normalise_refs.py</code></td>
+<td>Applies normalisation rules to source CSV</td>
+</tr>
+<tr class="odd">
+<td><code>csv_to_xml.py</code></td>
+<td>Generates <code>outputs/references.xml</code> from <code>references_normalised.csv</code></td>
+</tr>
+<tr class="even">
+<td><code>outputs/references.xml</code></td>
+<td>Generated XML (one <code>&lt;reference&gt;</code> per item)</td>
+</tr>
+<tr class="odd">
+<td><code>upload_to_wikibase.py</code></td>
+<td>Imports <code>outputs/references.xml</code> into Wikibase</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="source-data" class="level2">
+<h2 class="anchored" data-anchor-id="source-data">Source Data</h2>
+<blockquote class="blockquote">
+<p><strong>TODO</strong>: Describe the source CSV format here once the source file is obtained.</p>
+</blockquote>
+<p>Expected columns (TBC based on source):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Citation_Key</code></td>
+<td>Short citation key (e.g.&nbsp;<code>Smith2021</code>)</td>
+</tr>
+<tr class="even">
+<td><code>Authors</code></td>
+<td>Semicolon-separated author list</td>
+</tr>
+<tr class="odd">
+<td><code>Year</code></td>
+<td>Publication year (4 digits)</td>
+</tr>
+<tr class="even">
+<td><code>Title</code></td>
+<td>Full title of the work</td>
+</tr>
+<tr class="odd">
+<td><code>Publication_Type</code></td>
+<td><code>article</code>, <code>book</code>, <code>report</code>, <code>chapter</code>, etc.</td>
+</tr>
+<tr class="even">
+<td><code>Source</code></td>
+<td>Journal name / book title / publisher</td>
+</tr>
+<tr class="odd">
+<td><code>Volume</code></td>
+<td>Volume number (articles)</td>
+</tr>
+<tr class="even">
+<td><code>Issue</code></td>
+<td>Issue number (articles)</td>
+</tr>
+<tr class="odd">
+<td><code>Pages</code></td>
+<td>Page range (e.g.&nbsp;<code>123-145</code>)</td>
+</tr>
+<tr class="even">
+<td><code>DOI</code></td>
+<td>DOI string (without <code>https://doi.org/</code> prefix)</td>
+</tr>
+<tr class="odd">
+<td><code>URL</code></td>
+<td>Full URL</td>
+</tr>
+<tr class="even">
+<td><code>Report</code></td>
+<td>IPCC report code (<code>WGI</code>, <code>WGII</code>, <code>WGIII</code>, <code>SYR</code>, <code>SR1.5</code>, <code>SRCCL</code>, <code>SROCC</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>Chapter</code></td>
+<td>Chapter label</td>
+</tr>
+<tr class="even">
+<td><code>Chapter_QID</code></td>
+<td>Wikibase QID for the chapter item</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="data-normalisation-references-source.csv-references_normalised.csv" class="level2">
+<h2 class="anchored" data-anchor-id="data-normalisation-references-source.csv-references_normalised.csv">Data normalisation — <code>references-source.csv</code> → <code>references_normalised.csv</code></h2>
+<p>Script: <code>normalise_refs.py</code></p>
+<section id="normalisation-steps-tbc" class="level3">
+<h3 class="anchored" data-anchor-id="normalisation-steps-tbc">Normalisation steps (TBC)</h3>
+<blockquote class="blockquote">
+<p><strong>TODO</strong>: Document normalisation steps once source data is analysed.</p>
+</blockquote>
+<p>Anticipated steps: 1. Whitespace stripping on all string fields 2. Year — validate 4-digit integer 3. DOI — strip protocol prefix if present (normalise to bare DOI) 4. Publication_Type — expand/standardise values 5. ClimateKG_Ref_ID — assign stable <code>REF0001</code>…<code>REFnnnn</code> per unique reference 6. Column rename and reorder</p>
+<hr>
+</section>
+</section>
+<section id="xml-structure-summary" class="level2">
+<h2 class="anchored" data-anchor-id="xml-structure-summary">XML structure summary</h2>
+<p>Each unique reference becomes one <code>&lt;reference id="REF0001"&gt;</code> element containing: - Bibliographic elements: <code>&lt;citation_key&gt;</code>, <code>&lt;authors&gt;</code>, <code>&lt;year&gt;</code>, <code>&lt;title&gt;</code>, <code>&lt;publication_type&gt;</code>, <code>&lt;source&gt;</code>, <code>&lt;volume&gt;</code>, <code>&lt;issue&gt;</code>, <code>&lt;pages&gt;</code>, <code>&lt;doi&gt;</code>, <code>&lt;url&gt;</code> - <code>&lt;citations&gt;</code> — one <code>&lt;citation chapter_qid="Q190" report="WGI" chapter="..."&gt;</code> per chapter that cites this reference, containing <code>&lt;source_url&gt;</code> and <code>&lt;date_accessed&gt;</code></p>
+<hr>
+</section>
+<section id="wikibase-data-model" class="level2">
+<h2 class="anchored" data-anchor-id="wikibase-data-model">Wikibase data model</h2>
+<p>Each <code>&lt;reference&gt;</code> creates one Wikibase item:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Wikibase field</th>
+<th>Source</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Label (en)</td>
+<td><code>Citation_Key</code></td>
+<td>label</td>
+</tr>
+<tr class="even">
+<td>Description (en)</td>
+<td><code>"IPCC AR6 bibliographic reference"</code></td>
+<td>description</td>
+</tr>
+<tr class="odd">
+<td>P1 instance of</td>
+<td><code>REFERENCE_CLASS_QID</code></td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="even">
+<td><code>P_REF_ID</code> ClimateKG Reference ID</td>
+<td><code>climatkg_ref_id</code></td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td><code>P_CITATION_KEY</code> citation key</td>
+<td><code>citation_key</code></td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td><code>P_AUTHORS</code> authors</td>
+<td><code>authors</code></td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td><code>P_YEAR</code> year</td>
+<td><code>year</code></td>
+<td>Time (year precision)</td>
+</tr>
+<tr class="even">
+<td><code>P_TITLE</code> title</td>
+<td><code>title</code></td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td><code>P_PUBLICATION_TYPE</code> publication type</td>
+<td><code>publication_type</code></td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td><code>P_SOURCE</code> source (journal/book)</td>
+<td><code>source</code></td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td><code>P_VOLUME</code> volume</td>
+<td><code>volume</code></td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td><code>P_ISSUE</code> issue</td>
+<td><code>issue</code></td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td><code>P_PAGES</code> pages</td>
+<td><code>pages</code></td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td><code>P_DOI</code> DOI</td>
+<td><code>doi</code></td>
+<td>ExternalID</td>
+</tr>
+<tr class="odd">
+<td><code>P_URL</code> URL</td>
+<td><code>url</code></td>
+<td>url</td>
+</tr>
+<tr class="even">
+<td><code>P_CITED_IN_CHAPTER</code> cited in chapter</td>
+<td><code>chapter_qid</code></td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="odd">
+<td>↳ reference P17 reference URL</td>
+<td><code>source_url</code></td>
+<td>url</td>
+</tr>
+<tr class="even">
+<td>↳ reference P18 date accessed</td>
+<td><code>date_accessed</code></td>
+<td>time</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: Properties P20–P28 are used by the <strong>Authors</strong> import (P20=ClimateKG Author ID through P28=role). Properties P29–P33 are used by the <strong>DOI Enrichment</strong> pipeline (see below). New properties for bibliographic references will be assigned P34+ during bootstrap.</p>
+</blockquote>
+<hr>
+</section>
+<section id="ipcc-ar6-report-qid-map" class="level2">
+<h2 class="anchored" data-anchor-id="ipcc-ar6-report-qid-map">IPCC AR6 report QID map</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Report code</th>
+<th>QID</th>
+<th>Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SR1.5</td>
+<td>Q10</td>
+<td>Special Report on Global Warming of 1.5 degrees C</td>
+</tr>
+<tr class="even">
+<td>SRCCL</td>
+<td>Q35</td>
+<td>Special Report on Climate Change and Land</td>
+</tr>
+<tr class="odd">
+<td>SROCC</td>
+<td>Q57</td>
+<td>Special Report on the Ocean and Cryosphere in a Changing Climate</td>
+</tr>
+<tr class="even">
+<td>SYR</td>
+<td>Q189</td>
+<td>Synthesis Report</td>
+</tr>
+<tr class="odd">
+<td>WGI</td>
+<td>Q77</td>
+<td>Working Group I: The Physical Science Basis</td>
+</tr>
+<tr class="even">
+<td>WGII</td>
+<td>Q106</td>
+<td>Working Group II: Impacts, Adaptation and Vulnerability</td>
+</tr>
+<tr class="odd">
+<td>WGIII</td>
+<td>Q150</td>
+<td>Working Group III: Mitigation of Climate Change</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="import-workflow-two-run-bootstrap" class="level2">
+<h2 class="anchored" data-anchor-id="import-workflow-two-run-bootstrap">Import workflow (two-run bootstrap)</h2>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install wikibaseintegrator python-dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ensure <code>WB_PASSWORD</code> is set in <code>C:\Wikibase\.env</code>.</p>
+</section>
+<section id="step-0-experimental-workflow-snapshot-recommended" class="level3">
+<h3 class="anchored" data-anchor-id="step-0-experimental-workflow-snapshot-recommended">Step 0 — Experimental workflow snapshot (recommended)</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\experimental-import-workflow<span class="op">.</span><span class="fu">ps1</span> <span class="fu">start</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-1-normalise-source-csv" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-normalise-source-csv">Step 1 — Normalise source CSV</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> normalise_refs.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-2-generate-xml" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-generate-xml">Step 2 — Generate XML</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> csv_to_xml.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-3-bootstrap-first-run-creates-class-item-and-properties" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-bootstrap-first-run-creates-class-item-and-properties">Step 3 — Bootstrap (first run — creates class item and properties)</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> upload_to_wikibase.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Copy the printed <code>REFERENCE_CLASS_QID</code>, <code>P_REF_ID</code>, etc. values into <code>C:\Wikibase\.env</code>, then re-run.</p>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: Properties P17 (reference URL) and P18 (date accessed) are pre-existing — do not recreate them. The bootstrap creates only the new Reference class item and bibliographic properties (P29+).</p>
+</blockquote>
+</section>
+<section id="step-4-full-import" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-full-import">Step 4 — Full import</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> upload_to_wikibase.py</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or dry-run first:</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">DRY_RUN</span><span class="op">=</span>true <span class="ex">python</span> upload_to_wikibase.py</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or limited batch:</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="va">LIMIT</span><span class="op">=</span>10 <span class="ex">python</span> upload_to_wikibase.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Results are logged to <code>outputs/upload_log.json</code>.</p>
+</section>
+<section id="step-5-approve-or-rollback" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-approve-or-rollback">Step 5 — Approve or rollback</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\experimental-import-workflow<span class="op">.</span><span class="fu">ps1</span> approve</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or:</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\experimental-import-workflow<span class="op">.</span><span class="fu">ps1</span> rollback</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="bootstrap-qids" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrap-qids">Bootstrap QIDs</h3>
+<blockquote class="blockquote">
+<p><strong>TODO</strong>: Fill in after first bootstrap run.</p>
+</blockquote>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>ID</th>
+<th>Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>REFERENCE_CLASS_QID</code></td>
+<td><em>(TBD)</em></td>
+<td>Reference</td>
+</tr>
+<tr class="even">
+<td><code>P_REF_ID</code></td>
+<td><em>(TBD)</em></td>
+<td>ClimateKG Reference ID</td>
+</tr>
+<tr class="odd">
+<td><code>P_CITATION_KEY</code></td>
+<td><em>(TBD)</em></td>
+<td>citation key</td>
+</tr>
+<tr class="even">
+<td><code>P_AUTHORS</code></td>
+<td><em>(TBD)</em></td>
+<td>authors</td>
+</tr>
+<tr class="odd">
+<td><code>P_YEAR</code></td>
+<td><em>(TBD)</em></td>
+<td>year</td>
+</tr>
+<tr class="even">
+<td><code>P_TITLE</code></td>
+<td><em>(TBD)</em></td>
+<td>title</td>
+</tr>
+<tr class="odd">
+<td><code>P_PUBLICATION_TYPE</code></td>
+<td><em>(TBD)</em></td>
+<td>publication type</td>
+</tr>
+<tr class="even">
+<td><code>P_SOURCE</code></td>
+<td><em>(TBD)</em></td>
+<td>source</td>
+</tr>
+<tr class="odd">
+<td><code>P_VOLUME</code></td>
+<td><em>(TBD)</em></td>
+<td>volume</td>
+</tr>
+<tr class="even">
+<td><code>P_ISSUE</code></td>
+<td><em>(TBD)</em></td>
+<td>issue</td>
+</tr>
+<tr class="odd">
+<td><code>P_PAGES</code></td>
+<td><em>(TBD)</em></td>
+<td>pages</td>
+</tr>
+<tr class="even">
+<td><code>P_DOI</code></td>
+<td><em>(TBD)</em></td>
+<td>DOI</td>
+</tr>
+<tr class="odd">
+<td><code>P_URL</code></td>
+<td><em>(TBD)</em></td>
+<td>URL</td>
+</tr>
+<tr class="even">
+<td><code>P_CITED_IN_CHAPTER</code></td>
+<td><em>(TBD)</em></td>
+<td>cited in chapter</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="completed-import-record" class="level3">
+<h3 class="anchored" data-anchor-id="completed-import-record">Completed import record</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Date</th>
+<th>Environment</th>
+<th>References created</th>
+<th>QID range</th>
+<th>Errors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>(pending)</em></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="doi-enrichment-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="doi-enrichment-pipeline">DOI Enrichment Pipeline</h2>
+<p>Adds Crossref DOI-sourced bibliographic property statements to existing Series (Q4) and Chapter (Q6) items. Runs as a post-import enrichment step — items must already exist before this pipeline is used.</p>
+<blockquote class="blockquote">
+<p><strong>Re-run required after any DB pull/restore.</strong> The bootstrap (P20–P24) and import were run on LOCAL only (2026-06-01). After pulling DEV → LOCAL the database is replaced; properties and statements will be gone. Run bootstrap then import again. The new PIDs may differ if DEV already has P20+ occupied — check <code>outputs/property_map.json</code> after bootstrap. Also ensure <code>$wgWBRepoSettings['string-limits']['VT:string']['length'] = 2500</code> is in <code>LocalSettings.general.php</code> on the target environment before importing.</p>
+</blockquote>
+<section id="pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="pipeline">Pipeline</h3>
+<pre><code>series_chapters.csv  →  csv_to_enrichment_xml.py  →  outputs/enrichment.xml
+                                                              │
+                                                    import_doi_enrichment.py
+                                                              │
+                                                    Wikibase items (P20–P24 added)</code></pre>
+</section>
+<section id="files-1" class="level3">
+<h3 class="anchored" data-anchor-id="files-1">Files</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>series_chapters.csv</code></td>
+<td>95 rows (7 Series Q4 + 88 Chapters Q6) with Crossref DOI metadata</td>
+</tr>
+<tr class="even">
+<td><code>bibliographic-enrichment.dtd</code></td>
+<td>DTD for the enrichment XML format</td>
+</tr>
+<tr class="odd">
+<td><code>enrich_csv_doi.py</code></td>
+<td>Fetches Crossref metadata and adds columns to CSV</td>
+</tr>
+<tr class="even">
+<td><code>csv_to_enrichment_xml.py</code></td>
+<td>Generates <code>outputs/enrichment.xml</code> from CSV</td>
+</tr>
+<tr class="odd">
+<td><code>outputs/enrichment.xml</code></td>
+<td>Generated XML — 95 items, 228 statements</td>
+</tr>
+<tr class="even">
+<td><code>outputs/property_map.json</code></td>
+<td>Maps property labels to PIDs (written by bootstrap)</td>
+</tr>
+<tr class="odd">
+<td><code>import_doi_enrichment.py</code></td>
+<td>Two-mode script: bootstrap + import</td>
+</tr>
+<tr class="even">
+<td><code>outputs/import_log.json</code></td>
+<td>Per-item import results</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bootstrapped-properties-local-june-2026" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrapped-properties-local-june-2026">Bootstrapped properties (LOCAL, June 2026)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>PID</th>
+<th>Label</th>
+<th>Datatype</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P29</td>
+<td>Publisher (DOI)</td>
+<td>string</td>
+<td>Series + Chapter</td>
+</tr>
+<tr class="even">
+<td>P30</td>
+<td>ISBN Electronic (DOI)</td>
+<td>string</td>
+<td>Series + Chapter</td>
+</tr>
+<tr class="odd">
+<td>P31</td>
+<td>ISBN Print (DOI)</td>
+<td>string</td>
+<td>Series + Chapter</td>
+</tr>
+<tr class="even">
+<td>P32</td>
+<td>Licence URL (DOI)</td>
+<td>url</td>
+<td>Series only</td>
+</tr>
+<tr class="odd">
+<td>P33</td>
+<td>Abstract (DOI)</td>
+<td>string</td>
+<td>Series only</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: P20–P28 are now used by the Authors import. P29–P33 are the current DOI enrichment PIDs.</p>
+</blockquote>
+<p>Reference provenance snaks use pre-existing properties: - P17 reference URL, P18 date accessed, P19 source version (Crossref)</p>
+</section>
+<section id="implementation-notes" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-notes">Implementation notes</h3>
+<ul>
+<li>Uses direct <code>wbcreateclaim</code> + <code>wbsetreference</code> API calls (not <code>wbi item.write()</code>), so existing sitelinks are never touched and the climatekg-wiki sitelink validation error is avoided.</li>
+<li><code>wbcreateclaim</code> value must be <code>json.dumps("string value")</code> — not a datavalue object.</li>
+<li><code>VT:string</code> length limit raised to 2500 in <code>LocalSettings.general.php</code> to accommodate DOI abstracts (497–1068 chars for these Series items).</li>
+<li>Duplicate detection: skips statements already present on the item.</li>
+</ul>
+</section>
+<section id="usage" class="level3">
+<h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap: create properties (already done — do not re-run)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>python import_doi_enrichment<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>bootstrap</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dry-run</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">DRY_RUN</span><span class="op">=</span><span class="st">"true"</span><span class="op">;</span> python import_doi_enrichment<span class="op">.</span><span class="fu">py</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Full import</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>python import_doi_enrichment<span class="op">.</span><span class="fu">py</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Retry subset (e.g. first 7 Series items)</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">OFFSET</span><span class="op">=</span><span class="st">"0"</span><span class="op">;</span> <span class="va">$env</span><span class="op">:</span><span class="va">LIMIT</span><span class="op">=</span><span class="st">"7"</span><span class="op">;</span> python import_doi_enrichment<span class="op">.</span><span class="fu">py</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="completed-import-record-1" class="level3">
+<h3 class="anchored" data-anchor-id="completed-import-record-1">Completed import record</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 18%">
+<col style="width: 24%">
+<col style="width: 26%">
+<col style="width: 11%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Date</th>
+<th>Environment</th>
+<th>Items processed</th>
+<th>Statements added</th>
+<th>Errors</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2026-06-01</td>
+<td>LOCAL</td>
+<td>95 (7 Series + 88 Chapters)</td>
+<td>228</td>
+<td>0</td>
+<td>P20–P24 (rolled back)</td>
+</tr>
+<tr class="even">
+<td>2026-06-02</td>
+<td>LOCAL</td>
+<td>95 (7 Series + 88 Chapters)</td>
+<td>228</td>
+<td>0</td>
+<td>P29–P33 (after Authors import occupied P20–P28)</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># IPCC AR6 Bibliographic References</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>This project imports IPCC AR6 bibliographic references into ClimateKG Wikibase.</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Each reference becomes a Wikibase item linked to the chapter(s) in which it is cited.</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>The pipeline follows the standard ClimateKG import pattern:</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="in">source CSV  →  normalise_refs.py  →  references_normalised.csv</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="in">                                           │</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="in">                                    csv_to_xml.py</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="in">                                           │</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="in">                                    outputs/references.xml  (validated against bibliographic.dtd)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="in">                                           │</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="in">                                    upload_to_wikibase.py</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="in">                                           │</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="in">                                    Wikibase items</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Files</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>| File | Description |</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>|------|-------------|</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>| <span class="in">`references-source.csv`</span> | *(to be added)* Original source CSV of bibliographic references |</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>| <span class="in">`references_normalised.csv`</span> | Output of <span class="in">`normalise_refs.py`</span> — cleaned, deduplicated references |</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>| <span class="in">`bibliographic.dtd`</span> | DTD defining the XML structure |</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>| <span class="in">`normalise_refs.py`</span> | Applies normalisation rules to source CSV |</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>| <span class="in">`csv_to_xml.py`</span> | Generates <span class="in">`outputs/references.xml`</span> from <span class="in">`references_normalised.csv`</span> |</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>| <span class="in">`outputs/references.xml`</span> | Generated XML (one <span class="in">`&lt;reference&gt;`</span> per item) |</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>| <span class="in">`upload_to_wikibase.py`</span> | Imports <span class="in">`outputs/references.xml`</span> into Wikibase |</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Source Data</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **TODO**: Describe the source CSV format here once the source file is obtained.</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>Expected columns (TBC based on source):</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>| Column | Description |</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>|--------|-------------|</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Citation_Key`</span> | Short citation key (e.g. <span class="in">`Smith2021`</span>) |</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Authors`</span> | Semicolon-separated author list |</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Year`</span> | Publication year (4 digits) |</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Title`</span> | Full title of the work |</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Publication_Type`</span> | <span class="in">`article`</span>, <span class="in">`book`</span>, <span class="in">`report`</span>, <span class="in">`chapter`</span>, etc. |</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Source`</span> | Journal name / book title / publisher |</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Volume`</span> | Volume number (articles) |</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Issue`</span> | Issue number (articles) |</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Pages`</span> | Page range (e.g. <span class="in">`123-145`</span>) |</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>| <span class="in">`DOI`</span> | DOI string (without <span class="in">`https://doi.org/`</span> prefix) |</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>| <span class="in">`URL`</span> | Full URL |</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Report`</span> | IPCC report code (<span class="in">`WGI`</span>, <span class="in">`WGII`</span>, <span class="in">`WGIII`</span>, <span class="in">`SYR`</span>, <span class="in">`SR1.5`</span>, <span class="in">`SRCCL`</span>, <span class="in">`SROCC`</span>) |</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Chapter`</span> | Chapter label |</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Chapter_QID`</span> | Wikibase QID for the chapter item |</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data normalisation — `references-source.csv` → `references_normalised.csv`</span></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>Script: <span class="in">`normalise_refs.py`</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Normalisation steps (TBC)</span></span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **TODO**: Document normalisation steps once source data is analysed.</span></span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>Anticipated steps:</span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Whitespace stripping on all string fields</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Year — validate 4-digit integer</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>DOI — strip protocol prefix if present (normalise to bare DOI)</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Publication_Type — expand/standardise values</span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>ClimateKG_Ref_ID — assign stable <span class="in">`REF0001`</span>…<span class="in">`REFnnnn`</span> per unique reference</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Column rename and reorder</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a><span class="fu">## XML structure summary</span></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>Each unique reference becomes one <span class="in">`&lt;reference id="REF0001"&gt;`</span> element containing:</span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bibliographic elements: <span class="in">`&lt;citation_key&gt;`</span>, <span class="in">`&lt;authors&gt;`</span>, <span class="in">`&lt;year&gt;`</span>, <span class="in">`&lt;title&gt;`</span>,</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>  <span class="in">`&lt;publication_type&gt;`</span>, <span class="in">`&lt;source&gt;`</span>, <span class="in">`&lt;volume&gt;`</span>, <span class="in">`&lt;issue&gt;`</span>, <span class="in">`&lt;pages&gt;`</span>, <span class="in">`&lt;doi&gt;`</span>, <span class="in">`&lt;url&gt;`</span></span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`&lt;citations&gt;`</span> — one <span class="in">`&lt;citation chapter_qid="Q190" report="WGI" chapter="..."&gt;`</span> per</span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>  chapter that cites this reference, containing <span class="in">`&lt;source_url&gt;`</span> and <span class="in">`&lt;date_accessed&gt;`</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wikibase data model</span></span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>Each <span class="in">`&lt;reference&gt;`</span> creates one Wikibase item:</span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>| Wikibase field | Source | Type |</span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>| Label (en) | <span class="in">`Citation_Key`</span> | label |</span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>| Description (en) | <span class="in">`"IPCC AR6 bibliographic reference"`</span> | description |</span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>| P1 instance of | <span class="in">`REFERENCE_CLASS_QID`</span> | WikibaseItem |</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_REF_ID`</span> ClimateKG Reference ID | <span class="in">`climatkg_ref_id`</span> | String |</span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_CITATION_KEY`</span> citation key | <span class="in">`citation_key`</span> | String |</span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_AUTHORS`</span> authors | <span class="in">`authors`</span> | String |</span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_YEAR`</span> year | <span class="in">`year`</span> | Time (year precision) |</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_TITLE`</span> title | <span class="in">`title`</span> | String |</span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_PUBLICATION_TYPE`</span> publication type | <span class="in">`publication_type`</span> | String |</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_SOURCE`</span> source (journal/book) | <span class="in">`source`</span> | String |</span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_VOLUME`</span> volume | <span class="in">`volume`</span> | String |</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_ISSUE`</span> issue | <span class="in">`issue`</span> | String |</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_PAGES`</span> pages | <span class="in">`pages`</span> | String |</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_DOI`</span> DOI | <span class="in">`doi`</span> | ExternalID |</span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_URL`</span> URL | <span class="in">`url`</span> | url |</span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_CITED_IN_CHAPTER`</span> cited in chapter | <span class="in">`chapter_qid`</span> | WikibaseItem |</span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>| ↳ reference P17 reference URL | <span class="in">`source_url`</span> | url |</span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>| ↳ reference P18 date accessed | <span class="in">`date_accessed`</span> | time |</span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: Properties P20–P28 are used by the **Authors** import (P20=ClimateKG Author ID</span></span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; through P28=role). Properties P29–P33 are used by the **DOI Enrichment** pipeline</span></span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; (see below). New properties for bibliographic references will be assigned P34+ during bootstrap.</span></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## IPCC AR6 report QID map</span></span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>| Report code | QID | Label |</span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>| SR1.5 | Q10 | Special Report on Global Warming of 1.5 degrees C |</span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a>| SRCCL | Q35 | Special Report on Climate Change and Land |</span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>| SROCC | Q57 | Special Report on the Ocean and Cryosphere in a Changing Climate |</span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>| SYR | Q189 | Synthesis Report |</span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>| WGI | Q77 | Working Group I: The Physical Science Basis |</span>
+<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a>| WGII | Q106 | Working Group II: Impacts, Adaptation and Vulnerability |</span>
+<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a>| WGIII | Q150 | Working Group III: Mitigation of Climate Change |</span>
+<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Import workflow (two-run bootstrap)</span></span>
+<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Prerequisites</span></span>
+<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install wikibaseintegrator python-dotenv</span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a>Ensure <span class="in">`WB_PASSWORD`</span> is set in <span class="in">`C:\Wikibase\.env`</span>.</span>
+<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 0 — Experimental workflow snapshot (recommended)</span></span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1 — Normalise source CSV</span></span>
+<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> normalise_refs.py</span>
+<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2 — Generate XML</span></span>
+<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> csv_to_xml.py</span>
+<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3 — Bootstrap (first run — creates class item and properties)</span></span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> upload_to_wikibase.py</span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>Copy the printed <span class="in">`REFERENCE_CLASS_QID`</span>, <span class="in">`P_REF_ID`</span>, etc. values into <span class="in">`C:\Wikibase\.env`</span>,</span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a>then re-run.</span>
+<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: Properties P17 (reference URL) and P18 (date accessed) are pre-existing —</span></span>
+<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; do not recreate them. The bootstrap creates only the new Reference class item and</span></span>
+<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; bibliographic properties (P29+).</span></span>
+<span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 4 — Full import</span></span>
+<span id="cb11-178"><a href="#cb11-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> upload_to_wikibase.py</span>
+<span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a><span class="co"># or dry-run first:</span></span>
+<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a><span class="va">DRY_RUN</span><span class="op">=</span>true <span class="ex">python</span> upload_to_wikibase.py</span>
+<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a><span class="co"># or limited batch:</span></span>
+<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a><span class="va">LIMIT</span><span class="op">=</span>10 <span class="ex">python</span> upload_to_wikibase.py</span>
+<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a>Results are logged to <span class="in">`outputs/upload_log.json`</span>.</span>
+<span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-189"><a href="#cb11-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 5 — Approve or rollback</span></span>
+<span id="cb11-190"><a href="#cb11-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-191"><a href="#cb11-191" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 approve</span></span>
+<span id="cb11-193"><a href="#cb11-193" aria-hidden="true" tabindex="-1"></a><span class="in"># or:</span></span>
+<span id="cb11-194"><a href="#cb11-194" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 rollback</span></span>
+<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bootstrap QIDs</span></span>
+<span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-199"><a href="#cb11-199" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **TODO**: Fill in after first bootstrap run.</span></span>
+<span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a>| Variable | ID | Label |</span>
+<span id="cb11-202"><a href="#cb11-202" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb11-203"><a href="#cb11-203" aria-hidden="true" tabindex="-1"></a>| <span class="in">`REFERENCE_CLASS_QID`</span> | *(TBD)* | Reference |</span>
+<span id="cb11-204"><a href="#cb11-204" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_REF_ID`</span> | *(TBD)* | ClimateKG Reference ID |</span>
+<span id="cb11-205"><a href="#cb11-205" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_CITATION_KEY`</span> | *(TBD)* | citation key |</span>
+<span id="cb11-206"><a href="#cb11-206" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_AUTHORS`</span> | *(TBD)* | authors |</span>
+<span id="cb11-207"><a href="#cb11-207" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_YEAR`</span> | *(TBD)* | year |</span>
+<span id="cb11-208"><a href="#cb11-208" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_TITLE`</span> | *(TBD)* | title |</span>
+<span id="cb11-209"><a href="#cb11-209" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_PUBLICATION_TYPE`</span> | *(TBD)* | publication type |</span>
+<span id="cb11-210"><a href="#cb11-210" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_SOURCE`</span> | *(TBD)* | source |</span>
+<span id="cb11-211"><a href="#cb11-211" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_VOLUME`</span> | *(TBD)* | volume |</span>
+<span id="cb11-212"><a href="#cb11-212" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_ISSUE`</span> | *(TBD)* | issue |</span>
+<span id="cb11-213"><a href="#cb11-213" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_PAGES`</span> | *(TBD)* | pages |</span>
+<span id="cb11-214"><a href="#cb11-214" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_DOI`</span> | *(TBD)* | DOI |</span>
+<span id="cb11-215"><a href="#cb11-215" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_URL`</span> | *(TBD)* | URL |</span>
+<span id="cb11-216"><a href="#cb11-216" aria-hidden="true" tabindex="-1"></a>| <span class="in">`P_CITED_IN_CHAPTER`</span> | *(TBD)* | cited in chapter |</span>
+<span id="cb11-217"><a href="#cb11-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-218"><a href="#cb11-218" aria-hidden="true" tabindex="-1"></a><span class="fu">### Completed import record</span></span>
+<span id="cb11-219"><a href="#cb11-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-220"><a href="#cb11-220" aria-hidden="true" tabindex="-1"></a>| Date | Environment | References created | QID range | Errors |</span>
+<span id="cb11-221"><a href="#cb11-221" aria-hidden="true" tabindex="-1"></a>|---|---|---|---|---|</span>
+<span id="cb11-222"><a href="#cb11-222" aria-hidden="true" tabindex="-1"></a>| *(pending)* | | | | |</span>
+<span id="cb11-223"><a href="#cb11-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-224"><a href="#cb11-224" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb11-225"><a href="#cb11-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-226"><a href="#cb11-226" aria-hidden="true" tabindex="-1"></a><span class="fu">## DOI Enrichment Pipeline</span></span>
+<span id="cb11-227"><a href="#cb11-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-228"><a href="#cb11-228" aria-hidden="true" tabindex="-1"></a>Adds Crossref DOI-sourced bibliographic property statements to existing Series (Q4)</span>
+<span id="cb11-229"><a href="#cb11-229" aria-hidden="true" tabindex="-1"></a>and Chapter (Q6) items. Runs as a post-import enrichment step — items must already</span>
+<span id="cb11-230"><a href="#cb11-230" aria-hidden="true" tabindex="-1"></a>exist before this pipeline is used.</span>
+<span id="cb11-231"><a href="#cb11-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-232"><a href="#cb11-232" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Re-run required after any DB pull/restore.** The bootstrap (P20–P24) and</span></span>
+<span id="cb11-233"><a href="#cb11-233" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; import were run on LOCAL only (2026-06-01). After pulling DEV → LOCAL the</span></span>
+<span id="cb11-234"><a href="#cb11-234" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; database is replaced; properties and statements will be gone. Run bootstrap</span></span>
+<span id="cb11-235"><a href="#cb11-235" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; then import again. The new PIDs may differ if DEV already has P20+ occupied —</span></span>
+<span id="cb11-236"><a href="#cb11-236" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; check </span><span class="in">`outputs/property_map.json`</span><span class="at"> after bootstrap. Also ensure</span></span>
+<span id="cb11-237"><a href="#cb11-237" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span><span class="in">`$wgWBRepoSettings['string-limits']['VT:string']['length'] = 2500`</span><span class="at"> is in</span></span>
+<span id="cb11-238"><a href="#cb11-238" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span><span class="in">`LocalSettings.general.php`</span><span class="at"> on the target environment before importing.</span></span>
+<span id="cb11-239"><a href="#cb11-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-240"><a href="#cb11-240" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pipeline</span></span>
+<span id="cb11-241"><a href="#cb11-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-242"><a href="#cb11-242" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-243"><a href="#cb11-243" aria-hidden="true" tabindex="-1"></a><span class="in">series_chapters.csv  →  csv_to_enrichment_xml.py  →  outputs/enrichment.xml</span></span>
+<span id="cb11-244"><a href="#cb11-244" aria-hidden="true" tabindex="-1"></a><span class="in">                                                              │</span></span>
+<span id="cb11-245"><a href="#cb11-245" aria-hidden="true" tabindex="-1"></a><span class="in">                                                    import_doi_enrichment.py</span></span>
+<span id="cb11-246"><a href="#cb11-246" aria-hidden="true" tabindex="-1"></a><span class="in">                                                              │</span></span>
+<span id="cb11-247"><a href="#cb11-247" aria-hidden="true" tabindex="-1"></a><span class="in">                                                    Wikibase items (P20–P24 added)</span></span>
+<span id="cb11-248"><a href="#cb11-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-249"><a href="#cb11-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-250"><a href="#cb11-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### Files</span></span>
+<span id="cb11-251"><a href="#cb11-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-252"><a href="#cb11-252" aria-hidden="true" tabindex="-1"></a>| File | Description |</span>
+<span id="cb11-253"><a href="#cb11-253" aria-hidden="true" tabindex="-1"></a>|------|-------------|</span>
+<span id="cb11-254"><a href="#cb11-254" aria-hidden="true" tabindex="-1"></a>| <span class="in">`series_chapters.csv`</span> | 95 rows (7 Series Q4 + 88 Chapters Q6) with Crossref DOI metadata |</span>
+<span id="cb11-255"><a href="#cb11-255" aria-hidden="true" tabindex="-1"></a>| <span class="in">`bibliographic-enrichment.dtd`</span> | DTD for the enrichment XML format |</span>
+<span id="cb11-256"><a href="#cb11-256" aria-hidden="true" tabindex="-1"></a>| <span class="in">`enrich_csv_doi.py`</span> | Fetches Crossref metadata and adds columns to CSV |</span>
+<span id="cb11-257"><a href="#cb11-257" aria-hidden="true" tabindex="-1"></a>| <span class="in">`csv_to_enrichment_xml.py`</span> | Generates <span class="in">`outputs/enrichment.xml`</span> from CSV |</span>
+<span id="cb11-258"><a href="#cb11-258" aria-hidden="true" tabindex="-1"></a>| <span class="in">`outputs/enrichment.xml`</span> | Generated XML — 95 items, 228 statements |</span>
+<span id="cb11-259"><a href="#cb11-259" aria-hidden="true" tabindex="-1"></a>| <span class="in">`outputs/property_map.json`</span> | Maps property labels to PIDs (written by bootstrap) |</span>
+<span id="cb11-260"><a href="#cb11-260" aria-hidden="true" tabindex="-1"></a>| <span class="in">`import_doi_enrichment.py`</span> | Two-mode script: bootstrap + import |</span>
+<span id="cb11-261"><a href="#cb11-261" aria-hidden="true" tabindex="-1"></a>| <span class="in">`outputs/import_log.json`</span> | Per-item import results |</span>
+<span id="cb11-262"><a href="#cb11-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-263"><a href="#cb11-263" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bootstrapped properties (LOCAL, June 2026)</span></span>
+<span id="cb11-264"><a href="#cb11-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-265"><a href="#cb11-265" aria-hidden="true" tabindex="-1"></a>| PID | Label | Datatype | Scope |</span>
+<span id="cb11-266"><a href="#cb11-266" aria-hidden="true" tabindex="-1"></a>|-----|-------|----------|-------|</span>
+<span id="cb11-267"><a href="#cb11-267" aria-hidden="true" tabindex="-1"></a>| P29 | Publisher (DOI) | string | Series + Chapter |</span>
+<span id="cb11-268"><a href="#cb11-268" aria-hidden="true" tabindex="-1"></a>| P30 | ISBN Electronic (DOI) | string | Series + Chapter |</span>
+<span id="cb11-269"><a href="#cb11-269" aria-hidden="true" tabindex="-1"></a>| P31 | ISBN Print (DOI) | string | Series + Chapter |</span>
+<span id="cb11-270"><a href="#cb11-270" aria-hidden="true" tabindex="-1"></a>| P32 | Licence URL (DOI) | url | Series only |</span>
+<span id="cb11-271"><a href="#cb11-271" aria-hidden="true" tabindex="-1"></a>| P33 | Abstract (DOI) | string | Series only |</span>
+<span id="cb11-272"><a href="#cb11-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-273"><a href="#cb11-273" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: P20–P28 are now used by the Authors import. P29–P33 are the current DOI enrichment PIDs.</span></span>
+<span id="cb11-274"><a href="#cb11-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-275"><a href="#cb11-275" aria-hidden="true" tabindex="-1"></a>Reference provenance snaks use pre-existing properties:</span>
+<span id="cb11-276"><a href="#cb11-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>P17 reference URL, P18 date accessed, P19 source version (Crossref)</span>
+<span id="cb11-277"><a href="#cb11-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-278"><a href="#cb11-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### Implementation notes</span></span>
+<span id="cb11-279"><a href="#cb11-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-280"><a href="#cb11-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Uses direct <span class="in">`wbcreateclaim`</span> + <span class="in">`wbsetreference`</span> API calls (not <span class="in">`wbi item.write()`</span>),</span>
+<span id="cb11-281"><a href="#cb11-281" aria-hidden="true" tabindex="-1"></a>  so existing sitelinks are never touched and the climatekg-wiki sitelink</span>
+<span id="cb11-282"><a href="#cb11-282" aria-hidden="true" tabindex="-1"></a>  validation error is avoided.</span>
+<span id="cb11-283"><a href="#cb11-283" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`wbcreateclaim`</span> value must be <span class="in">`json.dumps("string value")`</span> — not a datavalue object.</span>
+<span id="cb11-284"><a href="#cb11-284" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`VT:string`</span> length limit raised to 2500 in <span class="in">`LocalSettings.general.php`</span> to</span>
+<span id="cb11-285"><a href="#cb11-285" aria-hidden="true" tabindex="-1"></a>  accommodate DOI abstracts (497–1068 chars for these Series items).</span>
+<span id="cb11-286"><a href="#cb11-286" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Duplicate detection: skips statements already present on the item.</span>
+<span id="cb11-287"><a href="#cb11-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-288"><a href="#cb11-288" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
+<span id="cb11-289"><a href="#cb11-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-290"><a href="#cb11-290" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb11-291"><a href="#cb11-291" aria-hidden="true" tabindex="-1"></a><span class="in"># Bootstrap: create properties (already done — do not re-run)</span></span>
+<span id="cb11-292"><a href="#cb11-292" aria-hidden="true" tabindex="-1"></a><span class="in">python import_doi_enrichment.py --bootstrap</span></span>
+<span id="cb11-293"><a href="#cb11-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-294"><a href="#cb11-294" aria-hidden="true" tabindex="-1"></a><span class="in"># Dry-run</span></span>
+<span id="cb11-295"><a href="#cb11-295" aria-hidden="true" tabindex="-1"></a><span class="in">$env:DRY_RUN="true"; python import_doi_enrichment.py</span></span>
+<span id="cb11-296"><a href="#cb11-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-297"><a href="#cb11-297" aria-hidden="true" tabindex="-1"></a><span class="in"># Full import</span></span>
+<span id="cb11-298"><a href="#cb11-298" aria-hidden="true" tabindex="-1"></a><span class="in">python import_doi_enrichment.py</span></span>
+<span id="cb11-299"><a href="#cb11-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-300"><a href="#cb11-300" aria-hidden="true" tabindex="-1"></a><span class="in"># Retry subset (e.g. first 7 Series items)</span></span>
+<span id="cb11-301"><a href="#cb11-301" aria-hidden="true" tabindex="-1"></a><span class="in">$env:OFFSET="0"; $env:LIMIT="7"; python import_doi_enrichment.py</span></span>
+<span id="cb11-302"><a href="#cb11-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-303"><a href="#cb11-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-304"><a href="#cb11-304" aria-hidden="true" tabindex="-1"></a><span class="fu">### Completed import record</span></span>
+<span id="cb11-305"><a href="#cb11-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-306"><a href="#cb11-306" aria-hidden="true" tabindex="-1"></a>| Date | Environment | Items processed | Statements added | Errors | Notes |</span>
+<span id="cb11-307"><a href="#cb11-307" aria-hidden="true" tabindex="-1"></a>|------|-------------|-----------------|------------------|--------|-------|</span>
+<span id="cb11-308"><a href="#cb11-308" aria-hidden="true" tabindex="-1"></a>| 2026-06-01 | LOCAL | 95 (7 Series + 88 Chapters) | 228 | 0 | P20–P24 (rolled back) |</span>
+<span id="cb11-309"><a href="#cb11-309" aria-hidden="true" tabindex="-1"></a>| 2026-06-02 | LOCAL | 95 (7 Series + 88 Chapters) | 228 | 0 | P29–P33 (after Authors import occupied P20–P28) |</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

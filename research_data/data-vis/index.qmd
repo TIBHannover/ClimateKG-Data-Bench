@@ -1,0 +1,62 @@
+---
+title: "Climate-KG Data Analysis Dashboard"
+subtitle: "IPCC AR6 Author Demographics and Wikibase Inventory"
+---
+
+## Overview
+
+This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.
+
+### Available Analyses
+
+#### [AR6 Authors Distribution Analysis](ar6-authors-distribution-analysis.html)
+
+Comprehensive demographic analysis of IPCC AR6 authors examining:
+
+- **Global North vs Global South distribution** - Regional representation across reports
+- **Gender distribution** - Gender demographics of author teams
+- **Intersectional analysis** - Combined gender and regional patterns
+- **Chapter-level variations** - Demographic distribution across different chapters
+
+**Key visualizations include:**
+- Regional distribution maps and charts
+- Gender distribution by region and chapter
+- Country-level author contributions
+- Report-specific demographic breakdowns
+
+#### [Wikibase Inventory Dashboard](wikibase-inventory-dashboard.html)
+
+Comprehensive inventory and quality analysis of the Climate-KG Wikibase instance:
+
+- Item counts and distribution
+- Property usage statistics
+- Data quality metrics
+- MediaWiki page inventory
+
+---
+
+## About Climate-KG
+
+Climate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.
+
+### Data Sources
+
+- **Authors**: IPCC AR6 author metadata (demographics, affiliations, contributions)
+- **Bibliography**: Climate science literature references
+- **Glossary**: Climate science terminology from IPCC reports
+- **Acronyms**: Standard climate science abbreviations
+
+### Technology Stack
+
+- **Wikibase**: Knowledge graph database
+- **Python**: Data processing and analysis
+- **Plotly**: Interactive visualizations
+- **Quarto**: Documentation and reporting
+
+---
+
+## Getting Started
+
+All code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.
+
+**Note**: Code sections are collapsed by default. Click "Show code" to expand and view the Python code used for each analysis.
