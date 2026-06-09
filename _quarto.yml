@@ -21,6 +21,8 @@ website:
         file: research_data/data-vis/authors-top-ten.ipynb
       - text: "KG Inventory Dashboard"
         file: research_data/data-vis/kg-stats-dashboard.ipynb
+      - text: "Buildings & Urban"
+        file: research_data/data-vis/buildings-urban-chapters.ipynb
       # - text: "AR6 Authors Analysis"
       #   file: research_data/data-vis/ar6-authors-distribution-analysis.ipynb
       # - text: "Wikibase Inventory"

@@ -6,6 +6,7 @@ project:
     - "gender-distribution-simple.ipynb"
     - "authors-top-ten.ipynb"
     - "kg-stats-dashboard.ipynb"
+    - "buildings-urban-chapters.ipynb"
     - "../data-xml-dtd/README-HTML.md"
     - "../../xml-html-documentation.md"
 
@@ -21,6 +22,8 @@ website:
         file: authors-top-ten.ipynb
       - text: "KG Inventory Dashboard"
         file: kg-stats-dashboard.ipynb
+      - text: "Buildings & Urban"
+        file: buildings-urban-chapters.ipynb
       - text: "Data Documentation"
         menu:
           - text: "XML/HTML Pipeline Overview"
