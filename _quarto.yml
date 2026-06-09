@@ -5,6 +5,8 @@ project:
     - "*.qmd"
     - "*.md"
     - "research_data/data-vis/*.ipynb"
+    - "!research_data/data-vis/ar6-authors-distribution-analysis.ipynb"
+    - "!research_data/data-vis/wikibase-inventory-dashboard.ipynb"
     - "!research_data/data-import/"
 
 website:
@@ -13,10 +15,12 @@ website:
     left:
       - text: "Home"
         file: index.qmd
-      - text: "AR6 Authors Analysis"
-        file: research_data/data-vis/ar6-authors-distribution-analysis.ipynb
-      - text: "Wikibase Inventory"
-        file: research_data/data-vis/wikibase-inventory-dashboard.ipynb
+      - text: "AR6 Gender Distribution"
+        file: research_data/data-vis/gender-distribution-simple.ipynb
+      # - text: "AR6 Authors Analysis"
+      #   file: research_data/data-vis/ar6-authors-distribution-analysis.ipynb
+      # - text: "Wikibase Inventory"
+      #   file: research_data/data-vis/wikibase-inventory-dashboard.ipynb
       - text: "Data Documentation"
         menu:
           - text: "XML/HTML Pipeline Overview"
@@ -46,6 +50,9 @@ format:
     fig-width: 10
     fig-height: 7
     ipynb-shell-interactivity: all
+    include-in-header:
+      - text: |
+          <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
 execute:
   freeze: false

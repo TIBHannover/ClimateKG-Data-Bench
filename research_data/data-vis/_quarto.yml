@@ -1,6 +1,11 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - "*.qmd"
+    - "gender-distribution-simple.ipynb"
+    - "../data-xml-dtd/README-HTML.md"
+    - "../../xml-html-documentation.md"
 
 website:
   title: "Climate-KG Data Analysis"
@@ -8,10 +13,28 @@ website:
     left:
       - text: "Home"
         file: index.qmd
-      - text: "AR6 Authors Analysis"
-        file: ar6-authors-distribution-analysis.ipynb
-      - text: "Wikibase Inventory"
-        file: wikibase-inventory-dashboard.ipynb
+      - text: "Gender Distribution"
+        file: gender-distribution-simple.ipynb
+      - text: "Data Documentation"
+        menu:
+          - text: "XML/HTML Pipeline Overview"
+            file: ../../xml-html-documentation.md
+          - text: "---"
+          - text: "Generated Data Pages"
+          - text: "Authors Directory"
+            href: research_data/data-xml-dtd/authors-ar6.html
+          - text: "Acronyms Index"
+            href: research_data/data-xml-dtd/acronyms-ar6.html
+          - text: "Bibliography"
+            href: research_data/data-xml-dtd/bibliographic-ar6.html
+          - text: "Corpus Structure"
+            href: research_data/data-xml-dtd/corpus-ar6.html
+          - text: "Glossary"
+            href: research_data/data-xml-dtd/glossary-ar6.html
+      # - text: "AR6 Authors Analysis"
+      #   file: ar6-authors-distribution-analysis.ipynb
+      # - text: "Wikibase Inventory"
+      #   file: wikibase-inventory-dashboard.ipynb
 
 format:
   html:
@@ -24,6 +47,9 @@ format:
     number-sections: false
     fig-width: 10
     fig-height: 7
+    include-in-header:
+      - text: |
+          <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
 execute:
   freeze: auto
