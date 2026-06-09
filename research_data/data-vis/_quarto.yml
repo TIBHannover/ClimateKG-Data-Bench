@@ -4,6 +4,7 @@ project:
   render:
     - "*.qmd"
     - "gender-distribution-simple.ipynb"
+    - "authors-top-ten.ipynb"
     - "../data-xml-dtd/README-HTML.md"
     - "../../xml-html-documentation.md"
 
@@ -15,6 +16,8 @@ website:
         file: index.qmd
       - text: "Gender Distribution"
         file: gender-distribution-simple.ipynb
+      - text: "Top 10 Global South Authors"
+        file: authors-top-ten.ipynb
       - text: "Data Documentation"
         menu:
           - text: "XML/HTML Pipeline Overview"
