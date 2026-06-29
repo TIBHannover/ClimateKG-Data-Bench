@@ -205,7 +205,7 @@ flowchart TD
 ::::: 
 
 ::: aside
-Data can be browsed as XML and XSLT transforms here: [ClimateKG Data](https://tibhannover.github.io/Climate-KG-data/xml-html-documentation.html) (See menu item: Data Documentation)   
+Data can be browsed as XML and XSLT transforms here: [ClimateKG Data](https://tibhannover.github.io/ClimateKG-Data-Bench/xml-html-documentation.html) (See menu item: Data Documentation)   
 :::  
 
 
@@ -271,7 +271,7 @@ DATABASE/CONTENT FLOW (via sync scripts):
 :::::
 
 ::: aside
-Generated direct from Wikibase KG using Python, Notebooks, and Quarto: [tibhannover.github.io/Climate-KG-data/](https://tibhannover.github.io/Climate-KG-data/)
+Generated direct from Wikibase KG using Python, Notebooks, and Quarto: [tibhannover.github.io/ClimateKG-Data-Bench/](https://tibhannover.github.io/ClimateKG-Data-Bench/)
 :::
 
 ---

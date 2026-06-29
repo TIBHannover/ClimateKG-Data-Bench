@@ -10,7 +10,7 @@ project:
     - "!research_data/data-import/"
 
 website:
-  title: "Climate-KG Data Analysis"
+  title: "ClimateKG Data Bench"
   navbar:
     left:
       - text: "Home"

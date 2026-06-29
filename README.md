@@ -1,11 +1,11 @@
-# Climate-KG-data
+# ClimateKG-Data-Bench
 Data for ClimateKG project
 
 ## Documentation & Analysis
 
 Interactive data analysis and visualizations are available as a Quarto website:
 
-- **View online**: [https://tibhannover.github.io/Climate-KG-data/](https://tibhannover.github.io/Climate-KG-data/) *(once published)*
+- **View online**: [https://tibhannover.github.io/ClimateKG-Data-Bench/](https://tibhannover.github.io/ClimateKG-Data-Bench/) *(once published)*
 - **View locally**: Open `docs/index.html` in your browser
 - **Build the site**: Run `quarto render` from the repository root
 
