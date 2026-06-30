@@ -1,0 +1,126 @@
+erDiagram
+    %% -- corpus-ar6.dtd --------------------------------------------------
+    WORK {
+        string type
+    }
+    PUBLICATION {
+        ID     id
+        string title
+        string description
+    }
+    SERIES {
+        CDATA  id PK
+        string title
+        string doi
+        string isbn
+        string license
+        string openalex
+        string pdf
+    }
+    BOOK {
+        CDATA  id PK
+        string title
+        string doi
+        string isbn
+    }
+    CHAPTER {
+        CDATA  id PK
+        string title
+        string doi
+        string openalex
+        string wiki
+        string source
+    }
+
+    WORK        ||--||  PUBLICATION : "is a"
+    PUBLICATION ||--o{  SERIES      : contains
+    PUBLICATION ||--o{  BOOK        : contains
+    SERIES      ||--o{  BOOK        : contains
+    SERIES      |o--|{  CHAPTER     : front_matter
+    BOOK        |o--|{  CHAPTER     : front_matter
+    BOOK        ||--|{  CHAPTER     : chapters
+
+    %% -- authors-ar6.dtd -------------------------------------------------
+    AUTHOR {
+        ID     id PK
+        string climatkg_author_id
+        string last_name
+        string first_name
+        string gender
+        string citizenship
+        string country_of_residence
+        string affiliation
+    }
+    CONTRIBUTION {
+        CDATA  chapter_qid FK
+        CDATA  report
+        string role
+        string source_url
+        string date_accessed
+    }
+
+    AUTHOR       ||--|{ CONTRIBUTION : makes
+    CONTRIBUTION }o--o| CHAPTER      : "chapter_qid (QID ref)"
+
+    %% -- bibliographic-ar6.dtd -------------------------------------------
+    BIBLIOGRAPHIC_ENRICHMENT {
+        CDATA generated
+    }
+    BIB_ITEM {
+        CDATA  qid FK
+        enum   type
+        string label
+    }
+    STATEMENT {
+        CDATA prop
+        enum  datatype
+        CDATA value
+    }
+    REF {
+        CDATA pid
+        CDATA value
+    }
+
+    BIBLIOGRAPHIC_ENRICHMENT ||--|{ BIB_ITEM  : contains
+    BIB_ITEM                 ||--|{ STATEMENT : has
+    STATEMENT                ||--|{ REF       : references
+    BIB_ITEM                 }o--o| SERIES    : "qid (type=Series)"
+    BIB_ITEM                 }o--o| CHAPTER   : "qid (type=Chapter)"
+
+    %% -- glossary-ar6.dtd ------------------------------------------------
+    GLOSSARY {
+        ID     id PK
+        string title
+        string version
+        string source
+        string date
+    }
+    TERM {
+        ID     id PK
+        string name
+        string also_known_as
+        string definition
+    }
+    SERIES_REF {
+        CDATA qid FK
+    }
+
+    GLOSSARY   ||--|{ TERM       : contains
+    TERM       ||--|{ SERIES_REF : cites
+    SERIES_REF }o--o| SERIES    : "qid (QID ref)"
+
+    %% -- acronyms-ar6.dtd ------------------------------------------------
+    ACRONYM {
+        ID     id PK
+        string code
+    }
+    DESCRIPTION {
+        CDATA  source
+        string text
+    }
+    REPORT {
+        string code
+    }
+
+    ACRONYM ||--|{ DESCRIPTION : has
+    ACRONYM ||--|{ REPORT      : "appears in"

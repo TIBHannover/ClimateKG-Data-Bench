@@ -1,0 +1,73 @@
+﻿dtd,entity,entity_qid,entity_label,field_name,wikibase_pid,wikibase_label,wikibase_datatype,notes
+corpus-ar6,WORK,Q2,Work,instance_of,P1,Instance of,WikibaseItem,P1=Q2
+corpus-ar6,PUBLICATION,Q3,Publication,instance_of,P1,Instance of,WikibaseItem,P1=Q3
+corpus-ar6,PUBLICATION,Q3,Publication,title,,rdfs:label,label,item label
+corpus-ar6,PUBLICATION,Q3,Publication,description,,rdfs:descr,description,item description
+corpus-ar6,PUBLICATION,Q3,Publication,part_of,P3,Part of,WikibaseItem,parent Work
+corpus-ar6,PUBLICATION,Q3,Publication,parts,P4,Parts,WikibaseItem,child Series or Books
+corpus-ar6,SERIES,Q4,Series,instance_of,P1,Instance of,WikibaseItem,P1=Q4
+corpus-ar6,SERIES,Q4,Series,title,,rdfs:label,label,item label
+corpus-ar6,SERIES,Q4,Series,doi,P10,DOI,String,
+corpus-ar6,SERIES,Q4,Series,isbn_elec,P30,ISBN Electronic (DOI),String,
+corpus-ar6,SERIES,Q4,Series,isbn_print,P31,ISBN Print (DOI),String,
+corpus-ar6,SERIES,Q4,Series,license,P11,LICENSE,String,
+corpus-ar6,SERIES,Q4,Series,tags,P12,Has TAG,WikibaseItem,
+corpus-ar6,SERIES,Q4,Series,date,P8,Date,String,
+corpus-ar6,SERIES,Q4,Series,pdf,P7,PDF,Url,
+corpus-ar6,SERIES,Q4,Series,openalex,P9,OPENALEX,String,
+corpus-ar6,SERIES,Q4,Series,part_of,P3,Part of,WikibaseItem,parent Publication
+corpus-ar6,SERIES,Q4,Series,parts,P4,Parts,WikibaseItem,child Books and Chapters
+corpus-ar6,BOOK,Q5,Book,instance_of,P1,Instance of,WikibaseItem,P1=Q5
+corpus-ar6,BOOK,Q5,Book,title,,rdfs:label,label,item label
+corpus-ar6,BOOK,Q5,Book,doi,P10,DOI,String,
+corpus-ar6,BOOK,Q5,Book,isbn_elec,P30,ISBN Electronic (DOI),String,
+corpus-ar6,BOOK,Q5,Book,isbn_print,P31,ISBN Print (DOI),String,
+corpus-ar6,BOOK,Q5,Book,license,P11,LICENSE,String,
+corpus-ar6,BOOK,Q5,Book,tags,P12,Has TAG,WikibaseItem,
+corpus-ar6,BOOK,Q5,Book,date,P8,Date,String,
+corpus-ar6,BOOK,Q5,Book,pdf,P7,PDF,Url,
+corpus-ar6,BOOK,Q5,Book,openalex,P9,OPENALEX,String,
+corpus-ar6,BOOK,Q5,Book,part_of,P3,Part of,WikibaseItem,parent Series
+corpus-ar6,BOOK,Q5,Book,parts,P4,Parts,WikibaseItem,child Chapters
+corpus-ar6,CHAPTER,Q6,Chapter,instance_of,P1,Instance of,WikibaseItem,P1=Q6
+corpus-ar6,CHAPTER,Q6,Chapter,title,,rdfs:label,label,item label
+corpus-ar6,CHAPTER,Q6,Chapter,doi,P10,DOI,String,
+corpus-ar6,CHAPTER,Q6,Chapter,openalex,P9,OPENALEX,String,
+corpus-ar6,CHAPTER,Q6,Chapter,wiki,P5,Wiki,Url,
+corpus-ar6,CHAPTER,Q6,Chapter,source,P6,Source,Url,
+corpus-ar6,CHAPTER,Q6,Chapter,pdf,P7,PDF,Url,
+corpus-ar6,CHAPTER,Q6,Chapter,tags,P12,Has TAG,WikibaseItem,
+corpus-ar6,CHAPTER,Q6,Chapter,part_of,P3,Part of,WikibaseItem,parent Book
+authors-ar6,AUTHOR,Q3998,Author,instance_of,P1,Instance of,WikibaseItem,P1=Q3998
+authors-ar6,AUTHOR,Q3998,Author,climatkg_author_id,P20,ClimateKG Author ID,String,e.g. AU0001
+authors-ar6,AUTHOR,Q3998,Author,last_name,P21,last name,String,
+authors-ar6,AUTHOR,Q3998,Author,first_name,P22,first name,String,
+authors-ar6,AUTHOR,Q3998,Author,gender,P23,gender,String,M or F
+authors-ar6,AUTHOR,Q3998,Author,citizenship,P24,citizenship,String,
+authors-ar6,AUTHOR,Q3998,Author,country_of_residence,P25,country of residence,String,
+authors-ar6,AUTHOR,Q3998,Author,affiliation,P26,affiliation,String,
+authors-ar6,AUTHOR,Q3998,Author,contributed_to,P27,contributed to chapter,WikibaseItem,FK to Q6 Chapter
+authors-ar6,CONTRIBUTION,,P27 statement + qualifiers,chapter_qid,P27,contributed to chapter,WikibaseItem,FK to Chapter QID
+authors-ar6,CONTRIBUTION,,P27 statement + qualifiers,report,,(qualifier),String,AR6 report code
+authors-ar6,CONTRIBUTION,,P27 statement + qualifiers,role,P28,role,String,qualifier on P27
+authors-ar6,CONTRIBUTION,,P27 statement + qualifiers,source_url,P6,Source,Url,reference on P27
+authors-ar6,CONTRIBUTION,,P27 statement + qualifiers,date_accessed,P17,date accessed,Time,reference on P27
+bibliographic-ar6,BIB_ITEM,Q4 or Q6,Series or Chapter (enriched),qid,,(existing item QID),item,Q4 Series or Q6 Chapter
+bibliographic-ar6,BIB_ITEM,Q4 or Q6,Series or Chapter (enriched),type_disc,,type discriminator,string,Series or Chapter
+bibliographic-ar6,STATEMENT,,property statement on BIB_ITEM,publisher_doi,P29,Publisher (DOI),String,
+bibliographic-ar6,STATEMENT,,property statement on BIB_ITEM,isbn_electronic,P30,ISBN Electronic (DOI),String,
+bibliographic-ar6,STATEMENT,,property statement on BIB_ITEM,isbn_print,P31,ISBN Print (DOI),String,
+bibliographic-ar6,STATEMENT,,property statement on BIB_ITEM,licence_url,P32,Licence URL (DOI),Url,
+bibliographic-ar6,STATEMENT,,property statement on BIB_ITEM,abstract_doi,P33,Abstract (DOI),String,
+bibliographic-ar6,REFERENCE,,statement provenance reference,source_url,P6,Source,Url,reference URL
+bibliographic-ar6,REFERENCE,,statement provenance reference,date_accessed,P17,date accessed,Time,ISO 8601
+bibliographic-ar6,REFERENCE,,statement provenance reference,source_version,P19,source version,String,e.g. Crossref
+glossary-ar6,GLOSSARY_TERM,Q1,Category (Glossary Term),instance_of,P1,Instance of,WikibaseItem,P1=Q1 Category
+glossary-ar6,GLOSSARY_TERM,Q1,Category (Glossary Term),name,,rdfs:label,label,item label
+glossary-ar6,GLOSSARY_TERM,Q1,Category (Glossary Term),also_known_as,,skos:altLabel,alias,item alias
+glossary-ar6,GLOSSARY_TERM,Q1,Category (Glossary Term),definition,P13,Definition,Monolingualtext,
+glossary-ar6,GLOSSARY_TERM,Q1,Category (Glossary Term),part_of_series,P3,Part of,WikibaseItem,FK to Q4 Series via series_ref/@qid
+acronyms-ar6,ACRONYM,Q2087,Acronym,instance_of,P1,Instance of,WikibaseItem,P1=Q2087
+acronyms-ar6,ACRONYM,Q2087,Acronym,code,,rdfs:label,label,acronym code as item label
+acronyms-ar6,ACRONYM,Q2087,Acronym,description,P13,Definition,Monolingualtext,multiple; source as qualifier
+acronyms-ar6,ACRONYM,Q2087,Acronym,report,P3,Part of,WikibaseItem,FK to Q4 Series (report)

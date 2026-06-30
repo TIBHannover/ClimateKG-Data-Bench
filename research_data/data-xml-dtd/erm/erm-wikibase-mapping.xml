@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  erm-wikibase-mapping.xml
+  Maps every DTD element / attribute to its Wikibase PID or QID as confirmed
+  from the LOCAL ClimateKG Wikibase instance (http://localhost:8080).
+
+  Confirmed PIDs
+    P1  Instance of       WikibaseItem
+    P2  Instances         WikibaseItem
+    P3  Part of           WikibaseItem
+    P4  Parts             WikibaseItem
+    P5  Wiki              Url
+    P6  Source            Url
+    P7  PDF               Url
+    P8  Date              String
+    P9  OPENALEX          String
+    P10 DOI               String
+    P11 LICENSE           String
+    P12 Has TAG           WikibaseItem
+    P13 Definition        Monolingualtext
+    P17 date accessed     Time
+    P18 date accessed     Time   (duplicate — prefer P17)
+    P19 source version    String
+    P20 ClimateKG Author ID String
+    P21 last name         String
+    P22 first name        String
+    P23 gender            String
+    P24 citizenship       String
+    P25 country of residence String
+    P26 affiliation       String
+    P27 contributed to chapter WikibaseItem
+    P28 role              String
+    P29 Publisher (DOI)   String
+    P30 ISBN Electronic (DOI) String
+    P31 ISBN Print (DOI)  String
+    P32 Licence URL (DOI) Url
+    P33 Abstract (DOI)    String
+
+  Confirmed class QIDs
+    Q1    Category  (used for Glossary Terms)
+    Q2    Work
+    Q3    Publication
+    Q4    Series
+    Q5    Book
+    Q6    Chapter
+    Q2087 Acronym
+    Q3998 Author
+-->
+<erm-mapping>
+
+  <!-- ================================================================ -->
+  <!-- corpus-ar6.dtd                                                    -->
+  <!-- Top-level corpus: Work > Publication > Series > Book > Chapter   -->
+  <!-- ================================================================ -->
+  <dtd name="corpus-ar6" file="corpus-ar6.dtd"
+       description="Top-level corpus structure (Work, Publication, Series, Book, Chapter)">
+
+    <entity name="WORK" qid="Q2" label="Work">
+      <field name="instance_of"   pid="P1"  label="Instance of"  datatype="WikibaseItem" notes="P1=Q2"/>
+    </entity>
+
+    <entity name="PUBLICATION" qid="Q3" label="Publication">
+      <field name="instance_of"   pid="P1"  label="Instance of"  datatype="WikibaseItem" notes="P1=Q3"/>
+      <field name="title"         pid=""    label="rdfs:label"    datatype="String"       notes="item label"/>
+      <field name="description"   pid=""    label="rdfs:description" datatype="String"    notes="item description"/>
+      <field name="part_of"       pid="P3"  label="Part of"       datatype="WikibaseItem" notes="parent Work"/>
+      <field name="parts"         pid="P4"  label="Parts"         datatype="WikibaseItem" notes="child Series or Books"/>
+    </entity>
+
+    <entity name="SERIES" qid="Q4" label="Series">
+      <field name="instance_of"   pid="P1"  label="Instance of"         datatype="WikibaseItem" notes="P1=Q4"/>
+      <field name="title"         pid=""    label="rdfs:label"           datatype="label"        notes="item label"/>
+      <field name="doi"           pid="P10" label="DOI"                  datatype="String"       notes=""/>
+      <field name="isbn_elec"     pid="P30" label="ISBN Electronic (DOI)" datatype="String"      notes=""/>
+      <field name="isbn_print"    pid="P31" label="ISBN Print (DOI)"     datatype="String"       notes=""/>
+      <field name="license"       pid="P11" label="LICENSE"              datatype="String"       notes=""/>
+      <field name="tags"          pid="P12" label="Has TAG"              datatype="WikibaseItem" notes=""/>
+      <field name="date"          pid="P8"  label="Date"                 datatype="String"       notes=""/>
+      <field name="pdf"           pid="P7"  label="PDF"                  datatype="Url"          notes=""/>
+      <field name="openalex"      pid="P9"  label="OPENALEX"             datatype="String"       notes=""/>
+      <field name="part_of"       pid="P3"  label="Part of"              datatype="WikibaseItem" notes="parent Publication"/>
+      <field name="parts"         pid="P4"  label="Parts"                datatype="WikibaseItem" notes="child Books and Chapters"/>
+    </entity>
+
+    <entity name="BOOK" qid="Q5" label="Book">
+      <field name="instance_of"   pid="P1"  label="Instance of"         datatype="WikibaseItem" notes="P1=Q5"/>
+      <field name="title"         pid=""    label="rdfs:label"           datatype="label"        notes="item label"/>
+      <field name="doi"           pid="P10" label="DOI"                  datatype="String"       notes=""/>
+      <field name="isbn_elec"     pid="P30" label="ISBN Electronic (DOI)" datatype="String"      notes=""/>
+      <field name="isbn_print"    pid="P31" label="ISBN Print (DOI)"     datatype="String"       notes=""/>
+      <field name="license"       pid="P11" label="LICENSE"              datatype="String"       notes=""/>
+      <field name="tags"          pid="P12" label="Has TAG"              datatype="WikibaseItem" notes=""/>
+      <field name="date"          pid="P8"  label="Date"                 datatype="String"       notes=""/>
+      <field name="pdf"           pid="P7"  label="PDF"                  datatype="Url"          notes=""/>
+      <field name="openalex"      pid="P9"  label="OPENALEX"             datatype="String"       notes=""/>
+      <field name="part_of"       pid="P3"  label="Part of"              datatype="WikibaseItem" notes="parent Series"/>
+      <field name="parts"         pid="P4"  label="Parts"                datatype="WikibaseItem" notes="child Chapters"/>
+    </entity>
+
+    <entity name="CHAPTER" qid="Q6" label="Chapter">
+      <field name="instance_of"   pid="P1"  label="Instance of"  datatype="WikibaseItem" notes="P1=Q6"/>
+      <field name="title"         pid=""    label="rdfs:label"    datatype="String"       notes="item label"/>
+      <field name="doi"           pid="P10" label="DOI"           datatype="String"       notes=""/>
+      <field name="openalex"      pid="P9"  label="OPENALEX"      datatype="String"       notes=""/>
+      <field name="wiki"          pid="P5"  label="Wiki"          datatype="Url"          notes=""/>
+      <field name="source"        pid="P6"  label="Source"        datatype="Url"          notes=""/>
+      <field name="pdf"           pid="P7"  label="PDF"           datatype="Url"          notes=""/>
+      <field name="tags"          pid="P12" label="Has TAG"       datatype="WikibaseItem" notes=""/>
+      <field name="part_of"       pid="P3"  label="Part of"       datatype="WikibaseItem" notes="parent Book"/>
+    </entity>
+
+    <relationship from="PUBLICATION" to="SERIES"  cardinality="||--o{" label="P4 contains"/>
+    <relationship from="PUBLICATION" to="BOOK"    cardinality="||--o{" label="P4 contains"/>
+    <relationship from="SERIES"      to="BOOK"    cardinality="||--o{" label="P4 contains"/>
+    <relationship from="SERIES"      to="CHAPTER" cardinality="|o--|{" label="P4 front_matter"/>
+    <relationship from="BOOK"        to="CHAPTER" cardinality="||--|{" label="P4 chapters"/>
+
+  </dtd>
+
+  <!-- ================================================================ -->
+  <!-- authors-ar6.dtd                                                   -->
+  <!-- IPCC AR6 Authors and chapter contributions                        -->
+  <!-- ================================================================ -->
+  <dtd name="authors-ar6" file="authors-ar6.dtd"
+       description="IPCC AR6 author records linked to Chapter items via P27">
+
+    <entity name="AUTHOR" qid="Q3998" label="Author">
+      <field name="instance_of"          pid="P1"  label="Instance of"         datatype="WikibaseItem" notes="P1=Q3998"/>
+      <field name="climatkg_author_id"   pid="P20" label="ClimateKG Author ID"  datatype="String"       notes="e.g. AU0001"/>
+      <field name="last_name"            pid="P21" label="last name"            datatype="String"       notes=""/>
+      <field name="first_name"           pid="P22" label="first name"           datatype="String"       notes=""/>
+      <field name="gender"               pid="P23" label="gender"               datatype="String"       notes="M or F"/>
+      <field name="citizenship"          pid="P24" label="citizenship"          datatype="String"       notes=""/>
+      <field name="country_of_residence" pid="P25" label="country of residence" datatype="String"       notes=""/>
+      <field name="affiliation"          pid="P26" label="affiliation"          datatype="String"       notes=""/>
+      <field name="contributed_to"       pid="P27" label="contributed to chapter" datatype="WikibaseItem" notes="FK to Q6 Chapter"/>
+    </entity>
+
+    <!-- CONTRIBUTION is not a Wikibase item — it is a P27 statement
+         with qualifiers (role P28) and references (source P6, date P17). -->
+    <entity name="CONTRIBUTION" qid="" label="P27 statement + qualifiers">
+      <field name="chapter_qid"   pid="P27" label="contributed to chapter" datatype="WikibaseItem" notes="FK to Chapter QID"/>
+      <field name="report"        pid=""    label="(qualifier)"             datatype="String"       notes="AR6 report code"/>
+      <field name="role"          pid="P28" label="role"                   datatype="String"       notes="qualifier on P27"/>
+      <field name="source_url"    pid="P6"  label="Source"                 datatype="Url"          notes="reference on P27"/>
+      <field name="date_accessed" pid="P17" label="date accessed"          datatype="Time"         notes="reference on P27"/>
+    </entity>
+
+    <relationship from="AUTHOR"       to="CONTRIBUTION" cardinality="||--|{" label="makes"/>
+    <relationship from="CONTRIBUTION" to="CHAPTER"      cardinality="}o--o|" label="P27 chapter_qid (QID ref)"/>
+
+  </dtd>
+
+  <!-- ================================================================ -->
+  <!-- bibliographic-ar6.dtd                                             -->
+  <!-- DOI-sourced enrichment statements for existing Series/Chapter    -->
+  <!-- ================================================================ -->
+  <dtd name="bibliographic-ar6" file="bibliographic-ar6.dtd"
+       description="DOI bibliographic enrichment added to existing Series and Chapter items">
+
+    <!-- BIB_ITEM targets an existing Q4 (Series) or Q6 (Chapter) item -->
+    <entity name="BIB_ITEM" qid="Q4 or Q6" label="Series or Chapter (enriched)">
+      <field name="qid"              pid=""    label="existing item QID"   datatype="WikibaseItem" notes="Q4 Series or Q6 Chapter"/>
+      <field name="type_disc"        pid=""    label="type discriminator"  datatype="String"      notes="Series or Chapter"/>
+    </entity>
+
+    <entity name="STATEMENT" qid="" label="property statement on BIB_ITEM">
+      <field name="publisher_doi"    pid="P29" label="Publisher (DOI)"       datatype="String" notes=""/>
+      <field name="isbn_electronic"  pid="P30" label="ISBN Electronic (DOI)" datatype="String" notes=""/>
+      <field name="isbn_print"       pid="P31" label="ISBN Print (DOI)"      datatype="String" notes=""/>
+      <field name="licence_url"      pid="P32" label="Licence URL (DOI)"     datatype="Url"    notes=""/>
+      <field name="abstract_doi"     pid="P33" label="Abstract (DOI)"        datatype="String" notes=""/>
+    </entity>
+
+    <entity name="REFERENCE" qid="" label="statement provenance reference">
+      <field name="source_url"       pid="P6"  label="Source"         datatype="Url"    notes="reference URL"/>
+      <field name="date_accessed"    pid="P17" label="date accessed"  datatype="Time"   notes="ISO 8601"/>
+      <field name="source_version"   pid="P19" label="source version" datatype="String" notes="e.g. Crossref"/>
+    </entity>
+
+    <relationship from="BIB_ITEM"  to="STATEMENT"  cardinality="||--|{" label="has"/>
+    <relationship from="STATEMENT" to="REFERENCE"  cardinality="||--||" label="has"/>
+    <relationship from="BIB_ITEM"  to="SERIES"     cardinality="}o--o|" label="enriches (type=Series)"/>
+    <relationship from="BIB_ITEM"  to="CHAPTER"    cardinality="}o--o|" label="enriches (type=Chapter)"/>
+
+  </dtd>
+
+  <!-- ================================================================ -->
+  <!-- glossary-ar6.dtd                                                  -->
+  <!-- IPCC AR6 Glossary Terms — stored as Q1 (Category) items          -->
+  <!-- ================================================================ -->
+  <dtd name="glossary-ar6" file="glossary-ar6.dtd"
+       description="IPCC AR6 glossary terms (P1=Q1 Category) linked to Series via P3">
+
+    <entity name="GLOSSARY_TERM" qid="Q1" label="Category (Glossary Term)">
+      <field name="instance_of"    pid="P1"  label="Instance of"   datatype="WikibaseItem"   notes="P1=Q1 Category"/>
+      <field name="name"           pid=""    label="rdfs:label"     datatype="String"          notes="item label"/>
+      <field name="also_known_as"  pid=""    label="skos:altLabel"  datatype="String"          notes="item alias"/>
+      <field name="definition"     pid="P13" label="Definition"     datatype="Monolingualtext" notes=""/>
+      <field name="part_of_series" pid="P3"  label="Part of"        datatype="WikibaseItem"    notes="FK to Q4 Series via series_ref qid"/>
+    </entity>
+
+    <relationship from="GLOSSARY_TERM" to="SERIES" cardinality="}o--o{" label="P3 Part of (series_ref)"/>
+
+  </dtd>
+
+  <!-- ================================================================ -->
+  <!-- acronyms-ar6.dtd                                                  -->
+  <!-- IPCC AR6 Acronyms — stored as Q2087 (Acronym) items              -->
+  <!-- ================================================================ -->
+  <dtd name="acronyms-ar6" file="acronyms-ar6.dtd"
+       description="IPCC AR6 acronyms (P1=Q2087 Acronym) linked to Series reports via P3">
+
+    <entity name="ACRONYM" qid="Q2087" label="Acronym">
+      <field name="instance_of"  pid="P1"  label="Instance of"  datatype="WikibaseItem"    notes="P1=Q2087"/>
+      <field name="code"         pid=""    label="rdfs:label"    datatype="label"           notes="acronym code as item label"/>
+      <field name="description"  pid="P13" label="Definition"   datatype="Monolingualtext" notes="multiple; source as qualifier"/>
+      <field name="report"       pid="P3"  label="Part of"      datatype="WikibaseItem"    notes="FK to Q4 Series (report)"/>
+    </entity>
+
+    <relationship from="ACRONYM" to="SERIES" cardinality="}o--o{" label="P3 Part of (report)"/>
+
+  </dtd>
+
+</erm-mapping>
