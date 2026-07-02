@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Climate-KG Data Analysis Dashboard – ClimateKG Data Bench</title>
+<title>Climate-KG Data Bench – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,6 +143,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Buildings &amp; Urban</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ERM / Wikibase Mapping</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-erm--wikibase-mapping">    
+        <li>
+    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ERM Documentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ER Diagram</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Data Documentation</span>
     </a>
@@ -191,16 +206,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <li><a href="#data-model-pipeline" id="toc-data-model-pipeline" class="nav-link active" data-scroll-target="#data-model-pipeline">Data Model &amp; Pipeline</a></li>
+  <li><a href="#data-analyses" id="toc-data-analyses" class="nav-link" data-scroll-target="#data-analyses">Data Analyses</a>
   <ul class="collapse">
-  <li><a href="#available-analyses" id="toc-available-analyses" class="nav-link" data-scroll-target="#available-analyses">Available Analyses</a></li>
+  <li><a href="#ar6-authors-distribution" id="toc-ar6-authors-distribution" class="nav-link" data-scroll-target="#ar6-authors-distribution">AR6 Authors Distribution</a></li>
+  <li><a href="#wikibase-inventory-dashboard" id="toc-wikibase-inventory-dashboard" class="nav-link" data-scroll-target="#wikibase-inventory-dashboard">Wikibase Inventory Dashboard</a></li>
   </ul></li>
-  <li><a href="#about-climate-kg" id="toc-about-climate-kg" class="nav-link" data-scroll-target="#about-climate-kg">About Climate-KG</a>
-  <ul class="collapse">
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
-  <li><a href="#technology-stack" id="toc-technology-stack" class="nav-link" data-scroll-target="#technology-stack">Technology Stack</a></li>
-  </ul></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
+  <li><a href="#about" id="toc-about" class="nav-link" data-scroll-target="#about">About</a></li>
   </ul>
 </nav>
     </div>
@@ -209,8 +221,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Climate-KG Data Analysis Dashboard</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">IPCC AR6 Author Demographics and Wikibase Inventory</p>
+<div class="quarto-title-block"><div><h1 class="title">Climate-KG Data Bench</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">IPCC AR6 Knowledge Graph — Data Model, Pipeline &amp; Analysis</p>
 </div>
 
 
@@ -227,62 +239,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.</p>
-<section id="available-analyses" class="level3">
-<h3 class="anchored" data-anchor-id="available-analyses">Available Analyses</h3>
-<section id="ar6-authors-distribution-analysis" class="level4">
-<h4 class="anchored" data-anchor-id="ar6-authors-distribution-analysis"><a href="research_data/data-vis/ar6-authors-distribution-analysis.html">AR6 Authors Distribution Analysis</a></h4>
-<p>Comprehensive demographic analysis of IPCC AR6 authors examining:</p>
-<ul>
-<li><strong>Global North vs Global South distribution</strong> - Regional representation across reports</li>
-<li><strong>Gender distribution</strong> - Gender demographics of author teams</li>
-<li><strong>Intersectional analysis</strong> - Combined gender and regional patterns</li>
-<li><strong>Chapter-level variations</strong> - Demographic distribution across different chapters</li>
-</ul>
-<p><strong>Key visualizations include:</strong> - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns</p>
+<section id="data-model-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="data-model-pipeline">Data Model &amp; Pipeline</h2>
+<p>ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph. The data follows a <strong>CSV → XML/DTD → Wikibase</strong> pipeline, documented through an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Resource</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="research_data/data-xml-dtd/erm/erm-diagram.html">ERM Diagram</a></td>
+<td>Interactive entity-relationship diagram — fullscreen &amp; zoomable</td>
+</tr>
+<tr class="even">
+<td><a href="research_data/data-xml-dtd/erm/README.html">ERM Documentation</a></td>
+<td>Property reference (P1–P33), QID table, workflow</td>
+</tr>
+<tr class="odd">
+<td><a href="xml-html-documentation.html">XML/HTML Pipeline</a></td>
+<td>CSV → XML → XSLT → HTML pipeline overview</td>
+</tr>
+<tr class="even">
+<td><a href="data/corpus-ar6.html">Corpus</a> · <a href="data/authors-ar6.html">Authors</a> · <a href="data/acronyms-ar6.html">Acronyms</a> · <a href="data/bibliographic-ar6.html">Bibliography</a> · <a href="data/glossary-ar6.html">Glossary</a></td>
+<td>Generated data pages</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Corpus hierarchy:</strong> Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)</p>
+<hr>
 </section>
-<section id="wikibase-inventory-dashboard" class="level4">
-<h4 class="anchored" data-anchor-id="wikibase-inventory-dashboard"><a href="research_data/data-vis/wikibase-inventory-dashboard.html">Wikibase Inventory Dashboard</a></h4>
-<p>Comprehensive inventory and quality analysis of the Climate-KG Wikibase instance:</p>
-<ul>
-<li>Item counts and distribution</li>
-<li>Property usage statistics</li>
-<li>Data quality metrics</li>
-<li>MediaWiki page inventory</li>
-</ul>
+<section id="data-analyses" class="level2">
+<h2 class="anchored" data-anchor-id="data-analyses">Data Analyses</h2>
+<section id="ar6-authors-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="ar6-authors-distribution"><a href="research_data/data-vis/ar6-authors-distribution-analysis.html">AR6 Authors Distribution</a></h3>
+<p>Gender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.</p>
+</section>
+<section id="wikibase-inventory-dashboard" class="level3">
+<h3 class="anchored" data-anchor-id="wikibase-inventory-dashboard"><a href="research_data/data-vis/wikibase-inventory-dashboard.html">Wikibase Inventory Dashboard</a></h3>
+<p>Item counts, property usage, and data quality metrics for the ClimateKG Wikibase instance.</p>
 <hr>
 </section>
 </section>
-</section>
-<section id="about-climate-kg" class="level2">
-<h2 class="anchored" data-anchor-id="about-climate-kg">About Climate-KG</h2>
-<p>Climate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.</p>
-<section id="data-sources" class="level3">
-<h3 class="anchored" data-anchor-id="data-sources">Data Sources</h3>
-<ul>
-<li><strong>Authors</strong>: IPCC AR6 author metadata (demographics, affiliations, contributions)</li>
-<li><strong>Bibliography</strong>: Climate science literature references</li>
-<li><strong>Glossary</strong>: Climate science terminology from IPCC reports</li>
-<li><strong>Acronyms</strong>: Standard climate science abbreviations</li>
-</ul>
-</section>
-<section id="technology-stack" class="level3">
-<h3 class="anchored" data-anchor-id="technology-stack">Technology Stack</h3>
-<ul>
-<li><strong>Wikibase</strong>: Knowledge graph database</li>
-<li><strong>Python</strong>: Data processing and analysis</li>
-<li><strong>Plotly</strong>: Interactive visualizations</li>
-<li><strong>Quarto</strong>: Documentation and reporting</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>All code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.</p>
-<p><strong>Note</strong>: Code sections are collapsed by default. Click “Show code” to expand and view the Python code used for each analysis.</p>
+<section id="about" class="level2">
+<h2 class="anchored" data-anchor-id="about">About</h2>
+<p>ClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase. Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms. Stack: Wikibase · Python · Plotly · Quarto.</p>
 
 
 <!-- -->
@@ -762,67 +765,43 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Climate-KG Data Analysis Dashboard"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "IPCC AR6 Author Demographics and Wikibase Inventory"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Climate-KG Data Bench"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "IPCC AR6 Knowledge Graph — Data Model, Pipeline &amp; Analysis"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Model &amp; Pipeline</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Available Analyses</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">#### [AR6 Authors Distribution Analysis](research_data/data-vis/ar6-authors-distribution-analysis.html)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Comprehensive demographic analysis of IPCC AR6 authors examining:</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Global North vs Global South distribution** - Regional representation across reports</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gender distribution** - Gender demographics of author teams</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Intersectional analysis** - Combined gender and regional patterns</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chapter-level variations** - Demographic distribution across different chapters</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>**Key visualizations include:**</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Regional distribution maps and charts</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Gender distribution by region and chapter</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Country-level author contributions</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Report-specific demographic breakdowns</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">#### [Wikibase Inventory Dashboard](research_data/data-vis/wikibase-inventory-dashboard.html)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>The data follows a **CSV → XML/DTD → Wikibase** pipeline, documented through</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Wikibase property (PID) or class item (QID).</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>| Resource | Description |</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>|----------|-------------|</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">ERM Diagram</span><span class="co">](research_data/data-xml-dtd/erm/erm-diagram.html)</span> | Interactive entity-relationship diagram — fullscreen &amp; zoomable |</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">ERM Documentation</span><span class="co">](research_data/data-xml-dtd/erm/README.html)</span> | Property reference (P1–P33), QID table, workflow |</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">XML/HTML Pipeline</span><span class="co">](xml-html-documentation.html)</span> | CSV → XML → XSLT → HTML pipeline overview |</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Corpus</span><span class="co">](data/corpus-ar6.html)</span> · <span class="co">[</span><span class="ot">Authors</span><span class="co">](data/authors-ar6.html)</span> · <span class="co">[</span><span class="ot">Acronyms</span><span class="co">](data/acronyms-ar6.html)</span> · <span class="co">[</span><span class="ot">Bibliography</span><span class="co">](data/bibliographic-ar6.html)</span> · <span class="co">[</span><span class="ot">Glossary</span><span class="co">](data/glossary-ar6.html)</span> | Generated data pages |</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>**Corpus hierarchy:** Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Analyses</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### [AR6 Authors Distribution](research_data/data-vis/ar6-authors-distribution-analysis.html)</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Gender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>Comprehensive inventory and quality analysis of the Climate-KG Wikibase instance:</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Item counts and distribution</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Property usage statistics</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Data quality metrics</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>MediaWiki page inventory</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### [Wikibase Inventory Dashboard](research_data/data-vis/wikibase-inventory-dashboard.html)</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Item counts, property usage, and data quality metrics for the ClimateKG Wikibase instance.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## About</span></span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## About Climate-KG</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Climate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data Sources</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Authors**: IPCC AR6 author metadata (demographics, affiliations, contributions)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bibliography**: Climate science literature references</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Glossary**: Climate science terminology from IPCC reports</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Acronyms**: Standard climate science abbreviations</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technology Stack</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Wikibase**: Knowledge graph database</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Python**: Data processing and analysis</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Plotly**: Interactive visualizations</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Quarto**: Documentation and reporting</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Getting Started</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>All code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>**Note**: Code sections are collapsed by default. Click "Show code" to expand and view the Python code used for each analysis.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>ClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms.</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Stack: Wikibase · Python · Plotly · Quarto.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

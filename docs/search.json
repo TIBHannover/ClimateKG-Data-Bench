@@ -1,150 +1,87 @@
 [
   {
-    "objectID": "slides.html",
-    "href": "slides.html",
-    "title": "ClimateKG — Surfacing Knowledge",
+    "objectID": "research_data/data-xml-dtd/erm/erm-diagram.html",
+    "href": "research_data/data-xml-dtd/erm/erm-diagram.html",
+    "title": "ERM — Wikibase Mapping Diagram",
     "section": "",
-    "text": "Climate Knowledge Graph (ClimateKG) is a yearlong R&D project to create a knowledge graph of the IPCC Sixth Assement Report (AR6).\n\nThe ClimateKG knowledge graph is built using Wikibase and MediaWiki.\nThe goal is to be a resource for:\n\ndata science use, for\ncitizen science activities, and to\ndistribute climate science metadata to Wikidata.\n\n\nThe project has been funded by TIB Innovation Fund and is made in cooperation with #semanticClimate community (India, Germany, UK, +)."
+    "text": "This diagram maps the IPCC AR6 XML/DTD entities to their corresponding Wikibase properties (PIDs) and class items (QIDs) on the local ClimateKG Wikibase instance.\nSource file: er-diagram-wikibase.mmd — regenerate by running generate-erm.ps1 whenever erm-wikibase-mapping.xml changes."
   },
   {
-    "objectID": "slides.html#about-climatekg",
-    "href": "slides.html#about-climatekg",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "",
-    "text": "Climate Knowledge Graph (ClimateKG) is a yearlong R&D project to create a knowledge graph of the IPCC Sixth Assement Report (AR6).\n\nThe ClimateKG knowledge graph is built using Wikibase and MediaWiki.\nThe goal is to be a resource for:\n\ndata science use, for\ncitizen science activities, and to\ndistribute climate science metadata to Wikidata.\n\n\nThe project has been funded by TIB Innovation Fund and is made in cooperation with #semanticClimate community (India, Germany, UK, +)."
+    "objectID": "research_data/data-xml-dtd/erm/erm-diagram.html#corpus-hierarchy-qid-reference",
+    "href": "research_data/data-xml-dtd/erm/erm-diagram.html#corpus-hierarchy-qid-reference",
+    "title": "ERM — Wikibase Mapping Diagram",
+    "section": "Corpus hierarchy (QID reference)",
+    "text": "Corpus hierarchy (QID reference)\n\n\n\nEntity\nQID\nWikibase label\nAlso known as\n\n\n\n\nWORK\nQ2\nWork\n\n\n\nREPORT_SERIES\nQ3\nReport Series\nMonographic Series\n\n\nREPORT\nQ4\nReport\nBook; Monograph; Volume\n\n\nTEXT_DIVISION\nQ5\nText Division\nDivision\n\n\nCHAPTER\nQ6\nChapter\n\n\n\nAUTHOR\nQ3998\nAuthor\n\n\n\nGLOSSARY_TERM\nQ1\nCategory\nGlossary Terms\n\n\nACRONYM\nQ2087\nAcronym\n\n\n\n\nSee the ERM documentation for the full property reference (P1–P33) and workflow for updating the mapping."
   },
   {
-    "objectID": "slides.html#source-material-what-is-the-ipcc-report",
-    "href": "slides.html#source-material-what-is-the-ipcc-report",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Source Material: What is the IPCC Report?",
-    "text": "Source Material: What is the IPCC Report?\n\n\n\n\nIt is a survival guide for humanity. As it shows, the 1.5-degree limit is achievable. - UN Secretary-General António Guterres (2023)\n\n\nA multilateral panel of 195 nations that reviews the global scientific literature to map out climate scenarios for the next 100 years combining science, policy, and politics.\nAR6 ( \\(\\approx\\) 5-8 year cycle since 1988): 932 authors; 7 Reports; &gt;8 million words; 10,047 pages; 48,400 citations; 66,834 data sets; 2,136 images; 1,910 Acronyms; 920 Glossary items; 5 languages+ (partial).*\n\n\n\n* Oldenbourg, Laura, and Simon Worthington. “IPCC AR6 Quantification Summary”. Climate Knowledge Graph, November 4, 2025. 10.5281/zenodo.17521936."
-  },
-  {
-    "objectID": "slides.html#climatekg-project-deliverables",
-    "href": "slides.html#climatekg-project-deliverables",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "ClimateKG Project Deliverables",
-    "text": "ClimateKG Project Deliverables\n\nTransform PDF and web corpus, and web databases into a knowledge graph with:\n\n\n\n\nFull text & publishing \n\n\n\nMetadata\n\n\n\n\nAPI / SPARQL Endpoint\n\n\n\n\nData dump\n\n\n\nSchemas / Ontologies: Datacite, OpenAlex, BFO, etc\n\n\n\nData workbench: JupyterLab / Quarto"
-  },
-  {
-    "objectID": "slides.html#problem-for-the-public-to-trust-climate-science-it-has-at-their-fingertips",
-    "href": "slides.html#problem-for-the-public-to-trust-climate-science-it-has-at-their-fingertips",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Problem: For the public to trust climate science it has at their fingertips",
-    "text": "Problem: For the public to trust climate science it has at their fingertips\n\n\n\nHeadline issues:\n\nSearch and SEO limited\nNot easy to reuse\nFormats of Web CMS HTML and PDF not suitable for data science\nReferenced materials not interlinked - so only manual tracking to find a named data set, etc\nParts not easily available - Methodology, Supplementary material\n\n\n\n\nExamples:\n\nLinks only to top levels: Reports, Glossary website, Author listing website etc.\nGlossary terms have no links to reports\nAuthor lists have no link to chapters\nFigures listed on web pages with no DOIs\nCitations on websites and not research repositories\n\n\n\n\n\n\nExample IPCC sites: Reports; Authors; Glossary; Figures and Citations example WGIII."
-  },
-  {
-    "objectID": "slides.html#solution-apply-the-vision-of-the-semantic-web",
-    "href": "slides.html#solution-apply-the-vision-of-the-semantic-web",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Solution: Apply the vision of the Semantic Web 🕸️",
-    "text": "Solution: Apply the vision of the Semantic Web 🕸️\n\nLink all of the parts and make machine readable — AKA a Knowledge Graph\n\n\nLinked Data: Interlinked data with unique identifiers and standard formats\nFAIR Data: Findable, Accessible, Interoperable, and Reusable"
-  },
-  {
-    "objectID": "slides.html#overview-of-work-packages",
-    "href": "slides.html#overview-of-work-packages",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Overview of work packages 📦",
-    "text": "Overview of work packages 📦\n\n\nFrom Siloed Data to FAIR Data\nFinding the sources, retrieving the data, storing it, preparing different ways of outputting and visualizing it, and making it available for reuse"
-  },
-  {
-    "objectID": "slides.html#scoping-data-sources-data-modeling",
-    "href": "slides.html#scoping-data-sources-data-modeling",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Scoping Data Sources & Data Modeling",
-    "text": "Scoping Data Sources & Data Modeling\n\nIn-scope and out-of-scope: Only the main text for AR6 has been currently imported, also citatations and data sets have not been linked.\nData modelling:\n\nSimple (KISS) approaches of Genome Bank and Protein Data Bank have been used to encourage community uptake.\nMethod: Bottom up / Top down / and map to schemas\nLit review of Wikibase KGs consulted - [Zotero collection]\n\n\n\n\nWikibase KG literature: Disability Wiki; EU Knowledge Graph; Enslaved.Org; Enslave Modular Ontology Modeling (MOMo); RaiseWikibase; Linking Historical Corpus Data and Annotations Using Wikibase (1737 Basque manuscript)."
-  },
-  {
-    "objectID": "slides.html#data-retrieval",
-    "href": "slides.html#data-retrieval",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Data Retrieval 📥",
-    "text": "Data Retrieval 📥\n\n• Building a semi-automated scraping system from Web to MediaWiki/Wikibase\n• Using the IPCC websites as a starting point, developing a method for scraping text, assets, and additional data\n• Preparing the data for import into a MediaWiki/Wikibase instance"
-  },
-  {
-    "objectID": "slides.html#collecting-supporting-data",
-    "href": "slides.html#collecting-supporting-data",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Collecting Supporting Data 📥",
-    "text": "Collecting Supporting Data 📥\n\n• Additional data from various sources, e.g. IPCC data repositories, CrossRef, etc.\n• Preparing the data for import into Wikibase"
-  },
-  {
-    "objectID": "slides.html#import-scrape-data---innovation-that-allows-for-corpus-text-and-data-import",
-    "href": "slides.html#import-scrape-data---innovation-that-allows-for-corpus-text-and-data-import",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Import Scrape Data - Innovation that allows for Corpus text and data import",
-    "text": "Import Scrape Data - Innovation that allows for Corpus text and data import\nThis is the main innovation of the project - being able to semi-automatically webscrape a corpus and import text and images, and make a Linked Open Data corpus backbone as an Import to Wikibase and MediaWiki.\nWikitext + CSV &gt; XML &gt; DTD &gt; Python (WikibaseIntegrator) &gt; Wikibase / MediaWiki\nDocumentation: wiki.kewl.org/projects:ckgscrape\nCode: Mercurial Clone hg clone https://hg.kewl.org/pub/ckg_s2mw\nThank you to Darron M. Broad of Runstop for the software development work."
-  },
-  {
-    "objectID": "slides.html#import-supporting-data",
-    "href": "slides.html#import-supporting-data",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Import Supporting Data",
-    "text": "Import Supporting Data\n\n\n\n\n\n\n\n%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#f0f0f0', 'primaryTextColor':'#000', 'primaryBorderColor':'#000', 'lineColor':'#666', 'fontSize':'18px'}, 'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 35, 'htmlLabels': true}}}%%\nflowchart TD\n    A[CSV] --&gt; B[XML]\n    B --&gt; C[DTD]\n    C --&gt; D[Schemas]\n    D --&gt; E[Python&lt;br/&gt;WikibaseIntegrator]\n    E --&gt; F[Wikibase]\n    \n    style A min-width:150px\n    style B min-width:150px\n    style C min-width:150px\n    style D min-width:150px\n    style E min-width:250px\n    style F min-width:150px\n\n\n\n\n\n\n\n\n\n\n\n\nData can be browsed as XML and XSLT transforms here: ClimateKG Data (See menu item: Data Documentation)"
-  },
-  {
-    "objectID": "slides.html#browsing-the-corpus-in-mediawiki",
-    "href": "slides.html#browsing-the-corpus-in-mediawiki",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Browsing the Corpus in MediaWiki 🔎",
-    "text": "Browsing the Corpus in MediaWiki 🔎\n\n• Cleaning the chapter content directly in MediaWiki\n• Adding glossary and acronym content to MediaWiki\n• Building navigation and browsing templates for the corpus"
-  },
-  {
-    "objectID": "slides.html#devops",
-    "href": "slides.html#devops",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "DevOps",
-    "text": "DevOps\nA 4 stage MediaWiki/Wikibase deployment is in place with support from #semanticClimate - this will move to TIB hosting shortly once initial development resolved.\nDATABASE/CONTENT FLOW (via sync scripts):\n┌──────────────┐                    ┌──────────────┐\n│   LOCAL      │◄───pull-from-dev───│     DEV      │  DEV = DB source of truth\n│ (workstation)│                    │ (178...88)   │  Content edited here\n└──────┬───────┘                    └──────┬───────┘\n       │                                   │\n       │ sync-local-to-test                │ sync-dev-to-test\n       │ (staging from local)              │ (standard promotion)\n       │                                   │\n       ↓                                   ↓\n   ┌──────────────┐                  ┌──────────────┐\n   │    TEST      │──────────────────│    TEST      │\n   │ (46...24)    │  (same target)   │ (46...24)    │\n   └──────────────┘                  └──────┬───────┘\n                                            │\n                                            │ sync-dev-to-prod  (or sync-test-to-prod)\n                                            │\n                                            ↓\n                                       ┌──────────────┐\n                                       │    PROD      │  Public instance\n                                       │ (178...174)  │\n                                       └──────────────┘"
-  },
-  {
-    "objectID": "slides.html#data-analysis-visualisation",
-    "href": "slides.html#data-analysis-visualisation",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Data Analysis & Visualisation",
-    "text": "Data Analysis & Visualisation\n\n\n\nGender Equality\n \n\n\n\nData Dashboard\n \n\n\n\n\n\nGenerated direct from Wikibase KG using Python, Notebooks, and Quarto: tibhannover.github.io/ClimateKG-Data-Bench/"
-  },
-  {
-    "objectID": "slides.html#output-option-css-paged-media",
-    "href": "slides.html#output-option-css-paged-media",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "Output Option: CSS Paged Media 📖",
-    "text": "Output Option: CSS Paged Media 📖\n\n\n\n\n\n\n\n• One possible output option: using CSS Paged Media to typeset the corpus content into a print-ready format"
-  },
-  {
-    "objectID": "slides.html#climatekg-next-steps",
-    "href": "slides.html#climatekg-next-steps",
-    "title": "ClimateKG — Surfacing Knowledge",
-    "section": "ClimateKG Next Steps 🚀",
-    "text": "ClimateKG Next Steps 🚀\n\nPlanned use:\n\nA resource for data science — to use and contribute\nCitizen science activities — Chapter annotation and enrichment\nDistribute to commons (Wikidata)\n\n\n\nGoals:\n\nCorpus KG service — Computation Publishing Service (CPS)\nWork with IPCC and climate community\nBecome a KG repository for all climate literature\n\nThank you! Simon Worthington, Laura Oldenbourg, and team #semanticClimate — June ’26\n\n\n\n\n\n\nMain &lt;/&gt; repo: github.com/TIBHannover/climate-knowledge-graph"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
+    "objectID": "research_data/data-vis/index.html",
+    "href": "research_data/data-vis/index.html",
     "title": "Climate-KG Data Analysis Dashboard",
     "section": "",
     "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
   },
   {
-    "objectID": "index.html#overview",
-    "href": "index.html#overview",
+    "objectID": "research_data/data-vis/index.html#overview",
+    "href": "research_data/data-vis/index.html#overview",
     "title": "Climate-KG Data Analysis Dashboard",
     "section": "",
     "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
   },
   {
-    "objectID": "index.html#about-climate-kg",
-    "href": "index.html#about-climate-kg",
+    "objectID": "research_data/data-vis/index.html#about-climate-kg",
+    "href": "research_data/data-vis/index.html#about-climate-kg",
     "title": "Climate-KG Data Analysis Dashboard",
     "section": "About Climate-KG",
     "text": "About Climate-KG\nClimate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.\n\nData Sources\n\nAuthors: IPCC AR6 author metadata (demographics, affiliations, contributions)\nBibliography: Climate science literature references\nGlossary: Climate science terminology from IPCC reports\nAcronyms: Standard climate science abbreviations\n\n\n\nTechnology Stack\n\nWikibase: Knowledge graph database\nPython: Data processing and analysis\nPlotly: Interactive visualizations\nQuarto: Documentation and reporting"
   },
   {
-    "objectID": "index.html#getting-started",
-    "href": "index.html#getting-started",
+    "objectID": "research_data/data-vis/index.html#getting-started",
+    "href": "research_data/data-vis/index.html#getting-started",
     "title": "Climate-KG Data Analysis Dashboard",
     "section": "Getting Started",
     "text": "Getting Started\nAll code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.\nNote: Code sections are collapsed by default. Click “Show code” to expand and view the Python code used for each analysis."
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/README.html",
+    "href": "research_data/data-xml-dtd/erm/README.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/README.html#directory-contents",
+    "href": "research_data/data-xml-dtd/erm/README.html#directory-contents",
+    "title": "",
+    "section": "Directory contents",
+    "text": "Directory contents\n\n\n\n\n\n\n\nFile\nRole\n\n\n\n\nerm-wikibase-mapping.xml\nSource of truth — hand-maintained XML that maps every DTD entity and field to a real Wikibase Property (PID) or Item (QID)\n\n\nerm-to-csv.xslt\nXSLT 1.0 stylesheet: transforms mapping XML → flat CSV\n\n\nerm-to-mermaid.xslt\nXSLT 1.0 stylesheet: transforms mapping XML → Mermaid erDiagram\n\n\ngenerate-erm.ps1\nPowerShell runner — executes both transforms in one step\n\n\nerm-mapping.csv\nGenerated output — entity/property table (73 rows)\n\n\ner-diagram-wikibase.mmd\nGenerated output — Mermaid ER diagram with real QIDs and PIDs\n\n\ner-diagram.mmd\nOriginal conceptual ERD (no real QIDs — created before SPARQL query)\n\n\nerm.md\nMarkdown wrapper for previewing er-diagram-wikibase.mmd inside VS Code"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/README.html#workflow",
+    "href": "research_data/data-xml-dtd/erm/README.html#workflow",
+    "title": "",
+    "section": "Workflow",
+    "text": "Workflow\nDTD files (parent data-xml-dtd/)\n        │\n        ▼\n[Manual step] SPARQL query against local Wikibase\n  http://localhost:9999/bigdata/namespace/wdq/sparql\n  → retrieve all Properties (P1–P33) and class Items (Q-IDs)\n        │\n        ▼\nerm-wikibase-mapping.xml  ◄── edit this file to update the mapping\n        │\n        ├──[erm-to-csv.xslt]──────► erm-mapping.csv\n        │\n        └──[erm-to-mermaid.xslt]──► er-diagram-wikibase.mmd\n\nStep 1 — Query Wikibase for PIDs and QIDs\nThe mapping XML was populated by querying the local Wikibase SPARQL endpoint. Example SPARQL (uses explicit prefixes required by this Wikibase instance):\nPREFIX wikibase: &lt;http://wikiba.se/ontology#&gt;\nPREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;\n\nSELECT ?prop ?num ?label WHERE {\n  ?prop a wikibase:Property .\n  ?prop wikibase:propertyType ?type .\n  BIND(REPLACE(STR(?prop), \".*/\", \"\") AS ?num)\n  OPTIONAL { ?prop rdfs:label ?label FILTER(LANG(?label) = \"en\") }\n}\nORDER BY xsd:integer(SUBSTR(?num, 2))\n\n\nStep 2 — Maintain erm-wikibase-mapping.xml\nThis is the only file you need to edit manually. Structure:\n&lt;erm-mapping&gt;\n  &lt;dtd name=\"corpus-ar6\"&gt;\n    &lt;entity name=\"WORK\" qid=\"Q2\" label=\"Work\"&gt;\n      &lt;field name=\"instance_of\" pid=\"P1\" label=\"Instance of\"\n             datatype=\"WikibaseItem\" notes=\"P1=Q2\"/&gt;\n      ...\n    &lt;/entity&gt;\n    &lt;relationship from=\"REPORT_SERIES\" to=\"REPORT\"\n                  cardinality=\"||--o{\" label=\"P4 contains\"/&gt;\n  &lt;/dtd&gt;\n  ...\n&lt;/erm-mapping&gt;\nFive DTD sections in hierarchy order:\n\ncorpus-ar6 — top-level corpus (Work Q2, Report Series Q3, Report Q4, Text Division Q5, Chapter Q6)\nauthors-ar6 — IPCC AR6 author records (Author Q3998)\nbibliographic-ar6 — DOI bibliographic enrichment (adds P29–P33 to Report and Chapter)\nglossary-ar6 — glossary terms (Category Q1)\nacronyms-ar6 — acronym list (Acronym Q2087)\n\n\n\nStep 3 — Regenerate outputs\nRun from PowerShell inside this directory (or any working directory — the script uses $PSScriptRoot):\n.\\generate-erm.ps1\nRequires: Windows PowerShell 5.1+ or PowerShell 7+, .NET System.Xml.Xsl.XslCompiledTransform (built-in on Windows).\nOutputs written as UTF-8 without BOM (required by the Mermaid parser)."
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/README.html#wikibase-property-reference-p1p33",
+    "href": "research_data/data-xml-dtd/erm/README.html#wikibase-property-reference-p1p33",
+    "title": "",
+    "section": "Wikibase property reference (P1–P33)",
+    "text": "Wikibase property reference (P1–P33)\n\n\n\nPID\nLabel\nType\n\n\n\n\nP1\nInstance of\nWikibaseItem\n\n\nP2\nInstances\nWikibaseItem\n\n\nP3\nPart of\nWikibaseItem\n\n\nP4\nParts\nWikibaseItem\n\n\nP5\nWiki\nUrl\n\n\nP6\nSource\nUrl\n\n\nP7\nPDF\nUrl\n\n\nP8\nDate\nString\n\n\nP9\nOPENALEX\nString\n\n\nP10\nDOI\nString\n\n\nP11\nLICENSE\nString\n\n\nP12\nHas TAG\nWikibaseItem\n\n\nP13\nDefinition\nMonolingualtext\n\n\nP17\ndate accessed\nTime\n\n\nP18\ndate accessed\nTime\n\n\nP19\nsource version\nString\n\n\nP20\nClimateKG Author ID\nString\n\n\nP21\nlast name\nString\n\n\nP22\nfirst name\nString\n\n\nP23\ngender\nString\n\n\nP24\ncitizenship\nString\n\n\nP25\ncountry of residence\nString\n\n\nP26\naffiliation\nString\n\n\nP27\ncontributed to chapter\nWikibaseItem\n\n\nP28\nrole\nString\n\n\nP29\nPublisher DOI\nString\n\n\nP30\nISBN Electronic DOI\nString\n\n\nP31\nISBN Print DOI\nString\n\n\nP32\nLicence URL DOI\nUrl\n\n\nP33\nAbstract DOI\nString"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/README.html#wikibase-class-items-qids",
+    "href": "research_data/data-xml-dtd/erm/README.html#wikibase-class-items-qids",
+    "title": "",
+    "section": "Wikibase class items (QIDs)",
+    "text": "Wikibase class items (QIDs)\n\n\n\nQID\nLabel\nAlso Known As\n\n\n\n\nQ1\nCategory (Glossary Terms)\n\n\n\nQ2\nWork\n\n\n\nQ3\nReport Series\nMonographic Series\n\n\nQ4\nReport\nBook; Monograph; Volume\n\n\nQ5\nText Division\nDivision\n\n\nQ6\nChapter\n\n\n\nQ2087\nAcronym\n\n\n\nQ3998\nAuthor"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/README.html#previewing-the-diagram",
+    "href": "research_data/data-xml-dtd/erm/README.html#previewing-the-diagram",
+    "title": "",
+    "section": "Previewing the diagram",
+    "text": "Previewing the diagram\nOpen erm.md in VS Code and press Ctrl+K V (preview to side). Requires the bierner.markdown-mermaid VS Code extension.\nThe diagram can also be viewed online at mermaid.live — use the Python snippet in generate-erm.ps1 comments to generate the pako-encoded URL."
   },
   {
     "objectID": "research_data/data-vis/gender-distribution-simple.html",
@@ -273,53 +210,144 @@
     "text": "Files Affected\n\nresearch_data/data-vis/kg-stats-dashboard.ipynb — workaround applied\nresearch_data/data-vis/gender-distribution-simple.ipynb — uses deduplication on P20 in Python; result unaffected\nresearch_data/data-vis/authors-top-ten.ipynb — uses CSV as primary source; result unaffected"
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html",
-    "href": "research_data/data-vis/README-quarto.html",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html",
+    "href": "research_data/data-xml-dtd/README-HTML.html",
     "title": "",
     "section": "",
     "text": "Code"
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html#prerequisites",
-    "href": "research_data/data-vis/README-quarto.html#prerequisites",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#overview-csv-to-xml-to-wikibase-pipeline",
+    "href": "research_data/data-xml-dtd/README-HTML.html#overview-csv-to-xml-to-wikibase-pipeline",
     "title": "",
-    "section": "Prerequisites",
-    "text": "Prerequisites\nInstall Quarto from https://quarto.org/docs/get-started/"
+    "section": "Overview: CSV to XML to Wikibase Pipeline",
+    "text": "Overview: CSV to XML to Wikibase Pipeline\nThe IPCC AR6 data follows a structured pipeline from source data to knowledge base:\nCSV files → Normalization → XML + DTD → Multiple outputs:\n                                         ├─ HTML (via XSLT)\n                                         ├─ Wikibase import (via Python)\n                                         └─ Other formats (via XSLT)\n\nStep 1: CSV Normalization\nSource data starts as CSV files (e.g., ipccglossary.csv, authors-source.csv, acronyms-ar6.csv), which undergo normalization in the research_data/data-import/ directories:\n\nWhitespace cleaning: Remove leading/trailing spaces\nStandardization: Normalize country names, convert case (e.g., SMITH → Smith)\nEnrichment: Look up Wikibase QIDs via SPARQL, add stable IDs\nColumn mapping: Rename and reorder columns for XML compatibility\nValidation: Check data consistency and completeness\n\nScripts: normalise_*.py in each data-import subdirectory\n\n\nStep 2: XML Generation with DTD Validation\nNormalized CSVs are converted to structured XML using Python scripts:\n\nScripts: csv_to_xml.py or csv_to_xml.ipynb (Jupyter notebook)\nLibraries: xml.etree.ElementTree (Python) or lxml (notebook)\nValidation: Each XML file is validated against its Document Type Definition (DTD)\nOutput: Clean, validated XML files in outputs/ or data-xml-dtd/\n\nDTD files (e.g., glossary.dtd, authors-ar6.dtd) define the structure and constraints: - Required vs. optional elements - Element nesting rules - Attribute definitions - Data types and patterns\nExample DTD excerpt:\n&lt;!ELEMENT term (name, also_known_as?, definition, series)&gt;\n&lt;!ATTLIST term id ID #REQUIRED&gt;\n&lt;!ELEMENT series (series_ref+)&gt;\n&lt;!ELEMENT series_ref (#PCDATA)&gt;\n&lt;!ATTLIST series_ref qid CDATA #REQUIRED&gt;\n\n\nStep 3a: XSLT Transformation to HTML\nXSLT (eXtensible Stylesheet Language Transformations) converts XML to HTML for human-readable documentation:\n\nFlexibility: XSLT can transform XML to any text format (HTML, CSV, JSON, LaTeX, Markdown, etc.)\nReusability: Same XML file can generate multiple outputs with different stylesheets\nStandards-based: XSLT 1.0 is widely supported across languages (.NET, Java, Python lxml, browser engines)\nTemplate-driven: Declarative pattern matching makes transformations maintainable\n\nThis repository uses XSLT 1.0 stylesheets (e.g., authors-ar6.xslt) with .NET’s XslCompiledTransform for HTML generation.\n\n\nStep 3b: Python-Based Wikibase Import\nXML is ideal for Wikibase imports because:\n\nStructured validation: DTD ensures data integrity before import\nHierarchical data: Natural representation of entities and relationships (e.g., author → contributions → chapters)\nNamespace handling: Clean separation of metadata and content\nParsing libraries: Python’s xml.etree.ElementTree and lxml provide robust parsing\nError handling: XML validation catches issues early, before touching the knowledge base\nDocumentation: Self-documenting with DTD, unlike raw CSVs\n\nImport library: wikibaseintegrator - High-level Python API for creating/editing Wikibase items and properties - Handles authentication, item creation, statements, qualifiers, and references - Works in both Python scripts (.py) and Jupyter notebooks (.ipynb) - Install: pip install wikibaseintegrator\nExample scripts: upload_to_wikibase.py in each data-import/*/ directory - data-import/authors-XML-DTD/upload_to_wikibase.py - Complete example with bootstrap pattern, XML parsing, and item creation - data-import/ipcc-glossary-XML-DTD/upload_to_wikibase.ipynb - Jupyter notebook version for interactive imports - Each script demonstrates XML parsing, statement creation with qualifiers/references, and error handling\n\n\nTools for Working with XML\nMicrosoft XML Notepad (free) - Recommended XML viewer/editor: - Download: https://microsoft.github.io/XmlNotepad/ - Features: Tree view, DTD validation, XSLT transformation preview, syntax highlighting - Use case: Review generated XML files, validate against DTD, test XSLT stylesheets\nOther tools: - VS Code with XML extensions (Red Hat XML, XML Tools) - Python lxml: lxml.etree.fromstring() with DTD validation - xmllint (Linux/Mac): Command-line validation tool"
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html#building-the-site",
-    "href": "research_data/data-vis/README-quarto.html#building-the-site",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#generated-html-pages",
+    "href": "research_data/data-xml-dtd/README-HTML.html#generated-html-pages",
     "title": "",
-    "section": "Building the Site",
-    "text": "Building the Site\nNote: The Quarto project is located at the root of the repository.\nFrom the repository root:\nquarto render\nThe output will be generated in the docs/ folder at the repository root."
+    "section": "Generated HTML Pages",
+    "text": "Generated HTML Pages\nThe following HTML pages are generated from XML data using XSLT transformations:\n\n1. authors-ar6.html\n\nSource: authors-ar6.xml\nStylesheet: authors-ar6.xslt\nContent: Comprehensive directory of IPCC AR6 authors with:\n\nFull name, gender, citizenship, country of residence\nInstitutional affiliations\nChapter contributions and roles (Lead Author, Review Editor, etc.)\nStatistics: total authors, contributions, gender distribution\nSearchable interface\n\n\n\n\n2. acronyms-ar6.html\n\nSource: acronyms-ar6.xml\nStylesheet: acronyms-ar6.xslt\nContent: Complete list of acronyms used across IPCC AR6 reports:\n\nAcronym codes and definitions\nMultiple definitions where applicable (with source attribution)\nReport badges showing which reports use each acronym (WGI, WGII, WGIII, SR1.5, etc.)\nStatistics by working group\nSearchable interface\n\n\n\n\n3. bibliographic-ar6.html\n\nSource: bibliographc-ar6.xml\nStylesheet: bibliographic-ar6.xslt\nContent: Bibliographic metadata enriched from Crossref DOI data:\n\nPublisher information\nISBN numbers (electronic and print)\nLicense URLs\nAbstracts\nDOI references\nSearchable interface with expandable abstracts\n\n\n\n\n4. corpus-ar6.html\n\nSource: corpus-ar6.xml\nStylesheet: corpus-ar6.xslt\nContent: Hierarchical structure of IPCC AR6 publications:\n\nPublication and series information\nWorking Group books (WGI, WGII, WGIII) and Special Reports\nFront matter and chapter organization\nDOI, PDF, Wiki, Source, and OpenAlex links for each chapter\nLicense and date metadata\nClean hierarchical navigation\n\n\n\n\n5. glossary-ar6.html\n\nSource: glossary-ar6.xml\nStylesheet: glossary-ar6.xslt\nContent: IPCC glossary terms with:\n\nTerm names and aliases (also known as)\nDefinitions\nSeries badges (WGI, WGII, WGIII, SR15, etc.) with QID references\nStatistics by working group\nSearchable interface with real-time filtering"
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html#previewing-the-site",
-    "href": "research_data/data-vis/README-quarto.html#previewing-the-site",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#file-structure",
+    "href": "research_data/data-xml-dtd/README-HTML.html#file-structure",
     "title": "",
-    "section": "Previewing the Site",
-    "text": "Previewing the Site\nTo preview with live reload:\nquarto preview"
+    "section": "File Structure",
+    "text": "File Structure\ndata-xml-dtd/\n├── authors-ar6.xml          # Author data\n├── authors-ar6.dtd          # Document Type Definition for authors\n├── authors-ar6.xslt         # XSLT stylesheet for authors\n├── authors-ar6.html         # Generated HTML page\n│\n├── acronyms-ar6.xml         # Acronyms data\n├── acronyms-ar6.dtd         # DTD for acronyms\n├── acronyms-ar6.xslt        # XSLT stylesheet for acronyms\n├── acronyms-ar6.html        # Generated HTML page\n│\n├── bibliographc-ar6.xml     # Bibliographic enrichment data\n├── bibliographic-ar6.dtd    # DTD for bibliographic data\n├── bibliographic-ar6.xslt   # XSLT stylesheet for bibliography\n├── bibliographic-ar6.html   # Generated HTML page\n│\n├── corpus-ar6.xml           # Corpus structure data\n├── corpus-ar6.dtd           # DTD for corpus\n├── corpus-ar6.xslt          # XSLT stylesheet for corpus\n├── corpus-ar6.html          # Generated HTML page\n│\n├── glossary-ar6.xml         # Glossary data\n├── glossary-ar6.dtd         # DTD for glossary\n├── glossary-ar6.xslt        # XSLT stylesheet for glossary\n├── glossary-ar6.html        # Generated HTML page\n│\n└── generate-html.ps1        # PowerShell script to regenerate all HTML"
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
-    "href": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#generating-html-files",
+    "href": "research_data/data-xml-dtd/README-HTML.html#generating-html-files",
     "title": "",
-    "section": "Publishing to GitHub Pages",
-    "text": "Publishing to GitHub Pages\nIf your repository is on GitHub, you can publish to GitHub Pages:\n\nPush the docs/ folder to your repository\nGo to Settings &gt; Pages\nSet source to “Deploy from a branch”\nSelect the main branch and /docs folder\nSave\n\nYour site will be available at: https://tibhannover.github.io/Climate-KG-data/"
+    "section": "Generating HTML Files",
+    "text": "Generating HTML Files\n\nOption 1: Using the PowerShell Script (Recommended)\nRun the provided script to regenerate all HTML files:\ncd research_data/data-xml-dtd\n.\\generate-html.ps1\nThe script will: - Check for required XML and XSLT files - Transform each XML file using its corresponding XSLT stylesheet - Report success/failure for each transformation - Display file sizes of generated HTML - Copy HTML files to ../../docs/data/ for the Quarto website\nNote: After running quarto render, re-run .\\generate-html.ps1 to ensure the HTML files are copied to the Quarto output directory, as Quarto may clean the output directory during rendering.\n\n\nOption 2: Manual Transformation\nTo manually transform an XML file to HTML:\n# Navigate to the directory\ncd research_data/data-xml-dtd\n\n# Create XSLT transformer and configure DTD processing\n$xslt = New-Object System.Xml.Xsl.XslCompiledTransform\n$xslt.Load(\"authors-ar6.xslt\")\n\n$settings = New-Object System.Xml.XmlReaderSettings\n$settings.DtdProcessing = [System.Xml.DtdProcessing]::Parse\n\n# Create reader and writer\n$reader = [System.Xml.XmlReader]::Create(\"authors-ar6.xml\", $settings)\n$writer = [System.Xml.XmlWriter]::Create(\"authors-ar6.html\")\n\n# Transform\n$xslt.Transform($reader, $writer)\n\n# Clean up\n$reader.Close()\n$writer.Close()\nRepeat for other files by changing the filenames."
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html#project-structure",
-    "href": "research_data/data-vis/README-quarto.html#project-structure",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#xslt-features",
+    "href": "research_data/data-xml-dtd/README-HTML.html#xslt-features",
     "title": "",
-    "section": "Project Structure",
-    "text": "Project Structure\nAt repository root: - _quarto.yml - Project configuration - index.qmd - Home page - docs/ - Generated website output\nNotebook sources: - research_data/data-vis/ar6-authors-distribution-analysis.ipynb - AR6 authors analysis - research_data/data-vis/wikibase-inventory-dashboard.ipynb - Wikibase inventory dashboard"
+    "section": "XSLT Features",
+    "text": "XSLT Features\nAll XSLT stylesheets follow a consistent design pattern:\n\nVisual Design\n\nClean, modern interface with responsive layout\nIPCC blue color scheme (#1a5490)\nCard-based design with subtle shadows and borders\nMobile-friendly responsive design\n\n\n\nFunctionality\n\nSearch: Real-time JavaScript-based search filtering\nStatistics: Summary cards showing key metrics\nBadges: Color-coded badges for reports, roles, and categories\nInteractive Elements: Expandable abstracts, hover effects\n\n\n\nStyling\n\nUses system fonts for better performance and native look\nConsistent spacing and typography\nAccessible color contrasts\nPrint-friendly styles"
   },
   {
-    "objectID": "research_data/data-vis/README-quarto.html#configuration",
-    "href": "research_data/data-vis/README-quarto.html#configuration",
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#technical-details",
+    "href": "research_data/data-xml-dtd/README-HTML.html#technical-details",
     "title": "",
-    "section": "Configuration",
-    "text": "Configuration\nThe project is configured with: - Code folding enabled (collapsed by default, expandable) - Code tools available - Table of contents - Cosmo theme - Auto-freeze for faster re-renders"
+    "section": "Technical Details",
+    "text": "Technical Details\n\nDTD Processing\nThe XML files reference Document Type Definitions (DTDs) which must be processed during transformation. The PowerShell scripts configure DtdProcessing = Parse to enable this.\n\n\nXSLT Version\nAll stylesheets use XSLT 1.0 for maximum compatibility with .NET’s XslCompiledTransform class.\n\n\nBrowser Compatibility\nGenerated HTML files are compatible with all modern browsers (Chrome, Firefox, Safari, Edge)."
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#data-sources",
+    "href": "research_data/data-xml-dtd/README-HTML.html#data-sources",
+    "title": "",
+    "section": "Data Sources",
+    "text": "Data Sources\nThe XML files in this directory are generated from CSV source data processed in research_data/data-import/:\n\nAuthors: data-import/authors-XML-DTD/ - IPCC official author listings from https://apps.ipcc.ch/report/authors/\nAcronyms: data-import/ipcc-acronyms-XML-DTD/ - Compiled from IPCC AR6 reports\nBibliography: data-import/bibliographic-XML-DTD/ - Enriched with Crossref DOI metadata\nCorpus: data-import/corpus-backbone-XML-DTD/ - IPCC AR6 publication structure with chapter metadata and links\nGlossary: data-import/ipcc-glossary-XML-DTD/ - IPCC official glossary from https://apps.ipcc.ch/glossary/\n\nEach data-import directory contains: - Source CSV files - Normalization scripts (normalise_*.py) - CSV-to-XML conversion scripts (csv_to_xml.py or csv_to_xml.ipynb) - DTD files for validation - Wikibase upload scripts (upload_to_wikibase.py) - Documentation (README.md or instructions.md)"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#maintenance",
+    "href": "research_data/data-xml-dtd/README-HTML.html#maintenance",
+    "title": "",
+    "section": "Maintenance",
+    "text": "Maintenance\nTo update the HTML pages after XML data changes:\n\nIf source data changed: Re-run the normalization and XML generation in the appropriate data-import/ directory\nIf XML changed: Copy updated XML file to this data-xml-dtd/ directory\nRun .\\generate-html.ps1 to regenerate HTML\nVerify the output by opening the HTML file in a browser"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/README-HTML.html#related-files",
+    "href": "research_data/data-xml-dtd/README-HTML.html#related-files",
+    "title": "",
+    "section": "Related Files",
+    "text": "Related Files\n\nSource data: research_data/data-import/*/ - CSV files and conversion scripts\nCSV source files: *.csv - Original data in CSV format\nDTD files: *.dtd - Document Type Definitions for XML validation\nXML files: *.xml - Structured data\nXSLT files: *.xslt - Transformation stylesheets\nHTML files: *.html - Generated documentation pages"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html",
+    "href": "research_data/data-vis/QUICKSTART.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#whats-been-created",
+    "href": "research_data/data-vis/QUICKSTART.html#whats-been-created",
+    "title": "",
+    "section": "What’s Been Created",
+    "text": "What’s Been Created\n✓ Jupyter Notebook: ar6-authors-distribution-analysis.ipynb\n✓ Requirements File: requirements.txt\n✓ Documentation: README.md\n✓ All packages verified and working"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#before-you-start",
+    "href": "research_data/data-vis/QUICKSTART.html#before-you-start",
+    "title": "",
+    "section": "Before You Start",
+    "text": "Before You Start\n\n1. Ensure Wikibase is Running\ncd C:\\Wikibase\ndocker compose ps\n# If not running: docker compose up -d\n\n\n2. Verify SPARQL Endpoint\nOpen in browser: http://localhost:9999/bigdata/sparql\n\n\n3. Check Author Data Import\nVerify your authors are in Wikibase: http://localhost:8080/wiki/Special:RecentChanges"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
+    "href": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
+    "title": "",
+    "section": "How to Use the Notebook",
+    "text": "How to Use the Notebook\n\nStep 1: Open the Notebook\nThe notebook is already open in VS Code with the Python kernel configured and running.\n\n\nStep 2: Update Property IDs (IMPORTANT!)\nIn cell 4 (Section 3), you’ll see a SPARQL query with property IDs like P3, P7, P8, etc.\nThese need to match YOUR Wikibase schema!\nTo find the correct property IDs: 1. Visit: http://localhost:8080/wiki/Special:ListProperties 2. Find the properties you need: - P3: “instance of” (or similar) - P7: Gender property - P8: Citizenship property - P9: Country of residence property - P10: Chapter contribution property\n\nUpdate the query with your actual property IDs\n\nExample of what to look for:\n?author wdt:P3 wd:Q2 .  # Change P3 to your \"instance of\" property\n?author wdt:P7 ?genderItem .  # Change P7 to your gender property\n\n\nStep 3: Run the Cells\nOption A: Run All Cells - Click “Run All” button in the notebook toolbar\nOption B: Run Step-by-Step - Execute each cell sequentially (Shift+Enter) - Review outputs as you go - Adjust code if needed\n\n\nStep 4: View Visualizations\nInteractive Plotly charts will display inline. You can: - Hover for details - Zoom and pan - Download as PNG\n\n\nStep 5: Export Results (Optional)\nAdd cells at the end to export data:\n# Save visualizations\nfig.write_html(\"author_distribution.html\")\n\n# Export data\ndf_unique_authors.to_csv(\"authors_summary.csv\", index=False)"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#troubleshooting",
+    "href": "research_data/data-vis/QUICKSTART.html#troubleshooting",
+    "title": "",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nProblem: No Data Returned (Query Returns Empty)\nLikely Causes: 1. Property IDs in SPARQL query don’t match your schema 2. Author data not imported yet 3. Wikibase not running\nSolutions:\n# Check Wikibase status\ndocker compose ps\n\n# Check if data exists\n# Open http://localhost:8080 and search for an author name\n\n\nProblem: SPARQL Query Error\nCause: Property IDs or entity IDs don’t exist\nSolution: - Visit http://localhost:8080/wiki/Special:ListProperties - Copy the exact property IDs from your instance - Update the query in cell 4\n\n\nProblem: Visualization Not Showing\nCause: Plotly display issue\nSolution:\n# In a new cell, try:\nimport plotly.io as pio\npio.renderers.default = \"notebook\"\n# Then re-run the visualization cell"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
+    "href": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
+    "title": "",
+    "section": "Understanding the Analysis",
+    "text": "Understanding the Analysis\n\n1. Regional Distribution (Global North/South)\nShows where authors are from geographically and economically.\nInterpretation: - High Global North percentage = predominantly developed countries - More balanced = better geographic diversity\n\n\n2. Gender Distribution\nShows the gender balance among authors.\nInterpretation: - Percentages show representation - Ratio indicates balance (e.g., 1.5:1 means 60% to 40%)\n\n\n3. Intersectional Analysis\nCombines region and gender to reveal compound patterns.\nKey Questions: - Is gender balance similar in North and South? - Are there regional differences in participation?\n\n\n4. Chapter-Level Variations\nShows how demographics vary across different AR6 chapters/reports.\nInsights: - Some chapters may have more diverse authorship - Patterns may reflect disciplinary norms"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#next-steps",
+    "href": "research_data/data-vis/QUICKSTART.html#next-steps",
+    "title": "",
+    "section": "Next Steps",
+    "text": "Next Steps\nOnce you have basic results:\n\nRefine Classifications\n\nAdjust Global North/South country list\nAdd more granular categories\n\nAdd More Analysis\n\nRole-based analysis (Lead Author vs Review Editor)\nTemporal comparisons (if you have AR5 data)\nStatistical significance tests\n\nCreate Presentations\n\nExport key charts as HTML or PNG\nPrepare summary statistics table\nHighlight key findings\n\nBuild Dashboard\n\nConsider Dash or Streamlit for interactive exploration\nAdd filters and drill-downs"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#key-files-reference",
+    "href": "research_data/data-vis/QUICKSTART.html#key-files-reference",
+    "title": "",
+    "section": "Key Files Reference",
+    "text": "Key Files Reference\ndata-vis/\n├── ar6-authors-distribution-analysis.ipynb  ← Main notebook\n├── requirements.txt                          ← Python dependencies\n├── README.md                                 ← Detailed documentation\n└── QUICKSTART.md                            ← This file"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#support-resources",
+    "href": "research_data/data-vis/QUICKSTART.html#support-resources",
+    "title": "",
+    "section": "Support Resources",
+    "text": "Support Resources\n\nWikibase properties: http://localhost:8080/wiki/Special:ListProperties\nSPARQL endpoint: http://localhost:9999/bigdata/sparql\nProject memory: C:.md\nRepo memory: Check /memories/repo/wikibase-project.md\n\n\nReady to Start? Run cell 2 in the notebook (the import cell)!"
+  },
+  {
+    "objectID": "data_protocol.html",
+    "href": "data_protocol.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
   },
   {
     "objectID": "multi-env-workflow.html",
@@ -420,144 +448,60 @@
     "text": "12. Backup Strategy\n\nTaking a local backup\nRun backup-local-db.ps1 from C:\\Wikibase to dump the local MariaDB database to a timestamped .sql file in C:\\Wikibase\\backups\\:\n.\\scripts\\backup\\backup-local-db.ps1\nOutputs mw_db_YYYYMMDD_HHMMSS.sql. See backups/README.md for full backup guide (DB + filesystem + config files).\n\n\nWhat is already covered\n\n\n\nAsset\nHow it is backed up\n\n\n\n\nConfig / scripts / docs\nGitHub (mrchristian/Wikibase master) — push after every change\n\n\nDatabase (authoritative)\nDEV server — Hetzner infrastructure; supplemented by SQL dumps in C:\\Wikibase\\backups\\\n\n\nDatabase (point-in-time)\nbackup-local-db.ps1 and pull-from-dev.ps1 write timestamped .sql files to C:\\Wikibase\\backups\\\n\n\nExperimental snapshots\nC:\\Wikibase\\backups\\approved_experiment_*.sql (created by experimental workflow)\n\n\n\n\n\nGitignored items that need separate backup\nThe following are excluded from the GitHub repo and must be backed up independently:\n\n\n\n\n\n\n\n\nItem\nWhy gitignored\nRecommended backup\n\n\n\n\nC:\\Wikibase\\.env\nContains passwords\nStore key/value pairs in a password manager (Bitwarden, KeePass, etc.)\n\n\nC:\\Wikibase\\backups\\*.sql\nLarge binary files\nEnable cloud sync on C:\\Wikibase\\backups\\ (e.g. OneDrive)\n\n\nUploads / images\nLarge binaries\nDEV server is authoritative; sync-local-to-dev.ps1 keeps DEV current\n\n\ndata-import/\nLarge data files\nKeep source files in their own repo or cloud storage\n\n\n.ssh-setup.md\nSecurity\nCopy to password manager or encrypted notes\n\n\n\n\n\nMinimum backup checklist\n\nAll config changes pushed to GitHub (git push / PR merged)\nC:\\Wikibase\\.env passwords recorded in password manager\nC:\\Wikibase\\backups\\ folder synced to cloud storage (OneDrive or equivalent)\nSSH key C:\\Users\\&lt;user&gt;\\.ssh\\id_wikibase_sync backed up securely (or regeneratable — pub key is on servers)"
   },
   {
-    "objectID": "data_protocol.html",
-    "href": "data_protocol.html",
+    "objectID": "research_data/data-vis/README-quarto.html",
+    "href": "research_data/data-vis/README-quarto.html",
     "title": "",
     "section": "",
     "text": "Code"
   },
   {
-    "objectID": "research_data/data-vis/QUICKSTART.html",
-    "href": "research_data/data-vis/QUICKSTART.html",
+    "objectID": "research_data/data-vis/README-quarto.html#prerequisites",
+    "href": "research_data/data-vis/README-quarto.html#prerequisites",
+    "title": "",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nInstall Quarto from https://quarto.org/docs/get-started/"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#building-the-site",
+    "href": "research_data/data-vis/README-quarto.html#building-the-site",
+    "title": "",
+    "section": "Building the Site",
+    "text": "Building the Site\nNote: The Quarto project is located at the root of the repository.\nFrom the repository root:\nquarto render\nThe output will be generated in the docs/ folder at the repository root."
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#previewing-the-site",
+    "href": "research_data/data-vis/README-quarto.html#previewing-the-site",
+    "title": "",
+    "section": "Previewing the Site",
+    "text": "Previewing the Site\nTo preview with live reload:\nquarto preview"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
+    "href": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
+    "title": "",
+    "section": "Publishing to GitHub Pages",
+    "text": "Publishing to GitHub Pages\nIf your repository is on GitHub, you can publish to GitHub Pages:\n\nPush the docs/ folder to your repository\nGo to Settings &gt; Pages\nSet source to “Deploy from a branch”\nSelect the main branch and /docs folder\nSave\n\nYour site will be available at: https://tibhannover.github.io/Climate-KG-data/"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#project-structure",
+    "href": "research_data/data-vis/README-quarto.html#project-structure",
+    "title": "",
+    "section": "Project Structure",
+    "text": "Project Structure\nAt repository root: - _quarto.yml - Project configuration - index.qmd - Home page - docs/ - Generated website output\nNotebook sources: - research_data/data-vis/ar6-authors-distribution-analysis.ipynb - AR6 authors analysis - research_data/data-vis/wikibase-inventory-dashboard.ipynb - Wikibase inventory dashboard"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#configuration",
+    "href": "research_data/data-vis/README-quarto.html#configuration",
+    "title": "",
+    "section": "Configuration",
+    "text": "Configuration\nThe project is configured with: - Code folding enabled (collapsed by default, expandable) - Code tools available - Table of contents - Cosmo theme - Auto-freeze for faster re-renders"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/erm.html",
+    "href": "research_data/data-xml-dtd/erm/erm.html",
     "title": "",
     "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#whats-been-created",
-    "href": "research_data/data-vis/QUICKSTART.html#whats-been-created",
-    "title": "",
-    "section": "What’s Been Created",
-    "text": "What’s Been Created\n✓ Jupyter Notebook: ar6-authors-distribution-analysis.ipynb\n✓ Requirements File: requirements.txt\n✓ Documentation: README.md\n✓ All packages verified and working"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#before-you-start",
-    "href": "research_data/data-vis/QUICKSTART.html#before-you-start",
-    "title": "",
-    "section": "Before You Start",
-    "text": "Before You Start\n\n1. Ensure Wikibase is Running\ncd C:\\Wikibase\ndocker compose ps\n# If not running: docker compose up -d\n\n\n2. Verify SPARQL Endpoint\nOpen in browser: http://localhost:9999/bigdata/sparql\n\n\n3. Check Author Data Import\nVerify your authors are in Wikibase: http://localhost:8080/wiki/Special:RecentChanges"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
-    "href": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
-    "title": "",
-    "section": "How to Use the Notebook",
-    "text": "How to Use the Notebook\n\nStep 1: Open the Notebook\nThe notebook is already open in VS Code with the Python kernel configured and running.\n\n\nStep 2: Update Property IDs (IMPORTANT!)\nIn cell 4 (Section 3), you’ll see a SPARQL query with property IDs like P3, P7, P8, etc.\nThese need to match YOUR Wikibase schema!\nTo find the correct property IDs: 1. Visit: http://localhost:8080/wiki/Special:ListProperties 2. Find the properties you need: - P3: “instance of” (or similar) - P7: Gender property - P8: Citizenship property - P9: Country of residence property - P10: Chapter contribution property\n\nUpdate the query with your actual property IDs\n\nExample of what to look for:\n?author wdt:P3 wd:Q2 .  # Change P3 to your \"instance of\" property\n?author wdt:P7 ?genderItem .  # Change P7 to your gender property\n\n\nStep 3: Run the Cells\nOption A: Run All Cells - Click “Run All” button in the notebook toolbar\nOption B: Run Step-by-Step - Execute each cell sequentially (Shift+Enter) - Review outputs as you go - Adjust code if needed\n\n\nStep 4: View Visualizations\nInteractive Plotly charts will display inline. You can: - Hover for details - Zoom and pan - Download as PNG\n\n\nStep 5: Export Results (Optional)\nAdd cells at the end to export data:\n# Save visualizations\nfig.write_html(\"author_distribution.html\")\n\n# Export data\ndf_unique_authors.to_csv(\"authors_summary.csv\", index=False)"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#troubleshooting",
-    "href": "research_data/data-vis/QUICKSTART.html#troubleshooting",
-    "title": "",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nProblem: No Data Returned (Query Returns Empty)\nLikely Causes: 1. Property IDs in SPARQL query don’t match your schema 2. Author data not imported yet 3. Wikibase not running\nSolutions:\n# Check Wikibase status\ndocker compose ps\n\n# Check if data exists\n# Open http://localhost:8080 and search for an author name\n\n\nProblem: SPARQL Query Error\nCause: Property IDs or entity IDs don’t exist\nSolution: - Visit http://localhost:8080/wiki/Special:ListProperties - Copy the exact property IDs from your instance - Update the query in cell 4\n\n\nProblem: Visualization Not Showing\nCause: Plotly display issue\nSolution:\n# In a new cell, try:\nimport plotly.io as pio\npio.renderers.default = \"notebook\"\n# Then re-run the visualization cell"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
-    "href": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
-    "title": "",
-    "section": "Understanding the Analysis",
-    "text": "Understanding the Analysis\n\n1. Regional Distribution (Global North/South)\nShows where authors are from geographically and economically.\nInterpretation: - High Global North percentage = predominantly developed countries - More balanced = better geographic diversity\n\n\n2. Gender Distribution\nShows the gender balance among authors.\nInterpretation: - Percentages show representation - Ratio indicates balance (e.g., 1.5:1 means 60% to 40%)\n\n\n3. Intersectional Analysis\nCombines region and gender to reveal compound patterns.\nKey Questions: - Is gender balance similar in North and South? - Are there regional differences in participation?\n\n\n4. Chapter-Level Variations\nShows how demographics vary across different AR6 chapters/reports.\nInsights: - Some chapters may have more diverse authorship - Patterns may reflect disciplinary norms"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#next-steps",
-    "href": "research_data/data-vis/QUICKSTART.html#next-steps",
-    "title": "",
-    "section": "Next Steps",
-    "text": "Next Steps\nOnce you have basic results:\n\nRefine Classifications\n\nAdjust Global North/South country list\nAdd more granular categories\n\nAdd More Analysis\n\nRole-based analysis (Lead Author vs Review Editor)\nTemporal comparisons (if you have AR5 data)\nStatistical significance tests\n\nCreate Presentations\n\nExport key charts as HTML or PNG\nPrepare summary statistics table\nHighlight key findings\n\nBuild Dashboard\n\nConsider Dash or Streamlit for interactive exploration\nAdd filters and drill-downs"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#key-files-reference",
-    "href": "research_data/data-vis/QUICKSTART.html#key-files-reference",
-    "title": "",
-    "section": "Key Files Reference",
-    "text": "Key Files Reference\ndata-vis/\n├── ar6-authors-distribution-analysis.ipynb  ← Main notebook\n├── requirements.txt                          ← Python dependencies\n├── README.md                                 ← Detailed documentation\n└── QUICKSTART.md                            ← This file"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#support-resources",
-    "href": "research_data/data-vis/QUICKSTART.html#support-resources",
-    "title": "",
-    "section": "Support Resources",
-    "text": "Support Resources\n\nWikibase properties: http://localhost:8080/wiki/Special:ListProperties\nSPARQL endpoint: http://localhost:9999/bigdata/sparql\nProject memory: C:.md\nRepo memory: Check /memories/repo/wikibase-project.md\n\n\nReady to Start? Run cell 2 in the notebook (the import cell)!"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html",
-    "href": "research_data/data-xml-dtd/README-HTML.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#overview-csv-to-xml-to-wikibase-pipeline",
-    "href": "research_data/data-xml-dtd/README-HTML.html#overview-csv-to-xml-to-wikibase-pipeline",
-    "title": "",
-    "section": "Overview: CSV to XML to Wikibase Pipeline",
-    "text": "Overview: CSV to XML to Wikibase Pipeline\nThe IPCC AR6 data follows a structured pipeline from source data to knowledge base:\nCSV files → Normalization → XML + DTD → Multiple outputs:\n                                         ├─ HTML (via XSLT)\n                                         ├─ Wikibase import (via Python)\n                                         └─ Other formats (via XSLT)\n\nStep 1: CSV Normalization\nSource data starts as CSV files (e.g., ipccglossary.csv, authors-source.csv, acronyms-ar6.csv), which undergo normalization in the research_data/data-import/ directories:\n\nWhitespace cleaning: Remove leading/trailing spaces\nStandardization: Normalize country names, convert case (e.g., SMITH → Smith)\nEnrichment: Look up Wikibase QIDs via SPARQL, add stable IDs\nColumn mapping: Rename and reorder columns for XML compatibility\nValidation: Check data consistency and completeness\n\nScripts: normalise_*.py in each data-import subdirectory\n\n\nStep 2: XML Generation with DTD Validation\nNormalized CSVs are converted to structured XML using Python scripts:\n\nScripts: csv_to_xml.py or csv_to_xml.ipynb (Jupyter notebook)\nLibraries: xml.etree.ElementTree (Python) or lxml (notebook)\nValidation: Each XML file is validated against its Document Type Definition (DTD)\nOutput: Clean, validated XML files in outputs/ or data-xml-dtd/\n\nDTD files (e.g., glossary.dtd, authors-ar6.dtd) define the structure and constraints: - Required vs. optional elements - Element nesting rules - Attribute definitions - Data types and patterns\nExample DTD excerpt:\n&lt;!ELEMENT term (name, also_known_as?, definition, series)&gt;\n&lt;!ATTLIST term id ID #REQUIRED&gt;\n&lt;!ELEMENT series (series_ref+)&gt;\n&lt;!ELEMENT series_ref (#PCDATA)&gt;\n&lt;!ATTLIST series_ref qid CDATA #REQUIRED&gt;\n\n\nStep 3a: XSLT Transformation to HTML\nXSLT (eXtensible Stylesheet Language Transformations) converts XML to HTML for human-readable documentation:\n\nFlexibility: XSLT can transform XML to any text format (HTML, CSV, JSON, LaTeX, Markdown, etc.)\nReusability: Same XML file can generate multiple outputs with different stylesheets\nStandards-based: XSLT 1.0 is widely supported across languages (.NET, Java, Python lxml, browser engines)\nTemplate-driven: Declarative pattern matching makes transformations maintainable\n\nThis repository uses XSLT 1.0 stylesheets (e.g., authors-ar6.xslt) with .NET’s XslCompiledTransform for HTML generation.\n\n\nStep 3b: Python-Based Wikibase Import\nXML is ideal for Wikibase imports because:\n\nStructured validation: DTD ensures data integrity before import\nHierarchical data: Natural representation of entities and relationships (e.g., author → contributions → chapters)\nNamespace handling: Clean separation of metadata and content\nParsing libraries: Python’s xml.etree.ElementTree and lxml provide robust parsing\nError handling: XML validation catches issues early, before touching the knowledge base\nDocumentation: Self-documenting with DTD, unlike raw CSVs\n\nImport library: wikibaseintegrator - High-level Python API for creating/editing Wikibase items and properties - Handles authentication, item creation, statements, qualifiers, and references - Works in both Python scripts (.py) and Jupyter notebooks (.ipynb) - Install: pip install wikibaseintegrator\nExample scripts: upload_to_wikibase.py in each data-import/*/ directory - data-import/authors-XML-DTD/upload_to_wikibase.py - Complete example with bootstrap pattern, XML parsing, and item creation - data-import/ipcc-glossary-XML-DTD/upload_to_wikibase.ipynb - Jupyter notebook version for interactive imports - Each script demonstrates XML parsing, statement creation with qualifiers/references, and error handling\n\n\nTools for Working with XML\nMicrosoft XML Notepad (free) - Recommended XML viewer/editor: - Download: https://microsoft.github.io/XmlNotepad/ - Features: Tree view, DTD validation, XSLT transformation preview, syntax highlighting - Use case: Review generated XML files, validate against DTD, test XSLT stylesheets\nOther tools: - VS Code with XML extensions (Red Hat XML, XML Tools) - Python lxml: lxml.etree.fromstring() with DTD validation - xmllint (Linux/Mac): Command-line validation tool"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#generated-html-pages",
-    "href": "research_data/data-xml-dtd/README-HTML.html#generated-html-pages",
-    "title": "",
-    "section": "Generated HTML Pages",
-    "text": "Generated HTML Pages\nThe following HTML pages are generated from XML data using XSLT transformations:\n\n1. authors-ar6.html\n\nSource: authors-ar6.xml\nStylesheet: authors-ar6.xslt\nContent: Comprehensive directory of IPCC AR6 authors with:\n\nFull name, gender, citizenship, country of residence\nInstitutional affiliations\nChapter contributions and roles (Lead Author, Review Editor, etc.)\nStatistics: total authors, contributions, gender distribution\nSearchable interface\n\n\n\n\n2. acronyms-ar6.html\n\nSource: acronyms-ar6.xml\nStylesheet: acronyms-ar6.xslt\nContent: Complete list of acronyms used across IPCC AR6 reports:\n\nAcronym codes and definitions\nMultiple definitions where applicable (with source attribution)\nReport badges showing which reports use each acronym (WGI, WGII, WGIII, SR1.5, etc.)\nStatistics by working group\nSearchable interface\n\n\n\n\n3. bibliographic-ar6.html\n\nSource: bibliographc-ar6.xml\nStylesheet: bibliographic-ar6.xslt\nContent: Bibliographic metadata enriched from Crossref DOI data:\n\nPublisher information\nISBN numbers (electronic and print)\nLicense URLs\nAbstracts\nDOI references\nSearchable interface with expandable abstracts\n\n\n\n\n4. corpus-ar6.html\n\nSource: corpus-ar6.xml\nStylesheet: corpus-ar6.xslt\nContent: Hierarchical structure of IPCC AR6 publications:\n\nPublication and series information\nWorking Group books (WGI, WGII, WGIII) and Special Reports\nFront matter and chapter organization\nDOI, PDF, Wiki, Source, and OpenAlex links for each chapter\nLicense and date metadata\nClean hierarchical navigation\n\n\n\n\n5. glossary-ar6.html\n\nSource: glossary-ar6.xml\nStylesheet: glossary-ar6.xslt\nContent: IPCC glossary terms with:\n\nTerm names and aliases (also known as)\nDefinitions\nSeries badges (WGI, WGII, WGIII, SR15, etc.) with QID references\nStatistics by working group\nSearchable interface with real-time filtering"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#file-structure",
-    "href": "research_data/data-xml-dtd/README-HTML.html#file-structure",
-    "title": "",
-    "section": "File Structure",
-    "text": "File Structure\ndata-xml-dtd/\n├── authors-ar6.xml          # Author data\n├── authors-ar6.dtd          # Document Type Definition for authors\n├── authors-ar6.xslt         # XSLT stylesheet for authors\n├── authors-ar6.html         # Generated HTML page\n│\n├── acronyms-ar6.xml         # Acronyms data\n├── acronyms-ar6.dtd         # DTD for acronyms\n├── acronyms-ar6.xslt        # XSLT stylesheet for acronyms\n├── acronyms-ar6.html        # Generated HTML page\n│\n├── bibliographc-ar6.xml     # Bibliographic enrichment data\n├── bibliographic-ar6.dtd    # DTD for bibliographic data\n├── bibliographic-ar6.xslt   # XSLT stylesheet for bibliography\n├── bibliographic-ar6.html   # Generated HTML page\n│\n├── corpus-ar6.xml           # Corpus structure data\n├── corpus-ar6.dtd           # DTD for corpus\n├── corpus-ar6.xslt          # XSLT stylesheet for corpus\n├── corpus-ar6.html          # Generated HTML page\n│\n├── glossary-ar6.xml         # Glossary data\n├── glossary-ar6.dtd         # DTD for glossary\n├── glossary-ar6.xslt        # XSLT stylesheet for glossary\n├── glossary-ar6.html        # Generated HTML page\n│\n└── generate-html.ps1        # PowerShell script to regenerate all HTML"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#generating-html-files",
-    "href": "research_data/data-xml-dtd/README-HTML.html#generating-html-files",
-    "title": "",
-    "section": "Generating HTML Files",
-    "text": "Generating HTML Files\n\nOption 1: Using the PowerShell Script (Recommended)\nRun the provided script to regenerate all HTML files:\ncd research_data/data-xml-dtd\n.\\generate-html.ps1\nThe script will: - Check for required XML and XSLT files - Transform each XML file using its corresponding XSLT stylesheet - Report success/failure for each transformation - Display file sizes of generated HTML - Copy HTML files to ../../docs/data/ for the Quarto website\nNote: After running quarto render, re-run .\\generate-html.ps1 to ensure the HTML files are copied to the Quarto output directory, as Quarto may clean the output directory during rendering.\n\n\nOption 2: Manual Transformation\nTo manually transform an XML file to HTML:\n# Navigate to the directory\ncd research_data/data-xml-dtd\n\n# Create XSLT transformer and configure DTD processing\n$xslt = New-Object System.Xml.Xsl.XslCompiledTransform\n$xslt.Load(\"authors-ar6.xslt\")\n\n$settings = New-Object System.Xml.XmlReaderSettings\n$settings.DtdProcessing = [System.Xml.DtdProcessing]::Parse\n\n# Create reader and writer\n$reader = [System.Xml.XmlReader]::Create(\"authors-ar6.xml\", $settings)\n$writer = [System.Xml.XmlWriter]::Create(\"authors-ar6.html\")\n\n# Transform\n$xslt.Transform($reader, $writer)\n\n# Clean up\n$reader.Close()\n$writer.Close()\nRepeat for other files by changing the filenames."
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#xslt-features",
-    "href": "research_data/data-xml-dtd/README-HTML.html#xslt-features",
-    "title": "",
-    "section": "XSLT Features",
-    "text": "XSLT Features\nAll XSLT stylesheets follow a consistent design pattern:\n\nVisual Design\n\nClean, modern interface with responsive layout\nIPCC blue color scheme (#1a5490)\nCard-based design with subtle shadows and borders\nMobile-friendly responsive design\n\n\n\nFunctionality\n\nSearch: Real-time JavaScript-based search filtering\nStatistics: Summary cards showing key metrics\nBadges: Color-coded badges for reports, roles, and categories\nInteractive Elements: Expandable abstracts, hover effects\n\n\n\nStyling\n\nUses system fonts for better performance and native look\nConsistent spacing and typography\nAccessible color contrasts\nPrint-friendly styles"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#technical-details",
-    "href": "research_data/data-xml-dtd/README-HTML.html#technical-details",
-    "title": "",
-    "section": "Technical Details",
-    "text": "Technical Details\n\nDTD Processing\nThe XML files reference Document Type Definitions (DTDs) which must be processed during transformation. The PowerShell scripts configure DtdProcessing = Parse to enable this.\n\n\nXSLT Version\nAll stylesheets use XSLT 1.0 for maximum compatibility with .NET’s XslCompiledTransform class.\n\n\nBrowser Compatibility\nGenerated HTML files are compatible with all modern browsers (Chrome, Firefox, Safari, Edge)."
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#data-sources",
-    "href": "research_data/data-xml-dtd/README-HTML.html#data-sources",
-    "title": "",
-    "section": "Data Sources",
-    "text": "Data Sources\nThe XML files in this directory are generated from CSV source data processed in research_data/data-import/:\n\nAuthors: data-import/authors-XML-DTD/ - IPCC official author listings from https://apps.ipcc.ch/report/authors/\nAcronyms: data-import/ipcc-acronyms-XML-DTD/ - Compiled from IPCC AR6 reports\nBibliography: data-import/bibliographic-XML-DTD/ - Enriched with Crossref DOI metadata\nCorpus: data-import/corpus-backbone-XML-DTD/ - IPCC AR6 publication structure with chapter metadata and links\nGlossary: data-import/ipcc-glossary-XML-DTD/ - IPCC official glossary from https://apps.ipcc.ch/glossary/\n\nEach data-import directory contains: - Source CSV files - Normalization scripts (normalise_*.py) - CSV-to-XML conversion scripts (csv_to_xml.py or csv_to_xml.ipynb) - DTD files for validation - Wikibase upload scripts (upload_to_wikibase.py) - Documentation (README.md or instructions.md)"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#maintenance",
-    "href": "research_data/data-xml-dtd/README-HTML.html#maintenance",
-    "title": "",
-    "section": "Maintenance",
-    "text": "Maintenance\nTo update the HTML pages after XML data changes:\n\nIf source data changed: Re-run the normalization and XML generation in the appropriate data-import/ directory\nIf XML changed: Copy updated XML file to this data-xml-dtd/ directory\nRun .\\generate-html.ps1 to regenerate HTML\nVerify the output by opening the HTML file in a browser"
-  },
-  {
-    "objectID": "research_data/data-xml-dtd/README-HTML.html#related-files",
-    "href": "research_data/data-xml-dtd/README-HTML.html#related-files",
-    "title": "",
-    "section": "Related Files",
-    "text": "Related Files\n\nSource data: research_data/data-import/*/ - CSV files and conversion scripts\nCSV source files: *.csv - Original data in CSV format\nDTD files: *.dtd - Document Type Definitions for XML validation\nXML files: *.xml - Structured data\nXSLT files: *.xslt - Transformation stylesheets\nHTML files: *.html - Generated documentation pages"
+    "text": "Code\n\n\n\n\nerDiagram\n\n    %% -- corpus-ar6.dtd ------------------------------------------\n    %% Top-level corpus structure (Work, Publication, Series, Book, Chapter)\n    %%  WORK=Q2  PUBLICATION=Q3  SERIES=Q4  BOOK=Q5  CHAPTER=Q6\n\n    WORK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2\"\n    }\n    PUBLICATION {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3\"\n        String title \"rdfs:label item label\"\n        String description \"rdfs:description item description\"\n        WikibaseItem part_of \"P3 Part of: parent Work\"\n        WikibaseItem parts \"P4 Parts: child Series or Books\"\n    }\n    SERIES {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q4\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Publication\"\n        WikibaseItem parts \"P4 Parts: child Books and Chapters\"\n    }\n    BOOK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q5\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Series\"\n        WikibaseItem parts \"P4 Parts: child Chapters\"\n    }\n    CHAPTER {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q6\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String openalex \"P9 OPENALEX\"\n        Url wiki \"P5 Wiki\"\n        Url source \"P6 Source\"\n        Url pdf \"P7 PDF\"\n        WikibaseItem tags \"P12 Has TAG\"\n        WikibaseItem part_of \"P3 Part of: parent Book\"\n    }\n    PUBLICATION ||--o{ SERIES : \"P4 contains\"\n    PUBLICATION ||--o{ BOOK : \"P4 contains\"\n    SERIES ||--o{ BOOK : \"P4 contains\"\n    SERIES |o--|{ CHAPTER : \"P4 front_matter\"\n    BOOK ||--|{ CHAPTER : \"P4 chapters\"\n\n    %% -- authors-ar6.dtd ------------------------------------------\n    %% IPCC AR6 author records linked to Chapter items via P27\n    %%  AUTHOR=Q3998\n\n    AUTHOR {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3998\"\n        String climatkg_author_id \"P20 ClimateKG Author ID: e.g. AU0001\"\n        String last_name \"P21 last name\"\n        String first_name \"P22 first name\"\n        String gender \"P23 gender: M or F\"\n        String citizenship \"P24 citizenship\"\n        String country_of_residence \"P25 country of residence\"\n        String affiliation \"P26 affiliation\"\n        WikibaseItem contributed_to \"P27 contributed to chapter: FK to Q6 Chapter\"\n    }\n    CONTRIBUTION {\n        WikibaseItem chapter_qid \"P27 contributed to chapter: FK to Chapter QID\"\n        String report \"(qualifier): AR6 report code\"\n        String role \"P28 role: qualifier on P27\"\n        Url source_url \"P6 Source: reference on P27\"\n        Time date_accessed \"P17 date accessed: reference on P27\"\n    }\n    AUTHOR ||--|{ CONTRIBUTION : \"makes\"\n    CONTRIBUTION }o--o| CHAPTER : \"P27 chapter_qid (QID ref)\"\n\n    %% -- bibliographic-ar6.dtd ------------------------------------------\n    %% DOI bibliographic enrichment added to existing Series and Chapter items\n    %%  BIB_ITEM=Q4 or Q6\n\n    BIB_ITEM {\n        WikibaseItem qid \"existing item QID: Q4 Series or Q6 Chapter\"\n        String type_disc \"type discriminator: Series or Chapter\"\n    }\n    STATEMENT {\n        String publisher_doi \"P29 Publisher (DOI)\"\n        String isbn_electronic \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        Url licence_url \"P32 Licence URL (DOI)\"\n        String abstract_doi \"P33 Abstract (DOI)\"\n    }\n    REFERENCE {\n        Url source_url \"P6 Source: reference URL\"\n        Time date_accessed \"P17 date accessed: ISO 8601\"\n        String source_version \"P19 source version: e.g. Crossref\"\n    }\n    BIB_ITEM ||--|{ STATEMENT : \"has\"\n    STATEMENT ||--|| REFERENCE : \"has\"\n    BIB_ITEM }o--o| SERIES : \"enriches (type=Series)\"\n    BIB_ITEM }o--o| CHAPTER : \"enriches (type=Chapter)\"\n\n    %% -- glossary-ar6.dtd ------------------------------------------\n    %% IPCC AR6 glossary terms (P1=Q1 Category) linked to Series via P3\n    %%  GLOSSARY_TERM=Q1\n\n    GLOSSARY_TERM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q1 Category\"\n        String name \"rdfs:label item label\"\n        String also_known_as \"skos:altLabel item alias\"\n        Monolingualtext definition \"P13 Definition\"\n        WikibaseItem part_of_series \"P3 Part of: FK to Q4 Series via series_ref\"\n    }\n    GLOSSARY_TERM }o--o{ SERIES : \"P3 Part of (series_ref)\"\n\n    %% -- acronyms-ar6.dtd ------------------------------------------\n    %% IPCC AR6 acronyms (P1=Q2087 Acronym) linked to Series reports via P3\n    %%  ACRONYM=Q2087\n\n    ACRONYM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2087\"\n        String code \"rdfs:label acronym code as item label\"\n        Monolingualtext description \"P13 Definition: multiple; source as qualifier\"\n        WikibaseItem report \"P3 Part of: FK to Q4 Series (report)\"\n    }\n    ACRONYM }o--o{ SERIES : \"P3 Part of (report)\""
   },
   {
     "objectID": "xml-html-documentation.html",
@@ -672,31 +616,150 @@
     "text": "Authors:          932\nReports (Series): 7\nChapters:         88\nDOIs:             95\nOpenAlex IDs:     88\nGlossary Terms:   920\nAcronyms:         1,910"
   },
   {
-    "objectID": "research_data/data-vis/index.html",
-    "href": "research_data/data-vis/index.html",
-    "title": "Climate-KG Data Analysis Dashboard",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Climate-KG Data Bench",
     "section": "",
-    "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
+    "text": "ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph. The data follows a CSV → XML/DTD → Wikibase pipeline, documented through an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).\n\n\n\nResource\nDescription\n\n\n\n\nERM Diagram\nInteractive entity-relationship diagram — fullscreen & zoomable\n\n\nERM Documentation\nProperty reference (P1–P33), QID table, workflow\n\n\nXML/HTML Pipeline\nCSV → XML → XSLT → HTML pipeline overview\n\n\nCorpus · Authors · Acronyms · Bibliography · Glossary\nGenerated data pages\n\n\n\nCorpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)"
   },
   {
-    "objectID": "research_data/data-vis/index.html#overview",
-    "href": "research_data/data-vis/index.html#overview",
-    "title": "Climate-KG Data Analysis Dashboard",
+    "objectID": "index.html#data-model-pipeline",
+    "href": "index.html#data-model-pipeline",
+    "title": "Climate-KG Data Bench",
     "section": "",
-    "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
+    "text": "ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph. The data follows a CSV → XML/DTD → Wikibase pipeline, documented through an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).\n\n\n\nResource\nDescription\n\n\n\n\nERM Diagram\nInteractive entity-relationship diagram — fullscreen & zoomable\n\n\nERM Documentation\nProperty reference (P1–P33), QID table, workflow\n\n\nXML/HTML Pipeline\nCSV → XML → XSLT → HTML pipeline overview\n\n\nCorpus · Authors · Acronyms · Bibliography · Glossary\nGenerated data pages\n\n\n\nCorpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)"
   },
   {
-    "objectID": "research_data/data-vis/index.html#about-climate-kg",
-    "href": "research_data/data-vis/index.html#about-climate-kg",
-    "title": "Climate-KG Data Analysis Dashboard",
-    "section": "About Climate-KG",
-    "text": "About Climate-KG\nClimate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.\n\nData Sources\n\nAuthors: IPCC AR6 author metadata (demographics, affiliations, contributions)\nBibliography: Climate science literature references\nGlossary: Climate science terminology from IPCC reports\nAcronyms: Standard climate science abbreviations\n\n\n\nTechnology Stack\n\nWikibase: Knowledge graph database\nPython: Data processing and analysis\nPlotly: Interactive visualizations\nQuarto: Documentation and reporting"
+    "objectID": "index.html#data-analyses",
+    "href": "index.html#data-analyses",
+    "title": "Climate-KG Data Bench",
+    "section": "Data Analyses",
+    "text": "Data Analyses\n\nAR6 Authors Distribution\nGender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.\n\n\nWikibase Inventory Dashboard\nItem counts, property usage, and data quality metrics for the ClimateKG Wikibase instance."
   },
   {
-    "objectID": "research_data/data-vis/index.html#getting-started",
-    "href": "research_data/data-vis/index.html#getting-started",
-    "title": "Climate-KG Data Analysis Dashboard",
-    "section": "Getting Started",
-    "text": "Getting Started\nAll code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.\nNote: Code sections are collapsed by default. Click “Show code” to expand and view the Python code used for each analysis."
+    "objectID": "index.html#about",
+    "href": "index.html#about",
+    "title": "Climate-KG Data Bench",
+    "section": "About",
+    "text": "About\nClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase. Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms. Stack: Wikibase · Python · Plotly · Quarto."
+  },
+  {
+    "objectID": "slides.html",
+    "href": "slides.html",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "",
+    "text": "Climate Knowledge Graph (ClimateKG) is a yearlong R&D project to create a knowledge graph of the IPCC Sixth Assement Report (AR6).\n\nThe ClimateKG knowledge graph is built using Wikibase and MediaWiki.\nThe goal is to be a resource for:\n\ndata science use, for\ncitizen science activities, and to\ndistribute climate science metadata to Wikidata.\n\n\nThe project has been funded by TIB Innovation Fund and is made in cooperation with #semanticClimate community (India, Germany, UK, +)."
+  },
+  {
+    "objectID": "slides.html#about-climatekg",
+    "href": "slides.html#about-climatekg",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "",
+    "text": "Climate Knowledge Graph (ClimateKG) is a yearlong R&D project to create a knowledge graph of the IPCC Sixth Assement Report (AR6).\n\nThe ClimateKG knowledge graph is built using Wikibase and MediaWiki.\nThe goal is to be a resource for:\n\ndata science use, for\ncitizen science activities, and to\ndistribute climate science metadata to Wikidata.\n\n\nThe project has been funded by TIB Innovation Fund and is made in cooperation with #semanticClimate community (India, Germany, UK, +)."
+  },
+  {
+    "objectID": "slides.html#source-material-what-is-the-ipcc-report",
+    "href": "slides.html#source-material-what-is-the-ipcc-report",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Source Material: What is the IPCC Report?",
+    "text": "Source Material: What is the IPCC Report?\n\n\n\n\nIt is a survival guide for humanity. As it shows, the 1.5-degree limit is achievable. - UN Secretary-General António Guterres (2023)\n\n\nA multilateral panel of 195 nations that reviews the global scientific literature to map out climate scenarios for the next 100 years combining science, policy, and politics.\nAR6 ( \\(\\approx\\) 5-8 year cycle since 1988): 932 authors; 7 Reports; &gt;8 million words; 10,047 pages; 48,400 citations; 66,834 data sets; 2,136 images; 1,910 Acronyms; 920 Glossary items; 5 languages+ (partial).*\n\n\n\n* Oldenbourg, Laura, and Simon Worthington. “IPCC AR6 Quantification Summary”. Climate Knowledge Graph, November 4, 2025. 10.5281/zenodo.17521936."
+  },
+  {
+    "objectID": "slides.html#climatekg-project-deliverables",
+    "href": "slides.html#climatekg-project-deliverables",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "ClimateKG Project Deliverables",
+    "text": "ClimateKG Project Deliverables\n\nTransform PDF and web corpus, and web databases into a knowledge graph with:\n\n\n\n\nFull text & publishing \n\n\n\nMetadata\n\n\n\n\nAPI / SPARQL Endpoint\n\n\n\n\nData dump\n\n\n\nSchemas / Ontologies: Datacite, OpenAlex, BFO, etc\n\n\n\nData workbench: JupyterLab / Quarto"
+  },
+  {
+    "objectID": "slides.html#problem-for-the-public-to-trust-climate-science-it-has-at-their-fingertips",
+    "href": "slides.html#problem-for-the-public-to-trust-climate-science-it-has-at-their-fingertips",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Problem: For the public to trust climate science it has at their fingertips",
+    "text": "Problem: For the public to trust climate science it has at their fingertips\n\n\n\nHeadline issues:\n\nSearch and SEO limited\nNot easy to reuse\nFormats of Web CMS HTML and PDF not suitable for data science\nReferenced materials not interlinked - so only manual tracking to find a named data set, etc\nParts not easily available - Methodology, Supplementary material\n\n\n\n\nExamples:\n\nLinks only to top levels: Reports, Glossary website, Author listing website etc.\nGlossary terms have no links to reports\nAuthor lists have no link to chapters\nFigures listed on web pages with no DOIs\nCitations on websites and not research repositories\n\n\n\n\n\n\nExample IPCC sites: Reports; Authors; Glossary; Figures and Citations example WGIII."
+  },
+  {
+    "objectID": "slides.html#solution-apply-the-vision-of-the-semantic-web",
+    "href": "slides.html#solution-apply-the-vision-of-the-semantic-web",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Solution: Apply the vision of the Semantic Web 🕸️",
+    "text": "Solution: Apply the vision of the Semantic Web 🕸️\n\nLink all of the parts and make machine readable — AKA a Knowledge Graph\n\n\nLinked Data: Interlinked data with unique identifiers and standard formats\nFAIR Data: Findable, Accessible, Interoperable, and Reusable"
+  },
+  {
+    "objectID": "slides.html#overview-of-work-packages",
+    "href": "slides.html#overview-of-work-packages",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Overview of work packages 📦",
+    "text": "Overview of work packages 📦\n\n\nFrom Siloed Data to FAIR Data\nFinding the sources, retrieving the data, storing it, preparing different ways of outputting and visualizing it, and making it available for reuse"
+  },
+  {
+    "objectID": "slides.html#scoping-data-sources-data-modeling",
+    "href": "slides.html#scoping-data-sources-data-modeling",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Scoping Data Sources & Data Modeling",
+    "text": "Scoping Data Sources & Data Modeling\n\nIn-scope and out-of-scope: Only the main text for AR6 has been currently imported, also citatations and data sets have not been linked.\nData modelling:\n\nSimple (KISS) approaches of Genome Bank and Protein Data Bank have been used to encourage community uptake.\nMethod: Bottom up / Top down / and map to schemas\nLit review of Wikibase KGs consulted - [Zotero collection]\n\n\n\n\nWikibase KG literature: Disability Wiki; EU Knowledge Graph; Enslaved.Org; Enslave Modular Ontology Modeling (MOMo); RaiseWikibase; Linking Historical Corpus Data and Annotations Using Wikibase (1737 Basque manuscript)."
+  },
+  {
+    "objectID": "slides.html#data-retrieval",
+    "href": "slides.html#data-retrieval",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Data Retrieval 📥",
+    "text": "Data Retrieval 📥\n\n• Building a semi-automated scraping system from Web to MediaWiki/Wikibase\n• Using the IPCC websites as a starting point, developing a method for scraping text, assets, and additional data\n• Preparing the data for import into a MediaWiki/Wikibase instance"
+  },
+  {
+    "objectID": "slides.html#collecting-supporting-data",
+    "href": "slides.html#collecting-supporting-data",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Collecting Supporting Data 📥",
+    "text": "Collecting Supporting Data 📥\n\n• Additional data from various sources, e.g. IPCC data repositories, CrossRef, etc.\n• Preparing the data for import into Wikibase"
+  },
+  {
+    "objectID": "slides.html#import-scrape-data---innovation-that-allows-for-corpus-text-and-data-import",
+    "href": "slides.html#import-scrape-data---innovation-that-allows-for-corpus-text-and-data-import",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Import Scrape Data - Innovation that allows for Corpus text and data import",
+    "text": "Import Scrape Data - Innovation that allows for Corpus text and data import\nThis is the main innovation of the project - being able to semi-automatically webscrape a corpus and import text and images, and make a Linked Open Data corpus backbone as an Import to Wikibase and MediaWiki.\nWikitext + CSV &gt; XML &gt; DTD &gt; Python (WikibaseIntegrator) &gt; Wikibase / MediaWiki\nDocumentation: wiki.kewl.org/projects:ckgscrape\nCode: Mercurial Clone hg clone https://hg.kewl.org/pub/ckg_s2mw\nThank you to Darron M. Broad of Runstop for the software development work."
+  },
+  {
+    "objectID": "slides.html#import-supporting-data",
+    "href": "slides.html#import-supporting-data",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Import Supporting Data",
+    "text": "Import Supporting Data\n\n\n\n\n\n\n\n%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#f0f0f0', 'primaryTextColor':'#000', 'primaryBorderColor':'#000', 'lineColor':'#666', 'fontSize':'18px'}, 'flowchart': {'nodeSpacing': 20, 'rankSpacing': 25, 'padding': 35, 'htmlLabels': true}}}%%\nflowchart TD\n    A[CSV] --&gt; B[XML]\n    B --&gt; C[DTD]\n    C --&gt; D[Schemas]\n    D --&gt; E[Python&lt;br/&gt;WikibaseIntegrator]\n    E --&gt; F[Wikibase]\n    \n    style A min-width:150px\n    style B min-width:150px\n    style C min-width:150px\n    style D min-width:150px\n    style E min-width:250px\n    style F min-width:150px\n\n\n\n\n\n\n\n\n\n\n\n\nData can be browsed as XML and XSLT transforms here: ClimateKG Data (See menu item: Data Documentation)"
+  },
+  {
+    "objectID": "slides.html#browsing-the-corpus-in-mediawiki",
+    "href": "slides.html#browsing-the-corpus-in-mediawiki",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Browsing the Corpus in MediaWiki 🔎",
+    "text": "Browsing the Corpus in MediaWiki 🔎\n\n• Cleaning the chapter content directly in MediaWiki\n• Adding glossary and acronym content to MediaWiki\n• Building navigation and browsing templates for the corpus"
+  },
+  {
+    "objectID": "slides.html#devops",
+    "href": "slides.html#devops",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "DevOps",
+    "text": "DevOps\nA 4 stage MediaWiki/Wikibase deployment is in place with support from #semanticClimate - this will move to TIB hosting shortly once initial development resolved.\nDATABASE/CONTENT FLOW (via sync scripts):\n┌──────────────┐                    ┌──────────────┐\n│   LOCAL      │◄───pull-from-dev───│     DEV      │  DEV = DB source of truth\n│ (workstation)│                    │ (178...88)   │  Content edited here\n└──────┬───────┘                    └──────┬───────┘\n       │                                   │\n       │ sync-local-to-test                │ sync-dev-to-test\n       │ (staging from local)              │ (standard promotion)\n       │                                   │\n       ↓                                   ↓\n   ┌──────────────┐                  ┌──────────────┐\n   │    TEST      │──────────────────│    TEST      │\n   │ (46...24)    │  (same target)   │ (46...24)    │\n   └──────────────┘                  └──────┬───────┘\n                                            │\n                                            │ sync-dev-to-prod  (or sync-test-to-prod)\n                                            │\n                                            ↓\n                                       ┌──────────────┐\n                                       │    PROD      │  Public instance\n                                       │ (178...174)  │\n                                       └──────────────┘"
+  },
+  {
+    "objectID": "slides.html#data-analysis-visualisation",
+    "href": "slides.html#data-analysis-visualisation",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Data Analysis & Visualisation",
+    "text": "Data Analysis & Visualisation\n\n\n\nGender Equality\n \n\n\n\nData Dashboard\n \n\n\n\n\n\nGenerated direct from Wikibase KG using Python, Notebooks, and Quarto: tibhannover.github.io/ClimateKG-Data-Bench/"
+  },
+  {
+    "objectID": "slides.html#output-option-css-paged-media",
+    "href": "slides.html#output-option-css-paged-media",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "Output Option: CSS Paged Media 📖",
+    "text": "Output Option: CSS Paged Media 📖\n\n\n\n\n\n\n\n• One possible output option: using CSS Paged Media to typeset the corpus content into a print-ready format"
+  },
+  {
+    "objectID": "slides.html#climatekg-next-steps",
+    "href": "slides.html#climatekg-next-steps",
+    "title": "ClimateKG — Surfacing Knowledge",
+    "section": "ClimateKG Next Steps 🚀",
+    "text": "ClimateKG Next Steps 🚀\n\nPlanned use:\n\nA resource for data science — to use and contribute\nCitizen science activities — Chapter annotation and enrichment\nDistribute to commons (Wikidata)\n\n\n\nGoals:\n\nCorpus KG service — Computation Publishing Service (CPS)\nWork with IPCC and climate community\nBecome a KG repository for all climate literature\n\nThank you! Simon Worthington, Laura Oldenbourg, and team #semanticClimate — June ’26\n\n\n\n\n\n\nMain &lt;/&gt; repo: github.com/TIBHannover/climate-knowledge-graph"
   }
 ]

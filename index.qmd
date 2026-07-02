@@ -1,62 +1,38 @@
 ---
-title: "Climate-KG Data Analysis Dashboard"
-subtitle: "IPCC AR6 Author Demographics and Wikibase Inventory"
+title: "Climate-KG Data Bench"
+subtitle: "IPCC AR6 Knowledge Graph — Data Model, Pipeline & Analysis"
 ---
 
-## Overview
+## Data Model & Pipeline
 
-This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.
+ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph.
+The data follows a **CSV → XML/DTD → Wikibase** pipeline, documented through
+an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed
+Wikibase property (PID) or class item (QID).
 
-### Available Analyses
+| Resource | Description |
+|----------|-------------|
+| [ERM Diagram](research_data/data-xml-dtd/erm/erm-diagram.html) | Interactive entity-relationship diagram — fullscreen & zoomable |
+| [ERM Documentation](research_data/data-xml-dtd/erm/README.html) | Property reference (P1–P33), QID table, workflow |
+| [XML/HTML Pipeline](xml-html-documentation.html) | CSV → XML → XSLT → HTML pipeline overview |
+| [Corpus](data/corpus-ar6.html) · [Authors](data/authors-ar6.html) · [Acronyms](data/acronyms-ar6.html) · [Bibliography](data/bibliographic-ar6.html) · [Glossary](data/glossary-ar6.html) | Generated data pages |
 
-#### [AR6 Authors Distribution Analysis](research_data/data-vis/ar6-authors-distribution-analysis.html)
-
-Comprehensive demographic analysis of IPCC AR6 authors examining:
-
-- **Global North vs Global South distribution** - Regional representation across reports
-- **Gender distribution** - Gender demographics of author teams
-- **Intersectional analysis** - Combined gender and regional patterns
-- **Chapter-level variations** - Demographic distribution across different chapters
-
-**Key visualizations include:**
-- Regional distribution maps and charts
-- Gender distribution by region and chapter
-- Country-level author contributions
-- Report-specific demographic breakdowns
-
-#### [Wikibase Inventory Dashboard](research_data/data-vis/wikibase-inventory-dashboard.html)
-
-Comprehensive inventory and quality analysis of the Climate-KG Wikibase instance:
-
-- Item counts and distribution
-- Property usage statistics
-- Data quality metrics
-- MediaWiki page inventory
+**Corpus hierarchy:** Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)
 
 ---
 
-## About Climate-KG
+## Data Analyses
 
-Climate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.
+### [AR6 Authors Distribution](research_data/data-vis/ar6-authors-distribution-analysis.html)
+Gender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.
 
-### Data Sources
-
-- **Authors**: IPCC AR6 author metadata (demographics, affiliations, contributions)
-- **Bibliography**: Climate science literature references
-- **Glossary**: Climate science terminology from IPCC reports
-- **Acronyms**: Standard climate science abbreviations
-
-### Technology Stack
-
-- **Wikibase**: Knowledge graph database
-- **Python**: Data processing and analysis
-- **Plotly**: Interactive visualizations
-- **Quarto**: Documentation and reporting
+### [Wikibase Inventory Dashboard](research_data/data-vis/wikibase-inventory-dashboard.html)
+Item counts, property usage, and data quality metrics for the ClimateKG Wikibase instance.
 
 ---
 
-## Getting Started
+## About
 
-All code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.
-
-**Note**: Code sections are collapsed by default. Click "Show code" to expand and view the Python code used for each analysis.
+ClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase.
+Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms.
+Stack: Wikibase · Python · Plotly · Quarto.
