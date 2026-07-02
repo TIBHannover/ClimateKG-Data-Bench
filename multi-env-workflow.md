@@ -508,7 +508,7 @@ Run [`backup-local-db.ps1`](../scripts/backup/backup-local-db.ps1) from `C:\Wiki
 .\scripts\backup\backup-local-db.ps1
 ```
 
-Outputs `mw_db_YYYYMMDD_HHMMSS.sql`. See [`backups/README.md`](../backups/README.md) for full backup guide (DB + filesystem + config files).
+Outputs `mw_db_YYYYMMDD_HHMMSS.sql`. See `backups/README.md` for full backup guide (DB + filesystem + config files).
 
 ### What is already covered
 

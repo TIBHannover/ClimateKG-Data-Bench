@@ -6,18 +6,18 @@
     <html>
       <head>
         <meta charset="UTF-8"/>
-        <title><xsl:value-of select="//publication/title"/></title>
+        <title><xsl:value-of select="//report_series/title"/></title>
         <style type="text/css">
           body { font-family: Arial, sans-serif; margin: 2em; line-height: 1.6; }
           h1 { color: #333; border-bottom: 3px solid #333; padding-bottom: 0.5em; }
           h2 { color: #555; border-bottom: 2px solid #555; padding-bottom: 0.3em; margin-top: 1.5em; }
           h3 { color: #777; margin-top: 1em; }
           h4 { color: #999; margin-top: 0.5em; margin-bottom: 0.3em; }
-          .publication { margin-bottom: 3em; }
-          .series { margin-left: 2em; margin-bottom: 2em; }
-          .front-matter { margin-left: 2em; background-color: #f9f9f9; padding: 1em; border-left: 4px solid #ddd; }
-          .books { margin-left: 2em; }
-          .book { margin-left: 2em; background-color: #fafafa; padding: 1em; border-left: 4px solid #ccc; margin-bottom: 1.5em; }
+          .report-series { margin-bottom: 3em; }
+          .report { margin-left: 2em; margin-bottom: 2em; }
+          .text-division-spm-ts { margin-left: 2em; background-color: #f9f9f9; padding: 1em; border-left: 4px solid #ddd; }
+          .text-divisions { margin-left: 2em; }
+          .text-division { margin-left: 2em; background-color: #fafafa; padding: 1em; border-left: 4px solid #ccc; margin-bottom: 1.5em; }
           .chapter { margin-left: 2em; margin-bottom: 0.8em; padding: 0.3em 0; }
           .metadata { font-size: 0.9em; color: #666; margin: 0.5em 0; }
           .metadata-inline { font-size: 0.9em; color: #666; margin: 0.3em 0; display: flex; flex-wrap: wrap; gap: 1em; align-items: center; }
@@ -36,19 +36,19 @@
   </xsl:template>
 
   <xsl:template match="work">
-    <xsl:apply-templates select="publication"/>
+    <xsl:apply-templates select="report_series"/>
   </xsl:template>
 
-  <xsl:template match="publication">
-    <div class="publication">
+  <xsl:template match="report_series">
+    <div class="report-series">
       <h1><xsl:value-of select="title"/></h1>
       <p class="metadata"><xsl:value-of select="description"/></p>
-      <xsl:apply-templates select="series"/>
+      <xsl:apply-templates select="report"/>
     </div>
   </xsl:template>
 
-  <xsl:template match="series">
-    <div class="series">
+  <xsl:template match="report">
+    <div class="report">
       <h2><xsl:value-of select="title"/></h2>
       <p class="metadata"><xsl:value-of select="description"/></p>
       <div class="metadata-inline">
@@ -65,28 +65,29 @@
           <span class="tags"><xsl:value-of select="tags"/></span>
         </xsl:if>
       </div>
-      <xsl:apply-templates select="front_matter"/>
-      <xsl:apply-templates select="books"/>
+      <xsl:apply-templates select="text_division_spm_ts"/>
+      <xsl:apply-templates select="text_divisions"/>
     </div>
   </xsl:template>
 
-  <xsl:template match="front_matter">
-    <div class="front-matter">
-      <h3>Front Matter</h3>
+  <xsl:template match="text_division_spm_ts">
+    <div class="text-division-spm-ts">
+      <h3>SPM / Technical Summary</h3>
       <xsl:apply-templates select="chapter"/>
     </div>
   </xsl:template>
 
-  <xsl:template match="books">
-    <div class="books">
-      <xsl:apply-templates select="book"/>
+  <xsl:template match="text_divisions">
+    <div class="text-divisions">
+      <xsl:apply-templates select="text_division"/>
     </div>
   </xsl:template>
 
-  <xsl:template match="book">
-    <div class="book">
+  <xsl:template match="text_division">
+    <div class="text-division">
       <h3><xsl:value-of select="title"/></h3>
       <xsl:apply-templates select="chapters"/>
+      <xsl:apply-templates select="text_division_spm_ts"/>
     </div>
   </xsl:template>
 
