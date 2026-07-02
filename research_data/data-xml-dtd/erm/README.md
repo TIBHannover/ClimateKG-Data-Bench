@@ -69,7 +69,7 @@ This is the only file you need to edit manually. Structure:
              datatype="WikibaseItem" notes="P1=Q2"/>
       ...
     </entity>
-    <relationship from="PUBLICATION" to="SERIES"
+    <relationship from="REPORT_SERIES" to="REPORT"
                   cardinality="||--o{" label="P4 contains"/>
   </dtd>
   ...
@@ -78,9 +78,9 @@ This is the only file you need to edit manually. Structure:
 
 **Five DTD sections** in hierarchy order:
 
-1. `corpus-ar6` — top-level corpus (Work Q2, Publication Q3, Series Q4, Book Q5, Chapter Q6)
+1. `corpus-ar6` — top-level corpus (Work Q2, Report Series Q3, Report Q4, Text Division Q5, Chapter Q6)
 2. `authors-ar6` — IPCC AR6 author records (Author Q3998)
-3. `bibliographic-ar6` — DOI bibliographic enrichment (adds P29–P33 to Series and Chapter)
+3. `bibliographic-ar6` — DOI bibliographic enrichment (adds P29–P33 to Report and Chapter)
 4. `glossary-ar6` — glossary terms (Category Q1)
 5. `acronyms-ar6` — acronym list (Acronym Q2087)
 
@@ -135,16 +135,16 @@ Outputs written as **UTF-8 without BOM** (required by the Mermaid parser).
 
 ## Wikibase class items (QIDs)
 
-| QID | Label |
-|-----|-------|
-| Q1 | Category (Glossary Terms) |
-| Q2 | Work |
-| Q3 | Publication |
-| Q4 | Series |
-| Q5 | Book |
-| Q6 | Chapter |
-| Q2087 | Acronym |
-| Q3998 | Author |
+| QID | Label | Also Known As |
+|-----|-------|---------------|
+| Q1 | Category (Glossary Terms) | |
+| Q2 | Work | |
+| Q3 | Report Series | Monographic Series |
+| Q4 | Report | Book; Monograph; Volume |
+| Q5 | Text Division | Division |
+| Q6 | Chapter | |
+| Q2087 | Acronym | |
+| Q3998 | Author | |
 
 ---
 

@@ -39,9 +39,9 @@
   Confirmed class QIDs
     Q1    Category  (used for Glossary Terms)
     Q2    Work
-    Q3    Publication
-    Q4    Series
-    Q5    Book
+    Q3    Report Series  (also: Monographic Series)
+    Q4    Report         (also: Book; Monograph; Volume)
+    Q5    Text Division  (also: Division)
     Q6    Chapter
     Q2087 Acronym
     Q3998 Author
@@ -50,24 +50,24 @@
 
   <!-- ================================================================ -->
   <!-- corpus-ar6.dtd                                                    -->
-  <!-- Top-level corpus: Work > Publication > Series > Book > Chapter   -->
+  <!-- Top-level corpus: Work > Report Series > Report > Text Division > Chapter -->
   <!-- ================================================================ -->
   <dtd name="corpus-ar6" file="corpus-ar6.dtd"
-       description="Top-level corpus structure (Work, Publication, Series, Book, Chapter)">
+       description="Top-level corpus structure (Work, Report Series, Report, Text Division, Chapter)">
 
     <entity name="WORK" qid="Q2" label="Work">
       <field name="instance_of"   pid="P1"  label="Instance of"  datatype="WikibaseItem" notes="P1=Q2"/>
     </entity>
 
-    <entity name="PUBLICATION" qid="Q3" label="Publication">
+    <entity name="REPORT_SERIES" qid="Q3" label="Report Series" also_known_as="Monographic Series">
       <field name="instance_of"   pid="P1"  label="Instance of"  datatype="WikibaseItem" notes="P1=Q3"/>
       <field name="title"         pid=""    label="rdfs:label"    datatype="String"       notes="item label"/>
       <field name="description"   pid=""    label="rdfs:description" datatype="String"    notes="item description"/>
       <field name="part_of"       pid="P3"  label="Part of"       datatype="WikibaseItem" notes="parent Work"/>
-      <field name="parts"         pid="P4"  label="Parts"         datatype="WikibaseItem" notes="child Series or Books"/>
+      <field name="parts"         pid="P4"  label="Parts"         datatype="WikibaseItem" notes="child Reports or Text Divisions"/>
     </entity>
 
-    <entity name="SERIES" qid="Q4" label="Series">
+    <entity name="REPORT" qid="Q4" label="Report" also_known_as="Book; Monograph; Volume">
       <field name="instance_of"   pid="P1"  label="Instance of"         datatype="WikibaseItem" notes="P1=Q4"/>
       <field name="title"         pid=""    label="rdfs:label"           datatype="label"        notes="item label"/>
       <field name="doi"           pid="P10" label="DOI"                  datatype="String"       notes=""/>
@@ -78,11 +78,11 @@
       <field name="date"          pid="P8"  label="Date"                 datatype="String"       notes=""/>
       <field name="pdf"           pid="P7"  label="PDF"                  datatype="Url"          notes=""/>
       <field name="openalex"      pid="P9"  label="OPENALEX"             datatype="String"       notes=""/>
-      <field name="part_of"       pid="P3"  label="Part of"              datatype="WikibaseItem" notes="parent Publication"/>
-      <field name="parts"         pid="P4"  label="Parts"                datatype="WikibaseItem" notes="child Books and Chapters"/>
+      <field name="part_of"       pid="P3"  label="Part of"              datatype="WikibaseItem" notes="parent Report Series"/>
+      <field name="parts"         pid="P4"  label="Parts"                datatype="WikibaseItem" notes="child Text Divisions and Chapters"/>
     </entity>
 
-    <entity name="BOOK" qid="Q5" label="Book">
+    <entity name="TEXT_DIVISION" qid="Q5" label="Text Division" also_known_as="Division">
       <field name="instance_of"   pid="P1"  label="Instance of"         datatype="WikibaseItem" notes="P1=Q5"/>
       <field name="title"         pid=""    label="rdfs:label"           datatype="label"        notes="item label"/>
       <field name="doi"           pid="P10" label="DOI"                  datatype="String"       notes=""/>
@@ -93,7 +93,7 @@
       <field name="date"          pid="P8"  label="Date"                 datatype="String"       notes=""/>
       <field name="pdf"           pid="P7"  label="PDF"                  datatype="Url"          notes=""/>
       <field name="openalex"      pid="P9"  label="OPENALEX"             datatype="String"       notes=""/>
-      <field name="part_of"       pid="P3"  label="Part of"              datatype="WikibaseItem" notes="parent Series"/>
+      <field name="part_of"       pid="P3"  label="Part of"              datatype="WikibaseItem" notes="parent Report"/>
       <field name="parts"         pid="P4"  label="Parts"                datatype="WikibaseItem" notes="child Chapters"/>
     </entity>
 
@@ -106,14 +106,14 @@
       <field name="source"        pid="P6"  label="Source"        datatype="Url"          notes=""/>
       <field name="pdf"           pid="P7"  label="PDF"           datatype="Url"          notes=""/>
       <field name="tags"          pid="P12" label="Has TAG"       datatype="WikibaseItem" notes=""/>
-      <field name="part_of"       pid="P3"  label="Part of"       datatype="WikibaseItem" notes="parent Book"/>
+      <field name="part_of"       pid="P3"  label="Part of"       datatype="WikibaseItem" notes="parent Text Division"/>
     </entity>
 
-    <relationship from="PUBLICATION" to="SERIES"  cardinality="||--o{" label="P4 contains"/>
-    <relationship from="PUBLICATION" to="BOOK"    cardinality="||--o{" label="P4 contains"/>
-    <relationship from="SERIES"      to="BOOK"    cardinality="||--o{" label="P4 contains"/>
-    <relationship from="SERIES"      to="CHAPTER" cardinality="|o--|{" label="P4 front_matter"/>
-    <relationship from="BOOK"        to="CHAPTER" cardinality="||--|{" label="P4 chapters"/>
+    <relationship from="REPORT_SERIES" to="REPORT"        cardinality="||--o{" label="P4 contains"/>
+    <relationship from="REPORT_SERIES" to="TEXT_DIVISION"  cardinality="||--o{" label="P4 contains"/>
+    <relationship from="REPORT"        to="TEXT_DIVISION"  cardinality="||--o{" label="P4 contains"/>
+    <relationship from="REPORT"        to="CHAPTER"        cardinality="|o--|{" label="P4 text_division_spm_ts"/>
+    <relationship from="TEXT_DIVISION" to="CHAPTER"        cardinality="||--|{" label="P4 chapters"/>
 
   </dtd>
 
@@ -156,12 +156,12 @@
   <!-- DOI-sourced enrichment statements for existing Series/Chapter    -->
   <!-- ================================================================ -->
   <dtd name="bibliographic-ar6" file="bibliographic-ar6.dtd"
-       description="DOI bibliographic enrichment added to existing Series and Chapter items">
+       description="DOI bibliographic enrichment added to existing Report and Chapter items">
 
-    <!-- BIB_ITEM targets an existing Q4 (Series) or Q6 (Chapter) item -->
-    <entity name="BIB_ITEM" qid="Q4 or Q6" label="Series or Chapter (enriched)">
-      <field name="qid"              pid=""    label="existing item QID"   datatype="WikibaseItem" notes="Q4 Series or Q6 Chapter"/>
-      <field name="type_disc"        pid=""    label="type discriminator"  datatype="String"      notes="Series or Chapter"/>
+    <!-- BIB_ITEM targets an existing Q4 (Report) or Q6 (Chapter) item -->
+    <entity name="BIB_ITEM" qid="Q4 or Q6" label="Report or Chapter (enriched)">
+      <field name="qid"              pid=""    label="existing item QID"   datatype="WikibaseItem" notes="Q4 Report or Q6 Chapter"/>
+      <field name="type_disc"        pid=""    label="type discriminator"  datatype="String"      notes="Report or Chapter"/>
     </entity>
 
     <entity name="STATEMENT" qid="" label="property statement on BIB_ITEM">
@@ -180,7 +180,7 @@
 
     <relationship from="BIB_ITEM"  to="STATEMENT"  cardinality="||--|{" label="has"/>
     <relationship from="STATEMENT" to="REFERENCE"  cardinality="||--||" label="has"/>
-    <relationship from="BIB_ITEM"  to="SERIES"     cardinality="}o--o|" label="enriches (type=Series)"/>
+    <relationship from="BIB_ITEM"  to="REPORT"     cardinality="}o--o|" label="enriches (type=Report)"/>
     <relationship from="BIB_ITEM"  to="CHAPTER"    cardinality="}o--o|" label="enriches (type=Chapter)"/>
 
   </dtd>
@@ -190,17 +190,17 @@
   <!-- IPCC AR6 Glossary Terms — stored as Q1 (Category) items          -->
   <!-- ================================================================ -->
   <dtd name="glossary-ar6" file="glossary-ar6.dtd"
-       description="IPCC AR6 glossary terms (P1=Q1 Category) linked to Series via P3">
+       description="IPCC AR6 glossary terms (P1=Q1 Category) linked to Report via P3">
 
     <entity name="GLOSSARY_TERM" qid="Q1" label="Category (Glossary Term)">
       <field name="instance_of"    pid="P1"  label="Instance of"   datatype="WikibaseItem"   notes="P1=Q1 Category"/>
       <field name="name"           pid=""    label="rdfs:label"     datatype="String"          notes="item label"/>
       <field name="also_known_as"  pid=""    label="skos:altLabel"  datatype="String"          notes="item alias"/>
       <field name="definition"     pid="P13" label="Definition"     datatype="Monolingualtext" notes=""/>
-      <field name="part_of_series" pid="P3"  label="Part of"        datatype="WikibaseItem"    notes="FK to Q4 Series via series_ref qid"/>
+      <field name="part_of_series" pid="P3"  label="Part of"        datatype="WikibaseItem"    notes="FK to Q4 Report via series_ref qid"/>
     </entity>
 
-    <relationship from="GLOSSARY_TERM" to="SERIES" cardinality="}o--o{" label="P3 Part of (series_ref)"/>
+    <relationship from="GLOSSARY_TERM" to="REPORT" cardinality="}o--o{" label="P3 Part of (series_ref)"/>
 
   </dtd>
 
@@ -209,16 +209,16 @@
   <!-- IPCC AR6 Acronyms — stored as Q2087 (Acronym) items              -->
   <!-- ================================================================ -->
   <dtd name="acronyms-ar6" file="acronyms-ar6.dtd"
-       description="IPCC AR6 acronyms (P1=Q2087 Acronym) linked to Series reports via P3">
+       description="IPCC AR6 acronyms (P1=Q2087 Acronym) linked to Report items via P3">
 
     <entity name="ACRONYM" qid="Q2087" label="Acronym">
       <field name="instance_of"  pid="P1"  label="Instance of"  datatype="WikibaseItem"    notes="P1=Q2087"/>
       <field name="code"         pid=""    label="rdfs:label"    datatype="label"           notes="acronym code as item label"/>
       <field name="description"  pid="P13" label="Definition"   datatype="Monolingualtext" notes="multiple; source as qualifier"/>
-      <field name="report"       pid="P3"  label="Part of"      datatype="WikibaseItem"    notes="FK to Q4 Series (report)"/>
+      <field name="report"       pid="P3"  label="Part of"      datatype="WikibaseItem"    notes="FK to Q4 Report"/>
     </entity>
 
-    <relationship from="ACRONYM" to="SERIES" cardinality="}o--o{" label="P3 Part of (report)"/>
+    <relationship from="ACRONYM" to="REPORT" cardinality="}o--o{" label="P3 Part of (report)"/>
 
   </dtd>
 
