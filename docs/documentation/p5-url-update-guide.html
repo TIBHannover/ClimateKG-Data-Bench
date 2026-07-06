@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>p5-url-update-guide – ClimateKG Data Bench</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ClimateKG Data Bench</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research_data/data-vis/gender-distribution-simple.html"> 
+<span class="menu-text">AR6 Gender Distribution</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research_data/data-vis/authors-top-ten.html"> 
+<span class="menu-text">Top 10 Global South Authors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research_data/data-vis/kg-stats-dashboard.html"> 
+<span class="menu-text">KG Inventory Dashboard</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research_data/data-vis/buildings-urban-chapters.html"> 
+<span class="menu-text">Buildings &amp; Urban</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ERM / Wikibase Mapping</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-erm--wikibase-mapping">    
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ERM Documentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ER Diagram</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Documentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-documentation">    
+        <li>
+    <a class="dropdown-item" href="../xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="../data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#p5-wiki-url-update-guide-chapter-items" id="toc-p5-wiki-url-update-guide-chapter-items" class="nav-link active" data-scroll-target="#p5-wiki-url-update-guide-chapter-items">P5 Wiki URL Update Guide — Chapter Items</a>
+  <ul class="collapse">
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
+  <ul class="collapse">
+  <li><a href="#what-is-p5" id="toc-what-is-p5" class="nav-link" data-scroll-target="#what-is-p5">What is P5?</a></li>
+  <li><a href="#why-run-this-update" id="toc-why-run-this-update" class="nav-link" data-scroll-target="#why-run-this-update">Why run this update?</a></li>
+  <li><a href="#scope" id="toc-scope" class="nav-link" data-scroll-target="#scope">Scope</a></li>
+  </ul></li>
+  <li><a href="#script" id="toc-script" class="nav-link" data-scroll-target="#script">Script</a></li>
+  <li><a href="#initial-deployment-workflow-local-all-environments" id="toc-initial-deployment-workflow-local-all-environments" class="nav-link" data-scroll-target="#initial-deployment-workflow-local-all-environments">Initial Deployment Workflow (LOCAL → all environments)</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#step-1-pull-fresh-dev-data-to-local" id="toc-step-1-pull-fresh-dev-data-to-local" class="nav-link" data-scroll-target="#step-1-pull-fresh-dev-data-to-local">Step 1 — Pull fresh DEV data to LOCAL</a></li>
+  <li><a href="#step-2-snapshot-local-experimental-workflow" id="toc-step-2-snapshot-local-experimental-workflow" class="nav-link" data-scroll-target="#step-2-snapshot-local-experimental-workflow">Step 2 — Snapshot LOCAL (experimental workflow)</a></li>
+  <li><a href="#step-3-dry-run-optional-sanity-check" id="toc-step-3-dry-run-optional-sanity-check" class="nav-link" data-scroll-target="#step-3-dry-run-optional-sanity-check">Step 3 — Dry-run (optional sanity check)</a></li>
+  <li><a href="#step-4-apply-p5-updates-on-local" id="toc-step-4-apply-p5-updates-on-local" class="nav-link" data-scroll-target="#step-4-apply-p5-updates-on-local">Step 4 — Apply P5 updates on LOCAL</a></li>
+  <li><a href="#step-5-verify-on-local" id="toc-step-5-verify-on-local" class="nav-link" data-scroll-target="#step-5-verify-on-local">Step 5 — Verify on LOCAL</a></li>
+  <li><a href="#step-6-approve-the-experiment" id="toc-step-6-approve-the-experiment" class="nav-link" data-scroll-target="#step-6-approve-the-experiment">Step 6 — Approve the experiment</a></li>
+  <li><a href="#step-7-push-local-dev" id="toc-step-7-push-local-dev" class="nav-link" data-scroll-target="#step-7-push-local-dev">Step 7 — Push LOCAL → DEV</a></li>
+  <li><a href="#step-8-apply-p5-updates-on-dev" id="toc-step-8-apply-p5-updates-on-dev" class="nav-link" data-scroll-target="#step-8-apply-p5-updates-on-dev">Step 8 — Apply P5 updates on DEV</a></li>
+  <li><a href="#step-9-promote-dev-test" id="toc-step-9-promote-dev-test" class="nav-link" data-scroll-target="#step-9-promote-dev-test">Step 9 — Promote DEV → TEST</a></li>
+  <li><a href="#step-10-promote-test-prod" id="toc-step-10-promote-test-prod" class="nav-link" data-scroll-target="#step-10-promote-test-prod">Step 10 — Promote TEST → PROD</a></li>
+  </ul></li>
+  <li><a href="#re-running-after-a-domain-change" id="toc-re-running-after-a-domain-change" class="nav-link" data-scroll-target="#re-running-after-a-domain-change">Re-running After a Domain Change</a></li>
+  <li><a href="#re-running-for-a-new-chapter-item" id="toc-re-running-for-a-new-chapter-item" class="nav-link" data-scroll-target="#re-running-for-a-new-chapter-item">Re-running for a New Chapter Item</a></li>
+  <li><a href="#known-issues" id="toc-known-issues" class="nav-link" data-scroll-target="#known-issues">Known Issues</a></li>
+  <li><a href="#verification" id="toc-verification" class="nav-link" data-scroll-target="#verification">Verification</a></li>
+  <li><a href="#environment-password-variable-mapping" id="toc-environment-password-variable-mapping" class="nav-link" data-scroll-target="#environment-password-variable-mapping">Environment → Password Variable Mapping</a></li>
+  <li><a href="#related" id="toc-related" class="nav-link" data-scroll-target="#related">Related</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="p5-wiki-url-update-guide-chapter-items" class="level1">
+<h1>P5 Wiki URL Update Guide — Chapter Items</h1>
+<p>This guide documents the workflow for updating the <strong>P5 (Wiki URL)</strong> property on all Chapter items (P1=Q6) in ClimateKG Wikibase to use the canonical URL derived from each item’s <code>climatekg-wiki</code> sitelink.</p>
+<hr>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<section id="what-is-p5" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-p5">What is P5?</h3>
+<p><code>P5</code> is the <strong>Wiki URL</strong> property — it stores the MediaWiki page URL for a Wikibase item. For Chapter items this should point to the corresponding IPCC page on the ClimateKG wiki (e.g.&nbsp;<code>https://dev-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1</code>).</p>
+</section>
+<section id="why-run-this-update" class="level3">
+<h3 class="anchored" data-anchor-id="why-run-this-update">Why run this update?</h3>
+<p>When the ClimateKG stack was first deployed, P5 values pointed to an older domain (<code>wikibase.runstop.uk</code>). After the sitelinks feature was implemented (linking items to MediaWiki pages via the <code>climatekg-wiki</code> site group), the P5 values must be regenerated from the sitelink titles to match the correct domain for each environment (DEV / TEST / PROD each have different base URLs).</p>
+</section>
+<section id="scope" class="level3">
+<h3 class="anchored" data-anchor-id="scope">Scope</h3>
+<p>The update affects all items where: - <code>P1 = Q6</code> (i.e.&nbsp;the item is a Chapter) - The item has a <code>climatekg-wiki</code> sitelink</p>
+<p>There are <strong>88 Chapter items</strong> (Q6), all of which have a <code>climatekg-wiki</code> sitelink.</p>
+<hr>
+</section>
+</section>
+<section id="script" class="level2">
+<h2 class="anchored" data-anchor-id="script">Script</h2>
+<p><strong>Location:</strong> <code>scripts/update-chapter-wiki-urls.py</code></p>
+<p><strong>What it does:</strong> 1. Queries the SPARQL endpoint for all items with <code>P1 = Q6</code> 2. For each item, fetches the <code>climatekg-wiki</code> sitelink title via the MediaWiki API 3. Constructs the canonical URL: <code>{wiki_base}/wiki/{sitelink_title}</code> 4. If P5 already has the correct value — skips (idempotent) 5. If P5 has a different value — updates it via <code>wbsetclaimvalue</code> 6. If P5 has no value yet — creates a new claim via <code>wbcreateclaim</code></p>
+<p><strong>Flags:</strong></p>
+<pre><code>--env   local | dev | test | prod    (default: local)
+--dry-run                            List planned changes without writing anything</code></pre>
+<p><strong>Credentials</strong> are read from (in priority order): 1. Environment variable (<code>WB_PASSWORD</code> for local; <code>DEV_MW_ADMIN_PASS</code>, <code>TEST_MW_ADMIN_PASS</code>, <code>PROD_MW_ADMIN_PASS</code> for remotes) 2. <code>C:\Wikibase\.env</code> file 3. Interactive prompt (last resort)</p>
+<p><strong>The script is idempotent</strong> — safe to re-run at any time. Items already at the correct URL are skipped.</p>
+<hr>
+</section>
+<section id="initial-deployment-workflow-local-all-environments" class="level2">
+<h2 class="anchored" data-anchor-id="initial-deployment-workflow-local-all-environments">Initial Deployment Workflow (LOCAL → all environments)</h2>
+<p>This is the one-time workflow to apply the update to all four environments. After this, the script only needs to be run again if domain names change or if new Chapter items are added.</p>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Docker containers running on LOCAL (<code>docker compose up -d</code>)</li>
+<li><code>.env</code> contains <code>WB_PASSWORD</code>, <code>DEV_MW_ADMIN_PASS</code>, <code>TEST_MW_ADMIN_PASS</code>, <code>PROD_MW_ADMIN_PASS</code></li>
+<li>SSH key set up for DEV, TEST, PROD servers</li>
+</ul>
+<hr>
+</section>
+<section id="step-1-pull-fresh-dev-data-to-local" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-pull-fresh-dev-data-to-local">Step 1 — Pull fresh DEV data to LOCAL</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\sync\pull-from-dev<span class="op">.</span><span class="fu">ps1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>Takes 30–45 minutes (DB is 800 MB+). No progress output during the dump/transfer steps — just wait.</p>
+</blockquote>
+<hr>
+</section>
+<section id="step-2-snapshot-local-experimental-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-snapshot-local-experimental-workflow">Step 2 — Snapshot LOCAL (experimental workflow)</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\experimental-import-workflow<span class="op">.</span><span class="fu">ps1</span> <span class="fu">start</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates a rollback point before making any changes.</p>
+<hr>
+</section>
+<section id="step-3-dry-run-optional-sanity-check" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-dry-run-optional-sanity-check">Step 3 — Dry-run (optional sanity check)</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>update-chapter-wiki-urls<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>env local <span class="op">--</span>dry-run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected output: 88 items to update, 0 to skip.</p>
+<hr>
+</section>
+<section id="step-4-apply-p5-updates-on-local" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-apply-p5-updates-on-local">Step 4 — Apply P5 updates on LOCAL</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>update-chapter-wiki-urls<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>env local</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected output:</p>
+<pre><code>Updated: 88   Errors: 0   Skipped: 0</code></pre>
+<hr>
+</section>
+<section id="step-5-verify-on-local" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-verify-on-local">Step 5 — Verify on LOCAL</h3>
+<p>Browse to http://localhost:8080 and check a Chapter item (e.g.&nbsp;Q1). The P5 value should now be <code>http://localhost:8080/wiki/IPCC:AR6/...</code>.</p>
+<p>Alternatively, open <code>chapter-urls-verification.csv</code> (generated during initial setup) to compare expected vs actual values.</p>
+<hr>
+</section>
+<section id="step-6-approve-the-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-approve-the-experiment">Step 6 — Approve the experiment</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\experimental-import-workflow<span class="op">.</span><span class="fu">ps1</span> approve</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>LOCAL is now CLEAN with the P5 updates committed as the new base.</p>
+<hr>
+</section>
+<section id="step-7-push-local-dev" class="level3">
+<h3 class="anchored" data-anchor-id="step-7-push-local-dev">Step 7 — Push LOCAL → DEV</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\sync\sync-local-to-dev<span class="op">.</span><span class="fu">ps1</span> <span class="op">-</span>DbOnly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Type <code>PROMOTE</code> at the confirmation prompt.</p>
+<blockquote class="blockquote">
+<p><code>-DbOnly</code> skips images since only data (P5 claims) changed.</p>
+</blockquote>
+<hr>
+</section>
+<section id="step-8-apply-p5-updates-on-dev" class="level3">
+<h3 class="anchored" data-anchor-id="step-8-apply-p5-updates-on-dev">Step 8 — Apply P5 updates on DEV</h3>
+<p>Run locally, pointing at the DEV API:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>update-chapter-wiki-urls<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>env dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This rewrites the P5 URLs using the DEV base domain (<code>https://dev-climatekg.semanticclimate.org</code>).</p>
+<hr>
+</section>
+<section id="step-9-promote-dev-test" class="level3">
+<h3 class="anchored" data-anchor-id="step-9-promote-dev-test">Step 9 — Promote DEV → TEST</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\sync\sync-dev-to-test<span class="op">.</span><span class="fu">ps1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then apply P5 updates for the TEST domain:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>update-chapter-wiki-urls<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>env test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="step-10-promote-test-prod" class="level3">
+<h3 class="anchored" data-anchor-id="step-10-promote-test-prod">Step 10 — Promote TEST → PROD</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\scripts\sync\sync-dev-to-prod<span class="op">.</span><span class="fu">ps1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then apply P5 updates for the PROD domain:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>update-chapter-wiki-urls<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>env prod</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="re-running-after-a-domain-change" class="level2">
+<h2 class="anchored" data-anchor-id="re-running-after-a-domain-change">Re-running After a Domain Change</h2>
+<p>If any environment’s domain name changes, re-run the script for that environment:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>update-chapter-wiki-urls<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>env <span class="op">&lt;</span>env<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The script will detect that the existing P5 value doesn’t match the new domain and update it. Items with no P5 at all will have one created.</p>
+<hr>
+</section>
+<section id="re-running-for-a-new-chapter-item" class="level2">
+<h2 class="anchored" data-anchor-id="re-running-for-a-new-chapter-item">Re-running for a New Chapter Item</h2>
+<p>If a new Chapter item is added (P1=Q6) with a <code>climatekg-wiki</code> sitelink, re-run the script for the relevant environment(s). Existing items are skipped (idempotent), so there is no risk of overwriting correct values.</p>
+<hr>
+</section>
+<section id="known-issues" class="level2">
+<h2 class="anchored" data-anchor-id="known-issues">Known Issues</h2>
+<p>No known issues. All 88 Chapter items have <code>climatekg-wiki</code> sitelinks and correct P5 values.</p>
+<blockquote class="blockquote">
+<p><strong>Previously:</strong> Q125 (“Poverty, Livelihoods and Sustainable Development” — WGII Chapter 8) was missing its sitelink. Fixed by adding sitelink <code>IPCC:AR6/WGII/Chapter-8</code> to the item and re-running the script.</p>
+</blockquote>
+<hr>
+</section>
+<section id="verification" class="level2">
+<h2 class="anchored" data-anchor-id="verification">Verification</h2>
+<p>A verification CSV was generated during the initial run:</p>
+<p><strong>File:</strong> <code>chapter-urls-verification.csv</code><br>
+<strong>Columns:</strong> <code>QID</code>, <code>Label</code>, <code>MediaWiki_Page_Title</code>, <code>P5_URL</code><br>
+<strong>Rows:</strong> 88 (all with updated URLs)</p>
+<p>To regenerate the CSV at any time (e.g.&nbsp;to verify DEV or PROD):</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>_gen_verification_csv<span class="op">.</span><span class="fu">py</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="environment-password-variable-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="environment-password-variable-mapping">Environment → Password Variable Mapping</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 23%">
+<col style="width: 62%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Environment</th>
+<th>Password variable</th>
+<th>API endpoint</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LOCAL</td>
+<td><code>WB_PASSWORD</code></td>
+<td><code>http://localhost:8080/w/api.php</code></td>
+</tr>
+<tr class="even">
+<td>DEV</td>
+<td><code>DEV_MW_ADMIN_PASS</code></td>
+<td><code>https://dev-climatekg.semanticclimate.org/w/api.php</code></td>
+</tr>
+<tr class="odd">
+<td>TEST</td>
+<td><code>TEST_MW_ADMIN_PASS</code></td>
+<td><code>https://test-climatekg.semanticclimate.org/w/api.php</code></td>
+</tr>
+<tr class="even">
+<td>PROD</td>
+<td><code>PROD_MW_ADMIN_PASS</code></td>
+<td><code>https://prod-climatekg.semanticclimate.org/w/api.php</code></td>
+</tr>
+</tbody>
+</table>
+<p>All variables are read from <code>C:\Wikibase\.env</code>.</p>
+<hr>
+</section>
+<section id="related" class="level2">
+<h2 class="anchored" data-anchor-id="related">Related</h2>
+<ul>
+<li>Script: <a href="../scripts/update-chapter-wiki-urls.py"><code>scripts/update-chapter-wiki-urls.py</code></a></li>
+<li>Sitelinks setup: <a href="sitelinks-implementation.md"><code>docs/sitelinks-implementation.md</code></a></li>
+<li>Sync workflow: <a href="multi-env-workflow.md"><code>docs/multi-env-workflow.md</code></a> §4</li>
+<li>Experimental workflow: <a href="multi-env-workflow.md"><code>docs/multi-env-workflow.md</code></a> §11</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># P5 Wiki URL Update Guide — Chapter Items</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>This guide documents the workflow for updating the **P5 (Wiki URL)** property on all Chapter items (P1=Q6) in ClimateKG Wikibase to use the canonical URL derived from each item's <span class="in">`climatekg-wiki`</span> sitelink.</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Background</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is P5?</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="in">`P5`</span> is the **Wiki URL** property — it stores the MediaWiki page URL for a Wikibase item. For Chapter items this should point to the corresponding IPCC page on the ClimateKG wiki (e.g. <span class="in">`https://dev-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1`</span>).</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why run this update?</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>When the ClimateKG stack was first deployed, P5 values pointed to an older domain (<span class="in">`wikibase.runstop.uk`</span>). After the sitelinks feature was implemented (linking items to MediaWiki pages via the <span class="in">`climatekg-wiki`</span> site group), the P5 values must be regenerated from the sitelink titles to match the correct domain for each environment (DEV / TEST / PROD each have different base URLs).</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scope</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>The update affects all items where:</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P1 = Q6`</span> (i.e. the item is a Chapter)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The item has a <span class="in">`climatekg-wiki`</span> sitelink</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>There are **88 Chapter items** (Q6), all of which have a <span class="in">`climatekg-wiki`</span> sitelink.</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Script</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>**Location:** <span class="in">`scripts/update-chapter-wiki-urls.py`</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>**What it does:**</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Queries the SPARQL endpoint for all items with <span class="in">`P1 = Q6`</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>For each item, fetches the <span class="in">`climatekg-wiki`</span> sitelink title via the MediaWiki API</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Constructs the canonical URL: <span class="in">`{wiki_base}/wiki/{sitelink_title}`</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>If P5 already has the correct value — skips (idempotent)</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>If P5 has a different value — updates it via <span class="in">`wbsetclaimvalue`</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>If P5 has no value yet — creates a new claim via <span class="in">`wbcreateclaim`</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>**Flags:**</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="in">--env   local | dev | test | prod    (default: local)</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="in">--dry-run                            List planned changes without writing anything</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>**Credentials** are read from (in priority order):</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Environment variable (<span class="in">`WB_PASSWORD`</span> for local; <span class="in">`DEV_MW_ADMIN_PASS`</span>, <span class="in">`TEST_MW_ADMIN_PASS`</span>, <span class="in">`PROD_MW_ADMIN_PASS`</span> for remotes)</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="in">`C:\Wikibase\.env`</span> file</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Interactive prompt (last resort)</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>**The script is idempotent** — safe to re-run at any time. Items already at the correct URL are skipped.</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Initial Deployment Workflow (LOCAL → all environments)</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>This is the one-time workflow to apply the update to all four environments. After this, the script only needs to be run again if domain names change or if new Chapter items are added.</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Prerequisites</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Docker containers running on LOCAL (<span class="in">`docker compose up -d`</span>)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`.env`</span> contains <span class="in">`WB_PASSWORD`</span>, <span class="in">`DEV_MW_ADMIN_PASS`</span>, <span class="in">`TEST_MW_ADMIN_PASS`</span>, <span class="in">`PROD_MW_ADMIN_PASS`</span></span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SSH key set up for DEV, TEST, PROD servers</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1 — Pull fresh DEV data to LOCAL</span></span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\pull-from-dev.ps1</span></span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Takes 30–45 minutes (DB is 800 MB+). No progress output during the dump/transfer steps — just wait.</span></span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2 — Snapshot LOCAL (experimental workflow)</span></span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>This creates a rollback point before making any changes.</span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3 — Dry-run (optional sanity check)</span></span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/update-chapter-wiki-urls.py --env local --dry-run</span></span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>Expected output: 88 items to update, 0 to skip.</span>
+<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 4 — Apply P5 updates on LOCAL</span></span>
+<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/update-chapter-wiki-urls.py --env local</span></span>
+<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a>Expected output:</span>
+<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a><span class="in">Updated: 88   Errors: 0   Skipped: 0</span></span>
+<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 5 — Verify on LOCAL</span></span>
+<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a>Browse to http://localhost:8080 and check a Chapter item (e.g. Q1). The P5 value should now be <span class="in">`http://localhost:8080/wiki/IPCC:AR6/...`</span>.</span>
+<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a>Alternatively, open <span class="in">`chapter-urls-verification.csv`</span> (generated during initial setup) to compare expected vs actual values.</span>
+<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-117"><a href="#cb16-117" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 6 — Approve the experiment</span></span>
+<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-119"><a href="#cb16-119" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-120"><a href="#cb16-120" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 approve</span></span>
+<span id="cb16-121"><a href="#cb16-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-122"><a href="#cb16-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-123"><a href="#cb16-123" aria-hidden="true" tabindex="-1"></a>LOCAL is now CLEAN with the P5 updates committed as the new base.</span>
+<span id="cb16-124"><a href="#cb16-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-125"><a href="#cb16-125" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-126"><a href="#cb16-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-127"><a href="#cb16-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 7 — Push LOCAL → DEV</span></span>
+<span id="cb16-128"><a href="#cb16-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-129"><a href="#cb16-129" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-130"><a href="#cb16-130" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-local-to-dev.ps1 -DbOnly</span></span>
+<span id="cb16-131"><a href="#cb16-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-132"><a href="#cb16-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-133"><a href="#cb16-133" aria-hidden="true" tabindex="-1"></a>Type <span class="in">`PROMOTE`</span> at the confirmation prompt.</span>
+<span id="cb16-134"><a href="#cb16-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-135"><a href="#cb16-135" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span><span class="in">`-DbOnly`</span><span class="at"> skips images since only data (P5 claims) changed.</span></span>
+<span id="cb16-136"><a href="#cb16-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-137"><a href="#cb16-137" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-138"><a href="#cb16-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-139"><a href="#cb16-139" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 8 — Apply P5 updates on DEV</span></span>
+<span id="cb16-140"><a href="#cb16-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-141"><a href="#cb16-141" aria-hidden="true" tabindex="-1"></a>Run locally, pointing at the DEV API:</span>
+<span id="cb16-142"><a href="#cb16-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-143"><a href="#cb16-143" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-144"><a href="#cb16-144" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/update-chapter-wiki-urls.py --env dev</span></span>
+<span id="cb16-145"><a href="#cb16-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-146"><a href="#cb16-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-147"><a href="#cb16-147" aria-hidden="true" tabindex="-1"></a>This rewrites the P5 URLs using the DEV base domain (<span class="in">`https://dev-climatekg.semanticclimate.org`</span>).</span>
+<span id="cb16-148"><a href="#cb16-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-149"><a href="#cb16-149" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-150"><a href="#cb16-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-151"><a href="#cb16-151" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 9 — Promote DEV → TEST</span></span>
+<span id="cb16-152"><a href="#cb16-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-153"><a href="#cb16-153" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-154"><a href="#cb16-154" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-dev-to-test.ps1</span></span>
+<span id="cb16-155"><a href="#cb16-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-156"><a href="#cb16-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-157"><a href="#cb16-157" aria-hidden="true" tabindex="-1"></a>Then apply P5 updates for the TEST domain:</span>
+<span id="cb16-158"><a href="#cb16-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-159"><a href="#cb16-159" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-160"><a href="#cb16-160" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/update-chapter-wiki-urls.py --env test</span></span>
+<span id="cb16-161"><a href="#cb16-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-162"><a href="#cb16-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-163"><a href="#cb16-163" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-164"><a href="#cb16-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-165"><a href="#cb16-165" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 10 — Promote TEST → PROD</span></span>
+<span id="cb16-166"><a href="#cb16-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-167"><a href="#cb16-167" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-168"><a href="#cb16-168" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-dev-to-prod.ps1</span></span>
+<span id="cb16-169"><a href="#cb16-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-170"><a href="#cb16-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-171"><a href="#cb16-171" aria-hidden="true" tabindex="-1"></a>Then apply P5 updates for the PROD domain:</span>
+<span id="cb16-172"><a href="#cb16-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-173"><a href="#cb16-173" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-174"><a href="#cb16-174" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/update-chapter-wiki-urls.py --env prod</span></span>
+<span id="cb16-175"><a href="#cb16-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-176"><a href="#cb16-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-177"><a href="#cb16-177" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-178"><a href="#cb16-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-179"><a href="#cb16-179" aria-hidden="true" tabindex="-1"></a><span class="fu">## Re-running After a Domain Change</span></span>
+<span id="cb16-180"><a href="#cb16-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-181"><a href="#cb16-181" aria-hidden="true" tabindex="-1"></a>If any environment's domain name changes, re-run the script for that environment:</span>
+<span id="cb16-182"><a href="#cb16-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-183"><a href="#cb16-183" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-184"><a href="#cb16-184" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/update-chapter-wiki-urls.py --env &lt;env&gt;</span></span>
+<span id="cb16-185"><a href="#cb16-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-186"><a href="#cb16-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-187"><a href="#cb16-187" aria-hidden="true" tabindex="-1"></a>The script will detect that the existing P5 value doesn't match the new domain and update it. Items with no P5 at all will have one created.</span>
+<span id="cb16-188"><a href="#cb16-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-189"><a href="#cb16-189" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-190"><a href="#cb16-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-191"><a href="#cb16-191" aria-hidden="true" tabindex="-1"></a><span class="fu">## Re-running for a New Chapter Item</span></span>
+<span id="cb16-192"><a href="#cb16-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-193"><a href="#cb16-193" aria-hidden="true" tabindex="-1"></a>If a new Chapter item is added (P1=Q6) with a <span class="in">`climatekg-wiki`</span> sitelink, re-run the script for the relevant environment(s). Existing items are skipped (idempotent), so there is no risk of overwriting correct values.</span>
+<span id="cb16-194"><a href="#cb16-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-195"><a href="#cb16-195" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-196"><a href="#cb16-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-197"><a href="#cb16-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Known Issues</span></span>
+<span id="cb16-198"><a href="#cb16-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-199"><a href="#cb16-199" aria-hidden="true" tabindex="-1"></a>No known issues. All 88 Chapter items have <span class="in">`climatekg-wiki`</span> sitelinks and correct P5 values.</span>
+<span id="cb16-200"><a href="#cb16-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-201"><a href="#cb16-201" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Previously:** Q125 ("Poverty, Livelihoods and Sustainable Development" — WGII Chapter 8) was missing its sitelink. Fixed by adding sitelink </span><span class="in">`IPCC:AR6/WGII/Chapter-8`</span><span class="at"> to the item and re-running the script.</span></span>
+<span id="cb16-202"><a href="#cb16-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-203"><a href="#cb16-203" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-204"><a href="#cb16-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-205"><a href="#cb16-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verification</span></span>
+<span id="cb16-206"><a href="#cb16-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-207"><a href="#cb16-207" aria-hidden="true" tabindex="-1"></a>A verification CSV was generated during the initial run:</span>
+<span id="cb16-208"><a href="#cb16-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-209"><a href="#cb16-209" aria-hidden="true" tabindex="-1"></a>**File:** <span class="in">`chapter-urls-verification.csv`</span>  </span>
+<span id="cb16-210"><a href="#cb16-210" aria-hidden="true" tabindex="-1"></a>**Columns:** <span class="in">`QID`</span>, <span class="in">`Label`</span>, <span class="in">`MediaWiki_Page_Title`</span>, <span class="in">`P5_URL`</span>  </span>
+<span id="cb16-211"><a href="#cb16-211" aria-hidden="true" tabindex="-1"></a>**Rows:** 88 (all with updated URLs)</span>
+<span id="cb16-212"><a href="#cb16-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-213"><a href="#cb16-213" aria-hidden="true" tabindex="-1"></a>To regenerate the CSV at any time (e.g. to verify DEV or PROD):</span>
+<span id="cb16-214"><a href="#cb16-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-215"><a href="#cb16-215" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb16-216"><a href="#cb16-216" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/_gen_verification_csv.py</span></span>
+<span id="cb16-217"><a href="#cb16-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-218"><a href="#cb16-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-219"><a href="#cb16-219" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-220"><a href="#cb16-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-221"><a href="#cb16-221" aria-hidden="true" tabindex="-1"></a><span class="fu">## Environment → Password Variable Mapping</span></span>
+<span id="cb16-222"><a href="#cb16-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-223"><a href="#cb16-223" aria-hidden="true" tabindex="-1"></a>| Environment | Password variable    | API endpoint                                           |</span>
+<span id="cb16-224"><a href="#cb16-224" aria-hidden="true" tabindex="-1"></a>|-------------|---------------------|--------------------------------------------------------|</span>
+<span id="cb16-225"><a href="#cb16-225" aria-hidden="true" tabindex="-1"></a>| LOCAL       | <span class="in">`WB_PASSWORD`</span>        | <span class="in">`http://localhost:8080/w/api.php`</span>                      |</span>
+<span id="cb16-226"><a href="#cb16-226" aria-hidden="true" tabindex="-1"></a>| DEV         | <span class="in">`DEV_MW_ADMIN_PASS`</span>  | <span class="in">`https://dev-climatekg.semanticclimate.org/w/api.php`</span>  |</span>
+<span id="cb16-227"><a href="#cb16-227" aria-hidden="true" tabindex="-1"></a>| TEST        | <span class="in">`TEST_MW_ADMIN_PASS`</span> | <span class="in">`https://test-climatekg.semanticclimate.org/w/api.php`</span> |</span>
+<span id="cb16-228"><a href="#cb16-228" aria-hidden="true" tabindex="-1"></a>| PROD        | <span class="in">`PROD_MW_ADMIN_PASS`</span> | <span class="in">`https://prod-climatekg.semanticclimate.org/w/api.php`</span> |</span>
+<span id="cb16-229"><a href="#cb16-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-230"><a href="#cb16-230" aria-hidden="true" tabindex="-1"></a>All variables are read from <span class="in">`C:\Wikibase\.env`</span>.</span>
+<span id="cb16-231"><a href="#cb16-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-232"><a href="#cb16-232" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb16-233"><a href="#cb16-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-234"><a href="#cb16-234" aria-hidden="true" tabindex="-1"></a><span class="fu">## Related</span></span>
+<span id="cb16-235"><a href="#cb16-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-236"><a href="#cb16-236" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Script: <span class="co">[</span><span class="ot">`scripts/update-chapter-wiki-urls.py`</span><span class="co">](../scripts/update-chapter-wiki-urls.py)</span></span>
+<span id="cb16-237"><a href="#cb16-237" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sitelinks setup: <span class="co">[</span><span class="ot">`docs/sitelinks-implementation.md`</span><span class="co">](sitelinks-implementation.md)</span></span>
+<span id="cb16-238"><a href="#cb16-238" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sync workflow: <span class="co">[</span><span class="ot">`docs/multi-env-workflow.md`</span><span class="co">](multi-env-workflow.md)</span> §4</span>
+<span id="cb16-239"><a href="#cb16-239" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Experimental workflow: <span class="co">[</span><span class="ot">`docs/multi-env-workflow.md`</span><span class="co">](multi-env-workflow.md)</span> §11</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -31,15 +31,15 @@ website:
           - text: "---"
           - text: "Generated Data Pages"
           - text: "Authors Directory"
-            href: research_data/data-xml-dtd/authors-ar6.html
+            href: data/authors-ar6.html
           - text: "Acronyms Index"
-            href: research_data/data-xml-dtd/acronyms-ar6.html
+            href: data/acronyms-ar6.html
           - text: "Bibliography"
-            href: research_data/data-xml-dtd/bibliographic-ar6.html
+            href: data/bibliographic-ar6.html
           - text: "Corpus Structure"
-            href: research_data/data-xml-dtd/corpus-ar6.html
+            href: data/corpus-ar6.html
           - text: "Glossary"
-            href: research_data/data-xml-dtd/glossary-ar6.html
+            href: data/glossary-ar6.html
       # - text: "AR6 Authors Analysis"
       #   file: ar6-authors-distribution-analysis.ipynb
       # - text: "Wikibase Inventory"

@@ -16,7 +16,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Chapter:Spm</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/SPM</wiki>
           <source>https://www.ipcc.ch/sr15/chapter/spm/</source>
           <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SPM_version_report_HR.pdf</pdf>
           <doi>10.1017/9781009157940.001</doi>
@@ -25,7 +25,7 @@
         </chapter>
         <chapter id="2">
           <title>Technical Summary</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Resources:Technicalsummary</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/TS</wiki>
           <source>https://www.ipcc.ch/sr15/resources/technicalsummary/</source>
           <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2019/05/SR15_TS_High_Res.pdf</pdf>
           <doi>10.1017/9781009157940.002</doi>
@@ -39,7 +39,7 @@
           <chapters>
             <chapter id="1">
               <title>Framing and Context</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Chapter:Chapter-1</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/Chapter-1</wiki>
               <source>https://www.ipcc.ch/sr15/chapter/chapter-1/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SR15_Chapter_1_HR.pdf</pdf>
               <doi>10.1017/9781009157940.003</doi>
@@ -48,7 +48,7 @@
             </chapter>
             <chapter id="2">
               <title>Mitigation Pathways Compatible with 1.5°C in the Context of Sustainable Development</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Chapter:Chapter-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/Chapter-2</wiki>
               <source>https://www.ipcc.ch/sr15/chapter/chapter-2/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SR15_Chapter_2_HR.pdf</pdf>
               <doi>10.1017/9781009157940.004</doi>
@@ -57,7 +57,7 @@
             </chapter>
             <chapter id="3">
               <title>Impacts of 1.5°C Global Warming on Natural and Human Systems</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Chapter:Chapter-3</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/Chapter-3</wiki>
               <source>https://www.ipcc.ch/sr15/chapter/chapter-3/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SR15_Chapter_3_HR.pdf</pdf>
               <doi>10.1017/9781009157940.005</doi>
@@ -66,7 +66,7 @@
             </chapter>
             <chapter id="4">
               <title>Strengthening and Implementing the Global Response</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Chapter:Chapter-4</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/Chapter-4</wiki>
               <source>https://www.ipcc.ch/sr15/chapter/chapter-4/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SR15_Chapter_4_HR.pdf</pdf>
               <doi>10.1017/9781009157940.006</doi>
@@ -75,7 +75,7 @@
             </chapter>
             <chapter id="5">
               <title>Sustainable Development, Poverty Eradication and Reducing Inequalities</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Sr15:Chapter:Chapter-5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SR15/Chapter-5</wiki>
               <source>https://www.ipcc.ch/sr15/chapter/chapter-5/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SR15_Chapter_5_HR.pdf</pdf>
               <doi>10.1017/9781009157940.007</doi>
@@ -98,7 +98,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Summary-for-policymakers</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/SPM</wiki>
           <source>https://www.ipcc.ch/srccl/chapter/summary-for-policymakers/</source>
           <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_SPM.pdf</pdf>
           <doi>10.1017/9781009157988.001</doi>
@@ -107,7 +107,7 @@
         </chapter>
         <chapter id="2">
           <title>Technical Summary</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Technical-summary</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/TS</wiki>
           <source>https://www.ipcc.ch/srccl/chapter/technical-summary/</source>
           <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Technical-Summary.pdf</pdf>
           <doi>10.1017/9781009157988.002</doi>
@@ -121,7 +121,7 @@
           <chapters>
             <chapter id="1">
               <title>Framing and context</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-1</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-1</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-1/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_1.pdf</pdf>
               <doi>10.1017/9781009157988.003</doi>
@@ -130,7 +130,7 @@
             </chapter>
             <chapter id="2">
               <title>Land–climate interactions</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-2</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-2/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_2.pdf</pdf>
               <doi>10.1017/9781009157988.004</doi>
@@ -139,7 +139,7 @@
             </chapter>
             <chapter id="3">
               <title>Desertification</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-3</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-3</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-3/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_3.pdf</pdf>
               <doi>10.1017/9781009157988.005</doi>
@@ -148,7 +148,7 @@
             </chapter>
             <chapter id="4">
               <title>Land degradation</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-4</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-4</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-4/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_4.pdf</pdf>
               <doi>10.1017/9781009157988.006</doi>
@@ -157,7 +157,7 @@
             </chapter>
             <chapter id="5">
               <title>Food security</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-5</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-5/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_5.pdf</pdf>
               <doi>10.1017/9781009157988.007</doi>
@@ -166,7 +166,7 @@
             </chapter>
             <chapter id="6">
               <title>Interlinkages between desertification, land degradation, food security and greenhouse gas fluxes: Synergies, trade-offs and integrated response options</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-6</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-6</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-6/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_6.pdf</pdf>
               <doi>10.1017/9781009157988.008</doi>
@@ -175,7 +175,7 @@
             </chapter>
             <chapter id="7">
               <title>Risk management and decision-making in relation to sustainable development</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srccl:Chapter:Chapter-7</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SRCCL/Chapter-7</wiki>
               <source>https://www.ipcc.ch/srccl/chapter/chapter-7/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/4/2022/11/SRCCL_Chapter_7.pdf</pdf>
               <doi>10.1017/9781009157988.009</doi>
@@ -198,7 +198,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Summary-for-policymakers</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/SPM</wiki>
           <source>https://www.ipcc.ch/srocc/chapter/summary-for-policymakers/</source>
           <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/01_SROCC_SPM_FINAL.pdf</pdf>
           <doi>10.1017/9781009157964.001</doi>
@@ -207,7 +207,7 @@
         </chapter>
         <chapter id="2">
           <title>Technical Summary</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Technical-summary</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/TS</wiki>
           <source>https://www.ipcc.ch/srocc/chapter/technical-summary/</source>
           <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/02_SROCC_TS_FINAL.pdf</pdf>
           <doi>10.1017/9781009157964.002</doi>
@@ -221,7 +221,7 @@
           <chapters>
             <chapter id="1">
               <title>Framing and Context of the Report</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Chapter-1-framing-and-context-of-the-report</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Chapter-1</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/chapter-1-framing-and-context-of-the-report/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/03_SROCC_Ch01_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.003</doi>
@@ -230,7 +230,7 @@
             </chapter>
             <chapter id="2">
               <title>High Mountain Areas</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Chapter-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Chapter-2</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/chapter-2/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/04_SROCC_Ch02_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.004</doi>
@@ -239,7 +239,7 @@
             </chapter>
             <chapter id="3">
               <title>Polar Regions</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Chapter-3-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Chapter-3</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/chapter-3-2/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/05_SROCC_Ch03_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.005</doi>
@@ -248,7 +248,7 @@
             </chapter>
             <chapter id="4">
               <title>Sea Level Rise and Implications for Low-Lying Islands, Coasts and Communities</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Chapter-4-sea-level-rise-and-implications-for-low-lying-islands-coasts-and-communities</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Chapter-4</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/chapter-4-sea-level-rise-and-implications-for-low-lying-islands-coasts-and-communities/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/06_SROCC_Ch04_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.006</doi>
@@ -257,7 +257,7 @@
             </chapter>
             <chapter id="5">
               <title>Changing Ocean, Marine Ecosystems, and Dependent Communities</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Chapter-5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Chapter-5</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/chapter-5/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/07_SROCC_Ch05_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.007</doi>
@@ -266,7 +266,7 @@
             </chapter>
             <chapter id="6">
               <title>Extremes, Abrupt Changes and Managing Risks</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Chapter-6</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Chapter-6</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/chapter-6/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/08_SROCC_Ch06_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.008</doi>
@@ -280,7 +280,7 @@
           <chapters>
             <chapter id="1">
               <title>Integrative Cross-Chapter Box on Low-lying Islands and Coasts</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Srocc:Chapter:Cross-chapter-box-9-integrative-cross-chapter-box-on-low-lying-islands-and-coasts</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SROCC/Cross-Chapter-Box-9</wiki>
               <source>https://www.ipcc.ch/srocc/chapter/cross-chapter-box-9-integrative-cross-chapter-box-on-low-lying-islands-and-coasts/</source>
               <pdf>https://www.ipcc.ch/site/assets/uploads/sites/3/2022/03/09_SROCC_CCB9-LLIC_FINAL.pdf</pdf>
               <doi>10.1017/9781009157964.009</doi>
@@ -303,7 +303,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Summary-for-policymakers</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/SPM</wiki>
           <source>https://www.ipcc.ch/report/ar6/wg1/chapter/summary-for-policymakers/</source>
           <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf</pdf>
           <doi>10.1017/9781009157896.001</doi>
@@ -312,7 +312,7 @@
         </chapter>
         <chapter id="2">
           <title>Technical Summary</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Technical-summary</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/TS</wiki>
           <source>https://www.ipcc.ch/report/ar6/wg1/chapter/technical-summary/</source>
           <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_TS.pdf</pdf>
           <doi>10.1017/9781009157896.002</doi>
@@ -326,7 +326,7 @@
           <chapters>
             <chapter id="1">
               <title>Framing, Context, and Methods</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-1</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-1</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-1/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter01.pdf</pdf>
               <doi>10.1017/9781009157896.003</doi>
@@ -335,7 +335,7 @@
             </chapter>
             <chapter id="2">
               <title>Changing State of the Climate System</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-2</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-2/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter02.pdf</pdf>
               <doi>10.1017/9781009157896.004</doi>
@@ -344,7 +344,7 @@
             </chapter>
             <chapter id="3">
               <title>Human Influence on the Climate System</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-3</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-3</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-3/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter03.pdf</pdf>
               <doi>10.1017/9781009157896.005</doi>
@@ -353,7 +353,7 @@
             </chapter>
             <chapter id="4">
               <title>Future Global Climate: Scenario-based Projections and Near-term Information</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-4</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-4</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-4/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter04.pdf</pdf>
               <doi>10.1017/9781009157896.006</doi>
@@ -362,7 +362,7 @@
             </chapter>
             <chapter id="5">
               <title>Global Carbon and Other Biogeochemical Cycles and Feedbacks</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-5</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-5/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter05.pdf</pdf>
               <doi>10.1017/9781009157896.007</doi>
@@ -371,7 +371,7 @@
             </chapter>
             <chapter id="6">
               <title>Short-lived Climate Forcers</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-6</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-6</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-6/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter06.pdf</pdf>
               <doi>10.1017/9781009157896.008</doi>
@@ -380,7 +380,7 @@
             </chapter>
             <chapter id="7">
               <title>The Earth’s Energy Budget, Climate Feedbacks and Climate Sensitivity</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-7</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-7</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-7/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter07.pdf</pdf>
               <doi>10.1017/9781009157896.009</doi>
@@ -389,7 +389,7 @@
             </chapter>
             <chapter id="8">
               <title>Water Cycle Changes</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-8</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-8</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-8/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter08.pdf</pdf>
               <doi>10.1017/9781009157896.010</doi>
@@ -398,7 +398,7 @@
             </chapter>
             <chapter id="9">
               <title>Ocean, Cryosphere and Sea Level Change</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-9</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-9</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter09.pdf</pdf>
               <doi>10.1017/9781009157896.011</doi>
@@ -407,7 +407,7 @@
             </chapter>
             <chapter id="10">
               <title>Linking Global to Regional Climate Change</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-10</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-10</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-10/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter10.pdf</pdf>
               <doi>10.1017/9781009157896.012</doi>
@@ -416,7 +416,7 @@
             </chapter>
             <chapter id="11">
               <title>Weather and Climate Extreme Events in a Changing Climate</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-11</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-11</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-11/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter11.pdf</pdf>
               <doi>10.1017/9781009157896.013</doi>
@@ -425,7 +425,7 @@
             </chapter>
             <chapter id="12">
               <title>Climate Change Information for Regional Impact and for Risk Assessment</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Chapter-12</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-12</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-12/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter12.pdf</pdf>
               <doi>10.1017/9781009157896.014</doi>
@@ -439,7 +439,7 @@
           <chapters>
             <chapter id="1">
               <title>Atlas</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg1:Chapter:Atlas</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGI/Chapter-Atlas</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg1/chapter/atlas/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Atlas.pdf</pdf>
               <doi>10.1017/9781009157896.021</doi>
@@ -462,7 +462,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Summary-for-policymakers</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/SPM</wiki>
           <source>https://www.ipcc.ch/report/ar6/wg2/chapter/summary-for-policymakers/</source>
           <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_SummaryForPolicymakers.pdf</pdf>
           <doi>10.1017/9781009325844.001</doi>
@@ -471,7 +471,7 @@
         </chapter>
         <chapter id="2">
           <title>Technical Summary</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Technical-summary</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/TS</wiki>
           <source>https://www.ipcc.ch/report/ar6/wg2/chapter/technical-summary/</source>
           <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_TechnicalSummary.pdf</pdf>
           <doi>10.1017/9781009325844.002</doi>
@@ -485,7 +485,7 @@
           <chapters>
             <chapter id="1">
               <title>Point of Departure and Key Concepts</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-1</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-1/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter01.pdf</pdf>
               <doi>10.1017/9781009325844.003</doi>
@@ -494,7 +494,7 @@
             </chapter>
             <chapter id="2">
               <title>Terrestrial and Freshwater Ecosystems and Their Services</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-2</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-2/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter02.pdf</pdf>
               <doi>10.1017/9781009325844.004</doi>
@@ -503,7 +503,7 @@
             </chapter>
             <chapter id="3">
               <title>Oceans and Coastal Ecosystems and Their Services</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-3</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-3</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-3/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter03.pdf</pdf>
               <doi>10.1017/9781009325844.005</doi>
@@ -512,7 +512,7 @@
             </chapter>
             <chapter id="4">
               <title>Water</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-4</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-4</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-4/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter04.pdf</pdf>
               <doi>10.1017/9781009325844.006</doi>
@@ -521,7 +521,7 @@
             </chapter>
             <chapter id="5">
               <title>Food, Fibre and Other Ecosystem Products</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-5</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-5/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter05.pdf</pdf>
               <doi>10.1017/9781009325844.007</doi>
@@ -530,7 +530,7 @@
             </chapter>
             <chapter id="6">
               <title>Cities, Settlements and Key Infrastructure</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-6</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-6</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-6/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter06.pdf</pdf>
               <doi>10.1017/9781009325844.008</doi>
@@ -539,7 +539,7 @@
             </chapter>
             <chapter id="7">
               <title>Health, Wellbeing and the Changing Structure of Communities</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-7</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-7</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-7/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter07.pdf</pdf>
               <doi>10.1017/9781009325844.009</doi>
@@ -548,7 +548,7 @@
             </chapter>
             <chapter id="8">
               <title>Poverty, Livelihoods and Sustainable Development</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-8</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-8</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-8/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter08.pdf</pdf>
               <doi>10.1017/9781009325844.010</doi>
@@ -557,7 +557,7 @@
             </chapter>
             <chapter id="9">
               <title>Africa</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-9</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-9</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-9/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter09.pdf</pdf>
               <doi>10.1017/9781009325844.011</doi>
@@ -566,7 +566,7 @@
             </chapter>
             <chapter id="10">
               <title>Asia</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-10</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-10</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-10/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter10.pdf</pdf>
               <doi>10.1017/9781009325844.012</doi>
@@ -575,7 +575,7 @@
             </chapter>
             <chapter id="11">
               <title>Australasia</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-11</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-11</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-11/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter11.pdf</pdf>
               <doi>10.1017/9781009325844.013</doi>
@@ -584,7 +584,7 @@
             </chapter>
             <chapter id="12">
               <title>Central and South America</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-12</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-12</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-12/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter12.pdf</pdf>
               <doi>10.1017/9781009325844.014</doi>
@@ -593,7 +593,7 @@
             </chapter>
             <chapter id="13">
               <title>Europe</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-13</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-13</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-13/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter13.pdf</pdf>
               <doi>10.1017/9781009325844.015</doi>
@@ -602,7 +602,7 @@
             </chapter>
             <chapter id="14">
               <title>North America</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-14</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-14</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-14/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter14.pdf</pdf>
               <doi>10.1017/9781009325844.016</doi>
@@ -611,7 +611,7 @@
             </chapter>
             <chapter id="15">
               <title>Small Islands</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-15</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-15</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-15/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter15.pdf</pdf>
               <doi>10.1017/9781009325844.017</doi>
@@ -620,7 +620,7 @@
             </chapter>
             <chapter id="16">
               <title>Key Risks across Sectors and Regions</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-16</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-16</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-16/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter16.pdf</pdf>
               <doi>10.1017/9781009325844.025</doi>
@@ -629,7 +629,7 @@
             </chapter>
             <chapter id="17">
               <title>Decision-Making Options for Managing Risk</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-17</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-17</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-17/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter17.pdf</pdf>
               <doi>10.1017/9781009325844.026</doi>
@@ -638,7 +638,7 @@
             </chapter>
             <chapter id="18">
               <title>Climate Resilient Development Pathways</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-18</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-18</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-18/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_Chapter18.pdf</pdf>
               <doi>10.1017/9781009325844.027</doi>
@@ -652,7 +652,7 @@
           <chapters>
             <chapter id="1">
               <title>Biodiversity Hotspots</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp1</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-1</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp1/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP1.pdf</pdf>
               <doi>10.1017/9781009325844.018</doi>
@@ -661,7 +661,7 @@
             </chapter>
             <chapter id="2">
               <title>Cities and Settlements by the Sea</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-2</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp2/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP2.pdf</pdf>
               <doi>10.1017/9781009325844.019</doi>
@@ -670,7 +670,7 @@
             </chapter>
             <chapter id="3">
               <title>Deserts, Semiarid Areas and Desertification</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp3</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-3</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp3/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP3.pdf</pdf>
               <doi>10.1017/9781009325844.020</doi>
@@ -679,7 +679,7 @@
             </chapter>
             <chapter id="4">
               <title>Mediterranean Region</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp4</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-4</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp4/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP4.pdf</pdf>
               <doi>10.1017/9781009325844.021</doi>
@@ -688,7 +688,7 @@
             </chapter>
             <chapter id="5">
               <title>Mountains</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-5</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp5/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP5.pdf</pdf>
               <doi>10.1017/9781009325844.022</doi>
@@ -697,7 +697,7 @@
             </chapter>
             <chapter id="6">
               <title>Polar Regions</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp6</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-6</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp6/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP6.pdf</pdf>
               <doi>10.1017/9781009325844.023</doi>
@@ -706,7 +706,7 @@
             </chapter>
             <chapter id="7">
               <title>Tropical Forests</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg2:Chapter:Ccp7</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Cross-Chapter-Paper-7</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg2/chapter/ccp7/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_CCP7.pdf</pdf>
               <doi>10.1017/9781009325844.024</doi>
@@ -729,7 +729,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Summary-for-policymakers</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/SPM</wiki>
           <source>https://www.ipcc.ch/report/ar6/wg3/chapter/summary-for-policymakers/</source>
           <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SummaryForPolicymakers.pdf</pdf>
           <doi>10.1017/9781009157926.001</doi>
@@ -738,7 +738,7 @@
         </chapter>
         <chapter id="2">
           <title>Technical Summary</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Technical-summary</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/TS</wiki>
           <source>https://www.ipcc.ch/report/ar6/wg3/chapter/technical-summary/</source>
           <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_TechnicalSummary.pdf</pdf>
           <doi>10.1017/9781009157926.002</doi>
@@ -752,7 +752,7 @@
           <chapters>
             <chapter id="1">
               <title>Introduction and Framing</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-1</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-1</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-1/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter01.pdf</pdf>
               <doi>10.1017/9781009157926.003</doi>
@@ -761,7 +761,7 @@
             </chapter>
             <chapter id="2">
               <title>Emissions Trends and Drivers</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-2</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-2</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-2/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter02.pdf</pdf>
               <doi>10.1017/9781009157926.004</doi>
@@ -770,7 +770,7 @@
             </chapter>
             <chapter id="3">
               <title>Mitigation Pathways Compatible with Long-term Goals</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-3</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-3</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-3/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter03.pdf</pdf>
               <doi>10.1017/9781009157926.005</doi>
@@ -779,7 +779,7 @@
             </chapter>
             <chapter id="4">
               <title>Mitigation and Development Pathways in the Near to Mid-term</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-4</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-4</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-4/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter04.pdf</pdf>
               <doi>10.1017/9781009157926.006</doi>
@@ -788,7 +788,7 @@
             </chapter>
             <chapter id="5">
               <title>Demand, Services and Social Aspects of Mitigation</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-5</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-5</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-5/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter05.pdf</pdf>
               <doi>10.1017/9781009157926.007</doi>
@@ -797,7 +797,7 @@
             </chapter>
             <chapter id="6">
               <title>Energy Systems</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-6</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-6</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-6/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter06.pdf</pdf>
               <doi>10.1017/9781009157926.008</doi>
@@ -806,7 +806,7 @@
             </chapter>
             <chapter id="7">
               <title>Agriculture, Forestry and Other Land Uses (AFOLU)</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-7</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-7</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-7/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter07.pdf</pdf>
               <doi>10.1017/9781009157926.009</doi>
@@ -815,7 +815,7 @@
             </chapter>
             <chapter id="8">
               <title>Urban Systems and Other Settlements</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-8</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-8</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-8/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter08.pdf</pdf>
               <doi>10.1017/9781009157926.010</doi>
@@ -824,7 +824,7 @@
             </chapter>
             <chapter id="9">
               <title>Buildings</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-9</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-9</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-9/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter09.pdf</pdf>
               <doi>10.1017/9781009157926.011</doi>
@@ -833,7 +833,7 @@
             </chapter>
             <chapter id="10">
               <title>Transport</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-10</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-10</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-10/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter10.pdf</pdf>
               <doi>10.1017/9781009157926.012</doi>
@@ -842,7 +842,7 @@
             </chapter>
             <chapter id="11">
               <title>Industry</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-11</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-11</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-11/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter11.pdf</pdf>
               <doi>10.1017/9781009157926.013</doi>
@@ -851,7 +851,7 @@
             </chapter>
             <chapter id="12">
               <title>Cross-sectoral Perspectives</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-12</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-12</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-12/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter12.pdf</pdf>
               <doi>10.1017/9781009157926.014</doi>
@@ -860,7 +860,7 @@
             </chapter>
             <chapter id="13">
               <title>National and Sub-national Policies and Institutions</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-13</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-13</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-13/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter13.pdf</pdf>
               <doi>10.1017/9781009157926.015</doi>
@@ -869,7 +869,7 @@
             </chapter>
             <chapter id="14">
               <title>International Cooperation</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-14</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-14</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-14/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter14.pdf</pdf>
               <doi>10.1017/9781009157926.016</doi>
@@ -878,7 +878,7 @@
             </chapter>
             <chapter id="15">
               <title>Investment and Finance</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-15</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-15</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-15/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter15.pdf</pdf>
               <doi>10.1017/9781009157926.017</doi>
@@ -887,7 +887,7 @@
             </chapter>
             <chapter id="16">
               <title>Innovation, Technology Development and Transfer</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-16</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-16</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-16/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter16.pdf</pdf>
               <doi>10.1017/9781009157926.018</doi>
@@ -896,7 +896,7 @@
             </chapter>
             <chapter id="17">
               <title>Accelerating the Transition in the Context of Sustainable Development</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Wg3:Chapter:Chapter-17</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGIII/Chapter-17</wiki>
               <source>https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-17/</source>
               <pdf>https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_Chapter17.pdf</pdf>
               <doi>10.1017/9781009157926.019</doi>
@@ -919,7 +919,7 @@
       <text_division_spm_ts>
         <chapter id="1">
           <title>Summary for Policymakers</title>
-          <wiki>https://test.kewl.org/wiki/IPCC:Syr</wiki>
+          <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SYR/SPM</wiki>
           <source>https://www.ipcc.ch/report/ar6/syr/summary-for-policymakers</source>
           <pdf>https://www.ipcc.ch/report/ar6/syr/downloads/report/IPCC_AR6_SYR_SPM.pdf</pdf>
           <doi>10.59327/IPCC/AR6-9789291691647.001</doi>
@@ -933,7 +933,7 @@
           <chapters>
             <chapter id="1">
               <title>Longer Report</title>
-              <wiki>https://test.kewl.org/wiki/IPCC:Syr:Longer-report</wiki>
+              <wiki>https://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/SYR/Longer-Report</wiki>
               <source>https://www.ipcc.ch/report/ar6/syr/longer-report/</source>
               <pdf>https://www.ipcc.ch/report/ar6/syr/downloads/report/IPCC_AR6_SYR_LongerReport.pdf</pdf>
               <doi>10.59327/IPCC/AR6-9789291691647</doi>

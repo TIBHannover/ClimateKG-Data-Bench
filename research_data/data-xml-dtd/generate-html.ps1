@@ -4,8 +4,32 @@
 $ErrorActionPreference = "Stop"
 $dir = $PSScriptRoot
 
+# Capture generation timestamp and git commit hash once for all files in this run
+$GeneratedAt = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss") + " UTC"
+$GitHash = (git -C $dir rev-parse --short HEAD 2>$null)
+if (-not $GitHash) { $GitHash = "unknown" }
+$GitUser = (git -C $dir config user.name 2>$null)
+if (-not $GitUser) { $GitUser = $env:USERNAME }
+
 Write-Host "`n=== IPCC AR6 XML to HTML Transformation ===" -ForegroundColor Cyan
-Write-Host "Directory: $dir`n" -ForegroundColor Gray
+Write-Host "Directory: $dir" -ForegroundColor Gray
+Write-Host "Timestamp: $GeneratedAt" -ForegroundColor Gray
+Write-Host "Git commit: $GitHash" -ForegroundColor Gray
+Write-Host "User:       $GitUser`n" -ForegroundColor Gray
+
+# Inject a timestamp banner after <body> in a generated HTML file
+function Add-Timestamp {
+    param([string]$HtmlFile, [string]$Timestamp, [string]$GitHash, [string]$GitUser)
+
+    $content = [System.IO.File]::ReadAllText($HtmlFile, [System.Text.Encoding]::UTF8)
+    $banner = @"
+<div style="background:#1a5490;color:#fff;padding:.45em 1.2em;font-size:.82em;font-family:system-ui,sans-serif;letter-spacing:.02em;">
+  Generated: $Timestamp &nbsp;&mdash;&nbsp; commit: <code style="background:rgba(255,255,255,.15);padding:1px 5px;border-radius:3px;">$GitHash</code> &nbsp;&mdash;&nbsp; $GitUser &nbsp;&mdash;&nbsp; <span style="opacity:.75;">research_data/data-xml-dtd/generate-html.ps1</span>
+</div>
+"@
+    $updated = $content -replace '(<body[^>]*>)', "`$1`n$banner"
+    [System.IO.File]::WriteAllText($HtmlFile, $updated, [System.Text.Encoding]::UTF8)
+}
 
 # Function to transform XML to HTML
 function Transform-XmlToHtml {
@@ -102,6 +126,7 @@ foreach ($transform in $transformations) {
     # Perform transformation
     $success = Transform-XmlToHtml -XmlFile $transform.Xml -XsltFile $transform.Xslt -HtmlFile $transform.Html
     if ($success) {
+        Add-Timestamp -HtmlFile $transform.Html -Timestamp $GeneratedAt -GitHash $GitHash -GitUser $GitUser
         $successCount++
     }
 }

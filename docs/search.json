@@ -343,11 +343,123 @@
     "text": "Support Resources\n\nWikibase properties: http://localhost:8080/wiki/Special:ListProperties\nSPARQL endpoint: http://localhost:9999/bigdata/sparql\nProject memory: C:.md\nRepo memory: Check /memories/repo/wikibase-project.md\n\n\nReady to Start? Run cell 2 in the notebook (the import cell)!"
   },
   {
+    "objectID": "documentation/p5-url-update-guide.html",
+    "href": "documentation/p5-url-update-guide.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#background",
+    "href": "documentation/p5-url-update-guide.html#background",
+    "title": "",
+    "section": "Background",
+    "text": "Background\n\nWhat is P5?\nP5 is the Wiki URL property — it stores the MediaWiki page URL for a Wikibase item. For Chapter items this should point to the corresponding IPCC page on the ClimateKG wiki (e.g. https://dev-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1).\n\n\nWhy run this update?\nWhen the ClimateKG stack was first deployed, P5 values pointed to an older domain (wikibase.runstop.uk). After the sitelinks feature was implemented (linking items to MediaWiki pages via the climatekg-wiki site group), the P5 values must be regenerated from the sitelink titles to match the correct domain for each environment (DEV / TEST / PROD each have different base URLs).\n\n\nScope\nThe update affects all items where: - P1 = Q6 (i.e. the item is a Chapter) - The item has a climatekg-wiki sitelink\nThere are 88 Chapter items (Q6), all of which have a climatekg-wiki sitelink."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#script",
+    "href": "documentation/p5-url-update-guide.html#script",
+    "title": "",
+    "section": "Script",
+    "text": "Script\nLocation: scripts/update-chapter-wiki-urls.py\nWhat it does: 1. Queries the SPARQL endpoint for all items with P1 = Q6 2. For each item, fetches the climatekg-wiki sitelink title via the MediaWiki API 3. Constructs the canonical URL: {wiki_base}/wiki/{sitelink_title} 4. If P5 already has the correct value — skips (idempotent) 5. If P5 has a different value — updates it via wbsetclaimvalue 6. If P5 has no value yet — creates a new claim via wbcreateclaim\nFlags:\n--env   local | dev | test | prod    (default: local)\n--dry-run                            List planned changes without writing anything\nCredentials are read from (in priority order): 1. Environment variable (WB_PASSWORD for local; DEV_MW_ADMIN_PASS, TEST_MW_ADMIN_PASS, PROD_MW_ADMIN_PASS for remotes) 2. C:\\Wikibase\\.env file 3. Interactive prompt (last resort)\nThe script is idempotent — safe to re-run at any time. Items already at the correct URL are skipped."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#initial-deployment-workflow-local-all-environments",
+    "href": "documentation/p5-url-update-guide.html#initial-deployment-workflow-local-all-environments",
+    "title": "",
+    "section": "Initial Deployment Workflow (LOCAL → all environments)",
+    "text": "Initial Deployment Workflow (LOCAL → all environments)\nThis is the one-time workflow to apply the update to all four environments. After this, the script only needs to be run again if domain names change or if new Chapter items are added.\n\nPrerequisites\n\nDocker containers running on LOCAL (docker compose up -d)\n.env contains WB_PASSWORD, DEV_MW_ADMIN_PASS, TEST_MW_ADMIN_PASS, PROD_MW_ADMIN_PASS\nSSH key set up for DEV, TEST, PROD servers\n\n\n\n\nStep 1 — Pull fresh DEV data to LOCAL\n.\\scripts\\sync\\pull-from-dev.ps1\n\nTakes 30–45 minutes (DB is 800 MB+). No progress output during the dump/transfer steps — just wait.\n\n\n\n\nStep 2 — Snapshot LOCAL (experimental workflow)\n.\\scripts\\experimental-import-workflow.ps1 start\nThis creates a rollback point before making any changes.\n\n\n\nStep 3 — Dry-run (optional sanity check)\npython scripts/update-chapter-wiki-urls.py --env local --dry-run\nExpected output: 88 items to update, 0 to skip.\n\n\n\nStep 4 — Apply P5 updates on LOCAL\npython scripts/update-chapter-wiki-urls.py --env local\nExpected output:\nUpdated: 88   Errors: 0   Skipped: 0\n\n\n\nStep 5 — Verify on LOCAL\nBrowse to http://localhost:8080 and check a Chapter item (e.g. Q1). The P5 value should now be http://localhost:8080/wiki/IPCC:AR6/....\nAlternatively, open chapter-urls-verification.csv (generated during initial setup) to compare expected vs actual values.\n\n\n\nStep 6 — Approve the experiment\n.\\scripts\\experimental-import-workflow.ps1 approve\nLOCAL is now CLEAN with the P5 updates committed as the new base.\n\n\n\nStep 7 — Push LOCAL → DEV\n.\\scripts\\sync\\sync-local-to-dev.ps1 -DbOnly\nType PROMOTE at the confirmation prompt.\n\n-DbOnly skips images since only data (P5 claims) changed.\n\n\n\n\nStep 8 — Apply P5 updates on DEV\nRun locally, pointing at the DEV API:\npython scripts/update-chapter-wiki-urls.py --env dev\nThis rewrites the P5 URLs using the DEV base domain (https://dev-climatekg.semanticclimate.org).\n\n\n\nStep 9 — Promote DEV → TEST\n.\\scripts\\sync\\sync-dev-to-test.ps1\nThen apply P5 updates for the TEST domain:\npython scripts/update-chapter-wiki-urls.py --env test\n\n\n\nStep 10 — Promote TEST → PROD\n.\\scripts\\sync\\sync-dev-to-prod.ps1\nThen apply P5 updates for the PROD domain:\npython scripts/update-chapter-wiki-urls.py --env prod"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#re-running-after-a-domain-change",
+    "href": "documentation/p5-url-update-guide.html#re-running-after-a-domain-change",
+    "title": "",
+    "section": "Re-running After a Domain Change",
+    "text": "Re-running After a Domain Change\nIf any environment’s domain name changes, re-run the script for that environment:\npython scripts/update-chapter-wiki-urls.py --env &lt;env&gt;\nThe script will detect that the existing P5 value doesn’t match the new domain and update it. Items with no P5 at all will have one created."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#re-running-for-a-new-chapter-item",
+    "href": "documentation/p5-url-update-guide.html#re-running-for-a-new-chapter-item",
+    "title": "",
+    "section": "Re-running for a New Chapter Item",
+    "text": "Re-running for a New Chapter Item\nIf a new Chapter item is added (P1=Q6) with a climatekg-wiki sitelink, re-run the script for the relevant environment(s). Existing items are skipped (idempotent), so there is no risk of overwriting correct values."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#known-issues",
+    "href": "documentation/p5-url-update-guide.html#known-issues",
+    "title": "",
+    "section": "Known Issues",
+    "text": "Known Issues\nNo known issues. All 88 Chapter items have climatekg-wiki sitelinks and correct P5 values.\n\nPreviously: Q125 (“Poverty, Livelihoods and Sustainable Development” — WGII Chapter 8) was missing its sitelink. Fixed by adding sitelink IPCC:AR6/WGII/Chapter-8 to the item and re-running the script."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#verification",
+    "href": "documentation/p5-url-update-guide.html#verification",
+    "title": "",
+    "section": "Verification",
+    "text": "Verification\nA verification CSV was generated during the initial run:\nFile: chapter-urls-verification.csv\nColumns: QID, Label, MediaWiki_Page_Title, P5_URL\nRows: 88 (all with updated URLs)\nTo regenerate the CSV at any time (e.g. to verify DEV or PROD):\npython scripts/_gen_verification_csv.py"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#environment-password-variable-mapping",
+    "href": "documentation/p5-url-update-guide.html#environment-password-variable-mapping",
+    "title": "",
+    "section": "Environment → Password Variable Mapping",
+    "text": "Environment → Password Variable Mapping\n\n\n\n\n\n\n\n\nEnvironment\nPassword variable\nAPI endpoint\n\n\n\n\nLOCAL\nWB_PASSWORD\nhttp://localhost:8080/w/api.php\n\n\nDEV\nDEV_MW_ADMIN_PASS\nhttps://dev-climatekg.semanticclimate.org/w/api.php\n\n\nTEST\nTEST_MW_ADMIN_PASS\nhttps://test-climatekg.semanticclimate.org/w/api.php\n\n\nPROD\nPROD_MW_ADMIN_PASS\nhttps://prod-climatekg.semanticclimate.org/w/api.php\n\n\n\nAll variables are read from C:\\Wikibase\\.env."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#related",
+    "href": "documentation/p5-url-update-guide.html#related",
+    "title": "",
+    "section": "Related",
+    "text": "Related\n\nScript: scripts/update-chapter-wiki-urls.py\nSitelinks setup: docs/sitelinks-implementation.md\nSync workflow: docs/multi-env-workflow.md §4\nExperimental workflow: docs/multi-env-workflow.md §11"
+  },
+  {
     "objectID": "data_protocol.html",
     "href": "data_protocol.html",
     "title": "",
     "section": "",
     "text": "Code"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html",
+    "href": "documentation/corpus-ar6-wiki-url-update.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#background",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#background",
+    "title": "",
+    "section": "Background",
+    "text": "Background\nThe WIKI column stores the MediaWiki page URL for each chapter item in the ClimateKG corpus. The original values used an old domain and a colon-delimited page title format, e.g.:\nhttps://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-1\nAfter the Wikibase sitelinks feature was implemented and the P5 update script (scripts/update-chapter-wiki-urls.py) was run across all environments, the canonical URLs changed to a slash-delimited format on the PROD domain, e.g.:\nhttps://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1\nThe CSV needed to be updated to match the live PROD P5 values."
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#scope",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#scope",
+    "title": "",
+    "section": "Scope",
+    "text": "Scope\n\nFile: research_data/data-xml-dtd/corpus-ar6.csv\nColumn updated: WIKI (column 1)\nRows updated: 88 chapter items (all rows that already had a WIKI URL)\nRows unchanged: 17 report-level rows (WIKI column empty — these have no corresponding chapter item)"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#update-process",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#update-process",
+    "title": "",
+    "section": "Update Process",
+    "text": "Update Process\n\n1. Query PROD SPARQL for current P5 values\nThe PROD SPARQL endpoint was queried to retrieve the live P5 (Wiki URL) and P10 (DOI) for every item where P1=Q6 (Chapter):\nSELECT ?item ?p5 ?doi WHERE {\n  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P1&gt;\n        &lt;https://prod-climatekg.semanticclimate.org/entity/Q6&gt; .\n  OPTIONAL { ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P5&gt; ?p5 . }\n  OPTIONAL { ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P10&gt; ?doi . }\n}\nSPARQL endpoint: https://prod-climatekg.semanticclimate.org/query/proxy/sparql\n\n\n2. Build DOI → URL mapping\nThe SPARQL results provide a direct DOI → PROD URL mapping. DOI is stable across environments and uniquely identifies each chapter item in the CSV.\n\n\n3. Update the CSV\nFor each row in the CSV that has a non-empty WIKI value, the DOI in column 9 was looked up in the mapping and the WIKI column was replaced with the corresponding PROD URL. Rows with no WIKI value (report-level rows) were not modified.\nThe update was applied in-place using Python’s csv module to preserve field quoting."
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#url-format-change-summary",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#url-format-change-summary",
+    "title": "",
+    "section": "URL Format Change Summary",
+    "text": "URL Format Change Summary\n\n\n\n\n\n\n\n\nReport\nOld format (example)\nNew format (example)\n\n\n\n\nSR15\nIPCC:Sr15:Chapter:Spm\nIPCC:AR6/SR15/SPM\n\n\nSRCCL\nIPCC:Srccl:Chapter:Summary-for-policymakers\nIPCC:AR6/SRCCL/SPM\n\n\nSROCC\nIPCC:Srocc:Chapter:Chapter-2\nIPCC:AR6/SROCC/Chapter-2\n\n\nWGI\nIPCC:Wg1:Chapter:Chapter-1\nIPCC:AR6/WGI/Chapter-1\n\n\nWGII\nIPCC:Wg2:Chapter:Chapter-1\nIPCC:AR6/WGII/Chapter-1\n\n\nWGIII\nIPCC:Wg3:Chapter:Chapter-1\nIPCC:AR6/WGIII/Chapter-1\n\n\nSYR\nIPCC:Syr\nIPCC:AR6/SYR/SPM\n\n\nSYR\nIPCC:Syr:Longer-report\nIPCC:AR6/SYR/Longer-Report\n\n\n\nAll URLs use base: https://prod-climatekg.semanticclimate.org/wiki/"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#re-running-after-a-prod-update",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#re-running-after-a-prod-update",
+    "title": "",
+    "section": "Re-running After a PROD Update",
+    "text": "Re-running After a PROD Update\nIf the PROD P5 values change (e.g. after a domain change or new chapter items), re-run the SPARQL query and apply the mapping again. The process is safe to repeat — only rows with a WIKI URL are touched.\nThe P5 update script that keeps Wikibase in sync is documented in p5-url-update-guide.md."
   },
   {
     "objectID": "multi-env-workflow.html",
