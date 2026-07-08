@@ -96,21 +96,44 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../research_data/data-vis/gender-distribution-simple.html"> 
-<span class="menu-text">AR6 Gender Distribution</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../research_data/data-vis/authors-top-ten.html"> 
-<span class="menu-text">Top 10 Global South Authors</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link active" href="../../research_data/data-vis/kg-stats-dashboard.html" aria-current="page"> 
-<span class="menu-text">KG Inventory Dashboard</span></a>
+<span class="menu-text">ClimateKG Dashboard</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../research_data/data-vis/buildings-urban-chapters.html"> 
-<span class="menu-text">Buildings &amp; Urban</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sparql-queries" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">SPARQL Queries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sparql-queries">    
+        <li>
+    <a class="dropdown-item" href="../../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Gender Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">ERM / Wikibase Mapping</span>
@@ -122,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="../../research_data/data-xml-dtd/erm/erm-diagram.html">
- <span class="dropdown-text">Wikibase ER Diagram</span></a>
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
   </li>  
     </ul>
   </li>
@@ -175,11 +198,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#climatekg-inventory-dashboard" id="toc-climatekg-inventory-dashboard" class="nav-link active" data-scroll-target="#climatekg-inventory-dashboard">ClimateKG Inventory Dashboard</a>
-  <ul class="collapse">
-  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link active" data-scroll-target="#configuration">Configuration</a></li>
   <li><a href="#count-data" id="toc-count-data" class="nav-link" data-scroll-target="#count-data">Count Data</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -205,8 +225,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="climatekg-inventory-dashboard" class="level1">
-<h1>ClimateKG Inventory Dashboard</h1>
 <p>Summary counts of key data items in the IPCC AR6 Climate Knowledge Graph.</p>
 <p><strong>Data Sources:</strong> Wikibase SPARQL endpoint (P1/Q3998 Authors, P1/Q6 Chapters, P10 DOI, P9 OpenAlex) + source CSV files<br>
 <strong>Instructions:</strong> Run all cells with Wikibase running, then Quarto renders from stored outputs.</p>
@@ -235,7 +253,6 @@ Acronyms:         1,910</code></pre>
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

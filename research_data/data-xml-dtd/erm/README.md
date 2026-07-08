@@ -135,16 +135,16 @@ Outputs written as **UTF-8 without BOM** (required by the Mermaid parser).
 
 ## Wikibase class items (QIDs)
 
-| QID | Label | Also Known As |
-|-----|-------|---------------|
-| Q1 | Category (Glossary Terms) | |
-| Q2 | Work | |
-| Q3 | Report Series | Monographic Series |
-| Q4 | Report | Book; Monograph; Volume |
-| Q5 | Text Division | Division |
-| Q6 | Chapter | |
-| Q2087 | Acronym | |
-| Q3998 | Author | |
+| QID | Label | Also Known As | Example item |
+|-----|-------|---------------|--------------|
+| [Q1](https://prod-climatekg.semanticclimate.org/wiki/Item:Q1) | Category (Glossary Terms) | | [Q1005](https://prod-climatekg.semanticclimate.org/wiki/Item:Q1005) |
+| [Q2](https://prod-climatekg.semanticclimate.org/wiki/Item:Q2) | Work | | [Q7](https://prod-climatekg.semanticclimate.org/wiki/Item:Q7) |
+| [Q3](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3) | Report Series | Monographic Series | [Q7](https://prod-climatekg.semanticclimate.org/wiki/Item:Q7) |
+| [Q4](https://prod-climatekg.semanticclimate.org/wiki/Item:Q4) | Report | Book; Monograph; Volume | [Q10](https://prod-climatekg.semanticclimate.org/wiki/Item:Q10) |
+| [Q5](https://prod-climatekg.semanticclimate.org/wiki/Item:Q5) | Text Division | Division | [Q110](https://prod-climatekg.semanticclimate.org/wiki/Item:Q110) |
+| [Q6](https://prod-climatekg.semanticclimate.org/wiki/Item:Q6) | Chapter | | [Q154](https://prod-climatekg.semanticclimate.org/wiki/Item:Q154) |
+| [Q2087](https://prod-climatekg.semanticclimate.org/wiki/Item:Q2087) | Acronym | | [Q3880](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3880) |
+| [Q3998](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3998) | Author | | [Q4047](https://prod-climatekg.semanticclimate.org/wiki/Item:Q4047) |
 
 ---
 

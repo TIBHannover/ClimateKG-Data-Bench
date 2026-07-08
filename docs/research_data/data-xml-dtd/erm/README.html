@@ -127,21 +127,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research_data/data-vis/gender-distribution-simple.html"> 
-<span class="menu-text">AR6 Gender Distribution</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../research_data/data-vis/authors-top-ten.html"> 
-<span class="menu-text">Top 10 Global South Authors</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../../../research_data/data-vis/kg-stats-dashboard.html"> 
-<span class="menu-text">KG Inventory Dashboard</span></a>
+<span class="menu-text">ClimateKG Dashboard</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../research_data/data-vis/buildings-urban-chapters.html"> 
-<span class="menu-text">Buildings &amp; Urban</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sparql-queries" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">SPARQL Queries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sparql-queries">    
+        <li>
+    <a class="dropdown-item" href="../../../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Gender Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">ERM / Wikibase Mapping</span>
@@ -153,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../../../research_data/data-xml-dtd/erm/erm-diagram.html">
- <span class="dropdown-text">Wikibase ER Diagram</span></a>
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
   </li>  
     </ul>
   </li>
@@ -516,48 +539,57 @@ ORDER BY xsd:integer(SUBSTR(?num, 2))</code></pre>
 <th>QID</th>
 <th>Label</th>
 <th>Also Known As</th>
+<th>Example item</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Q1</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q1">Q1</a></td>
 <td>Category (Glossary Terms)</td>
 <td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q1005">Q1005</a></td>
 </tr>
 <tr class="even">
-<td>Q2</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q2">Q2</a></td>
 <td>Work</td>
 <td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q7">Q7</a></td>
 </tr>
 <tr class="odd">
-<td>Q3</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3">Q3</a></td>
 <td>Report Series</td>
 <td>Monographic Series</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q7">Q7</a></td>
 </tr>
 <tr class="even">
-<td>Q4</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q4">Q4</a></td>
 <td>Report</td>
 <td>Book; Monograph; Volume</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q10">Q10</a></td>
 </tr>
 <tr class="odd">
-<td>Q5</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q5">Q5</a></td>
 <td>Text Division</td>
 <td>Division</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q110">Q110</a></td>
 </tr>
 <tr class="even">
-<td>Q6</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q6">Q6</a></td>
 <td>Chapter</td>
 <td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q154">Q154</a></td>
 </tr>
 <tr class="odd">
-<td>Q2087</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q2087">Q2087</a></td>
 <td>Acronym</td>
 <td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3880">Q3880</a></td>
 </tr>
 <tr class="even">
-<td>Q3998</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3998">Q3998</a></td>
 <td>Author</td>
 <td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q4047">Q4047</a></td>
 </tr>
 </tbody>
 </table>
@@ -1183,16 +1215,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wikibase class items (QIDs)</span></span>
 <span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>| QID | Label | Also Known As |</span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>|-----|-------|---------------|</span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>| Q1 | Category (Glossary Terms) | |</span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>| Q2 | Work | |</span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>| Q3 | Report Series | Monographic Series |</span>
-<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>| Q4 | Report | Book; Monograph; Volume |</span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>| Q5 | Text Division | Division |</span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>| Q6 | Chapter | |</span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>| Q2087 | Acronym | |</span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>| Q3998 | Author | |</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>| QID | Label | Also Known As | Example item |</span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>|-----|-------|---------------|--------------|</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q1</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q1)</span> | Category (Glossary Terms) | | <span class="co">[</span><span class="ot">Q1005</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q1005)</span> |</span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q2</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q2)</span> | Work | | <span class="co">[</span><span class="ot">Q7</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q7)</span> |</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q3</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3)</span> | Report Series | Monographic Series | <span class="co">[</span><span class="ot">Q7</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q7)</span> |</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q4</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q4)</span> | Report | Book; Monograph; Volume | <span class="co">[</span><span class="ot">Q10</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q10)</span> |</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q5</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q5)</span> | Text Division | Division | <span class="co">[</span><span class="ot">Q110</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q110)</span> |</span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q6</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q6)</span> | Chapter | | <span class="co">[</span><span class="ot">Q154</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q154)</span> |</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q2087</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q2087)</span> | Acronym | | <span class="co">[</span><span class="ot">Q3880</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3880)</span> |</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q3998</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3998)</span> | Author | | <span class="co">[</span><span class="ot">Q4047</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q4047)</span> |</span>
 <span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>

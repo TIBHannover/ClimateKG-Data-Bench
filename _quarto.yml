@@ -9,6 +9,7 @@ project:
     - "research_data/data-vis/*.ipynb"
     - "research_data/data-xml-dtd/erm/erm-diagram.qmd"
     - "research_data/data-xml-dtd/erm/README.md"
+    - "sparql_queries/*.ipynb"
     - "!research_data/data-vis/ar6-authors-distribution-analysis.ipynb"
     - "!research_data/data-vis/wikibase-inventory-dashboard.ipynb"
     - "!research_data/data-import/"
@@ -19,19 +20,28 @@ website:
     left:
       - text: "Home"
         file: index.qmd
-      - text: "AR6 Gender Distribution"
-        file: research_data/data-vis/gender-distribution-simple.ipynb
-      - text: "Top 10 Global South Authors"
-        file: research_data/data-vis/authors-top-ten.ipynb
-      - text: "KG Inventory Dashboard"
+      - text: "ClimateKG Dashboard"
         file: research_data/data-vis/kg-stats-dashboard.ipynb
-      - text: "Buildings & Urban"
-        file: research_data/data-vis/buildings-urban-chapters.ipynb
-      - text: "ERM / Wikibase Mapping"
+      - text: "SPARQL Queries"
+        menu:
+          - text: "Class Instance Counts"
+            file: sparql_queries/class-counts.ipynb
+          - text: "---"
+          - text: "View Notebooks on GitHub"
+            href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
+      - text: "Data Analysis"
+        menu:
+          - text: "AR6 Gender Distribution"
+            file: research_data/data-vis/gender-distribution-simple.ipynb
+          - text: "Top 10 Global South Authors"
+            file: research_data/data-vis/authors-top-ten.ipynb
+          - text: "Buildings & Urban"
+            file: research_data/data-vis/buildings-urban-chapters.ipynb
+      - text: "ERM / Wikibase Mapping"  
         menu:
           - text: "ERM Documentation"
             file: research_data/data-xml-dtd/erm/README.md
-          - text: "Wikibase ER Diagram"
+          - text: "Wikibase ERM Diagram"
             file: research_data/data-xml-dtd/erm/erm-diagram.qmd
       # - text: "AR6 Authors Analysis"
       #   file: research_data/data-vis/ar6-authors-distribution-analysis.ipynb

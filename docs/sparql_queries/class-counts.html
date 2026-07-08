@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SPARQL Class Instance Counts – ClimateKG Data Bench</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ClimateKG Data Bench</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research_data/data-vis/kg-stats-dashboard.html"> 
+<span class="menu-text">ClimateKG Dashboard</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sparql-queries" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">SPARQL Queries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sparql-queries">    
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Gender Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ERM / Wikibase Mapping</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-erm--wikibase-mapping">    
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ERM Documentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Documentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-documentation">    
+        <li>
+    <a class="dropdown-item" href="../xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="../data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions">Helper Functions</a></li>
+  <li><a href="#class-instance-counts" id="toc-class-instance-counts" class="nav-link" data-scroll-target="#class-instance-counts">Class Instance Counts</a>
+  <ul class="collapse">
+  <li><a href="#corpus-hierarchy-classes" id="toc-corpus-hierarchy-classes" class="nav-link" data-scroll-target="#corpus-hierarchy-classes">Corpus Hierarchy Classes</a></li>
+  <li><a href="#q2---work" id="toc-q2---work" class="nav-link" data-scroll-target="#q2---work">Q2 - Work</a></li>
+  <li><a href="#q3---report-series" id="toc-q3---report-series" class="nav-link" data-scroll-target="#q3---report-series">Q3 - Report Series</a></li>
+  <li><a href="#q4---report" id="toc-q4---report" class="nav-link" data-scroll-target="#q4---report">Q4 - Report</a></li>
+  <li><a href="#q5---text-division" id="toc-q5---text-division" class="nav-link" data-scroll-target="#q5---text-division">Q5 - Text Division</a></li>
+  <li><a href="#q1---category" id="toc-q1---category" class="nav-link" data-scroll-target="#q1---category">Q1 - Category</a></li>
+  <li><a href="#q2087---acronym" id="toc-q2087---acronym" class="nav-link" data-scroll-target="#q2087---acronym">Q2087 - Acronym</a></li>
+  <li><a href="#q3998---author" id="toc-q3998---author" class="nav-link" data-scroll-target="#q3998---author">Q3998 - Author</a></li>
+  </ul></li>
+  <li><a href="#summary-table" id="toc-summary-table" class="nav-link" data-scroll-target="#summary-table">Summary Table</a></li>
+  <li><a href="#understanding-the-queries" id="toc-understanding-the-queries" class="nav-link" data-scroll-target="#understanding-the-queries">Understanding the Queries</a>
+  <ul class="collapse">
+  <li><a href="#sparql-query-structure" id="toc-sparql-query-structure" class="nav-link" data-scroll-target="#sparql-query-structure">SPARQL Query Structure</a></li>
+  <li><a href="#key-property" id="toc-key-property" class="nav-link" data-scroll-target="#key-property">Key Property</a></li>
+  <li><a href="#running-your-own-queries" id="toc-running-your-own-queries" class="nav-link" data-scroll-target="#running-your-own-queries">Running Your Own Queries</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">SPARQL Class Instance Counts</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This notebook demonstrates basic SPARQL queries against the ClimateKG Wikibase instance to count how many items belong to each major class in the corpus hierarchy.</p>
+<p><strong>Wikibase Instance</strong>: <a href="https://prod-climatekg.semanticclimate.org/wiki/Main_Page">ClimateKG Production</a></p>
+<p><strong>SPARQL Endpoint</strong>: https://prod-climatekg.semanticclimate.org/bigdata/sparql</p>
+<p><strong>📓 Download Notebook</strong>: <a href="https://github.com/TIBHannover/Climate-KG-data/blob/main/sparql_queries/class-counts.ipynb">class-counts.ipynb</a> - Run this notebook yourself to execute live queries against ClimateKG.</p>
+<hr>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>First, we’ll import the necessary libraries and configure the SPARQL endpoint.</p>
+<div id="9a64bfc2" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> SPARQLWrapper, JSON</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown, HTML</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure the SPARQL endpoint</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> <span class="st">"https://prod-climatekg.semanticclimate.org/query/proxy/sparql"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> <span class="st">"https://prod-climatekg.semanticclimate.org"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Libraries imported successfully"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"✓ SPARQL Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ Libraries imported successfully
+✓ SPARQL Endpoint: https://prod-climatekg.semanticclimate.org/query/proxy/sparql</code></pre>
+</div>
+</div>
+</section>
+<section id="helper-functions" class="level2">
+<h2 class="anchored" data-anchor-id="helper-functions">Helper Functions</h2>
+<p>We’ll create helper functions to execute SPARQL queries and display results.</p>
+<div id="41db88e2" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_class_instances(class_qid, class_name<span class="op">=</span><span class="st">""</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Count the number of items that are instances of a given class.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Uses P1 (instance of) to find items belonging to the given class QID.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build the SPARQL query using P1 (instance of)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f"""PREFIX wd: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/entity/&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/prop/direct/&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT (COUNT(?item) AS ?count) WHERE </span><span class="ch">{{</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?item wdt:P1 wd:</span><span class="sc">{</span>class_qid<span class="sc">}</span><span class="ss"> .</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span><span class="ss">"""</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Execute the query</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    sparql <span class="op">=</span> SPARQLWrapper(SPARQL_ENDPOINT)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    sparql.setQuery(query)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    sparql.setReturnFormat(JSON)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        count <span class="op">=</span> <span class="bu">int</span>(results[<span class="st">"results"</span>][<span class="st">"bindings"</span>][<span class="dv">0</span>][<span class="st">"count"</span>][<span class="st">"value"</span>])</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate query URL for Wikibase SPARQL interface</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="im">import</span> urllib.parse</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        query_url <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/query/#"</span> <span class="op">+</span> urllib.parse.quote(query)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">"class_qid"</span>: class_qid,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">"class_name"</span>: class_name,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">"count"</span>: count,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">"query"</span>: query,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">"query_url"</span>: query_url,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">"entity_url"</span>: <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/wiki/Item:</span><span class="sc">{</span>class_qid<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error querying </span><span class="sc">{</span>class_qid<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">"class_qid"</span>: class_qid,</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">"class_name"</span>: class_name,</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">"count"</span>: <span class="dv">0</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>            <span class="st">"query"</span>: query,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>            <span class="st">"error"</span>: <span class="bu">str</span>(e)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display_count_result(result):</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">    Display the count result in a formatted way.</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    class_label <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>result[<span class="st">'class_name'</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>result[<span class="st">'class_qid'</span>]<span class="sc">}</span><span class="ss">)"</span> <span class="cf">if</span> result[<span class="st">'class_name'</span>] <span class="cf">else</span> result[<span class="st">'class_qid'</span>]</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="ss">f"### </span><span class="sc">{</span>class_label<span class="sc">}</span><span class="ss">"</span>))</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'error'</span> <span class="kw">in</span> result:</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        display(HTML(<span class="ss">f'&lt;p style="color: red;"&gt;&amp;#10060; Error: </span><span class="sc">{</span>result[<span class="st">"error"</span>]<span class="sc">}</span><span class="ss">&lt;/p&gt;'</span>))</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display count</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    display(HTML(<span class="ss">f'&lt;p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;"&gt;Count: </span><span class="sc">{</span>result[<span class="st">"count"</span>]<span class="sc">:,}</span><span class="ss"> items&lt;/p&gt;'</span>))</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display links</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    display(HTML(<span class="ss">f'''</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="ss">    &lt;p&gt;</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="ss">        &lt;a href="</span><span class="sc">{</span>result[<span class="st">'entity_url'</span>]<span class="sc">}</span><span class="ss">" target="_blank" style="margin-right: 15px;"&gt;View Class in Wikibase&lt;/a&gt;</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="ss">        &lt;a href="</span><span class="sc">{</span>result[<span class="st">'query_url'</span>]<span class="sc">}</span><span class="ss">" target="_blank"&gt;Run Query in SPARQL Interface&lt;/a&gt;</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="ss">    &lt;/p&gt;</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="ss">    '''</span>))</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display SPARQL query</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="st">"**SPARQL Query:**"</span>))</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    display(HTML(<span class="ss">f'&lt;pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"&gt;&lt;code&gt;</span><span class="sc">{</span>result[<span class="st">"query"</span>]<span class="sc">}</span><span class="ss">&lt;/code&gt;&lt;/pre&gt;'</span>))</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    display(HTML(<span class="st">'&lt;hr style="margin: 30px 0;"&gt;'</span>))</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Helper functions defined"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>✓ Helper functions defined</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="class-instance-counts" class="level2">
+<h2 class="anchored" data-anchor-id="class-instance-counts">Class Instance Counts</h2>
+<p>The following sections show the count of items for each major class in the corpus hierarchy. Each count is accompanied by:</p>
+<ul>
+<li>The SPARQL query used to obtain the count</li>
+<li>A link to view the class definition in Wikibase</li>
+<li>A link to run the query in the Wikibase SPARQL interface</li>
+</ul>
+<section id="corpus-hierarchy-classes" class="level3">
+<h3 class="anchored" data-anchor-id="corpus-hierarchy-classes">Corpus Hierarchy Classes</h3>
+<p>The classes are counted in the following order, representing the typical hierarchy of IPCC corpus items:</p>
+<ul>
+<li><strong>Q2</strong>: Work (abstract creation — the base class for all works)</li>
+<li><strong>Q3</strong>: Report Series (a series of individual monograph standalone works)</li>
+<li><strong>Q4</strong>: Report (a standalone written work — book/monograph/volume)</li>
+<li><strong>Q5</strong>: Text Division (manuscript hierarchical component)</li>
+<li><strong>Q1</strong>: Category (subject or topic tag)</li>
+<li><strong>Q2087</strong>: Acronym (IPCC AR6 acronym)</li>
+<li><strong>Q3998</strong>: Author (IPCC AR6 author — person)</li>
+</ul>
+<hr>
+</section>
+<section id="q2---work" class="level3">
+<h3 class="anchored" data-anchor-id="q2---work">Q2 - Work</h3>
+<div id="821c2831" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>result_q2 <span class="op">=</span> count_class_instances(<span class="st">"Q2"</span>, <span class="st">"Work"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="work-q2" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="work-q2">Work (Q2)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 0 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q2" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ2%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q2 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+</section>
+<section id="q3---report-series" class="level3">
+<h3 class="anchored" data-anchor-id="q3---report-series">Q3 - Report Series</h3>
+<div id="79d9be2a" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>result_q3 <span class="op">=</span> count_class_instances(<span class="st">"Q3"</span>, <span class="st">"Report Series"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="report-series-q3" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="report-series-q3">Report Series (Q3)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 1 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ3%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q3 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+</section>
+<section id="q4---report" class="level3">
+<h3 class="anchored" data-anchor-id="q4---report">Q4 - Report</h3>
+<div id="e5aa005d" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>result_q4 <span class="op">=</span> count_class_instances(<span class="st">"Q4"</span>, <span class="st">"Report"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="report-q4" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="report-q4">Report (Q4)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 7 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q4" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ4%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q4 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+</section>
+<section id="q5---text-division" class="level3">
+<h3 class="anchored" data-anchor-id="q5---text-division">Q5 - Text Division</h3>
+<div id="b2949e20" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>result_q5 <span class="op">=</span> count_class_instances(<span class="st">"Q5"</span>, <span class="st">"Text Division"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="text-division-q5" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="text-division-q5">Text Division (Q5)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 10 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q5" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ5%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q5 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+</section>
+<section id="q1---category" class="level3">
+<h3 class="anchored" data-anchor-id="q1---category">Q1 - Category</h3>
+<div id="3b66900e" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>result_q1 <span class="op">=</span> count_class_instances(<span class="st">"Q1"</span>, <span class="st">"Category"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="category-q1" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="category-q1">Category (Q1)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 1,001 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q1" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ1%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q1 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+</section>
+<section id="q2087---acronym" class="level3">
+<h3 class="anchored" data-anchor-id="q2087---acronym">Q2087 - Acronym</h3>
+<div id="20f5e40f" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>result_q2087 <span class="op">=</span> count_class_instances(<span class="st">"Q2087"</span>, <span class="st">"Acronym"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q2087)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="acronym-q2087" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="acronym-q2087">Acronym (Q2087)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 1,910 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q2087" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ2087%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q2087 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+</section>
+<section id="q3998---author" class="level3">
+<h3 class="anchored" data-anchor-id="q3998---author">Q3998 - Author</h3>
+<div id="e46a7cab" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>result_q3998 <span class="op">=</span> count_class_instances(<span class="st">"Q3998"</span>, <span class="st">"Author"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>display_count_result(result_q3998)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="author-q3998" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="author-q3998">Author (Q3998)</h3>
+</section>
+<div class="cell-output cell-output-display">
+<p style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">Count: 932 items</p>
+</div>
+<div class="cell-output cell-output-display">
+
+    <p>
+        <a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3998" target="_blank" style="margin-right: 15px;">View Class in Wikibase</a>
+        <a href="https://prod-climatekg.semanticclimate.org/query/#PREFIX%20wd%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/entity/%3E%0APREFIX%20wdt%3A%20%3Chttps%3A//prod-climatekg.semanticclimate.org/prop/direct/%3E%0A%0ASELECT%20%28COUNT%28%3Fitem%29%20AS%20%3Fcount%29%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP1%20wd%3AQ3998%20.%0A%7D" target="_blank">Run Query in SPARQL Interface</a>
+    </p>
+    
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL Query:</strong></p>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto;"><code>PREFIX wd: <https: prod-climatekg.semanticclimate.org="" entity="">
+PREFIX wdt: <https: prod-climatekg.semanticclimate.org="" prop="" direct="">
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:Q3998 .
+}</https:></https:></code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<hr style="margin: 30px 0;">
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="summary-table" class="level2">
+<h2 class="anchored" data-anchor-id="summary-table">Summary Table</h2>
+<p>Here’s a summary of all the class counts:</p>
+<div id="4854fb83" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect all results</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>all_results <span class="op">=</span> [result_q2, result_q3, result_q4, result_q5, result_q1, result_q2087, result_q3998]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create summary DataFrame</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>summary_data <span class="op">=</span> []</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> all_results:</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'error'</span> <span class="kw">not</span> <span class="kw">in</span> result:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        summary_data.append({</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Class'</span>: result[<span class="st">'class_qid'</span>],</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Name'</span>: result[<span class="st">'class_name'</span>],</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Count'</span>: result[<span class="st">'count'</span>]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame(summary_data, columns<span class="op">=</span>[<span class="st">'Class'</span>, <span class="st">'Name'</span>, <span class="st">'Count'</span>])</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Display as formatted table</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"### Instance Counts by Class"</span>))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> summary_df.empty:</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    display(summary_df.style.<span class="bu">format</span>({<span class="st">'Count'</span>: <span class="st">'</span><span class="sc">{:,}</span><span class="st">'</span>}).set_properties(<span class="op">**</span>{</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'text-align'</span>: <span class="st">'left'</span>,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'font-size'</span>: <span class="st">'1.1em'</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">✓ Total items counted: </span><span class="sc">{</span>summary_df[<span class="st">'Count'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:    <span class="bu">print</span>(<span class="st">"No results available — run the query cells above first."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<section id="instance-counts-by-class" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="instance-counts-by-class">Instance Counts by Class</h3>
+</section>
+<div class="cell-output cell-output-display">
+<style type="text/css">
+#T_d9ed3_row0_col0, #T_d9ed3_row0_col1, #T_d9ed3_row0_col2, #T_d9ed3_row1_col0, #T_d9ed3_row1_col1, #T_d9ed3_row1_col2, #T_d9ed3_row2_col0, #T_d9ed3_row2_col1, #T_d9ed3_row2_col2, #T_d9ed3_row3_col0, #T_d9ed3_row3_col1, #T_d9ed3_row3_col2, #T_d9ed3_row4_col0, #T_d9ed3_row4_col1, #T_d9ed3_row4_col2, #T_d9ed3_row5_col0, #T_d9ed3_row5_col1, #T_d9ed3_row5_col2, #T_d9ed3_row6_col0, #T_d9ed3_row6_col1, #T_d9ed3_row6_col2 {
+  text-align: left;
+  font-size: 1.1em;
+}
+</style>
+
+<table id="T_d9ed3" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_d9ed3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Class</th>
+<th id="T_d9ed3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Name</th>
+<th id="T_d9ed3_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td id="T_d9ed3_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">0</td>
+<td id="T_d9ed3_row0_col0" class="data row0 col0">Q2</td>
+<td id="T_d9ed3_row0_col1" class="data row0 col1">Work</td>
+<td id="T_d9ed3_row0_col2" class="data row0 col2">0</td>
+</tr>
+<tr class="even">
+<td id="T_d9ed3_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">1</td>
+<td id="T_d9ed3_row1_col0" class="data row1 col0">Q3</td>
+<td id="T_d9ed3_row1_col1" class="data row1 col1">Report Series</td>
+<td id="T_d9ed3_row1_col2" class="data row1 col2">1</td>
+</tr>
+<tr class="odd">
+<td id="T_d9ed3_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">2</td>
+<td id="T_d9ed3_row2_col0" class="data row2 col0">Q4</td>
+<td id="T_d9ed3_row2_col1" class="data row2 col1">Report</td>
+<td id="T_d9ed3_row2_col2" class="data row2 col2">7</td>
+</tr>
+<tr class="even">
+<td id="T_d9ed3_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">3</td>
+<td id="T_d9ed3_row3_col0" class="data row3 col0">Q5</td>
+<td id="T_d9ed3_row3_col1" class="data row3 col1">Text Division</td>
+<td id="T_d9ed3_row3_col2" class="data row3 col2">10</td>
+</tr>
+<tr class="odd">
+<td id="T_d9ed3_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">4</td>
+<td id="T_d9ed3_row4_col0" class="data row4 col0">Q1</td>
+<td id="T_d9ed3_row4_col1" class="data row4 col1">Category</td>
+<td id="T_d9ed3_row4_col2" class="data row4 col2">1,001</td>
+</tr>
+<tr class="even">
+<td id="T_d9ed3_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">5</td>
+<td id="T_d9ed3_row5_col0" class="data row5 col0">Q2087</td>
+<td id="T_d9ed3_row5_col1" class="data row5 col1">Acronym</td>
+<td id="T_d9ed3_row5_col2" class="data row5 col2">1,910</td>
+</tr>
+<tr class="odd">
+<td id="T_d9ed3_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">6</td>
+<td id="T_d9ed3_row6_col0" class="data row6 col0">Q3998</td>
+<td id="T_d9ed3_row6_col1" class="data row6 col1">Author</td>
+<td id="T_d9ed3_row6_col2" class="data row6 col2">932</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+✓ Total items counted: 3,861</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="understanding-the-queries" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-the-queries">Understanding the Queries</h2>
+<section id="sparql-query-structure" class="level3">
+<h3 class="anchored" data-anchor-id="sparql-query-structure">SPARQL Query Structure</h3>
+<p>All the queries above follow the same basic pattern:</p>
+<pre class="sparql"><code>PREFIX wd: &lt;https://prod-climatekg.semanticclimate.org/entity/&gt;
+PREFIX wdt: &lt;https://prod-climatekg.semanticclimate.org/prop/direct/&gt;
+
+SELECT (COUNT(?item) AS ?count) WHERE {
+  ?item wdt:P1 wd:QX .
+}</code></pre>
+<p><strong>Explanation:</strong> - <code>PREFIX wd:</code> - Defines the namespace for entities (classes and items) - <code>PREFIX wdt:</code> - Defines the namespace for direct properties - <code>?item wdt:P1 wd:QX</code> - Finds all items (<code>?item</code>) that have property P1 (instance of) pointing to class QX - <code>COUNT(?item)</code> - Counts the number of matching items</p>
+</section>
+<section id="key-property" class="level3">
+<h3 class="anchored" data-anchor-id="key-property">Key Property</h3>
+<ul>
+<li><strong>P1</strong>: “instance of” — This property links items to their class in ClimateKG</li>
+</ul>
+</section>
+<section id="running-your-own-queries" class="level3">
+<h3 class="anchored" data-anchor-id="running-your-own-queries">Running Your Own Queries</h3>
+<p>You can run these queries directly in the <a href="https://prod-climatekg.semanticclimate.org/query/">ClimateKG SPARQL Query Service</a> or use the links provided above for each class.</p>
+<hr>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>This notebook demonstrates basic instance counting. You can extend these queries to:</p>
+<ul>
+<li>Filter by additional properties</li>
+<li>Retrieve actual item labels and data</li>
+<li>Perform aggregations and statistics</li>
+<li>Explore relationships between classes</li>
+</ul>
+<p><strong>Related Notebooks:</strong> - <a href="https://github.com/TIBHannover/Climate-KG-data/blob/main/sparql_queries/class-counts.ipynb">View this notebook on GitHub</a></p>
+<p><strong>External Resources:</strong> - <a href="https://prod-climatekg.semanticclimate.org/wiki/Main_Page">ClimateKG Wikibase</a> - <a href="https://prod-climatekg.semanticclimate.org/query/">SPARQL Query Service</a> - <a href="https://www.mediawiki.org/wiki/Wikibase/Indexing/SPARQL_Query_Examples">Wikibase SPARQL Documentation</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
