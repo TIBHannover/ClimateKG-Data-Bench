@@ -26,6 +26,8 @@ website:
         menu:
           - text: "Class Instance Counts"
             file: sparql_queries/class-counts.ipynb
+          - text: "Investigation: Q1 Count Discrepancy"
+            file: sparql_queries/investigate-q1-count.ipynb
           - text: "---"
           - text: "View Notebooks on GitHub"
             href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
