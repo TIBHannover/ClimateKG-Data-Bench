@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>IPCC Namespace — MediaWiki Word Count</title>
+<title>IPCC Namespace — MediaWiki Word Count – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,32 +57,207 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="mediawiki-word-count_files/libs/clipboard/clipboard.min.js"></script>
-<script src="mediawiki-word-count_files/libs/quarto-html/quarto.js"></script>
-<script src="mediawiki-word-count_files/libs/quarto-html/popper.min.js"></script>
-<script src="mediawiki-word-count_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="mediawiki-word-count_files/libs/quarto-html/anchor.min.js"></script>
-<link href="mediawiki-word-count_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="mediawiki-word-count_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="mediawiki-word-count_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="mediawiki-word-count_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="mediawiki-word-count_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
 
 </head>
 
-<body class="fullcontent">
+<body class="nav-fixed">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">ClimateKG Data Bench</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research_data/data-vis/kg-stats-dashboard.html"> 
+<span class="menu-text">ClimateKG Dashboard</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sparql-queries" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">SPARQL Queries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sparql-queries">    
+        <li>
+    <a class="dropdown-item" href="../../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../sparql_queries/investigate-q1-count.html">
+ <span class="dropdown-text">Investigation: Q1 Count Discrepancy</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Gender Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Content Analysis</li>
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-vis/mediawiki-word-count.html">
+ <span class="dropdown-text">IPCC Namespace Word Count</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ERM / Wikibase Mapping</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-erm--wikibase-mapping">    
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ERM Documentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Documentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-documentation">    
+        <li>
+    <a class="dropdown-item" href="../../xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="../../data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#import-required-libraries" id="toc-import-required-libraries" class="nav-link active" data-scroll-target="#import-required-libraries">Import Required Libraries</a></li>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#connect-to-mediawiki-api" id="toc-connect-to-mediawiki-api" class="nav-link" data-scroll-target="#connect-to-mediawiki-api">Connect to MediaWiki API</a></li>
+  <li><a href="#fetch-all-pages-in-the-ipcc-namespace" id="toc-fetch-all-pages-in-the-ipcc-namespace" class="nav-link" data-scroll-target="#fetch-all-pages-in-the-ipcc-namespace">Fetch All Pages in the IPCC Namespace</a></li>
+  <li><a href="#compute-word-count-per-page" id="toc-compute-word-count-per-page" class="nav-link" data-scroll-target="#compute-word-count-per-page">Compute Word Count Per Page</a></li>
+  <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link" data-scroll-target="#summary-statistics">Summary Statistics</a></li>
+  <li><a href="#word-count-table-all-ipcc-namespace-pages" id="toc-word-count-table-all-ipcc-namespace-pages" class="nav-link" data-scroll-target="#word-count-table-all-ipcc-namespace-pages">Word Count Table — All IPCC Namespace Pages</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">IPCC Namespace — MediaWiki Word Count</h1>
+<div class="quarto-title-block"><div><h1 class="title">IPCC Namespace — MediaWiki Word Count</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
 
 
@@ -146,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Retrieves all page titles from namespace 3000, then fetches wikitext content in batches of 10, handling API pagination at both stages.</p>
 <div id="71c58741" class="cell" data-execution_count="4">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1 — retrieve all page titles in the IPCC namespace</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pages <span class="op">=</span> get_all_page_titles(IPCC_NS)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>titles_all <span class="op">=</span> [p[<span class="st">"title"</span>] <span class="cf">for</span> p <span class="kw">in</span> pages]</span>
@@ -179,7 +354,7 @@ Pages empty / redirect      : 0</code></pre>
 <h2 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h2>
 <div id="a4dd489e" class="cell" data-execution_count="6">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_content <span class="op">=</span> df[df[<span class="st">"Has Content"</span>]]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>total_words   <span class="op">=</span> df_content[<span class="st">"Word Count"</span>].<span class="bu">sum</span>()</span>
@@ -264,7 +439,7 @@ Pages empty / redirect      : 0</code></pre>
 </div>
 <div id="a3344b8a" class="cell" data-execution_count="7">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Words by report group — stacked bar</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>group_totals <span class="op">=</span> (</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    df_content.groupby(<span class="st">"Report Group"</span>)[<span class="st">"Word Count"</span>]</span>
@@ -302,7 +477,7 @@ Pages empty / redirect      : 0</code></pre>
 <p>All 99 pages in namespace 3000, sorted by word count (descending). Pages with zero words are empty placeholders not yet populated with content.</p>
 <div id="7960af66" class="cell" data-execution_count="8">
 <details class="code-fold">
-<summary>Code</summary>
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>table_df <span class="op">=</span> df[[<span class="st">"Short Title"</span>, <span class="st">"Report Group"</span>, <span class="st">"Word Count"</span>, <span class="st">"Has Content"</span>]].copy()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>table_df.columns <span class="op">=</span> [<span class="st">"Page"</span>, <span class="st">"Report Group"</span>, <span class="st">"Word Count"</span>, <span class="st">"Has Content"</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>table_df[<span class="st">"Has Content"</span>] <span class="op">=</span> table_df[<span class="st">"Has Content"</span>].<span class="bu">map</span>({<span class="va">True</span>: <span class="st">"Yes"</span>, <span class="va">False</span>: <span class="st">"No"</span>})</span>
@@ -348,10 +523,11 @@ Pages empty / redirect      : 0</code></pre>
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
 </div>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -441,6 +617,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
