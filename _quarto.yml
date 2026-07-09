@@ -20,8 +20,12 @@ website:
     left:
       - text: "Home"
         file: index.qmd
-      - text: "ClimateKG Dashboard"
-        file: research_data/data-vis/kg-stats-dashboard.ipynb
+      - text: "Dashboards"
+        menu:
+          - text: "ClimateKG Dashboard"
+            file: research_data/data-vis/kg-stats-dashboard.ipynb
+          - text: "IPCC Namespace Word Count"
+            file: research_data/data-vis/mediawiki-word-count.ipynb
       - text: "SPARQL Queries"
         menu:
           - text: "Class Instance Counts"
@@ -39,10 +43,6 @@ website:
             file: research_data/data-vis/authors-top-ten.ipynb
           - text: "Buildings & Urban"
             file: research_data/data-vis/buildings-urban-chapters.ipynb
-          - text: "---"
-          - text: "Content Analysis"
-          - text: "IPCC Namespace Word Count"
-            file: research_data/data-vis/mediawiki-word-count.ipynb
       - text: "ERM / Wikibase Mapping"  
         menu:
           - text: "ERM Documentation"
