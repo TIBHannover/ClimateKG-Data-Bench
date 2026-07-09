@@ -39,6 +39,10 @@ website:
             file: research_data/data-vis/authors-top-ten.ipynb
           - text: "Buildings & Urban"
             file: research_data/data-vis/buildings-urban-chapters.ipynb
+          - text: "---"
+          - text: "Content Analysis"
+          - text: "IPCC Namespace Word Count"
+            file: research_data/data-vis/mediawiki-word-count.ipynb
       - text: "ERM / Wikibase Mapping"  
         menu:
           - text: "ERM Documentation"
