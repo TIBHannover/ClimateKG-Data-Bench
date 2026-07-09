@@ -8,7 +8,7 @@ project:
     - "*.md"
     - "research_data/data-vis/*.ipynb"
     - "research_data/data-xml-dtd/erm/erm-diagram.qmd"
-    - "research_data/data-xml-dtd/erm/README.md"
+    - "research_data/data-xml-dtd/erm/README.qmd"
     - "sparql_queries/*.ipynb"
     - "!research_data/data-vis/ar6-authors-distribution-analysis.ipynb"
     - "!research_data/data-vis/wikibase-inventory-dashboard.ipynb"
@@ -42,7 +42,7 @@ website:
       - text: "ERM / Wikibase Mapping"  
         menu:
           - text: "ERM Documentation"
-            file: research_data/data-xml-dtd/erm/README.md
+            file: research_data/data-xml-dtd/erm/README.qmd
           - text: "Wikibase ERM Diagram"
             file: research_data/data-xml-dtd/erm/erm-diagram.qmd
       # - text: "AR6 Authors Analysis"
