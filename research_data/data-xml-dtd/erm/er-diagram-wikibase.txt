@@ -1,0 +1,151 @@
+================================================================================
+         CLIMATE KG WIKIBASE  --  ENTITY RELATIONSHIP DIAGRAM
+================================================================================
+
+  RELATIONSHIP OVERVIEW
+  ------------------------------------------------------------------------------
+
+      WORK (Q2)
+          |
+          | [1:N]  contains
+          |
+          v
+      REPORT_SERIES (Q3)
+          |
+          | [1:N]  contains
+          |
+          v
+      REPORT (Q4)  --------[1:N has]--------> GLOSSARY_TERM (Q1 Category)
+                   \--------[1:N has]--------> ACRONYM (Q2087)
+          |
+          | [1:N]  contains
+          |
+          v
+      TEXT_DIVISION (Q5)
+          |
+          | [1:N]  contains
+          |
+          v
+      CHAPTER (Q6)  <----[contributes to]----  AUTHOR (Q3998)
+
+
+  CARDINALITY SUMMARY
+  ------------------------------------------------------------------------------
+    WORK            ||--|{   REPORT_SERIES    (one Work contains many Series)
+    REPORT_SERIES   ||--|{   REPORT           (one Series contains many Reports)
+    REPORT          ||--|{   TEXT_DIVISION    (one Report contains many Divs)
+    TEXT_DIVISION   ||--|{   CHAPTER          (one Division contains many Chaps)
+    REPORT          ||--|{   GLOSSARY_TERM    (one Report has many Terms)
+    REPORT          ||--|{   ACRONYM          (one Report has many Acronyms)
+    AUTHOR          ||--|{   CHAPTER          (one Author contributes to many)
+
+
+================================================================================
+  ENTITY PROPERTIES
+================================================================================
+
+  WORK (Q2)
+  ------------------------------------------------------------------------------
+  Property     Type           Description
+  -----------  -------------  -------------------------------------------------
+  P1           WikibaseItem   instance_of  Q2 (Work)
+
+
+  REPORT_SERIES (Q3)
+  ------------------------------------------------------------------------------
+  Property     Type           Description
+  -----------  -------------  -------------------------------------------------
+  P1           WikibaseItem   instance_of  Q3 (Report Series)
+  label        String         title  [rdfs:label]
+  description  String         description  [rdfs:description]
+  P3           WikibaseItem   part_of  ->  parent Work
+  P4           WikibaseItem   parts    ->  child Series or Books
+
+
+  REPORT (Q4)
+  ------------------------------------------------------------------------------
+  Property     Type           Description
+  -----------  -------------  -------------------------------------------------
+  P1           WikibaseItem   instance_of  Q4 (Report)
+  label        String         title  [rdfs:label]
+  P10          String         doi
+  P30          String         isbn_elec    (ISBN Electronic)
+  P31          String         isbn_print   (ISBN Print)
+  P11          String         license
+  P12          WikibaseItem   tags         (Has TAG)
+  P8           String         date
+  P7           URL            pdf
+  P9           String         openalex
+  P3           WikibaseItem   part_of  ->  parent Report Series
+  P4           WikibaseItem   parts    ->  child Books and Chapters
+
+
+  TEXT_DIVISION (Q5)
+  ------------------------------------------------------------------------------
+  Property     Type           Description
+  -----------  -------------  -------------------------------------------------
+  P1           WikibaseItem   instance_of  Q5 (Text Division)
+  label        String         title  [rdfs:label]
+  P10          String         doi
+  P30          String         isbn_elec    (ISBN Electronic)
+  P31          String         isbn_print   (ISBN Print)
+  P11          String         license
+  P12          WikibaseItem   tags         (Has TAG)
+  P8           String         date
+  P7           URL            pdf
+  P9           String         openalex
+  P3           WikibaseItem   part_of  ->  parent Series
+  P4           WikibaseItem   parts    ->  child Chapters
+
+
+  CHAPTER (Q6)
+  ------------------------------------------------------------------------------
+  Property     Type           Description
+  -----------  -------------  -------------------------------------------------
+  P1           WikibaseItem   instance_of  Q6 (Chapter)
+  label        String         title  [rdfs:label]
+  P10          String         doi
+  P9           String         openalex
+  P5           URL            wiki
+  P6           URL            source
+  P7           URL            pdf
+  P12          WikibaseItem   tags         (Has TAG)
+  P3           WikibaseItem   part_of  ->  parent Book
+
+
+  AUTHOR (Q3998)
+  ------------------------------------------------------------------------------
+  Property     Type           Description
+  -----------  -------------  -------------------------------------------------
+  P1           WikibaseItem   instance_of  Q3998 (Author)
+  P20          String         climatkg_author_id   (e.g. AU0001)
+  P21          String         last_name
+  P22          String         first_name
+  P23          String         gender               (M or F)
+  P24          String         citizenship
+  P25          String         country_of_residence
+  P26          String         affiliation
+  P27          WikibaseItem   contributed_to  ->  FK Q6 (Chapter)
+
+
+  GLOSSARY_TERM (Q1 Category)
+  ------------------------------------------------------------------------------
+  Property     Type             Description
+  -----------  ---------------  -----------------------------------------------
+  P1           WikibaseItem     instance_of  Q1 (Category)
+  label        String           name  [rdfs:label]
+  alias        String           also_known_as  [skos:altLabel]
+  P13          Monolingualtext  definition
+  P3           WikibaseItem     part_of_series  ->  FK Q4 Series via series_ref
+
+
+  ACRONYM (Q2087)
+  ------------------------------------------------------------------------------
+  Property     Type             Description
+  -----------  ---------------  -----------------------------------------------
+  P1           WikibaseItem     instance_of  Q2087 (Acronym)
+  label        String           code  [rdfs:label]
+  P13          Monolingualtext  description  (multiple values; source qualifier)
+  P3           WikibaseItem     report  ->  FK Q4 Series (report)
+
+================================================================================
