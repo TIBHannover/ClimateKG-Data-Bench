@@ -26,6 +26,8 @@ website:
             file: research_data/data-vis/kg-stats-dashboard.ipynb
           - text: "IPCC Namespace Word Count"
             file: research_data/data-vis/mediawiki-word-count.ipynb
+          - text: "Graph Visualisation"
+            file: sparql_queries/graph-visualisation.ipynb
       - text: "SPARQL Queries"
         menu:
           - text: "Class Instance Counts"

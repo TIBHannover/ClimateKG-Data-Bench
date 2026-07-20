@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Entity-Relationship Model (ERM) — Wikibase Mapping – ClimateKG Data Bench</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">ClimateKG Data Bench</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-dashboards" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Dashboards</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-dashboards">    
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/kg-stats-dashboard.html">
+ <span class="dropdown-text">ClimateKG Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/mediawiki-word-count.html">
+ <span class="dropdown-text">IPCC Namespace Word Count</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../sparql_queries/graph-visualisation.html">
+ <span class="dropdown-text">Graph Visualisation</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sparql-queries" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">SPARQL Queries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sparql-queries">    
+        <li>
+    <a class="dropdown-item" href="../../../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../sparql_queries/investigate-q1-count.html">
+ <span class="dropdown-text">Investigation: Q1 Count Discrepancy</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Author Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ERM / Wikibase Mapping</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-erm--wikibase-mapping">    
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ERM Documentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Documentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-documentation">    
+        <li>
+    <a class="dropdown-item" href="../../../xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="../../../data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#directory-contents" id="toc-directory-contents" class="nav-link active" data-scroll-target="#directory-contents">Directory contents</a></li>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a>
+  <ul class="collapse">
+  <li><a href="#step-1-query-wikibase-for-pids-and-qids" id="toc-step-1-query-wikibase-for-pids-and-qids" class="nav-link" data-scroll-target="#step-1-query-wikibase-for-pids-and-qids">Step 1 — Query Wikibase for PIDs and QIDs</a></li>
+  <li><a href="#step-2-maintain-erm-wikibase-mapping.xml" id="toc-step-2-maintain-erm-wikibase-mapping.xml" class="nav-link" data-scroll-target="#step-2-maintain-erm-wikibase-mapping.xml">Step 2 — Maintain <code>erm-wikibase-mapping.xml</code></a></li>
+  <li><a href="#step-3-regenerate-outputs" id="toc-step-3-regenerate-outputs" class="nav-link" data-scroll-target="#step-3-regenerate-outputs">Step 3 — Regenerate outputs</a></li>
+  </ul></li>
+  <li><a href="#wikibase-property-reference-p1p33" id="toc-wikibase-property-reference-p1p33" class="nav-link" data-scroll-target="#wikibase-property-reference-p1p33">Wikibase property reference (P1–P33)</a></li>
+  <li><a href="#wikibase-class-items-qids" id="toc-wikibase-class-items-qids" class="nav-link" data-scroll-target="#wikibase-class-items-qids">Wikibase class items (QIDs)</a></li>
+  <li><a href="#previewing-the-diagram" id="toc-previewing-the-diagram" class="nav-link" data-scroll-target="#previewing-the-diagram">Previewing the diagram</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Entity-Relationship Model (ERM) — Wikibase Mapping</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This directory contains the artefacts for mapping the IPCC AR6 XML/DTD data model to the local Wikibase instance, generating both a flat CSV property table and a Mermaid entity-relationship diagram.</p>
+<hr>
+<section id="directory-contents" class="level2">
+<h2 class="anchored" data-anchor-id="directory-contents">Directory contents</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>erm-wikibase-mapping.xml</code></td>
+<td><strong>Source of truth</strong> — XML that maps every DTD entity and field to a real Wikibase Property (PID) or Item (QID)</td>
+</tr>
+<tr class="even">
+<td><code>erm-to-csv.xslt</code></td>
+<td>XSLT 1.0 stylesheet: transforms mapping XML → flat CSV</td>
+</tr>
+<tr class="odd">
+<td><code>erm-to-mermaid.xslt</code></td>
+<td>XSLT 1.0 stylesheet: transforms mapping XML → Mermaid <code>erDiagram</code></td>
+</tr>
+<tr class="even">
+<td><code>generate-erm.ps1</code></td>
+<td>PowerShell runner — executes both transforms in one step</td>
+</tr>
+<tr class="odd">
+<td><code>erm-mapping.csv</code></td>
+<td><strong>Generated output</strong> — entity/property table (73 rows)</td>
+</tr>
+<tr class="even">
+<td><code>er-diagram-wikibase.mmd</code></td>
+<td><strong>Generated output</strong> — Mermaid ER diagram with real QIDs and PIDs</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="workflow" class="level2">
+<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
+<pre><code>DTD files (parent data-xml-dtd/)
+        │
+        ▼
+[Manual step] SPARQL query against local Wikibase
+  http://localhost:9999/bigdata/namespace/wdq/sparql
+  → retrieve all Properties (P1–P33) and class Items (Q-IDs)
+        │
+        ▼
+erm-wikibase-mapping.xml  ◄── edit this file to update the mapping
+        │
+        ├──[erm-to-csv.xslt]──────► erm-mapping.csv
+        │
+        └──[erm-to-mermaid.xslt]──► er-diagram-wikibase.mmd</code></pre>
+<section id="step-1-query-wikibase-for-pids-and-qids" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-query-wikibase-for-pids-and-qids">Step 1 — Query Wikibase for PIDs and QIDs</h3>
+<p>The mapping XML was populated by querying the local Wikibase SPARQL endpoint. Example SPARQL (uses explicit prefixes required by this Wikibase instance):</p>
+<pre class="sparql"><code>PREFIX wikibase: &lt;http://wikiba.se/ontology#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+SELECT ?prop ?num ?label WHERE {
+  ?prop a wikibase:Property .
+  ?prop wikibase:propertyType ?type .
+  BIND(REPLACE(STR(?prop), ".*/", "") AS ?num)
+  OPTIONAL { ?prop rdfs:label ?label FILTER(LANG(?label) = "en") }
+}
+ORDER BY xsd:integer(SUBSTR(?num, 2))</code></pre>
+</section>
+<section id="step-2-maintain-erm-wikibase-mapping.xml" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-maintain-erm-wikibase-mapping.xml">Step 2 — Maintain <code>erm-wikibase-mapping.xml</code></h3>
+<p>This is the only file you need to edit manually. Structure:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">erm-mapping</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">dtd</span><span class="ot"> name=</span><span class="st">"corpus-ar6"</span>&gt;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">entity</span><span class="ot"> name=</span><span class="st">"WORK"</span><span class="ot"> qid=</span><span class="st">"Q2"</span><span class="ot"> label=</span><span class="st">"Work"</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">field</span><span class="ot"> name=</span><span class="st">"instance_of"</span><span class="ot"> pid=</span><span class="st">"P1"</span><span class="ot"> label=</span><span class="st">"Instance of"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ot">             datatype=</span><span class="st">"WikibaseItem"</span><span class="ot"> notes=</span><span class="st">"P1=Q2"</span>/&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      ...</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">entity</span>&gt;</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">relationship</span><span class="ot"> from=</span><span class="st">"REPORT_SERIES"</span><span class="ot"> to=</span><span class="st">"REPORT"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ot">                  cardinality=</span><span class="st">"||--o{"</span><span class="ot"> label=</span><span class="st">"P4 contains"</span>/&gt;</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">dtd</span>&gt;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">erm-mapping</span>&gt;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Five DTD sections</strong> in hierarchy order:</p>
+<ol type="1">
+<li><code>corpus-ar6</code> — top-level corpus (Work Q2, Report Series Q3, Report Q4, Text Division Q5, Chapter Q6)</li>
+<li><code>authors-ar6</code> — IPCC AR6 author records (Author Q3998)</li>
+<li><code>bibliographic-ar6</code> — DOI bibliographic enrichment (adds P29–P33 to Report and Chapter)</li>
+<li><code>glossary-ar6</code> — glossary terms (Category Q1)</li>
+<li><code>acronyms-ar6</code> — acronym list (Acronym Q2087)</li>
+</ol>
+</section>
+<section id="step-3-regenerate-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-regenerate-outputs">Step 3 — Regenerate outputs</h3>
+<p>Run from PowerShell inside this directory (or any working directory — the script uses <code>$PSScriptRoot</code>):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\generate-erm<span class="op">.</span><span class="fu">ps1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Requires: Windows PowerShell 5.1+ or PowerShell 7+, .NET <code>System.Xml.Xsl.XslCompiledTransform</code> (built-in on Windows).</p>
+<p>Outputs written as <strong>UTF-8 without BOM</strong> (required by the Mermaid parser).</p>
+<hr>
+</section>
+</section>
+<section id="wikibase-property-reference-p1p33" class="level2">
+<h2 class="anchored" data-anchor-id="wikibase-property-reference-p1p33">Wikibase property reference (P1–P33)</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>PID</th>
+<th>Label</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P1</td>
+<td>Instance of</td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="even">
+<td>P2</td>
+<td>Instances</td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="odd">
+<td>P3</td>
+<td>Part of</td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="even">
+<td>P4</td>
+<td>Parts</td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="odd">
+<td>P5</td>
+<td>Wiki</td>
+<td>Url</td>
+</tr>
+<tr class="even">
+<td>P6</td>
+<td>Source</td>
+<td>Url</td>
+</tr>
+<tr class="odd">
+<td>P7</td>
+<td>PDF</td>
+<td>Url</td>
+</tr>
+<tr class="even">
+<td>P8</td>
+<td>Date</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P9</td>
+<td>OPENALEX</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P10</td>
+<td>DOI</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P11</td>
+<td>LICENSE</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P12</td>
+<td>Has TAG</td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="odd">
+<td>P13</td>
+<td>Definition</td>
+<td>Monolingualtext</td>
+</tr>
+<tr class="even">
+<td>P17</td>
+<td>date accessed</td>
+<td>Time</td>
+</tr>
+<tr class="odd">
+<td>P18</td>
+<td>date accessed</td>
+<td>Time</td>
+</tr>
+<tr class="even">
+<td>P19</td>
+<td>source version</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P20</td>
+<td>ClimateKG Author ID</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P21</td>
+<td>last name</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P22</td>
+<td>first name</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P23</td>
+<td>gender</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P24</td>
+<td>citizenship</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P25</td>
+<td>country of residence</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P26</td>
+<td>affiliation</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P27</td>
+<td>contributed to chapter</td>
+<td>WikibaseItem</td>
+</tr>
+<tr class="odd">
+<td>P28</td>
+<td>role</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P29</td>
+<td>Publisher DOI</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P30</td>
+<td>ISBN Electronic DOI</td>
+<td>String</td>
+</tr>
+<tr class="even">
+<td>P31</td>
+<td>ISBN Print DOI</td>
+<td>String</td>
+</tr>
+<tr class="odd">
+<td>P32</td>
+<td>Licence URL DOI</td>
+<td>Url</td>
+</tr>
+<tr class="even">
+<td>P33</td>
+<td>Abstract DOI</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="wikibase-class-items-qids" class="level2">
+<h2 class="anchored" data-anchor-id="wikibase-class-items-qids">Wikibase class items (QIDs)</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>QID</th>
+<th>Label</th>
+<th>Also Known As</th>
+<th>Example item</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q1">Q1</a></td>
+<td>Category (Glossary Terms)</td>
+<td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q1005">Q1005</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q2">Q2</a></td>
+<td>Work</td>
+<td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q7">Q7</a></td>
+</tr>
+<tr class="odd">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3">Q3</a></td>
+<td>Report Series</td>
+<td>Monographic Series</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q7">Q7</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q4">Q4</a></td>
+<td>Report</td>
+<td>Book; Monograph; Volume</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q10">Q10</a></td>
+</tr>
+<tr class="odd">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q5">Q5</a></td>
+<td>Text Division</td>
+<td>Division</td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q110">Q110</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q6">Q6</a></td>
+<td>Chapter</td>
+<td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q154">Q154</a></td>
+</tr>
+<tr class="odd">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q2087">Q2087</a></td>
+<td>Acronym</td>
+<td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3880">Q3880</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q3998">Q3998</a></td>
+<td>Author</td>
+<td></td>
+<td><a href="https://prod-climatekg.semanticclimate.org/wiki/Item:Q4047">Q4047</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="previewing-the-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="previewing-the-diagram">Previewing the diagram</h2>
+<p>The diagram can also be viewed online at <a href="https://mermaidviewer.com/share/vM7HKbpLsxMF44EMalvNI">mermaid.live</a>.</p>
+<p>This diagram maps the IPCC AR6 XML/DTD entities to their corresponding Wikibase properties (PIDs) and class items (QIDs) on the local ClimateKG Wikibase instance.</p>
+<p>Source file: <a href="er-diagram-wikibase.mmd"><code>er-diagram-wikibase.mmd</code></a> — regenerate by running <code>generate-erm.ps1</code> whenever <a href="erm-wikibase-mapping.xml"><code>erm-wikibase-mapping.xml</code></a> changes.</p>
+<div id="erm-diagram-wrapper">
+<div class="cell" data-file="er-diagram-wikibase.mmd" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">erDiagram
+
+    WORK {
+        WikibaseItem instance_of "P1 Instance of: P1=Q2"
+    }
+    REPORT_SERIES {
+        WikibaseItem instance_of "P1 Instance of: P1=Q3"
+        String title "rdfs:label item label"
+        String description "rdfs:description item description"
+        WikibaseItem part_of "P3 Part of: parent Work"
+        WikibaseItem parts "P4 Parts: child Series or Books"
+    }
+    REPORT {
+        WikibaseItem instance_of "P1 Instance of: P1=Q4"
+        String title "rdfs:label item label"
+        String doi "P10 DOI"
+        String isbn_elec "P30 ISBN Electronic (DOI)"
+        String isbn_print "P31 ISBN Print (DOI)"
+        String license "P11 LICENSE"
+        WikibaseItem tags "P12 Has TAG"
+        String date "P8 Date"
+        Url pdf "P7 PDF"
+        String openalex "P9 OPENALEX"
+        WikibaseItem part_of "P3 Part of: parent Report Series"
+        WikibaseItem parts "P4 Parts: child Books and Chapters"
+    }
+    TEXT_DIVISION {
+        WikibaseItem instance_of "P1 Instance of: P1=Q5"
+        String title "rdfs:label item label"
+        String doi "P10 DOI"
+        String isbn_elec "P30 ISBN Electronic (DOI)"
+        String isbn_print "P31 ISBN Print (DOI)"
+        String license "P11 LICENSE"
+        WikibaseItem tags "P12 Has TAG"
+        String date "P8 Date"
+        Url pdf "P7 PDF"
+        String openalex "P9 OPENALEX"
+        WikibaseItem part_of "P3 Part of: parent Series"
+        WikibaseItem parts "P4 Parts: child Chapters"
+    }
+    CHAPTER {
+        WikibaseItem instance_of "P1 Instance of: P1=Q6"
+        String title "rdfs:label item label"
+        String doi "P10 DOI"
+        String openalex "P9 OPENALEX"
+        Url wiki "P5 Wiki"
+        Url source "P6 Source"
+        Url pdf "P7 PDF"
+        WikibaseItem tags "P12 Has TAG"
+        WikibaseItem part_of "P3 Part of: parent Book"
+    }
+
+    AUTHOR {
+        WikibaseItem instance_of "P1 Instance of: P1=Q3998"
+        String climatkg_author_id "P20 ClimateKG Author ID: e.g. AU0001"
+        String last_name "P21 last name"
+        String first_name "P22 first name"
+        String gender "P23 gender: M or F"
+        String citizenship "P24 citizenship"
+        String country_of_residence "P25 country of residence"
+        String affiliation "P26 affiliation"
+        WikibaseItem contributed_to "P27 contributed to chapter: FK to Q6 Chapter"
+    }
+
+    GLOSSARY_TERM {
+        WikibaseItem instance_of "P1 Instance of: P1=Q1 Category"
+        String name "rdfs:label item label"
+        String also_known_as "skos:altLabel item alias"
+        Monolingualtext definition "P13 Definition"
+        WikibaseItem part_of_series "P3 Part of: FK to Q4 Series via series_ref"
+    }
+
+    ACRONYM {
+        WikibaseItem instance_of "P1 Instance of: P1=Q2087"
+        String code "rdfs:label acronym code as item label"
+        Monolingualtext description "P13 Definition: multiple; source as qualifier"
+        WikibaseItem report "P3 Part of: FK to Q4 Series (report)"
+    }
+
+    WORK ||--|{ REPORT_SERIES : "contains"
+    REPORT_SERIES ||--|{ REPORT : "contains"
+    REPORT ||--|{ TEXT_DIVISION : "contains"
+    TEXT_DIVISION ||--|{ CHAPTER : "contains"
+    AUTHOR ||--|{ CHAPTER : "contributes to"
+    REPORT ||--|{ GLOSSARY_TERM : "has"
+    REPORT ||--|{ ACRONYM : "has"
+
+
+    </pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<div class="erm-toolbar">
+  <button class="erm-btn" id="erm-fullscreen-btn">⛶ Fullscreen</button>
+  <a class="erm-btn erm-link" href="https://mermaidviewer.com/share/vM7HKbpLsxMF44EMalvNI" target="_blank" rel="noopener noreferrer">🔗 View on Mermaid Viewer</a>
+</div>
+
+<!-- Fullscreen modal -->
+<div id="erm-modal" role="dialog" aria-modal="true" aria-label="ERM diagram fullscreen">
+  <div id="erm-modal-backdrop"></div>
+  <div id="erm-modal-inner">
+    <div id="erm-modal-toolbar">
+      <span id="erm-modal-hint">Scroll to zoom · Drag to pan · Esc to close</span>
+      <div id="erm-modal-controls">
+        <button class="erm-btn" id="erm-zoom-in" title="Zoom in">+</button>
+        <button class="erm-btn" id="erm-zoom-out" title="Zoom out">−</button>
+        <button class="erm-btn" id="erm-zoom-reset" title="Reset view">Reset</button>
+        <button class="erm-btn" id="erm-modal-close" title="Close">✕ Close</button>
+      </div>
+    </div>
+    <div id="erm-modal-viewport">
+      <div id="erm-modal-canvas"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+.erm-toolbar {
+  display: flex;
+  gap: .6rem;
+  align-items: center;
+  margin: .4rem 0 1.4rem;
+}
+.erm-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .8rem;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: .85rem;
+  text-decoration: none;
+  color: #212529;
+  line-height: 1.4;
+  font-family: inherit;
+}
+.erm-btn:hover { background: #e2e6ea; border-color: #495057; }
+
+/* Modal */
+#erm-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+}
+#erm-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.78);
+}
+#erm-modal-inner {
+  position: absolute;
+  inset: 2vh 2vw;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,.5);
+}
+#erm-modal-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .45rem .75rem;
+  border-bottom: 1px solid #dee2e6;
+  background: #f8f9fa;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+#erm-modal-hint { color: #6c757d; font-size: .78rem; }
+#erm-modal-controls { display: flex; gap: .35rem; }
+#erm-modal-viewport {
+  flex: 1;
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+  background: #fafafa;
+}
+#erm-modal-viewport.dragging { cursor: grabbing; user-select: none; }
+#erm-modal-canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+}
+#erm-modal-canvas svg { display: block; max-width: none !important; }
+</style>
+
+<script>
+(function () {
+  var scale = 1, tx = 0, ty = 0;
+  var dragging = false, startX, startY, startTx, startTy;
+
+  function canvas()   { return document.getElementById('erm-modal-canvas'); }
+  function viewport() { return document.getElementById('erm-modal-viewport'); }
+
+  function applyTransform() {
+    var c = canvas();
+    if (!c) return;
+    c.style.transform =
+      'translate(calc(-50% + ' + tx + 'px), calc(-50% + ' + ty + 'px)) scale(' + scale + ')';
+  }
+
+  function zoom(factor, pivotX, pivotY) {
+    var prev = scale;
+    scale = Math.min(10, Math.max(0.15, scale * factor));
+    var r = scale / prev;
+    tx = pivotX + (tx - pivotX) * r;
+    ty = pivotY + (ty - pivotY) * r;
+    applyTransform();
+  }
+
+  function openModal() {
+    var src = document.querySelector('#erm-diagram-wrapper svg');
+    if (!src) {
+      alert('Diagram not yet rendered — please wait a moment and try again.');
+      return;
+    }
+    var c = canvas();
+    c.innerHTML = '';
+    var clone = src.cloneNode(true);
+    clone.removeAttribute('style');
+    var r = src.getBoundingClientRect();
+    clone.style.width  = (r.width  || 900) + 'px';
+    clone.style.height = (r.height || 600) + 'px';
+    c.appendChild(clone);
+    scale = 1; tx = 0; ty = 0;
+    applyTransform();
+    document.getElementById('erm-modal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('erm-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('erm-fullscreen-btn').addEventListener('click', openModal);
+    document.getElementById('erm-modal-close').addEventListener('click', closeModal);
+    document.getElementById('erm-modal-backdrop').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+    document.getElementById('erm-zoom-in').addEventListener('click',    function () { zoom(1.3,  0, 0); });
+    document.getElementById('erm-zoom-out').addEventListener('click',   function () { zoom(1/1.3, 0, 0); });
+    document.getElementById('erm-zoom-reset').addEventListener('click', function () { scale = 1; tx = 0; ty = 0; applyTransform(); });
+
+    var vp = viewport();
+
+    vp.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var rect = vp.getBoundingClientRect();
+      zoom(e.deltaY < 0 ? 1.12 : 1/1.12,
+           e.clientX - rect.left  - rect.width  / 2,
+           e.clientY - rect.top   - rect.height / 2);
+    }, { passive: false });
+
+    vp.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) return;
+      dragging = true;
+      startX = e.clientX; startY = e.clientY;
+      startTx = tx; startTy = ty;
+      vp.classList.add('dragging');
+    });
+    document.addEventListener('mousemove', function (e) {
+      if (!dragging) return;
+      tx = startTx + (e.clientX - startX);
+      ty = startTy + (e.clientY - startY);
+      applyTransform();
+    });
+    document.addEventListener('mouseup', function () {
+      if (!dragging) return;
+      dragging = false;
+      var v = viewport();
+      if (v) v.classList.remove('dragging');
+    });
+  });
+})();
+</script>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Entity-Relationship Model (ERM) — Wikibase Mapping"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>This directory contains the artefacts for mapping the IPCC AR6 XML/DTD data model to the</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>local Wikibase instance, generating both a flat CSV property table and a Mermaid</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>entity-relationship diagram.</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Directory contents</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>| File | Role |</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>|------|------|</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>| <span class="in">`erm-wikibase-mapping.xml`</span> | **Source of truth** — XML that maps every DTD entity and field to a real Wikibase Property (PID) or Item (QID) |</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>| <span class="in">`erm-to-csv.xslt`</span> | XSLT 1.0 stylesheet: transforms mapping XML → flat CSV |</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>| <span class="in">`erm-to-mermaid.xslt`</span> | XSLT 1.0 stylesheet: transforms mapping XML → Mermaid <span class="in">`erDiagram`</span> |</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>| <span class="in">`generate-erm.ps1`</span> | PowerShell runner — executes both transforms in one step |</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>| <span class="in">`erm-mapping.csv`</span> | **Generated output** — entity/property table (73 rows) |</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>| <span class="in">`er-diagram-wikibase.mmd`</span> | **Generated output** — Mermaid ER diagram with real QIDs and PIDs |</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Workflow</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="in">DTD files (parent data-xml-dtd/)</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="in">        │</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="in">        ▼</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="in">[Manual step] SPARQL query against local Wikibase</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="in">  http://localhost:9999/bigdata/namespace/wdq/sparql</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="in">  → retrieve all Properties (P1–P33) and class Items (Q-IDs)</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="in">        │</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="in">        ▼</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="in">erm-wikibase-mapping.xml  ◄── edit this file to update the mapping</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="in">        │</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="in">        ├──[erm-to-csv.xslt]──────► erm-mapping.csv</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="in">        │</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="in">        └──[erm-to-mermaid.xslt]──► er-diagram-wikibase.mmd</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 1 — Query Wikibase for PIDs and QIDs</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>The mapping XML was populated by querying the local Wikibase SPARQL endpoint.</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>Example SPARQL (uses explicit prefixes required by this Wikibase instance):</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX wikibase: &lt;http://wikiba.se/ontology#&gt;</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?prop ?num ?label WHERE {</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="in">  ?prop a wikibase:Property .</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="in">  ?prop wikibase:propertyType ?type .</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="in">  BIND(REPLACE(STR(?prop), ".*/", "") AS ?num)</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="in">  OPTIONAL { ?prop rdfs:label ?label FILTER(LANG(?label) = "en") }</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="in">ORDER BY xsd:integer(SUBSTR(?num, 2))</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 2 — Maintain `erm-wikibase-mapping.xml`</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>This is the only file you need to edit manually. Structure:</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="in">```xml</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">erm-mapping</span>&gt;</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">dtd</span><span class="ot"> name=</span><span class="st">"corpus-ar6"</span>&gt;</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">entity</span><span class="ot"> name=</span><span class="st">"WORK"</span><span class="ot"> qid=</span><span class="st">"Q2"</span><span class="ot"> label=</span><span class="st">"Work"</span>&gt;</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">field</span><span class="ot"> name=</span><span class="st">"instance_of"</span><span class="ot"> pid=</span><span class="st">"P1"</span><span class="ot"> label=</span><span class="st">"Instance of"</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="ot">             datatype=</span><span class="st">"WikibaseItem"</span><span class="ot"> notes=</span><span class="st">"P1=Q2"</span>/&gt;</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>      ...</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">entity</span>&gt;</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">relationship</span><span class="ot"> from=</span><span class="st">"REPORT_SERIES"</span><span class="ot"> to=</span><span class="st">"REPORT"</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="ot">                  cardinality=</span><span class="st">"||--o{"</span><span class="ot"> label=</span><span class="st">"P4 contains"</span>/&gt;</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">dtd</span>&gt;</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">erm-mapping</span>&gt;</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>**Five DTD sections** in hierarchy order:</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="in">`corpus-ar6`</span> — top-level corpus (Work Q2, Report Series Q3, Report Q4, Text Division Q5, Chapter Q6)</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="in">`authors-ar6`</span> — IPCC AR6 author records (Author Q3998)</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="in">`bibliographic-ar6`</span> — DOI bibliographic enrichment (adds P29–P33 to Report and Chapter)</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="in">`glossary-ar6`</span> — glossary terms (Category Q1)</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span><span class="in">`acronyms-ar6`</span> — acronym list (Acronym Q2087)</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="fu">### Step 3 — Regenerate outputs</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>Run from PowerShell inside this directory (or any working directory — the script uses <span class="in">`$PSScriptRoot`</span>):</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="in">.\generate-erm.ps1</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>Requires: Windows PowerShell 5.1+ or PowerShell 7+, .NET <span class="in">`System.Xml.Xsl.XslCompiledTransform`</span> (built-in on Windows).</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>Outputs written as **UTF-8 without BOM** (required by the Mermaid parser).</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wikibase property reference (P1–P33)</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>| PID | Label | Type |</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>|-----|-------|------|</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>| P1  | Instance of | WikibaseItem |</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>| P2  | Instances | WikibaseItem |</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>| P3  | Part of | WikibaseItem |</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>| P4  | Parts | WikibaseItem |</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>| P5  | Wiki | Url |</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>| P6  | Source | Url |</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>| P7  | PDF | Url |</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>| P8  | Date | String |</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>| P9  | OPENALEX | String |</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>| P10 | DOI | String |</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>| P11 | LICENSE | String |</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>| P12 | Has TAG | WikibaseItem |</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>| P13 | Definition | Monolingualtext |</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>| P17 | date accessed | Time |</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>| P18 | date accessed | Time |</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>| P19 | source version | String |</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>| P20 | ClimateKG Author ID | String |</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>| P21 | last name | String |</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>| P22 | first name | String |</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>| P23 | gender | String |</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>| P24 | citizenship | String |</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>| P25 | country of residence | String |</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>| P26 | affiliation | String |</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>| P27 | contributed to chapter | WikibaseItem |</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>| P28 | role | String |</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>| P29 | Publisher DOI | String |</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>| P30 | ISBN Electronic DOI | String |</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>| P31 | ISBN Print DOI | String |</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>| P32 | Licence URL DOI | Url |</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>| P33 | Abstract DOI | String |</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wikibase class items (QIDs)</span></span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>| QID | Label | Also Known As | Example item |</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>|-----|-------|---------------|--------------|</span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q1</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q1)</span> | Category (Glossary Terms) | | <span class="co">[</span><span class="ot">Q1005</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q1005)</span> |</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q2</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q2)</span> | Work | | <span class="co">[</span><span class="ot">Q7</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q7)</span> |</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q3</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3)</span> | Report Series | Monographic Series | <span class="co">[</span><span class="ot">Q7</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q7)</span> |</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q4</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q4)</span> | Report | Book; Monograph; Volume | <span class="co">[</span><span class="ot">Q10</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q10)</span> |</span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q5</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q5)</span> | Text Division | Division | <span class="co">[</span><span class="ot">Q110</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q110)</span> |</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q6</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q6)</span> | Chapter | | <span class="co">[</span><span class="ot">Q154</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q154)</span> |</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q2087</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q2087)</span> | Acronym | | <span class="co">[</span><span class="ot">Q3880</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3880)</span> |</span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Q3998</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q3998)</span> | Author | | <span class="co">[</span><span class="ot">Q4047</span><span class="co">](https://prod-climatekg.semanticclimate.org/wiki/Item:Q4047)</span> |</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## Previewing the diagram</span></span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>The diagram can also be viewed online at <span class="co">[</span><span class="ot">mermaid.live</span><span class="co">](https://mermaidviewer.com/share/vM7HKbpLsxMF44EMalvNI)</span>.</span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>This diagram maps the IPCC AR6 XML/DTD entities to their corresponding Wikibase</span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>properties (PIDs) and class items (QIDs) on the local ClimateKG Wikibase instance.</span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>Source file: <span class="co">[</span><span class="ot">`er-diagram-wikibase.mmd`</span><span class="co">](er-diagram-wikibase.mmd)</span> — regenerate by</span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>running <span class="in">`generate-erm.ps1`</span> whenever <span class="co">[</span><span class="ot">`erm-wikibase-mapping.xml`</span><span class="co">](erm-wikibase-mapping.xml)</span> changes.</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>::: {#erm-diagram-wrapper}</span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a><span class="in">%%| file: er-diagram-wikibase.mmd</span></span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div class="erm-toolbar"&gt;</span></span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;button class="erm-btn" id="erm-fullscreen-btn"&gt;&amp;#x26F6; Fullscreen&lt;/button&gt;</span></span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;a class="erm-btn erm-link"</span></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="in">     href="https://mermaidviewer.com/share/vM7HKbpLsxMF44EMalvNI"</span></span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a><span class="in">     target="_blank" rel="noopener noreferrer"&gt;&amp;#x1F517; View on Mermaid Viewer&lt;/a&gt;</span></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;!-- Fullscreen modal --&gt;</span></span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div id="erm-modal" role="dialog" aria-modal="true" aria-label="ERM diagram fullscreen"&gt;</span></span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div id="erm-modal-backdrop"&gt;&lt;/div&gt;</span></span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;div id="erm-modal-inner"&gt;</span></span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div id="erm-modal-toolbar"&gt;</span></span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;span id="erm-modal-hint"&gt;Scroll to zoom &amp;middot; Drag to pan &amp;middot; Esc to close&lt;/span&gt;</span></span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;div id="erm-modal-controls"&gt;</span></span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;button class="erm-btn" id="erm-zoom-in" title="Zoom in"&gt;+&lt;/button&gt;</span></span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;button class="erm-btn" id="erm-zoom-out" title="Zoom out"&gt;&amp;minus;&lt;/button&gt;</span></span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;button class="erm-btn" id="erm-zoom-reset" title="Reset view"&gt;Reset&lt;/button&gt;</span></span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a><span class="in">        &lt;button class="erm-btn" id="erm-modal-close" title="Close"&gt;&amp;#x2715; Close&lt;/button&gt;</span></span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;/div&gt;</span></span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;div id="erm-modal-viewport"&gt;</span></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a><span class="in">      &lt;div id="erm-modal-canvas"&gt;&lt;/div&gt;</span></span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;/div&gt;</span></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/div&gt;</span></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;style&gt;</span></span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a><span class="in">.erm-toolbar {</span></span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="in">  display: flex;</span></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="in">  gap: .6rem;</span></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="in">  align-items: center;</span></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="in">  margin: .4rem 0 1.4rem;</span></span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="in">.erm-btn {</span></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="in">  display: inline-flex;</span></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a><span class="in">  align-items: center;</span></span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a><span class="in">  padding: .35rem .8rem;</span></span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a><span class="in">  border: 1px solid #6c757d;</span></span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a><span class="in">  border-radius: 4px;</span></span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a><span class="in">  background: #f8f9fa;</span></span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a><span class="in">  cursor: pointer;</span></span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a><span class="in">  font-size: .85rem;</span></span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a><span class="in">  text-decoration: none;</span></span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="in">  color: #212529;</span></span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a><span class="in">  line-height: 1.4;</span></span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a><span class="in">  font-family: inherit;</span></span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a><span class="in">.erm-btn:hover { background: #e2e6ea; border-color: #495057; }</span></span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a><span class="in">/* Modal */</span></span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal {</span></span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a><span class="in">  display: none;</span></span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a><span class="in">  position: fixed;</span></span>
+<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a><span class="in">  inset: 0;</span></span>
+<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a><span class="in">  z-index: 9000;</span></span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-backdrop {</span></span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a><span class="in">  inset: 0;</span></span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a><span class="in">  background: rgba(0,0,0,.78);</span></span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-inner {</span></span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a><span class="in">  inset: 2vh 2vw;</span></span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a><span class="in">  background: #fff;</span></span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a><span class="in">  border-radius: 6px;</span></span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a><span class="in">  display: flex;</span></span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a><span class="in">  flex-direction: column;</span></span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a><span class="in">  overflow: hidden;</span></span>
+<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a><span class="in">  box-shadow: 0 12px 48px rgba(0,0,0,.5);</span></span>
+<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-toolbar {</span></span>
+<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a><span class="in">  display: flex;</span></span>
+<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a><span class="in">  justify-content: space-between;</span></span>
+<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a><span class="in">  align-items: center;</span></span>
+<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a><span class="in">  padding: .45rem .75rem;</span></span>
+<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a><span class="in">  border-bottom: 1px solid #dee2e6;</span></span>
+<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a><span class="in">  background: #f8f9fa;</span></span>
+<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a><span class="in">  flex-shrink: 0;</span></span>
+<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a><span class="in">  flex-wrap: wrap;</span></span>
+<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a><span class="in">  gap: .4rem;</span></span>
+<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-hint { color: #6c757d; font-size: .78rem; }</span></span>
+<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-controls { display: flex; gap: .35rem; }</span></span>
+<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-viewport {</span></span>
+<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a><span class="in">  flex: 1;</span></span>
+<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a><span class="in">  overflow: hidden;</span></span>
+<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a><span class="in">  cursor: grab;</span></span>
+<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a><span class="in">  position: relative;</span></span>
+<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a><span class="in">  background: #fafafa;</span></span>
+<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-viewport.dragging { cursor: grabbing; user-select: none; }</span></span>
+<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-canvas {</span></span>
+<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a><span class="in">  position: absolute;</span></span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a><span class="in">  top: 50%;</span></span>
+<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a><span class="in">  left: 50%;</span></span>
+<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a><span class="in">  transform-origin: 0 0;</span></span>
+<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a><span class="in">#erm-modal-canvas svg { display: block; max-width: none !important; }</span></span>
+<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/style&gt;</span></span>
+<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;script&gt;</span></span>
+<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a><span class="in">(function () {</span></span>
+<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a><span class="in">  var scale = 1, tx = 0, ty = 0;</span></span>
+<span id="cb5-275"><a href="#cb5-275" aria-hidden="true" tabindex="-1"></a><span class="in">  var dragging = false, startX, startY, startTx, startTy;</span></span>
+<span id="cb5-276"><a href="#cb5-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-277"><a href="#cb5-277" aria-hidden="true" tabindex="-1"></a><span class="in">  function canvas()   { return document.getElementById('erm-modal-canvas'); }</span></span>
+<span id="cb5-278"><a href="#cb5-278" aria-hidden="true" tabindex="-1"></a><span class="in">  function viewport() { return document.getElementById('erm-modal-viewport'); }</span></span>
+<span id="cb5-279"><a href="#cb5-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-280"><a href="#cb5-280" aria-hidden="true" tabindex="-1"></a><span class="in">  function applyTransform() {</span></span>
+<span id="cb5-281"><a href="#cb5-281" aria-hidden="true" tabindex="-1"></a><span class="in">    var c = canvas();</span></span>
+<span id="cb5-282"><a href="#cb5-282" aria-hidden="true" tabindex="-1"></a><span class="in">    if (!c) return;</span></span>
+<span id="cb5-283"><a href="#cb5-283" aria-hidden="true" tabindex="-1"></a><span class="in">    c.style.transform =</span></span>
+<span id="cb5-284"><a href="#cb5-284" aria-hidden="true" tabindex="-1"></a><span class="in">      'translate(calc(-50% + ' + tx + 'px), calc(-50% + ' + ty + 'px)) scale(' + scale + ')';</span></span>
+<span id="cb5-285"><a href="#cb5-285" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb5-286"><a href="#cb5-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-287"><a href="#cb5-287" aria-hidden="true" tabindex="-1"></a><span class="in">  function zoom(factor, pivotX, pivotY) {</span></span>
+<span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a><span class="in">    var prev = scale;</span></span>
+<span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a><span class="in">    scale = Math.min(10, Math.max(0.15, scale * factor));</span></span>
+<span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a><span class="in">    var r = scale / prev;</span></span>
+<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a><span class="in">    tx = pivotX + (tx - pivotX) * r;</span></span>
+<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a><span class="in">    ty = pivotY + (ty - pivotY) * r;</span></span>
+<span id="cb5-293"><a href="#cb5-293" aria-hidden="true" tabindex="-1"></a><span class="in">    applyTransform();</span></span>
+<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb5-295"><a href="#cb5-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-296"><a href="#cb5-296" aria-hidden="true" tabindex="-1"></a><span class="in">  function openModal() {</span></span>
+<span id="cb5-297"><a href="#cb5-297" aria-hidden="true" tabindex="-1"></a><span class="in">    var src = document.querySelector('#erm-diagram-wrapper svg');</span></span>
+<span id="cb5-298"><a href="#cb5-298" aria-hidden="true" tabindex="-1"></a><span class="in">    if (!src) {</span></span>
+<span id="cb5-299"><a href="#cb5-299" aria-hidden="true" tabindex="-1"></a><span class="in">      alert('Diagram not yet rendered — please wait a moment and try again.');</span></span>
+<span id="cb5-300"><a href="#cb5-300" aria-hidden="true" tabindex="-1"></a><span class="in">      return;</span></span>
+<span id="cb5-301"><a href="#cb5-301" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
+<span id="cb5-302"><a href="#cb5-302" aria-hidden="true" tabindex="-1"></a><span class="in">    var c = canvas();</span></span>
+<span id="cb5-303"><a href="#cb5-303" aria-hidden="true" tabindex="-1"></a><span class="in">    c.innerHTML = '';</span></span>
+<span id="cb5-304"><a href="#cb5-304" aria-hidden="true" tabindex="-1"></a><span class="in">    var clone = src.cloneNode(true);</span></span>
+<span id="cb5-305"><a href="#cb5-305" aria-hidden="true" tabindex="-1"></a><span class="in">    clone.removeAttribute('style');</span></span>
+<span id="cb5-306"><a href="#cb5-306" aria-hidden="true" tabindex="-1"></a><span class="in">    var r = src.getBoundingClientRect();</span></span>
+<span id="cb5-307"><a href="#cb5-307" aria-hidden="true" tabindex="-1"></a><span class="in">    clone.style.width  = (r.width  || 900) + 'px';</span></span>
+<span id="cb5-308"><a href="#cb5-308" aria-hidden="true" tabindex="-1"></a><span class="in">    clone.style.height = (r.height || 600) + 'px';</span></span>
+<span id="cb5-309"><a href="#cb5-309" aria-hidden="true" tabindex="-1"></a><span class="in">    c.appendChild(clone);</span></span>
+<span id="cb5-310"><a href="#cb5-310" aria-hidden="true" tabindex="-1"></a><span class="in">    scale = 1; tx = 0; ty = 0;</span></span>
+<span id="cb5-311"><a href="#cb5-311" aria-hidden="true" tabindex="-1"></a><span class="in">    applyTransform();</span></span>
+<span id="cb5-312"><a href="#cb5-312" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-modal').style.display = 'block';</span></span>
+<span id="cb5-313"><a href="#cb5-313" aria-hidden="true" tabindex="-1"></a><span class="in">    document.body.style.overflow = 'hidden';</span></span>
+<span id="cb5-314"><a href="#cb5-314" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb5-315"><a href="#cb5-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-316"><a href="#cb5-316" aria-hidden="true" tabindex="-1"></a><span class="in">  function closeModal() {</span></span>
+<span id="cb5-317"><a href="#cb5-317" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-modal').style.display = 'none';</span></span>
+<span id="cb5-318"><a href="#cb5-318" aria-hidden="true" tabindex="-1"></a><span class="in">    document.body.style.overflow = '';</span></span>
+<span id="cb5-319"><a href="#cb5-319" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb5-320"><a href="#cb5-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-321"><a href="#cb5-321" aria-hidden="true" tabindex="-1"></a><span class="in">  document.addEventListener('DOMContentLoaded', function () {</span></span>
+<span id="cb5-322"><a href="#cb5-322" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-fullscreen-btn').addEventListener('click', openModal);</span></span>
+<span id="cb5-323"><a href="#cb5-323" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-modal-close').addEventListener('click', closeModal);</span></span>
+<span id="cb5-324"><a href="#cb5-324" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-modal-backdrop').addEventListener('click', closeModal);</span></span>
+<span id="cb5-325"><a href="#cb5-325" aria-hidden="true" tabindex="-1"></a><span class="in">    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });</span></span>
+<span id="cb5-326"><a href="#cb5-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-327"><a href="#cb5-327" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-zoom-in').addEventListener('click',    function () { zoom(1.3,  0, 0); });</span></span>
+<span id="cb5-328"><a href="#cb5-328" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-zoom-out').addEventListener('click',   function () { zoom(1/1.3, 0, 0); });</span></span>
+<span id="cb5-329"><a href="#cb5-329" aria-hidden="true" tabindex="-1"></a><span class="in">    document.getElementById('erm-zoom-reset').addEventListener('click', function () { scale = 1; tx = 0; ty = 0; applyTransform(); });</span></span>
+<span id="cb5-330"><a href="#cb5-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-331"><a href="#cb5-331" aria-hidden="true" tabindex="-1"></a><span class="in">    var vp = viewport();</span></span>
+<span id="cb5-332"><a href="#cb5-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-333"><a href="#cb5-333" aria-hidden="true" tabindex="-1"></a><span class="in">    vp.addEventListener('wheel', function (e) {</span></span>
+<span id="cb5-334"><a href="#cb5-334" aria-hidden="true" tabindex="-1"></a><span class="in">      e.preventDefault();</span></span>
+<span id="cb5-335"><a href="#cb5-335" aria-hidden="true" tabindex="-1"></a><span class="in">      var rect = vp.getBoundingClientRect();</span></span>
+<span id="cb5-336"><a href="#cb5-336" aria-hidden="true" tabindex="-1"></a><span class="in">      zoom(e.deltaY &lt; 0 ? 1.12 : 1/1.12,</span></span>
+<span id="cb5-337"><a href="#cb5-337" aria-hidden="true" tabindex="-1"></a><span class="in">           e.clientX - rect.left  - rect.width  / 2,</span></span>
+<span id="cb5-338"><a href="#cb5-338" aria-hidden="true" tabindex="-1"></a><span class="in">           e.clientY - rect.top   - rect.height / 2);</span></span>
+<span id="cb5-339"><a href="#cb5-339" aria-hidden="true" tabindex="-1"></a><span class="in">    }, { passive: false });</span></span>
+<span id="cb5-340"><a href="#cb5-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-341"><a href="#cb5-341" aria-hidden="true" tabindex="-1"></a><span class="in">    vp.addEventListener('mousedown', function (e) {</span></span>
+<span id="cb5-342"><a href="#cb5-342" aria-hidden="true" tabindex="-1"></a><span class="in">      if (e.button !== 0) return;</span></span>
+<span id="cb5-343"><a href="#cb5-343" aria-hidden="true" tabindex="-1"></a><span class="in">      dragging = true;</span></span>
+<span id="cb5-344"><a href="#cb5-344" aria-hidden="true" tabindex="-1"></a><span class="in">      startX = e.clientX; startY = e.clientY;</span></span>
+<span id="cb5-345"><a href="#cb5-345" aria-hidden="true" tabindex="-1"></a><span class="in">      startTx = tx; startTy = ty;</span></span>
+<span id="cb5-346"><a href="#cb5-346" aria-hidden="true" tabindex="-1"></a><span class="in">      vp.classList.add('dragging');</span></span>
+<span id="cb5-347"><a href="#cb5-347" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb5-348"><a href="#cb5-348" aria-hidden="true" tabindex="-1"></a><span class="in">    document.addEventListener('mousemove', function (e) {</span></span>
+<span id="cb5-349"><a href="#cb5-349" aria-hidden="true" tabindex="-1"></a><span class="in">      if (!dragging) return;</span></span>
+<span id="cb5-350"><a href="#cb5-350" aria-hidden="true" tabindex="-1"></a><span class="in">      tx = startTx + (e.clientX - startX);</span></span>
+<span id="cb5-351"><a href="#cb5-351" aria-hidden="true" tabindex="-1"></a><span class="in">      ty = startTy + (e.clientY - startY);</span></span>
+<span id="cb5-352"><a href="#cb5-352" aria-hidden="true" tabindex="-1"></a><span class="in">      applyTransform();</span></span>
+<span id="cb5-353"><a href="#cb5-353" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb5-354"><a href="#cb5-354" aria-hidden="true" tabindex="-1"></a><span class="in">    document.addEventListener('mouseup', function () {</span></span>
+<span id="cb5-355"><a href="#cb5-355" aria-hidden="true" tabindex="-1"></a><span class="in">      if (!dragging) return;</span></span>
+<span id="cb5-356"><a href="#cb5-356" aria-hidden="true" tabindex="-1"></a><span class="in">      dragging = false;</span></span>
+<span id="cb5-357"><a href="#cb5-357" aria-hidden="true" tabindex="-1"></a><span class="in">      var v = viewport();</span></span>
+<span id="cb5-358"><a href="#cb5-358" aria-hidden="true" tabindex="-1"></a><span class="in">      if (v) v.classList.remove('dragging');</span></span>
+<span id="cb5-359"><a href="#cb5-359" aria-hidden="true" tabindex="-1"></a><span class="in">    });</span></span>
+<span id="cb5-360"><a href="#cb5-360" aria-hidden="true" tabindex="-1"></a><span class="in">  });</span></span>
+<span id="cb5-361"><a href="#cb5-361" aria-hidden="true" tabindex="-1"></a><span class="in">})();</span></span>
+<span id="cb5-362"><a href="#cb5-362" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/script&gt;</span></span>
+<span id="cb5-363"><a href="#cb5-363" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-364"><a href="#cb5-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-365"><a href="#cb5-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-366"><a href="#cb5-366" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
