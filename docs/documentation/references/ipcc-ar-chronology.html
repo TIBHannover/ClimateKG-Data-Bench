@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Climate-KG Data Analysis Dashboard – ClimateKG Data Bench</title>
+<title>ipcc-ar-chronology – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
         <li>
     <a class="dropdown-item" href="../../research_data/data-vis/gender-distribution-simple.html">
- <span class="dropdown-text">AR6 Gender Distribution</span></a>
+ <span class="dropdown-text">AR6 Author Distribution</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../research_data/data-vis/authors-top-ten.html">
@@ -244,98 +244,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#available-analyses" id="toc-available-analyses" class="nav-link" data-scroll-target="#available-analyses">Available Analyses</a></li>
-  </ul></li>
-  <li><a href="#about-climate-kg" id="toc-about-climate-kg" class="nav-link" data-scroll-target="#about-climate-kg">About Climate-KG</a>
-  <ul class="collapse">
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
-  <li><a href="#technology-stack" id="toc-technology-stack" class="nav-link" data-scroll-target="#technology-stack">Technology Stack</a></li>
-  </ul></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
+  <li><a href="#ipcc-assessment-report-chronology" id="toc-ipcc-assessment-report-chronology" class="nav-link active" data-scroll-target="#ipcc-assessment-report-chronology">IPCC Assessment Report Chronology</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Climate-KG Data Analysis Dashboard</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">IPCC AR6 Author Demographics and Wikibase Inventory</p>
-</div>
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.</p>
-<section id="available-analyses" class="level3">
-<h3 class="anchored" data-anchor-id="available-analyses">Available Analyses</h3>
-<section id="ar6-authors-distribution-analysis" class="level4">
-<h4 class="anchored" data-anchor-id="ar6-authors-distribution-analysis"><a href="ar6-authors-distribution-analysis.html">AR6 Authors Distribution Analysis</a></h4>
-<p>Comprehensive demographic analysis of IPCC AR6 authors examining:</p>
-<ul>
-<li><strong>Global North vs Global South distribution</strong> - Regional representation across reports</li>
-<li><strong>Gender distribution</strong> - Gender demographics of author teams</li>
-<li><strong>Intersectional analysis</strong> - Combined gender and regional patterns</li>
-<li><strong>Chapter-level variations</strong> - Demographic distribution across different chapters</li>
-</ul>
-<p><strong>Key visualizations include:</strong> - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns</p>
-</section>
-<section id="wikibase-inventory-dashboard" class="level4">
-<h4 class="anchored" data-anchor-id="wikibase-inventory-dashboard"><a href="wikibase-inventory-dashboard.html">Wikibase Inventory Dashboard</a></h4>
-<p>Comprehensive inventory and quality analysis of the Climate-KG Wikibase instance:</p>
-<ul>
-<li>Item counts and distribution</li>
-<li>Property usage statistics</li>
-<li>Data quality metrics</li>
-<li>MediaWiki page inventory</li>
-</ul>
-<hr>
-</section>
-</section>
-</section>
-<section id="about-climate-kg" class="level2">
-<h2 class="anchored" data-anchor-id="about-climate-kg">About Climate-KG</h2>
-<p>Climate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.</p>
-<section id="data-sources" class="level3">
-<h3 class="anchored" data-anchor-id="data-sources">Data Sources</h3>
-<ul>
-<li><strong>Authors</strong>: IPCC AR6 author metadata (demographics, affiliations, contributions)</li>
-<li><strong>Bibliography</strong>: Climate science literature references</li>
-<li><strong>Glossary</strong>: Climate science terminology from IPCC reports</li>
-<li><strong>Acronyms</strong>: Standard climate science abbreviations</li>
-</ul>
-</section>
-<section id="technology-stack" class="level3">
-<h3 class="anchored" data-anchor-id="technology-stack">Technology Stack</h3>
-<ul>
-<li><strong>Wikibase</strong>: Knowledge graph database</li>
-<li><strong>Python</strong>: Data processing and analysis</li>
-<li><strong>Plotly</strong>: Interactive visualizations</li>
-<li><strong>Quarto</strong>: Documentation and reporting</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>All code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.</p>
-<p><strong>Note</strong>: Code sections are collapsed by default. Click “Show code” to expand and view the Python code used for each analysis.</p>
+<section id="ipcc-assessment-report-chronology" class="level1">
+<h1>IPCC Assessment Report Chronology</h1>
+<p>The Intergovernmental Panel on Climate Change (IPCC) has completed six assessment cycles since 1990. Each cycle produces reports from three working groups and a synthesis report.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Cycle</th>
+<th>Year(s)</th>
+<th>Working Group I</th>
+<th>Working Group II</th>
+<th>Working Group III</th>
+<th>Synthesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AR1</td>
+<td>1990</td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar1">The Scientific Assessment</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar1">The Impacts Assessment</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar1">The Response Strategies</a></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>AR2</td>
+<td>1995–1996</td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar2">The Science of Climate Change</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar2">Impacts, Adaptations and Mitigation</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar2">Economic and Social Dimensions</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar2">Second Assessment Synthesis</a></td>
+</tr>
+<tr class="odd">
+<td>AR3</td>
+<td>2001</td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar3">The Scientific Basis</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar3">Impacts, Adaptation, and Vulnerability</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar3">Mitigation</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar3">Synthesis Report</a></td>
+</tr>
+<tr class="even">
+<td>AR4</td>
+<td>2007</td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar4">The Physical Science Basis</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar4">Impacts, Adaptation and Vulnerability</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar4">Mitigation of Climate Change</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar4">Synthesis Report</a></td>
+</tr>
+<tr class="odd">
+<td>AR5</td>
+<td>2013–2014</td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar5">The Physical Science Basis</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar5">Impacts, Adaptation, and Vulnerability</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar5">Mitigation of Climate Change</a></td>
+<td><a href="https://www.ipcc.ch/reports/?rp=ar5">Synthesis Report</a></td>
+</tr>
+<tr class="even">
+<td>AR6</td>
+<td>2021–2023</td>
+<td><a href="https://www.ipcc.ch/report/ar6/wg1/">The Physical Science Basis</a></td>
+<td><a href="https://www.ipcc.ch/report/ar6/wg2/">Impacts, Adaptation and Vulnerability</a></td>
+<td><a href="https://www.ipcc.ch/report/ar6/wg3/">Mitigation of Climate Change</a></td>
+<td><a href="https://www.ipcc.ch/report/ar6/syr/">Synthesis Report</a></td>
+</tr>
+</tbody>
+</table>
 
 
 <!-- -->
@@ -814,68 +797,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Climate-KG Data Analysis Dashboard"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "IPCC AR6 Author Demographics and Wikibase Inventory"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Available Analyses</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">#### [AR6 Authors Distribution Analysis](ar6-authors-distribution-analysis.html)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Comprehensive demographic analysis of IPCC AR6 authors examining:</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Global North vs Global South distribution** - Regional representation across reports</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gender distribution** - Gender demographics of author teams</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Intersectional analysis** - Combined gender and regional patterns</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Chapter-level variations** - Demographic distribution across different chapters</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>**Key visualizations include:**</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Regional distribution maps and charts</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Gender distribution by region and chapter</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Country-level author contributions</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Report-specific demographic breakdowns</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">#### [Wikibase Inventory Dashboard](wikibase-inventory-dashboard.html)</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>Comprehensive inventory and quality analysis of the Climate-KG Wikibase instance:</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Item counts and distribution</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Property usage statistics</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Data quality metrics</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>MediaWiki page inventory</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## About Climate-KG</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Climate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data Sources</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Authors**: IPCC AR6 author metadata (demographics, affiliations, contributions)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bibliography**: Climate science literature references</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Glossary**: Climate science terminology from IPCC reports</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Acronyms**: Standard climate science abbreviations</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technology Stack</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Wikibase**: Knowledge graph database</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Python**: Data processing and analysis</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Plotly**: Interactive visualizations</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Quarto**: Documentation and reporting</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Getting Started</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>All code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>**Note**: Code sections are collapsed by default. Click "Show code" to expand and view the Python code used for each analysis.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># IPCC Assessment Report Chronology</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>The Intergovernmental Panel on Climate Change (IPCC) has completed six assessment cycles since 1990. Each cycle produces reports from three working groups and a synthesis report.</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>| Cycle | Year(s) | Working Group I | Working Group II | Working Group III | Synthesis |</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>|-------|---------|-----------------|------------------|-------------------|-----------|</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>| AR1 | 1990 | <span class="co">[</span><span class="ot">The Scientific Assessment</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar1)</span> | <span class="co">[</span><span class="ot">The Impacts Assessment</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar1)</span> | <span class="co">[</span><span class="ot">The Response Strategies</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar1)</span> | — |</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>| AR2 | 1995–1996 | <span class="co">[</span><span class="ot">The Science of Climate Change</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar2)</span> | <span class="co">[</span><span class="ot">Impacts, Adaptations and Mitigation</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar2)</span> | <span class="co">[</span><span class="ot">Economic and Social Dimensions</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar2)</span> | <span class="co">[</span><span class="ot">Second Assessment Synthesis</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar2)</span> |</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>| AR3 | 2001 | <span class="co">[</span><span class="ot">The Scientific Basis</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar3)</span> | <span class="co">[</span><span class="ot">Impacts, Adaptation, and Vulnerability</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar3)</span> | <span class="co">[</span><span class="ot">Mitigation</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar3)</span> | <span class="co">[</span><span class="ot">Synthesis Report</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar3)</span> |</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>| AR4 | 2007 | <span class="co">[</span><span class="ot">The Physical Science Basis</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar4)</span> | <span class="co">[</span><span class="ot">Impacts, Adaptation and Vulnerability</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar4)</span> | <span class="co">[</span><span class="ot">Mitigation of Climate Change</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar4)</span> | <span class="co">[</span><span class="ot">Synthesis Report</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar4)</span> |</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>| AR5 | 2013–2014 | <span class="co">[</span><span class="ot">The Physical Science Basis</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar5)</span> | <span class="co">[</span><span class="ot">Impacts, Adaptation, and Vulnerability</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar5)</span> | <span class="co">[</span><span class="ot">Mitigation of Climate Change</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar5)</span> | <span class="co">[</span><span class="ot">Synthesis Report</span><span class="co">](https://www.ipcc.ch/reports/?rp=ar5)</span> |</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>| AR6 | 2021–2023 | <span class="co">[</span><span class="ot">The Physical Science Basis</span><span class="co">](https://www.ipcc.ch/report/ar6/wg1/)</span> | <span class="co">[</span><span class="ot">Impacts, Adaptation and Vulnerability</span><span class="co">](https://www.ipcc.ch/report/ar6/wg2/)</span> | <span class="co">[</span><span class="ot">Mitigation of Climate Change</span><span class="co">](https://www.ipcc.ch/report/ar6/wg3/)</span> | <span class="co">[</span><span class="ot">Synthesis Report</span><span class="co">](https://www.ipcc.ch/report/ar6/syr/)</span> |</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

@@ -10,8 +10,8 @@ WORK
       └── REPORT  ◄──── Bibliographic enrichment
            └── TEXT_DIVISION
                 └── CHAPTER  ◄──── Authors (contributed_to)
-                               ◄──── Glossary (series_ref → Report)
-                               ◄──── Acronyms (part_of → Report)
+                             ◄──── Glossary (series_ref → Report)
+                             ◄──── Acronyms (part_of → Report)
 ```
 
 | Dataset | Items | Connects to |

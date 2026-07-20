@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>data-visualisation-and-ontology-options – ClimateKG Data Bench</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ClimateKG Data Bench</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-dashboards" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Dashboards</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-dashboards">    
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/kg-stats-dashboard.html">
+ <span class="dropdown-text">ClimateKG Dashboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/mediawiki-word-count.html">
+ <span class="dropdown-text">IPCC Namespace Word Count</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sparql-queries" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">SPARQL Queries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sparql-queries">    
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/investigate-q1-count.html">
+ <span class="dropdown-text">Investigation: Q1 Count Discrepancy</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Author Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-erm--wikibase-mapping" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ERM / Wikibase Mapping</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-erm--wikibase-mapping">    
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ERM Documentation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Documentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-documentation">    
+        <li>
+    <a class="dropdown-item" href="../xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="../data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-visualisation-ontology-options" id="toc-data-visualisation-ontology-options" class="nav-link active" data-scroll-target="#data-visualisation-ontology-options">Data Visualisation &amp; Ontology Options</a>
+  <ul class="collapse">
+  <li><a href="#dataset-overview" id="toc-dataset-overview" class="nav-link" data-scroll-target="#dataset-overview">Dataset Overview</a></li>
+  <li><a href="#visualisation-options" id="toc-visualisation-options" class="nav-link" data-scroll-target="#visualisation-options">1. Visualisation Options</a>
+  <ul class="collapse">
+  <li><a href="#structural-hierarchical" id="toc-structural-hierarchical" class="nav-link" data-scroll-target="#structural-hierarchical">1.1 Structural / Hierarchical</a></li>
+  <li><a href="#author-network" id="toc-author-network" class="nav-link" data-scroll-target="#author-network">1.2 Author Network</a></li>
+  <li><a href="#knowledge-graph-coverage" id="toc-knowledge-graph-coverage" class="nav-link" data-scroll-target="#knowledge-graph-coverage">1.3 Knowledge Graph Coverage</a></li>
+  <li><a href="#bibliographic-metadata-completeness" id="toc-bibliographic-metadata-completeness" class="nav-link" data-scroll-target="#bibliographic-metadata-completeness">1.4 Bibliographic / Metadata Completeness</a></li>
+  </ul></li>
+  <li><a href="#ontology-schema-options" id="toc-ontology-schema-options" class="nav-link" data-scroll-target="#ontology-schema-options">2. Ontology &amp; Schema Options</a>
+  <ul class="collapse">
+  <li><a href="#bibliographic-structure-corpus" id="toc-bibliographic-structure-corpus" class="nav-link" data-scroll-target="#bibliographic-structure-corpus">2.1 Bibliographic Structure (Corpus)</a></li>
+  <li><a href="#authors" id="toc-authors" class="nav-link" data-scroll-target="#authors">2.2 Authors</a></li>
+  <li><a href="#glossary-acronyms" id="toc-glossary-acronyms" class="nav-link" data-scroll-target="#glossary-acronyms">2.3 Glossary &amp; Acronyms</a></li>
+  <li><a href="#provenance-references" id="toc-provenance-references" class="nav-link" data-scroll-target="#provenance-references">2.4 Provenance &amp; References</a></li>
+  </ul></li>
+  <li><a href="#summary-recommendation" id="toc-summary-recommendation" class="nav-link" data-scroll-target="#summary-recommendation">3. Summary Recommendation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="data-visualisation-ontology-options" class="level1">
+<h1>Data Visualisation &amp; Ontology Options</h1>
+<section id="dataset-overview" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h2>
+<p>Five datasets form the knowledge graph, with <strong>Corpus</strong> as the core and <strong>Chapter</strong> as the atomic unit. All other datasets connect upward to this backbone.</p>
+<pre><code>WORK
+ └── REPORT_SERIES
+      └── REPORT  ◄──── Bibliographic enrichment
+           └── TEXT_DIVISION
+                └── CHAPTER  ◄──── Authors (contributed_to)
+                             ◄──── Glossary (series_ref → Report)
+                             ◄──── Acronyms (part_of → Report)</code></pre>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Items</th>
+<th>Connects to</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Corpus</strong></td>
+<td>Work, Report Series, Report, Text Division, Chapter</td>
+<td>— (core)</td>
+</tr>
+<tr class="even">
+<td><strong>Authors</strong></td>
+<td>Author + Chapter contributions + Role qualifiers</td>
+<td>Chapter (P27)</td>
+</tr>
+<tr class="odd">
+<td><strong>Bibliographic</strong></td>
+<td>Publisher, ISBNs, Licence, Abstract</td>
+<td>Report, Chapter (enrichment)</td>
+</tr>
+<tr class="even">
+<td><strong>Glossary</strong></td>
+<td>Term, Definition, AKA</td>
+<td>Report (series_ref)</td>
+</tr>
+<tr class="odd">
+<td><strong>Acronyms</strong></td>
+<td>Code, Description variants</td>
+<td>Report (Part of)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="visualisation-options" class="level2">
+<h2 class="anchored" data-anchor-id="visualisation-options">1. Visualisation Options</h2>
+<section id="structural-hierarchical" class="level3">
+<h3 class="anchored" data-anchor-id="structural-hierarchical">1.1 Structural / Hierarchical</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>What it shows</th>
+<th>Best tool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Sunburst / Treemap</strong></td>
+<td>Corpus hierarchy depth (Work → Chapter); relative chapter counts per Working Group</td>
+<td>Plotly, D3.js</td>
+</tr>
+<tr class="even">
+<td><strong>Collapsible tree</strong></td>
+<td>Full Work → Series → Report → Text Division → Chapter drill-down</td>
+<td>D3.js, Observable</td>
+</tr>
+<tr class="odd">
+<td><strong>Entity-Relationship Diagram</strong></td>
+<td>Formal schema of all 5 datasets (already exists in <code>/erm/</code>)</td>
+<td>Mermaid (embedded in Quarto)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="author-network" class="level3">
+<h3 class="anchored" data-anchor-id="author-network">1.2 Author Network</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>What it shows</th>
+<th>Best tool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Bipartite graph</strong></td>
+<td>Author ↔︎ Chapter contribution network; identifies high-contribution authors and co-chapter clusters</td>
+<td>NetworkX + matplotlib, Gephi</td>
+</tr>
+<tr class="even">
+<td><strong>Chord diagram</strong></td>
+<td>Cross-WG author sharing (authors contributing to multiple Working Groups)</td>
+<td>D3.js chord, HiPlot</td>
+</tr>
+<tr class="odd">
+<td><strong>Heatmap</strong></td>
+<td>Author × Report/WG contribution density</td>
+<td>Seaborn, Plotly</td>
+</tr>
+<tr class="even">
+<td><strong>Bar chart (country/gender)</strong></td>
+<td>Citizenship or gender distribution per Working Group — good for a report section on diversity</td>
+<td>Matplotlib, Plotly</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="knowledge-graph-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="knowledge-graph-coverage">1.3 Knowledge Graph Coverage</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>What it shows</th>
+<th>Best tool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Stacked bar / grouped bar</strong></td>
+<td>Count of items per class (Chapter, Author, Glossary Term, Acronym) — KG size overview</td>
+<td>Matplotlib</td>
+</tr>
+<tr class="even">
+<td><strong>Bubble chart</strong></td>
+<td>Chapters × Author count × Gender ratio per Working Group</td>
+<td>Plotly</td>
+</tr>
+<tr class="odd">
+<td><strong>Force-directed graph</strong></td>
+<td>All entity types as nodes, relationship types as edges; shows connectivity of datasets</td>
+<td>vis.js, Gephi, Cytoscape</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bibliographic-metadata-completeness" class="level3">
+<h3 class="anchored" data-anchor-id="bibliographic-metadata-completeness">1.4 Bibliographic / Metadata Completeness</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>What it shows</th>
+<th>Best tool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Completeness matrix (heatmap)</strong></td>
+<td>Which Reports/Chapters have DOI, ISBN, PDF, OpenAlex, Abstract filled</td>
+<td>Seaborn, Plotly</td>
+</tr>
+<tr class="even">
+<td><strong>Timeline</strong></td>
+<td>Report publication dates across AR6</td>
+<td>Plotly timeline / Gantt</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="ontology-schema-options" class="level2">
+<h2 class="anchored" data-anchor-id="ontology-schema-options">2. Ontology &amp; Schema Options</h2>
+<section id="bibliographic-structure-corpus" class="level3">
+<h3 class="anchored" data-anchor-id="bibliographic-structure-corpus">2.1 Bibliographic Structure (Corpus)</h3>
+<section id="frbr-frbroo" class="level4">
+<h4 class="anchored" data-anchor-id="frbr-frbroo">FRBR / FRBRoo</h4>
+<ul>
+<li><strong>Fit: High.</strong> The Work → Report Series → Report → Text Division → Chapter hierarchy maps directly onto FRBR’s Work/Expression/Manifestation levels.</li>
+<li><code>frbr:Work</code> → WORK; <code>frbr:Expression</code> → REPORT; <code>frbr:Manifestation</code> → TEXT_DIVISION/CHAPTER</li>
+<li>FRBRoo (OWL version) is preferred for RDF/linked data contexts.</li>
+</ul>
+</section>
+<section id="fabio-frbr-aligned-bibliographic-ontology" class="level4">
+<h4 class="anchored" data-anchor-id="fabio-frbr-aligned-bibliographic-ontology">FaBiO (FRBR-aligned Bibliographic Ontology)</h4>
+<ul>
+<li><strong>Fit: High.</strong> Purpose-built for academic publications.</li>
+<li><code>fabio:Report</code> → REPORT; <code>fabio:BookChapter</code> → CHAPTER; <code>fabio:WorkCollection</code> → REPORT_SERIES</li>
+<li>Already uses DOI, ISBN, OpenAlex-style identifiers.</li>
+</ul>
+</section>
+<section id="bibo-bibliographic-ontology" class="level4">
+<h4 class="anchored" data-anchor-id="bibo-bibliographic-ontology">BIBO (Bibliographic Ontology)</h4>
+<ul>
+<li><strong>Fit: Medium–High.</strong> Simpler than FaBiO; good for quick RDF export.</li>
+<li><code>bibo:Book</code> → REPORT; <code>bibo:BookSection</code> → CHAPTER; <code>bibo:DocumentPart</code> → TEXT_DIVISION</li>
+<li>Handles DOI (<code>bibo:doi</code>), ISBN (<code>bibo:isbn13</code>), PDF URL.</li>
+</ul>
+</section>
+</section>
+<section id="authors" class="level3">
+<h3 class="anchored" data-anchor-id="authors">2.2 Authors</h3>
+<section id="foaf-friend-of-a-friend" class="level4">
+<h4 class="anchored" data-anchor-id="foaf-friend-of-a-friend">FOAF (Friend of a Friend)</h4>
+<ul>
+<li><strong>Fit: High.</strong> <code>foaf:Person</code> covers <code>last_name</code>, <code>first_name</code>, <code>affiliation</code> (<code>org:memberOf</code>).</li>
+<li>Pair with <strong>schema.org</strong> <code>schema:Person</code> for <code>gender</code>, <code>nationality</code>, <code>worksFor</code>.</li>
+</ul>
+</section>
+<section id="schema.org" class="level4">
+<h4 class="anchored" data-anchor-id="schema.org">schema.org</h4>
+<ul>
+<li><strong>Fit: High.</strong> <code>schema:Person</code> + <code>schema:affiliation</code> + <code>schema:nationality</code>.</li>
+<li><code>schema:contributor</code> links Person → Chapter, with <code>schema:roleName</code> for the role qualifier.</li>
+</ul>
+</section>
+<section id="prov-o" class="level4">
+<h4 class="anchored" data-anchor-id="prov-o">PROV-O</h4>
+<ul>
+<li><strong>Fit: Medium.</strong> Useful if you want to record <em>how</em> author data was sourced (provenance on P27 statements).</li>
+</ul>
+</section>
+</section>
+<section id="glossary-acronyms" class="level3">
+<h3 class="anchored" data-anchor-id="glossary-acronyms">2.3 Glossary &amp; Acronyms</h3>
+<section id="skos-simple-knowledge-organization-system" class="level4">
+<h4 class="anchored" data-anchor-id="skos-simple-knowledge-organization-system">SKOS (Simple Knowledge Organization System)</h4>
+<ul>
+<li><strong>Fit: Very High.</strong> Designed exactly for controlled vocabularies and glossaries.</li>
+<li><code>skos:Concept</code> → GLOSSARY_TERM / ACRONYM</li>
+<li><code>skos:prefLabel</code> → <code>name</code> / <code>code</code>; <code>skos:altLabel</code> → <code>also_known_as</code></li>
+<li><code>skos:definition</code> → <code>definition</code> / <code>description</code></li>
+<li><code>skos:inScheme</code> → link term to the Report it belongs to</li>
+</ul>
+</section>
+<section id="lemon-ontolex" class="level4">
+<h4 class="anchored" data-anchor-id="lemon-ontolex">LEMON / OntoLex</h4>
+<ul>
+<li><strong>Fit: Medium.</strong> Extends SKOS with lexical entries; useful if acronym variant descriptions (multiple <code>&lt;description source=…&gt;</code> elements) need finer modelling.</li>
+</ul>
+</section>
+</section>
+<section id="provenance-references" class="level3">
+<h3 class="anchored" data-anchor-id="provenance-references">2.4 Provenance &amp; References</h3>
+<section id="prov-o-1" class="level4">
+<h4 class="anchored" data-anchor-id="prov-o-1">PROV-O</h4>
+<ul>
+<li><strong>Fit: High</strong> for the bibliographic enrichment pipeline (P17 date accessed, P19 source version).</li>
+<li><code>prov:wasDerivedFrom</code>, <code>prov:generatedAtTime</code>, <code>prov:wasAttributedTo</code> map to the reference block on each statement.</li>
+</ul>
+</section>
+<section id="dublin-core-datacite" class="level4">
+<h4 class="anchored" data-anchor-id="dublin-core-datacite">Dublin Core / DataCite</h4>
+<ul>
+<li><strong>Fit: Medium.</strong> <code>dc:identifier</code> (DOI), <code>dc:date</code>, <code>dc:publisher</code>, <code>dc:rights</code> (Licence URL) all appear in the Bibliographic dataset. DataCite Metadata Schema 4.x covers the same fields more precisely for DOI-registered items.</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary-recommendation" class="level2">
+<h2 class="anchored" data-anchor-id="summary-recommendation">3. Summary Recommendation</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Recommended ontology</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Corpus structure</td>
+<td><strong>FaBiO</strong> + <strong>BIBO</strong></td>
+<td>Best coverage of Report/Chapter hierarchy with DOI/ISBN fields</td>
+</tr>
+<tr class="even">
+<td>Authors</td>
+<td><strong>schema.org Person</strong> + <strong>FOAF</strong></td>
+<td>Wide tooling support; role qualifier fits <code>schema:Role</code></td>
+</tr>
+<tr class="odd">
+<td>Glossary / Acronyms</td>
+<td><strong>SKOS</strong></td>
+<td>Standard for controlled vocabularies; already partially used (<code>skos:altLabel</code> in DTD)</td>
+</tr>
+<tr class="even">
+<td>Provenance</td>
+<td><strong>PROV-O</strong></td>
+<td>Maps directly to existing P17/P18/P19 reference properties</td>
+</tr>
+<tr class="odd">
+<td>Visualisation (report)</td>
+<td><strong>Sunburst</strong> (structure) + <strong>Bar charts</strong> (diversity) + <strong>ERM</strong> (schema)</td>
+<td>Cover hierarchy, people data, and formal schema in one report section</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Visualisation &amp; Ontology Options</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dataset Overview</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Five datasets form the knowledge graph, with **Corpus** as the core and **Chapter** as the atomic unit. All other datasets connect upward to this backbone.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="in">WORK</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="in"> └── REPORT_SERIES</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="in">      └── REPORT  ◄──── Bibliographic enrichment</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="in">           └── TEXT_DIVISION</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="in">                └── CHAPTER  ◄──── Authors (contributed_to)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="in">                             ◄──── Glossary (series_ref → Report)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="in">                             ◄──── Acronyms (part_of → Report)</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>| Dataset | Items | Connects to |</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>| **Corpus** | Work, Report Series, Report, Text Division, Chapter | — (core) |</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>| **Authors** | Author + Chapter contributions + Role qualifiers | Chapter (P27) |</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>| **Bibliographic** | Publisher, ISBNs, Licence, Abstract | Report, Chapter (enrichment) |</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>| **Glossary** | Term, Definition, AKA | Report (series_ref) |</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>| **Acronyms** | Code, Description variants | Report (Part of) |</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Visualisation Options</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.1 Structural / Hierarchical</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>| Type | What it shows | Best tool |</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>| **Sunburst / Treemap** | Corpus hierarchy depth (Work → Chapter); relative chapter counts per Working Group | Plotly, D3.js |</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>| **Collapsible tree** | Full Work → Series → Report → Text Division → Chapter drill-down | D3.js, Observable |</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>| **Entity-Relationship Diagram** | Formal schema of all 5 datasets (already exists in <span class="in">`/erm/`</span>) | Mermaid (embedded in Quarto) |</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.2 Author Network</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>| Type | What it shows | Best tool |</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>| **Bipartite graph** | Author ↔ Chapter contribution network; identifies high-contribution authors and co-chapter clusters | NetworkX + matplotlib, Gephi |</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>| **Chord diagram** | Cross-WG author sharing (authors contributing to multiple Working Groups) | D3.js chord, HiPlot |</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>| **Heatmap** | Author × Report/WG contribution density | Seaborn, Plotly |</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>| **Bar chart (country/gender)** | Citizenship or gender distribution per Working Group — good for a report section on diversity | Matplotlib, Plotly |</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.3 Knowledge Graph Coverage</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>| Type | What it shows | Best tool |</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>| **Stacked bar / grouped bar** | Count of items per class (Chapter, Author, Glossary Term, Acronym) — KG size overview | Matplotlib |</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>| **Bubble chart** | Chapters × Author count × Gender ratio per Working Group | Plotly |</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>| **Force-directed graph** | All entity types as nodes, relationship types as edges; shows connectivity of datasets | vis.js, Gephi, Cytoscape |</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.4 Bibliographic / Metadata Completeness</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>| Type | What it shows | Best tool |</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>| **Completeness matrix (heatmap)** | Which Reports/Chapters have DOI, ISBN, PDF, OpenAlex, Abstract filled | Seaborn, Plotly |</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>| **Timeline** | Report publication dates across AR6 | Plotly timeline / Gantt |</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Ontology &amp; Schema Options</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.1 Bibliographic Structure (Corpus)</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="fu">#### FRBR / FRBRoo</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: High.** The Work → Report Series → Report → Text Division → Chapter hierarchy maps directly onto FRBR's Work/Expression/Manifestation levels.</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`frbr:Work`</span> → WORK; <span class="in">`frbr:Expression`</span> → REPORT; <span class="in">`frbr:Manifestation`</span> → TEXT_DIVISION/CHAPTER</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>FRBRoo (OWL version) is preferred for RDF/linked data contexts.</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="fu">#### FaBiO (FRBR-aligned Bibliographic Ontology)</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: High.** Purpose-built for academic publications.</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`fabio:Report`</span> → REPORT; <span class="in">`fabio:BookChapter`</span> → CHAPTER; <span class="in">`fabio:WorkCollection`</span> → REPORT_SERIES</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Already uses DOI, ISBN, OpenAlex-style identifiers.</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="fu">#### BIBO (Bibliographic Ontology)</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: Medium–High.** Simpler than FaBiO; good for quick RDF export.</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`bibo:Book`</span> → REPORT; <span class="in">`bibo:BookSection`</span> → CHAPTER; <span class="in">`bibo:DocumentPart`</span> → TEXT_DIVISION</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Handles DOI (<span class="in">`bibo:doi`</span>), ISBN (<span class="in">`bibo:isbn13`</span>), PDF URL.</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.2 Authors</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="fu">#### FOAF (Friend of a Friend)</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: High.** <span class="in">`foaf:Person`</span> covers <span class="in">`last_name`</span>, <span class="in">`first_name`</span>, <span class="in">`affiliation`</span> (<span class="in">`org:memberOf`</span>).</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pair with **schema.org** <span class="in">`schema:Person`</span> for <span class="in">`gender`</span>, <span class="in">`nationality`</span>, <span class="in">`worksFor`</span>.</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="fu">#### schema.org</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: High.** <span class="in">`schema:Person`</span> + <span class="in">`schema:affiliation`</span> + <span class="in">`schema:nationality`</span>.</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`schema:contributor`</span> links Person → Chapter, with <span class="in">`schema:roleName`</span> for the role qualifier.</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="fu">#### PROV-O</span></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: Medium.** Useful if you want to record *how* author data was sourced (provenance on P27 statements).</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.3 Glossary &amp; Acronyms</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="fu">#### SKOS (Simple Knowledge Organization System)</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: Very High.** Designed exactly for controlled vocabularies and glossaries.</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`skos:Concept`</span> → GLOSSARY_TERM / ACRONYM</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`skos:prefLabel`</span> → <span class="in">`name`</span> / <span class="in">`code`</span>; <span class="in">`skos:altLabel`</span> → <span class="in">`also_known_as`</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`skos:definition`</span> → <span class="in">`definition`</span> / <span class="in">`description`</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`skos:inScheme`</span> → link term to the Report it belongs to</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="fu">#### LEMON / OntoLex</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: Medium.** Extends SKOS with lexical entries; useful if acronym variant descriptions (multiple <span class="in">`&lt;description source=…&gt;`</span> elements) need finer modelling.</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.4 Provenance &amp; References</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a><span class="fu">#### PROV-O</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: High** for the bibliographic enrichment pipeline (P17 date accessed, P19 source version).</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`prov:wasDerivedFrom`</span>, <span class="in">`prov:generatedAtTime`</span>, <span class="in">`prov:wasAttributedTo`</span> map to the reference block on each statement.</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Dublin Core / DataCite</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fit: Medium.** <span class="in">`dc:identifier`</span> (DOI), <span class="in">`dc:date`</span>, <span class="in">`dc:publisher`</span>, <span class="in">`dc:rights`</span> (Licence URL) all appear in the Bibliographic dataset. DataCite Metadata Schema 4.x covers the same fields more precisely for DOI-registered items.</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Summary Recommendation</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>| Layer | Recommended ontology | Rationale |</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>|---|---|---|</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>| Corpus structure | **FaBiO** + **BIBO** | Best coverage of Report/Chapter hierarchy with DOI/ISBN fields |</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>| Authors | **schema.org Person** + **FOAF** | Wide tooling support; role qualifier fits <span class="in">`schema:Role`</span> |</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>| Glossary / Acronyms | **SKOS** | Standard for controlled vocabularies; already partially used (<span class="in">`skos:altLabel`</span> in DTD) |</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>| Provenance | **PROV-O** | Maps directly to existing P17/P18/P19 reference properties |</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>| Visualisation (report) | **Sunburst** (structure) + **Bar charts** (diversity) + **ERM** (schema) | Cover hierarchy, people data, and formal schema in one report section |</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

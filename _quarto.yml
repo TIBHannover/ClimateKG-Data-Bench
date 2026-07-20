@@ -37,7 +37,7 @@ website:
             href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
       - text: "Data Analysis"
         menu:
-          - text: "AR6 Gender Distribution"
+          - text: "AR6 Author Distribution"
             file: research_data/data-vis/gender-distribution-simple.ipynb
           - text: "Top 10 Global South Authors"
             file: research_data/data-vis/authors-top-ten.ipynb
