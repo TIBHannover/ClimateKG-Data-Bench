@@ -9,6 +9,7 @@ project:
     - "research_data/data-vis/*.ipynb"
     - "research_data/data-xml-dtd/erm/erm-diagram.qmd"
     - "research_data/data-xml-dtd/erm/README.qmd"
+    - "research_data/rdp/ar6-quantification-protocol.qmd"
     - "sparql_queries/*.ipynb"
     - "!research_data/data-vis/ar6-authors-distribution-analysis.ipynb"
     - "!research_data/data-vis/wikibase-inventory-dashboard.ipynb"
@@ -71,6 +72,14 @@ website:
             href: data/corpus-ar6.html
           - text: "Glossary"
             href: data/glossary-ar6.html
+      - text: "Data"
+        menu:
+          - text: "Datasets"
+            file: datasets.qmd
+          - text: "ER model"
+            file: er-model.qmd
+          - text: "Research Data Protocol"
+            file: research_data/rdp/ar6-quantification-protocol.qmd
 
 format:
   html:

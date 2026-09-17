@@ -1,0 +1,8 @@
+---
+title: "ER Model"
+---
+
+## ER Model
+
+This page is a placeholder. The entity-relationship model documentation will
+be added here.
