@@ -74,6 +74,8 @@ website:
             href: data/glossary-ar6.html
       - text: "Data"
         menu:
+          - text: "About Data"
+            file: about-data.qmd
           - text: "Datasets"
             file: datasets.qmd
           - text: "ER model"
