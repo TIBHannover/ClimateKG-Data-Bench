@@ -1,0 +1,8 @@
+---
+title: "CKG Scrape"
+---
+
+## CKG Scrape
+
+This page is a placeholder. Details about the CKG Scrape tooling and workflow
+will be added here.

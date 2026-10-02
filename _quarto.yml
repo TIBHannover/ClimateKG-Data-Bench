@@ -82,6 +82,14 @@ website:
             file: er-model.qmd
           - text: "Research Data Protocol"
             file: research_data/rdp/ar6-quantification-protocol.qmd
+      - text: "Software"
+        menu:
+          - text: "Software"
+            file: software.qmd
+          - text: "CKG Scrape"
+            file: ckg-scrape.qmd
+          - text: "CKG Data"
+            file: ckg-data.qmd
 
 format:
   html:

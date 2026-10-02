@@ -1,0 +1,8 @@
+---
+title: "Software"
+---
+
+## Software
+
+This page is a placeholder. Content describing ClimateKG software components
+will be added here.
