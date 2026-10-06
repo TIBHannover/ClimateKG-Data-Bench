@@ -2,8 +2,6 @@
 title: "Get Involved!"
 ---
 
-## Get Involved
-
 ClimateKG is a community knowledge graph for climate science literature. We welcome contributors from data science, publishing, policy, and citizen science who want to help make the IPCC AR6 corpus more discoverable, queryable, and reusable.
 
 ## Contribute data to the Knowledge Graph

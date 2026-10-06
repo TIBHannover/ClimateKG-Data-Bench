@@ -1,3 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+html,
+body {
+  font-family: "IBM Plex Sans", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+
+/* Compact top navbar text and spacing */
+.navbar .navbar-nav .nav-link,
+.navbar .navbar-nav .dropdown-toggle {
+  font-size: 0.93rem;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 0.4rem 0.55rem;
+}
+
 .site-strapline {
   background: #e8f1ef;
   border-bottom: 1px solid #b7cbc6;
@@ -15,24 +38,26 @@
 }
 
 footer.footer {
-  background-color: #0f172a;
-  color: #ffffff;
-  border-top: 4px solid #fde047;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  background-color: var(--bs-primary);
+  color: rgba(255, 255, 255, 0.85);
+  border-top: 0;
+  border-bottom: 0;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  box-shadow: none;
 }
 
 footer.footer .nav-footer {
-  max-width: 1200px;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem 1.5rem;
+  justify-content: flex-start;
+  gap: 0;
   background-color: transparent;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.85);
   min-height: auto;
 }
 
@@ -41,15 +66,15 @@ footer.footer .nav-footer-center,
 footer.footer .nav-footer-right {
   float: none;
   text-align: left;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 footer.footer .nav-footer-left {
-  flex: 1 1 22rem;
+  flex: 0 1 auto;
 }
 
 footer.footer .nav-footer-center {
-  flex: 2 1 34rem;
+  flex: 1 1 auto;
 }
 
 footer.footer .nav-footer-right {
@@ -57,18 +82,19 @@ footer.footer .nav-footer-right {
 }
 
 footer.footer .site-footer-project {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.45;
-  color: #f8fafc;
+  font-size: 0.93rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.4rem 0.55rem;
 }
 
 footer.footer .nav-footer a {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 footer.footer .footer-contents {
-  max-width: 1200px;
+  max-width: none;
 }
 
 footer.footer .site-footer-nav {
@@ -81,8 +107,8 @@ footer.footer .site-footer-links {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.65rem 1rem;
+  justify-content: flex-start;
+  gap: 0;
 }
 
 footer.footer .site-footer-links li {
@@ -90,43 +116,46 @@ footer.footer .site-footer-links li {
 }
 
 footer.footer .site-footer-links a {
-  color: #ffffff;
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1.35;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.2em;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.93rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
   display: inline-block;
-  padding: 0.45rem 0.6rem;
+  padding: 0.4rem 0.55rem;
   border-radius: 0.35rem;
 }
 
 footer.footer .site-footer-links a:hover,
 footer.footer .site-footer-links a:focus-visible {
-  background-color: #fde047;
-  color: #0f172a;
-  text-decoration-color: currentColor;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
 }
 
 footer.footer .site-footer-links a:focus-visible {
-  outline: 3px solid #ffffff;
+  outline: 3px solid rgba(255, 255, 255, 0.9);
   outline-offset: 2px;
 }
 
 @media (max-width: 640px) {
+  .navbar .navbar-nav .nav-link,
+  .navbar .navbar-nav .dropdown-toggle {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.45rem;
+  }
+
   .site-strapline-inner {
     padding: 0.65rem 0.9rem;
     font-size: 0.95rem;
   }
 
   footer.footer {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
   }
 
   footer.footer .nav-footer {
-    padding: 0 0.9rem;
+    padding: 0 0.75rem;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -142,6 +171,7 @@ footer.footer .site-footer-links a:focus-visible {
   }
 
   footer.footer .site-footer-links a {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.45rem;
   }
 }

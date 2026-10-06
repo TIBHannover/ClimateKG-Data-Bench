@@ -1622,5 +1622,40 @@
     "title": "Data Analysis",
     "section": "",
     "text": "ClimateKG data analysis combines several methods and tools: SPARQL queries for graph patterns, APIs for structured retrieval, Jupyter Notebooks for exploration and reproducible workflows, Quarto for publishing analysis outputs, and Plotly for interactive visualisation.\nAt the moment, data analysis in this project mainly demonstrates the syntactic, bibliographic Linked Open Data (LOD) foundation of ClimateKG, including the document structure and its connected metadata.\nClimateKG is open to contributions. If you want to add analyses, methods, or data improvements, please see the Get Involved section."
+  },
+  {
+    "objectID": "index.html#contribute-data-to-the-knowledge-graph",
+    "href": "index.html#contribute-data-to-the-knowledge-graph",
+    "title": "Get Involved!",
+    "section": "Contribute data to the Knowledge Graph",
+    "text": "Contribute data to the Knowledge Graph\nYou can contribute by helping improve and extend the core data layers used in ClimateKG:\n\nCorpus structure and full text links\nBibliographic information and references\nGlossary terms and acronyms\nAuthor and contribution metadata\n\nContributions can include data cleaning, quality checks, mapping fields to the ER model, and helping prepare structured data for import workflows."
+  },
+  {
+    "objectID": "index.html#analyse-ar6-climate-science-and-contribute-back",
+    "href": "index.html#analyse-ar6-climate-science-and-contribute-back",
+    "title": "Get Involved!",
+    "section": "Analyse AR6 climate science and contribute back",
+    "text": "Analyse AR6 climate science and contribute back\nClimateKG Data Bench is designed as a practical workspace for analysing AR6 with notebooks, SPARQL, and structured datasets. You can:\n\nRun analyses on author distributions, report structures, and terminology usage\nReproduce and improve existing query and notebook workflows\nContribute new findings and derived datasets back to the project\n\nThis supports a cycle where analysis results help improve the knowledge graph and make future analysis better."
+  },
+  {
+    "objectID": "index.html#join-citizen-science-projects-from-semanticclimate",
+    "href": "index.html#join-citizen-science-projects-from-semanticclimate",
+    "title": "Get Involved!",
+    "section": "Join citizen science projects from #semanticClimate",
+    "text": "Join citizen science projects from #semanticClimate\nClimateKG works with #semanticClimate, including youth and citizen science activities focused on climate-related literature and data. If you want to participate in collaborative projects, educational activities, or public-interest data work, this is a key entry point for involvement."
+  },
+  {
+    "objectID": "index.html#build-on-a-syntactic-bibliographic-framework",
+    "href": "index.html#build-on-a-syntactic-bibliographic-framework",
+    "title": "Get Involved!",
+    "section": "Build on a syntactic bibliographic framework",
+    "text": "Build on a syntactic bibliographic framework\nClimateKG provides a syntactic bibliographic knowledge graph as a stable foundation: datasets are connected through the ER model so contributors can add richer semantic layers over time. This means community contributions can move from structural organisation to deeper semantic enrichment while keeping data traceable and reusable."
+  },
+  {
+    "objectID": "index.html#contact",
+    "href": "index.html#contact",
+    "title": "Get Involved!",
+    "section": "Contact",
+    "text": "Contact\n\nSimon Worthington\nsimon.worthington@tib.eu"
   }
 ]

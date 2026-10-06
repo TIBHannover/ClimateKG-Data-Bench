@@ -24,7 +24,7 @@ ClimateKG acts as a structural (syntactic) framework for scientific findings con
 
 Add to the graph or make use of the data.
 
-[Get Involved](get-involved.html){.btn .btn-primary .btn-lg role="button"}
+[Get Involved](get-involved.html){.btn .btn-primary role="button"}
 
 ## How the knowledge graph is made  
 

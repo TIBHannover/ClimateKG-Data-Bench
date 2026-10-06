@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --ckg-yellow: #feff03;
+  --ckg-cyan: #00aeef;
+  --ckg-indigo: #2b3990;
+  --ckg-blue: #1600ff;
+  --ckg-gray: #b3b3b3;
+  --ckg-black: #030001;
+  --ckg-surface: #ffffff;
+  --ckg-surface-soft: #f7fbff;
+}
+
+html,
+body {
+  font-family: "IBM Plex Sans", "Segoe UI", Tahoma, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 100% -200px, rgba(0, 174, 239, 0.1), transparent 60%),
+    linear-gradient(180deg, #fbfdff 0%, #ffffff 24%, #ffffff 100%);
+  color: var(--ckg-black);
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+
+/* BfR-like clean institutional header with strong separators */
+.navbar {
+  background: var(--ckg-surface);
+  border-top: 4px solid var(--ckg-yellow);
+  border-bottom: 2px solid var(--ckg-indigo);
+  box-shadow: 0 2px 10px rgba(43, 57, 144, 0.08), 0 10px 24px rgba(0, 174, 239, 0.08);
+}
+
+.navbar-container {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--ckg-indigo) !important;
+  letter-spacing: 0.01em;
+  font-size: 1.08rem;
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .dropdown-toggle {
+  color: var(--ckg-black) !important;
+  font-weight: 600;
+  border-radius: 0.35rem;
+  padding: 0.46rem 0.62rem;
+  margin-right: 0.15rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .dropdown-toggle:hover,
+.navbar-nav .dropdown-toggle:focus {
+  background: rgba(0, 174, 239, 0.13);
+  color: var(--ckg-indigo) !important;
+}
+
+.navbar-nav .show > .nav-link,
+.navbar-nav .show > .dropdown-toggle {
+  color: var(--ckg-blue) !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(43, 57, 144, 0.55);
+}
+
+.navbar[data-bs-theme="dark"] .navbar-toggler-icon {
+  filter: brightness(0.1) saturate(3);
+}
+
+.navbar-nav .menu-text {
+  letter-spacing: 0.01em;
+}
+
+.dropdown-menu {
+  border: 1px solid #d5e8f7;
+  border-top: 3px solid var(--ckg-cyan);
+  box-shadow: 0 10px 24px rgba(3, 0, 1, 0.1);
+}
+
+.dropdown-item {
+  font-weight: 500;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: rgba(0, 174, 239, 0.12);
+  color: var(--ckg-indigo);
+}
+
+/* Strapline refreshed with project palette */
+.site-strapline {
+  background: linear-gradient(90deg, rgba(0, 174, 239, 0.1) 0%, rgba(254, 255, 3, 0.2) 100%);
+  border-bottom: 1px solid rgba(43, 57, 144, 0.22);
+}
+
+.site-strapline-inner {
+  color: var(--ckg-indigo);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+main.content {
+  max-width: 1120px;
+  margin-top: 0.4rem;
+}
+
+.quarto-title-banner,
+#title-block-header {
+  border-bottom: 3px solid var(--ckg-cyan);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ckg-indigo);
+  font-weight: 700;
+}
+
+h1.title {
+  font-size: clamp(1.9rem, 2.2vw, 2.6rem);
+  line-height: 1.12;
+}
+
+h2 {
+  border-left: 6px solid var(--ckg-cyan);
+  padding-left: 0.6rem;
+  margin-top: 1.8rem;
+}
+
+p,
+li {
+  line-height: 1.62;
+}
+
+a {
+  color: var(--ckg-blue);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.14em;
+}
+
+a:hover,
+a:focus {
+  color: var(--ckg-indigo);
+}
+
+.btn-primary,
+.quarto-btn {
+  background: var(--ckg-indigo);
+  border-color: var(--ckg-indigo);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.quarto-btn:hover,
+.quarto-btn:focus {
+  background: var(--ckg-blue);
+  border-color: var(--ckg-blue);
+  color: #ffffff;
+}
+
+.callout.callout-note {
+  border-left: 8px solid var(--ckg-cyan);
+  border-top: 3px solid var(--ckg-yellow);
+  background: var(--ckg-surface-soft);
+}
+
+.callout.callout-note .callout-title {
+  color: var(--ckg-indigo);
+  font-weight: 700;
+}
+
+/* Create BfR-like content cadence with light modular panels */
+main.content > section {
+  background: #ffffff;
+  border: 1px solid #dce8f7;
+  border-top: 4px solid rgba(0, 174, 239, 0.75);
+  border-radius: 0.4rem;
+  padding: 1.2rem 1.2rem 0.9rem;
+  margin: 1.2rem 0;
+  box-shadow: 0 4px 18px rgba(43, 57, 144, 0.06);
+}
+
+main.content > section:first-of-type {
+  border-top-color: var(--ckg-yellow);
+}
+
+main.content blockquote {
+  border-left: 4px solid var(--ckg-cyan);
+  background: #f5fbff;
+  padding: 0.65rem 0.9rem;
+}
+
+/* Keep footer style aligned with existing accessibility work, using project palette */
+footer.footer {
+  background: var(--ckg-indigo);
+  border-top: 4px solid var(--ckg-yellow);
+}
+
+footer.footer .site-footer-project,
+footer.footer .site-footer-links a,
+footer.footer .nav-footer,
+footer.footer .nav-footer a {
+  color: #ffffff;
+}
+
+footer.footer .site-footer-links a:hover,
+footer.footer .site-footer-links a:focus-visible {
+  background: var(--ckg-yellow);
+  color: var(--ckg-black);
+}
+
+/* Better focus visibility site-wide */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 3px solid var(--ckg-cyan);
+  outline-offset: 2px;
+}
+
+/* Tidy table look for dataset and resource pages */
+.table,
+table {
+  border-color: #d7dfef;
+}
+
+thead,
+thead th {
+  background: #eef6ff;
+  color: var(--ckg-indigo);
+}
+
+tbody tr:hover {
+  background: rgba(0, 174, 239, 0.08);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    border-top-width: 3px;
+  }
+
+  .navbar-nav .nav-link,
+  .navbar-nav .dropdown-toggle {
+    margin-right: 0;
+    margin-bottom: 0.2rem;
+  }
+
+  h2 {
+    border-left-width: 4px;
+  }
+
+  main.content > section {
+    padding: 1rem 0.9rem 0.8rem;
+  }
+}
