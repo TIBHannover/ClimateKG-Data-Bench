@@ -2,7 +2,36 @@
 title: "About Data"
 ---
 
-## About Data
+ClimateKG provides a structured data layer for the IPCC AR6 corpus, combining
+full text, metadata, and linked entities for reuse in analysis and knowledge
+graph workflows.
 
-This page is a placeholder. An overview of the data used in this project will
-be added here.
+## What data is available
+
+The current core datasets include:
+
+- Corpus full text and structure (report series, reports, text divisions, chapters)
+- Bibliographic information (including DOI-linked references)
+- Glossary terms
+- Acronyms
+- Authors
+
+In addition, the project includes generated HTML data pages, ER model
+documentation, and supporting transformation artefacts for XML/DTD and XSLT
+workflows.
+
+## How the data can be accessed
+
+Data can be explored and reused through multiple access routes:
+
+- Browse structured pages in this Data Bench site (Corpus, Authors, Acronyms, Bibliography, Glossary)
+- Query the knowledge graph using SPARQL: [ClimateKG query interface](https://climatekg.tibwiki.io/query/)
+- Use MediaWiki and Wikibase APIs for programmatic access: [MediaWiki API endpoint](https://climatekg.tibwiki.io/w/api.php)
+- Inspect transformation and data-model documentation in the XML/DTD pipeline pages
+
+## Data protocol
+
+For methodology, quantification, scope notes, and limitations of the AR6 data
+collection process, see the full protocol:
+
+- [Research Data Protocol: Quantifying the AR6 Reports](research_data/rdp/ar6-quantification-protocol.html)

@@ -2,7 +2,24 @@
 title: "CKG Scrape"
 ---
 
-## CKG Scrape
+CKG Scrape is the project software pipeline that harvests and normalises the
+IPCC AR6 web corpus, then prepares and loads the content into the ClimateKG
+stack (MediaWiki + Wikibase).
 
-This page is a placeholder. Details about the CKG Scrape tooling and workflow
-will be added here.
+## What it does
+
+- Scrapes AR6 corpus content from web sources
+- Normalises report structure and metadata
+- Produces structured content and linked open data for KG loading
+- Supports reuse on other web corpora (with custom ETL scripting)
+
+## Credits
+
+- Darron M. Broad (software development)
+- Simon Worthington
+- Laura Oldenbourg
+
+## Where to find it online
+
+- Software repository: [github.com/TIBHannover/CKG-Scrape](https://github.com/TIBHannover/CKG-Scrape)
+- Project context: [github.com/TIBHannover/climate-knowledge-graph](https://github.com/TIBHannover/climate-knowledge-graph)

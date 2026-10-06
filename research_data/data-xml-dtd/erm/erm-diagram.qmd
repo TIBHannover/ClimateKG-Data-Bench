@@ -223,5 +223,5 @@ running `generate-erm.ps1` whenever [`erm-wikibase-mapping.xml`](erm-wikibase-ma
 | `GLOSSARY_TERM` | Q1 | Category | Glossary Terms |
 | `ACRONYM` | Q2087 | Acronym | |
 
-See the [ERM documentation](README.md) for the full property reference (P1–P33) and
+See the [ERM documentation](README.qmd) for the full property reference (P1–P33) and
 workflow for updating the mapping.

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Climate-KG Data Bench – ClimateKG Data Bench</title>
+<title>A knowledge graph of the IPCC AR6 Report – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -101,8 +67,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var siteHeader = document.querySelector("body > header");
+  var existing = document.querySelector(".site-strapline");
+  if (!siteHeader || existing) {
+    return;
+  }
+
+  var strapline = document.createElement("div");
+  strapline.className = "site-strapline";
+  strapline.setAttribute("role", "note");
+  strapline.innerHTML = "<div class=\"site-strapline-inner\">A community portal for working on the Climate Knowledge Graph</div>";
+  siteHeader.insertAdjacentElement("afterend", strapline);
+
+  // Make the IPCC AR6 navbar text a visual label, not an interactive link.
+  var navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-nav .dropdown-toggle");
+  navLinks.forEach(function (link) {
+    if (link.textContent && link.textContent.trim() === "IPCC AR6:") {
+      link.classList.add("nav-label-item");
+      link.setAttribute("aria-disabled", "true");
+      link.setAttribute("tabindex", "-1");
+    }
+  });
+});
+</script>
+
+<style>
+.navbar-nav .nav-link.nav-label-item,
+.navbar-nav .dropdown-toggle.nav-label-item {
+  font-weight: 700;
+  pointer-events: none;
+  cursor: default;
+}
+
+.navbar-nav .nav-link.nav-label-item:hover,
+.navbar-nav .dropdown-toggle.nav-label-item:hover,
+.navbar-nav .nav-link.nav-label-item:focus,
+.navbar-nav .dropdown-toggle.nav-label-item:focus,
+.navbar-nav .nav-link.nav-label-item.active,
+.navbar-nav .dropdown-toggle.nav-label-item.active {
+  background: transparent !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+</style>
 
 
+<link rel="stylesheet" href="styles/footer-accessibility.css">
 </head>
 
 <body class="nav-fixed">
@@ -125,6 +138,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./get-involved.html"> 
 <span class="menu-text">Get Involved!</span></a>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">IPCC AR6:</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./knowledge-graph.html"> 
+<span class="menu-text">Knowledge Graph</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://climatekg.tibwiki.io/wiki/IPCC:AR6"> 
+<span class="menu-text">Browse MediaWiki</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -158,38 +189,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./knowledge-graph.html"> 
-<span class="menu-text">Knowledge Graph</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Data</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
         <li>
-    <a class="dropdown-item" href="./research_data/data-vis/kg-stats-dashboard.html">
- <span class="dropdown-text">ClimateKG Dashboard</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./about-data.html">
  <span class="dropdown-text">About Data</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./datasets.html">
- <span class="dropdown-text">Datasets</span></a>
+    <a class="dropdown-item" href="./xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./er-model.html">
- <span class="dropdown-text">ER model</span></a>
+    <a class="dropdown-item" href="./research_data/data-vis/kg-stats-dashboard.html">
+ <span class="dropdown-text">ClimateKG Dashboard</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./research_data/rdp/ar6-quantification-protocol.html">
  <span class="dropdown-text">Research Data Protocol</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./xml-html-documentation.html">
- <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Generated Data Pages</li>
@@ -221,15 +240,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-er-model">    
         <li>
-    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/README.html">
- <span class="dropdown-text">ER Model Documentation</span></a>
+    <a class="dropdown-item" href="./er-model.html">
+ <span class="dropdown-text">ER model</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/erm-diagram.html">
  <span class="dropdown-text">Wikibase ERM Diagram</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ER Model Documentation</span></a>
+  </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Software</span>
@@ -265,13 +293,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-model-pipeline" id="toc-data-model-pipeline" class="nav-link active" data-scroll-target="#data-model-pipeline">Data Model &amp; Pipeline</a></li>
-  <li><a href="#data-analyses" id="toc-data-analyses" class="nav-link" data-scroll-target="#data-analyses">Data Analyses</a>
-  <ul class="collapse">
-  <li><a href="#ar6-authors-distribution" id="toc-ar6-authors-distribution" class="nav-link" data-scroll-target="#ar6-authors-distribution">AR6 Authors Distribution</a></li>
-  <li><a href="#wikibase-inventory-dashboard" id="toc-wikibase-inventory-dashboard" class="nav-link" data-scroll-target="#wikibase-inventory-dashboard">Wikibase Inventory Dashboard</a></li>
-  </ul></li>
-  <li><a href="#about" id="toc-about" class="nav-link" data-scroll-target="#about">About</a></li>
+  <li><a href="#an-invitation-to-data-scientists" id="toc-an-invitation-to-data-scientists" class="nav-link active" data-scroll-target="#an-invitation-to-data-scientists">An invitation to data scientists</a></li>
+  <li><a href="#how-the-knowledge-graph-is-made" id="toc-how-the-knowledge-graph-is-made" class="nav-link" data-scroll-target="#how-the-knowledge-graph-is-made">How the knowledge graph is made</a></li>
   </ul>
 </nav>
     </div>
@@ -280,8 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Climate-KG Data Bench</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">IPCC AR6 Knowledge Graph — Data Model, Pipeline &amp; Analysis</p>
+<h1 class="title">A knowledge graph of the IPCC AR6 Report</h1>
 </div>
 
 
@@ -298,9 +320,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="data-model-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="data-model-pipeline">Data Model &amp; Pipeline</h2>
-<p>ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph. The data follows a <strong>CSV → XML/DTD → Wikibase</strong> pipeline, documented through an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).</p>
+<blockquote class="blockquote">
+<p>A bibliographic foundation for the data science community to semantify climate science</p>
+</blockquote>
+<p>ClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a <a href="https://climatekg.tibwiki.io/">Wikibase knowledge graph</a>.</p>
+<p>What we have <em>so far</em> as datasets:</p>
+<ol type="1">
+<li><a href="data/corpus-ar6.html">Corpus</a>: Structured hierarchy of AR6 reports, chapters, and text divisions; 7,524,958 words, 2,153 image files, 88 chapters, 7 reports.</li>
+<li><a href="data/bibliographic-ar6.html">Bibliography</a>: Bibliographic information for AR6 reports and chapters; 95 DOIs.</li>
+<li><a href="data/glossary-ar6.html">Glossary</a>: Key AR6 terms and definitions for climate concepts; 1,274 terms.</li>
+<li><a href="data/acronyms-ar6.html">Acronyms</a>: AR6 acronym index with expanded forms and references; 1,910 acronyms.</li>
+<li><a href="data/authors-ar6.html">Authors</a>: Author identities and links to AR6 report/chapter contributions; 932 authors.</li>
+</ol>
+<section id="an-invitation-to-data-scientists" class="level2">
+<h2 class="anchored" data-anchor-id="an-invitation-to-data-scientists">An invitation to data scientists</h2>
+<p>ClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.</p>
+<p>Add to the graph or make use of the data.</p>
+<p><a href="get-involved.html" class="btn btn-primary btn-lg" role="button">Get Involved</a></p>
+</section>
+<section id="how-the-knowledge-graph-is-made" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-knowledge-graph-is-made">How the knowledge graph is made</h2>
+<p>ClimateKG has made software to structure the IPCC AR6 report.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pipeline Formula
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Web scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)</strong></p>
+</div>
+</div>
+<p>The AR6 report is web scraped from the IPCC AR6 website and follows a <strong>CSV → XML/DTD → Wikibase</strong> import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).</p>
+<p>The tools and resources:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -310,44 +365,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="research_data/data-xml-dtd/erm/erm-diagram.html">ERM Diagram</a></td>
-<td>Interactive entity-relationship diagram — fullscreen &amp; zoomable</td>
+<td><a href="ckg-scrape.html">CKG Scrape</a></td>
+<td>Web scraping workflow used to extract and structure the IPCC AR6 report.</td>
 </tr>
 <tr class="even">
-<td><a href="research_data/data-xml-dtd/erm/README.html">ERM Documentation</a></td>
-<td>Property reference (P1–P33), QID table, workflow</td>
+<td><a href="datasets.html">Datasets</a></td>
+<td><a href="data/corpus-ar6.html">Corpus</a> · <a href="data/authors-ar6.html">Authors</a> · <a href="data/acronyms-ar6.html">Acronyms</a> · <a href="data/bibliographic-ar6.html">Bibliography</a> · <a href="data/glossary-ar6.html">Glossary</a></td>
 </tr>
 <tr class="odd">
-<td><a href="xml-html-documentation.html">XML/HTML Pipeline</a></td>
-<td>CSV → XML → XSLT → HTML pipeline overview</td>
+<td><a href="research_data/data-xml-dtd/erm/erm-diagram.html">ER Model</a></td>
+<td>Interactive entity-relationship diagram — fullscreen, zoomable, and showing the corpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)</td>
 </tr>
 <tr class="even">
-<td><a href="data/corpus-ar6.html">Corpus</a> · <a href="data/authors-ar6.html">Authors</a> · <a href="data/acronyms-ar6.html">Acronyms</a> · <a href="data/bibliographic-ar6.html">Bibliography</a> · <a href="data/glossary-ar6.html">Glossary</a></td>
-<td>Generated data pages</td>
+<td><a href="ckg-data.html">XML / DTD &gt; IN</a></td>
+<td>Validated XML and DTD layer for structuring data before import into Wikibase, with XSLT transformation for reusable outputs.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://climatekg.tibwiki.io/">Knowledge Graph</a></td>
+<td>Wikibase for structured data and linked relationships across the report corpus.</td>
+</tr>
+<tr class="even">
+<td><a href="https://climatekg.tibwiki.io/">Browser Report</a></td>
+<td>MediaWiki for browsing the report, page structure, and connected content.</td>
+</tr>
+<tr class="odd">
+<td>Access the data</td>
+<td><a href="https://climatekg.tibwiki.io/query/">SPARQL</a> · <a href="xml-html-documentation.html">XML</a> · <a href="https://climatekg.tibwiki.io/w/api.php">APIs</a> · Data dumps</td>
+</tr>
+<tr class="even">
+<td>Access full text</td>
+<td><a href="https://climatekg.tibwiki.io/w/api.php">MediaWiki API</a> · <a href="xml-html-documentation.html">XSLT transformation</a></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Corpus hierarchy:</strong> Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)</p>
-<hr>
-</section>
-<section id="data-analyses" class="level2">
-<h2 class="anchored" data-anchor-id="data-analyses">Data Analyses</h2>
-<section id="ar6-authors-distribution" class="level3">
-<h3 class="anchored" data-anchor-id="ar6-authors-distribution"><a href="research_data/data-vis/ar6-authors-distribution-analysis.html">AR6 Authors Distribution</a></h3>
-<p>Gender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.</p>
-</section>
-<section id="wikibase-inventory-dashboard" class="level3">
-<h3 class="anchored" data-anchor-id="wikibase-inventory-dashboard"><a href="research_data/data-vis/wikibase-inventory-dashboard.html">Wikibase Inventory Dashboard</a></h3>
-<p>Item counts, property usage, and data quality metrics for the ClimateKG Wikibase instance.</p>
-<hr>
-</section>
-</section>
-<section id="about" class="level2">
-<h2 class="anchored" data-anchor-id="about">About</h2>
-<p>ClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase. Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms. Stack: Wikibase · Python · Plotly · Quarto.</p>
 
-
-<!-- -->
 
 </section>
 
@@ -441,57 +492,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
-  }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
-    }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -822,54 +822,44 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Climate-KG Data Bench"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "IPCC AR6 Knowledge Graph — Data Model, Pipeline &amp; Analysis"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Model &amp; Pipeline</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph.</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>The data follows a **CSV → XML/DTD → Wikibase** pipeline, documented through</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Wikibase property (PID) or class item (QID).</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>| Resource | Description |</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>|----------|-------------|</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">ERM Diagram</span><span class="co">](research_data/data-xml-dtd/erm/erm-diagram.html)</span> | Interactive entity-relationship diagram — fullscreen &amp; zoomable |</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">ERM Documentation</span><span class="co">](research_data/data-xml-dtd/erm/README.html)</span> | Property reference (P1–P33), QID table, workflow |</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">XML/HTML Pipeline</span><span class="co">](xml-html-documentation.html)</span> | CSV → XML → XSLT → HTML pipeline overview |</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>| <span class="co">[</span><span class="ot">Corpus</span><span class="co">](data/corpus-ar6.html)</span> · <span class="co">[</span><span class="ot">Authors</span><span class="co">](data/authors-ar6.html)</span> · <span class="co">[</span><span class="ot">Acronyms</span><span class="co">](data/acronyms-ar6.html)</span> · <span class="co">[</span><span class="ot">Bibliography</span><span class="co">](data/bibliographic-ar6.html)</span> · <span class="co">[</span><span class="ot">Glossary</span><span class="co">](data/glossary-ar6.html)</span> | Generated data pages |</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>**Corpus hierarchy:** Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Analyses</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### [AR6 Authors Distribution](research_data/data-vis/ar6-authors-distribution-analysis.html)</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Gender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### [Wikibase Inventory Dashboard](research_data/data-vis/wikibase-inventory-dashboard.html)</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Item counts, property usage, and data quality metrics for the ClimateKG Wikibase instance.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## About</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>ClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase.</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms.</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>Stack: Wikibase · Python · Plotly · Quarto.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-      &nbsp;
-    </div>   
+<div class="site-footer-project">
+Climate Knowledge Graph is a research and development project from TIB.
+</div>
+</div>   
     <div class="nav-footer-center">
-<p><a href=".\about.html">About</a> | <a href=".\roadmap.html">Roadmap</a> | <a href=".\change-log.html">Change Log</a> | <a href=".\imprint.html">Imprint</a> | <a href=".\data-protection.html">Data protection</a> | <a href=".\terms-of-use.html">Terms of use</a> | <a href=".\accessibility.html">Accessibility</a></p>
+<nav class="site-footer-nav" aria-label="Footer navigation">
+<ul class="site-footer-links">
+<li>
+<a href="./about.html">About</a>
+</li>
+<li>
+<a href="./documentation/test-report-7/incite.html">Our publications</a>
+</li>
+<li>
+<a href="./roadmap.html">Roadmap</a>
+</li>
+<li>
+<a href="./change-log.html">Change Log</a>
+</li>
+<li>
+<a href="./imprint.html">Imprint</a>
+</li>
+<li>
+<a href="./data-protection.html">Data protection</a>
+</li>
+<li>
+<a href="./terms-of-use.html">Terms of use</a>
+</li>
+<li>
+<a href="./accessibility.html">Accessibility</a>
+</li>
+</ul>
+</nav>
 </div>
     <div class="nav-footer-right">
       &nbsp;

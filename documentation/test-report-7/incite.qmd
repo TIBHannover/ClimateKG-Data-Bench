@@ -17,7 +17,7 @@ are used to guide the conversion of the report into structured data for
 enhancing cataloguing, document distribution, and data analysis.
 
 By Simon Worthington,
-[[simon.worthington@tib.eu]{.underline}[^1]](mailto:simon.worthington@tib.eu)
+[simon.worthington@tib.eu](mailto:simon.worthington@tib.eu)[^1]
 (ORCID iD:
 [[0000-0002-8579-9717]{.underline}](https://orcid.org/0000-0002-8579-9717))
 and Laura Oldenbourg (ORCID iD:
@@ -438,7 +438,7 @@ height="3.7041666666666666in"}
 
 ***Figure 7:** Publishing knowledge graph. Prototype CSS Paged Media
 generated from ClimateKG using Wikibase API. See* [*[working
-example]{.underline}*[^13]](https://vivliostyle.vercel.app/#src=https://github.com/TIBHannover/climate-knowledge-graph/blob/main/design_pattern/sample-chapter/chapter.json&style=https://github.com/TIBHannover/climate-knowledge-graph/blob/main/design_pattern/sample-chapter/css-neutral/styles.css)
+example]{.underline}*](https://vivliostyle.vercel.app/#src=https://github.com/TIBHannover/climate-knowledge-graph/blob/main/design_pattern/sample-chapter/chapter.json&style=https://github.com/TIBHannover/climate-knowledge-graph/blob/main/design_pattern/sample-chapter/css-neutral/styles.css)[^13]
 *and related [[GitHub
 issues]{.underline}](https://github.com/TIBHannover/climate-knowledge-graph/issues?q=is%3Aissue%20state%3Aopen%20CSS%20Paged%20media).*[^14]
 
@@ -1152,7 +1152,7 @@ research teams.
     [[https://disabilitywiki.org/]{.underline}](https://disabilitywiki.org/)[^57]
 
 2.  EU Knowledge Graph --
-    [[https://linkedopendata.eu/]{.underline}[^58]](https://linkedopendata.eu/)
+    [[https://linkedopendata.eu/]{.underline}](https://linkedopendata.eu/)[^58]
 
 3.  Enslaved --
     [[https://enslaved.org/]{.underline}](https://enslaved.org/)[^59]

@@ -234,6 +234,6 @@ All variables are read from `C:\Wikibase\.env`.
 ## Related
 
 - Script: [`scripts/update-chapter-wiki-urls.py`](../scripts/update-chapter-wiki-urls.py)
-- Sitelinks setup: [`docs/sitelinks-implementation.md`](sitelinks-implementation.md)
-- Sync workflow: [`docs/multi-env-workflow.md`](multi-env-workflow.md) §4
-- Experimental workflow: [`docs/multi-env-workflow.md`](multi-env-workflow.md) §11
+- Sitelinks setup: internal project note (not published in this repository).
+- Sync workflow: [`multi-env-workflow.md`](../multi-env-workflow.md) §4
+- Experimental workflow: [`multi-env-workflow.md`](../multi-env-workflow.md) §11

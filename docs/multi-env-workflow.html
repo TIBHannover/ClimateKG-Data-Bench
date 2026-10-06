@@ -101,8 +101,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var siteHeader = document.querySelector("body > header");
+  var existing = document.querySelector(".site-strapline");
+  if (!siteHeader || existing) {
+    return;
+  }
+
+  var strapline = document.createElement("div");
+  strapline.className = "site-strapline";
+  strapline.setAttribute("role", "note");
+  strapline.innerHTML = "<div class=\"site-strapline-inner\">A community portal for working on the Climate Knowledge Graph</div>";
+  siteHeader.insertAdjacentElement("afterend", strapline);
+});
+</script>
 
 
+<link rel="stylesheet" href="styles/footer-accessibility.css">
 </head>
 
 <body class="nav-fixed">
@@ -125,6 +141,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./get-involved.html"> 
 <span class="menu-text">Get Involved!</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./knowledge-graph.html"> 
+<span class="menu-text">Knowledge Graph</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -158,38 +178,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./knowledge-graph.html"> 
-<span class="menu-text">Knowledge Graph</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Data</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
         <li>
-    <a class="dropdown-item" href="./research_data/data-vis/kg-stats-dashboard.html">
- <span class="dropdown-text">ClimateKG Dashboard</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./about-data.html">
  <span class="dropdown-text">About Data</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./datasets.html">
- <span class="dropdown-text">Datasets</span></a>
+    <a class="dropdown-item" href="./xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./er-model.html">
- <span class="dropdown-text">ER model</span></a>
+    <a class="dropdown-item" href="./research_data/data-vis/kg-stats-dashboard.html">
+ <span class="dropdown-text">ClimateKG Dashboard</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./research_data/rdp/ar6-quantification-protocol.html">
  <span class="dropdown-text">Research Data Protocol</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./xml-html-documentation.html">
- <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Generated Data Pages</li>
@@ -221,12 +229,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-er-model">    
         <li>
-    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/README.html">
- <span class="dropdown-text">ER Model Documentation</span></a>
+    <a class="dropdown-item" href="./er-model.html">
+ <span class="dropdown-text">ER model</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/erm-diagram.html">
  <span class="dropdown-text">Wikibase ERM Diagram</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ER Model Documentation</span></a>
   </li>  
     </ul>
   </li>
@@ -320,7 +332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content">
 
 
 
@@ -947,8 +959,6 @@ PROD_DB_PASS=&lt;prod-mariadb-password&gt;</code></pre>
 </ul>
 
 
-<!-- -->
-
 </section>
 </section>
 </section>
@@ -1043,57 +1053,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
-  }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
-    }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1424,555 +1383,44 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb32" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Multi-Environment Workflow — ClimateKG Wikibase</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Documentation hierarchy**</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | Doc | Role |</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; |---|---|</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | **`docs/multi-env-workflow.md`** (this file) | **Master reference** — how to operate all environments, run scripts, promote content |</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | </span><span class="in">`devops-plan.md`</span><span class="at"> | Planning log — itemised task list, design decisions, build rationale |</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | </span><span class="in">`docs/deployment-protocol.md`</span><span class="at"> | Historical deployment log; server registry |</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | </span><span class="in">`docs/hetzner-deploy-guide.md`</span><span class="at"> | One-time server provisioning on Hetzner |</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | </span><span class="in">`docs/server-admin.md`</span><span class="at"> | Server resource management — disk, Docker logs, maintenance |</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | </span><span class="in">`docs/sync-guide.md`</span><span class="at"> | Background reference — sync strategy options (context only) |</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | Sync scripts — see §4 | </span><span class="co">[</span><span class="ot">`sync-local-to-dev.ps1`</span><span class="co">](../scripts/sync/sync-local-to-dev.ps1)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`sync-local-to-test.ps1`</span><span class="co">](../scripts/sync/sync-local-to-test.ps1)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`sync-dev-to-test.ps1`</span><span class="co">](../scripts/sync/sync-dev-to-test.ps1)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`sync-dev-to-prod.ps1`</span><span class="co">](../scripts/sync/sync-dev-to-prod.ps1)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`sync-test-to-prod.ps1`</span><span class="co">](../scripts/sync/sync-test-to-prod.ps1)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`pull-from-dev.ps1`</span><span class="co">](../scripts/sync/pull-from-dev.ps1)</span><span class="at"> |</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | Experimental workflow — see §11 | </span><span class="co">[</span><span class="ot">`experimental-import-workflow.ps1`</span><span class="co">](../scripts/experimental-import-workflow.ps1)</span><span class="at"> |</span></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | Backup scripts — see §12 | </span><span class="co">[</span><span class="ot">`backup-local-db.ps1`</span><span class="co">](../scripts/backup/backup-local-db.ps1)</span><span class="at"> |</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; | Deploy scripts — see §6 | </span><span class="co">[</span><span class="ot">`deploy.sh`</span><span class="co">](../scripts/deploy/deploy.sh)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`deploy-dev.sh`</span><span class="co">](../scripts/deploy/deploy-dev.sh)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`deploy-test.sh`</span><span class="co">](../scripts/deploy/deploy-test.sh)</span><span class="at"> · </span><span class="co">[</span><span class="ot">`deploy-prod.sh`</span><span class="co">](../scripts/deploy/deploy-prod.sh)</span><span class="at"> |</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>This document is the master reference for the 4-tier Docker DevOps workflow.</span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Workflow Diagram</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="in">┌─────────────────────────────────────────────────────────────────────────────┐</span></span>
-<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="in">│                          CLIMATEKG DEVOPS WORKFLOW                          │</span></span>
-<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="in">└─────────────────────────────────────────────────────────────────────────────┘</span></span>
-<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a><span class="in">CODE/CONFIG FLOW (via GitHub):</span></span>
-<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="in">┌──────────────┐</span></span>
-<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="in">│   LOCAL      │  1. Fork repo, make changes</span></span>
-<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="in">│ (workstation)│  2. Create PR to master</span></span>
-<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="in">└──────┬───────┘</span></span>
-<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="in">       │ PR</span></span>
-<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="in">       ↓</span></span>
-<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="in">┌──────────────┐</span></span>
-<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="in">│   GitHub     │  Master branch = source of truth</span></span>
-<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a><span class="in">│   master     │</span></span>
-<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a><span class="in">└──┬───┬───┬───┘</span></span>
-<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a><span class="in">   │   │   │ git pull (manual on each server)</span></span>
-<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a><span class="in">   ↓   ↓   ↓</span></span>
-<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a><span class="in">┌──────┐ ┌──────┐ ┌──────┐</span></span>
-<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a><span class="in">│ DEV  │ │ TEST │ │ PROD │  Redeploy with docker compose up -d --build</span></span>
-<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a><span class="in">└──────┘ └──────┘ └──────┘</span></span>
-<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a><span class="in">DATABASE/CONTENT FLOW (via sync scripts):</span></span>
-<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a><span class="in">┌──────────────┐                    ┌──────────────┐</span></span>
-<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a><span class="in">│   LOCAL      │◄───pull-from-dev───│     DEV      │  DEV = DB source of truth</span></span>
-<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a><span class="in">│ (workstation)│                    │ (178...88)   │  Content edited here</span></span>
-<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a><span class="in">└──────┬───────┘                    └──────┬───────┘</span></span>
-<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a><span class="in">       │                                   │</span></span>
-<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a><span class="in">       │ sync-local-to-test                │ sync-dev-to-test</span></span>
-<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a><span class="in">       │ (staging from local)              │ (standard promotion)</span></span>
-<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a><span class="in">       │                                   │</span></span>
-<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a><span class="in">       ↓                                   ↓</span></span>
-<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a><span class="in">   ┌──────────────┐                  ┌──────────────┐</span></span>
-<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a><span class="in">   │    TEST      │──────────────────│    TEST      │</span></span>
-<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a><span class="in">   │ (46...24)    │  (same target)   │ (46...24)    │</span></span>
-<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a><span class="in">   └──────────────┘                  └──────┬───────┘</span></span>
-<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a><span class="in">                                            │</span></span>
-<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a><span class="in">                                            │ sync-dev-to-prod  (or sync-test-to-prod)</span></span>
-<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a><span class="in">                                            │</span></span>
-<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a><span class="in">                                            ↓</span></span>
-<span id="cb32-63"><a href="#cb32-63" aria-hidden="true" tabindex="-1"></a><span class="in">                                       ┌──────────────┐</span></span>
-<span id="cb32-64"><a href="#cb32-64" aria-hidden="true" tabindex="-1"></a><span class="in">                                       │    PROD      │  Public instance</span></span>
-<span id="cb32-65"><a href="#cb32-65" aria-hidden="true" tabindex="-1"></a><span class="in">                                       │ (178...174)  │</span></span>
-<span id="cb32-66"><a href="#cb32-66" aria-hidden="true" tabindex="-1"></a><span class="in">                                       └──────────────┘</span></span>
-<span id="cb32-67"><a href="#cb32-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-68"><a href="#cb32-68" aria-hidden="true" tabindex="-1"></a><span class="in">EXPERIMENTAL WORKFLOW (LOCAL only):</span></span>
-<span id="cb32-69"><a href="#cb32-69" aria-hidden="true" tabindex="-1"></a><span class="in">┌─────────────────────────────────────────────────────┐</span></span>
-<span id="cb32-70"><a href="#cb32-70" aria-hidden="true" tabindex="-1"></a><span class="in">│  LOCAL DATABASE STATES                              │</span></span>
-<span id="cb32-71"><a href="#cb32-71" aria-hidden="true" tabindex="-1"></a><span class="in">│                                                     │</span></span>
-<span id="cb32-72"><a href="#cb32-72" aria-hidden="true" tabindex="-1"></a><span class="in">│  ┌─────────────┐          start (snapshot)          │</span></span>
-<span id="cb32-73"><a href="#cb32-73" aria-hidden="true" tabindex="-1"></a><span class="in">│  │   CLEAN     │─────────────────────────┐          │</span></span>
-<span id="cb32-74"><a href="#cb32-74" aria-hidden="true" tabindex="-1"></a><span class="in">│  │ (DEV sync)  │                         │          │</span></span>
-<span id="cb32-75"><a href="#cb32-75" aria-hidden="true" tabindex="-1"></a><span class="in">│  └─────┬───────┘                         ↓          │</span></span>
-<span id="cb32-76"><a href="#cb32-76" aria-hidden="true" tabindex="-1"></a><span class="in">│        ↑                          ┌──────────────┐  │</span></span>
-<span id="cb32-77"><a href="#cb32-77" aria-hidden="true" tabindex="-1"></a><span class="in">│        │                          │EXPERIMENTAL  │  │</span></span>
-<span id="cb32-78"><a href="#cb32-78" aria-hidden="true" tabindex="-1"></a><span class="in">│        │                          │ (+ imports)  │  │</span></span>
-<span id="cb32-79"><a href="#cb32-79" aria-hidden="true" tabindex="-1"></a><span class="in">│        │                          └──────┬───────┘  │</span></span>
-<span id="cb32-80"><a href="#cb32-80" aria-hidden="true" tabindex="-1"></a><span class="in">│        │                                 │          │</span></span>
-<span id="cb32-81"><a href="#cb32-81" aria-hidden="true" tabindex="-1"></a><span class="in">│        │ rollback                        │ approve  │</span></span>
-<span id="cb32-82"><a href="#cb32-82" aria-hidden="true" tabindex="-1"></a><span class="in">│        └─────────────────────────────────┘          │</span></span>
-<span id="cb32-83"><a href="#cb32-83" aria-hidden="true" tabindex="-1"></a><span class="in">│                                                     │</span></span>
-<span id="cb32-84"><a href="#cb32-84" aria-hidden="true" tabindex="-1"></a><span class="in">│  sync (pull-from-dev) only allowed when CLEAN       │</span></span>
-<span id="cb32-85"><a href="#cb32-85" aria-hidden="true" tabindex="-1"></a><span class="in">└─────────────────────────────────────────────────────┘</span></span>
-<span id="cb32-86"><a href="#cb32-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-87"><a href="#cb32-87" aria-hidden="true" tabindex="-1"></a><span class="in">SERVICES &amp; PORTS:</span></span>
-<span id="cb32-88"><a href="#cb32-88" aria-hidden="true" tabindex="-1"></a><span class="in">LOCAL:     8080 (wiki) | 8081 (query UI) | 9999 (SPARQL)</span></span>
-<span id="cb32-89"><a href="#cb32-89" aria-hidden="true" tabindex="-1"></a><span class="in">REMOTE:    443/HTTPS for all services (wiki at /, query at /query/)</span></span>
-<span id="cb32-90"><a href="#cb32-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-91"><a href="#cb32-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-92"><a href="#cb32-92" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-93"><a href="#cb32-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-94"><a href="#cb32-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Environment Overview</span></span>
-<span id="cb32-95"><a href="#cb32-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-96"><a href="#cb32-96" aria-hidden="true" tabindex="-1"></a>| Env   | Server IP        | Domain                                   | Purpose                                      |</span>
-<span id="cb32-97"><a href="#cb32-97" aria-hidden="true" tabindex="-1"></a>|-------|-----------------|------------------------------------------|----------------------------------------------|</span>
-<span id="cb32-98"><a href="#cb32-98" aria-hidden="true" tabindex="-1"></a>| LOCAL | workstation     | localhost:8080                           | Config development; experimental data imports (with snapshot/rollback) |</span>
-<span id="cb32-99"><a href="#cb32-99" aria-hidden="true" tabindex="-1"></a>| DEV   | 178.104.156.88  | dev-climatekg.semanticclimate.org        | Live content editing; source of truth for DB |</span>
-<span id="cb32-100"><a href="#cb32-100" aria-hidden="true" tabindex="-1"></a>| TEST  | 46.224.66.24    | test-climatekg.semanticclimate.org       | Staging; validating DB + code before PROD    |</span>
-<span id="cb32-101"><a href="#cb32-101" aria-hidden="true" tabindex="-1"></a>| PROD  | 178.105.222.174 | prod-climatekg.semanticclimate.org       | Public production instance                   |</span>
-<span id="cb32-102"><a href="#cb32-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-103"><a href="#cb32-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Port Configuration</span></span>
-<span id="cb32-104"><a href="#cb32-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-105"><a href="#cb32-105" aria-hidden="true" tabindex="-1"></a>| Service       | LOCAL Port | Remote (DEV/TEST/PROD) |</span>
-<span id="cb32-106"><a href="#cb32-106" aria-hidden="true" tabindex="-1"></a>|---------------|------------|------------------------|</span>
-<span id="cb32-107"><a href="#cb32-107" aria-hidden="true" tabindex="-1"></a>| Wiki          | 8080       | 443 (HTTPS)            |</span>
-<span id="cb32-108"><a href="#cb32-108" aria-hidden="true" tabindex="-1"></a>| Query UI      | 8081       | 443 (HTTPS at /query/) |</span>
-<span id="cb32-109"><a href="#cb32-109" aria-hidden="true" tabindex="-1"></a>| WDQS/SPARQL   | 9999       | 443 (HTTPS at /query/proxy/sparql) |</span>
-<span id="cb32-110"><a href="#cb32-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-111"><a href="#cb32-111" aria-hidden="true" tabindex="-1"></a>**LOCAL URLs:**</span>
-<span id="cb32-112"><a href="#cb32-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wiki: http://localhost:8080</span>
-<span id="cb32-113"><a href="#cb32-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Query UI: http://localhost:8081</span>
-<span id="cb32-114"><a href="#cb32-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SPARQL: http://localhost:9999</span>
-<span id="cb32-115"><a href="#cb32-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-116"><a href="#cb32-116" aria-hidden="true" tabindex="-1"></a>**Remote URLs (example for DEV):**</span>
-<span id="cb32-117"><a href="#cb32-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wiki: https://dev-climatekg.semanticclimate.org</span>
-<span id="cb32-118"><a href="#cb32-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Query UI: https://dev-climatekg.semanticclimate.org/query/</span>
-<span id="cb32-119"><a href="#cb32-119" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SPARQL: https://dev-climatekg.semanticclimate.org/query/proxy/sparql</span>
-<span id="cb32-120"><a href="#cb32-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-121"><a href="#cb32-121" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-122"><a href="#cb32-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-123"><a href="#cb32-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Source of Truth</span></span>
-<span id="cb32-124"><a href="#cb32-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-125"><a href="#cb32-125" aria-hidden="true" tabindex="-1"></a>| What          | Where                        | Notes                                                      |</span>
-<span id="cb32-126"><a href="#cb32-126" aria-hidden="true" tabindex="-1"></a>|---------------|------------------------------|------------------------------------------------------------|</span>
-<span id="cb32-127"><a href="#cb32-127" aria-hidden="true" tabindex="-1"></a>| Code / config | GitHub <span class="in">`master`</span> branch       | Fed by fork PRs from LOCAL; servers <span class="in">`git pull`</span> on demand   |</span>
-<span id="cb32-128"><a href="#cb32-128" aria-hidden="true" tabindex="-1"></a>| Database      | DEV server                   | Content is edited on DEV, then promoted upward             |</span>
-<span id="cb32-129"><a href="#cb32-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-130"><a href="#cb32-130" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-131"><a href="#cb32-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-132"><a href="#cb32-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Git Workflow (Code Changes)</span></span>
-<span id="cb32-133"><a href="#cb32-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-134"><a href="#cb32-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-135"><a href="#cb32-135" aria-hidden="true" tabindex="-1"></a><span class="in">LOCAL fork  →  PR to master  →  manual git pull on each server  →  redeploy</span></span>
-<span id="cb32-136"><a href="#cb32-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-137"><a href="#cb32-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-138"><a href="#cb32-138" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**LOCAL**: Create a GitHub fork. Make configuration changes (compose files, LocalSettings, etc.).</span>
-<span id="cb32-139"><a href="#cb32-139" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Open a **Pull Request** against <span class="in">`mrchristian/Wikibase`</span> on <span class="in">`master`</span>.</span>
-<span id="cb32-140"><a href="#cb32-140" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>After merge, SSH to each server and <span class="in">`git pull`</span>:</span>
-<span id="cb32-141"><a href="#cb32-141" aria-hidden="true" tabindex="-1"></a>   <span class="in">```sh</span></span>
-<span id="cb32-142"><a href="#cb32-142" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ssh</span> root@<span class="op">&lt;</span>server-ip<span class="op">&gt;</span></span>
-<span id="cb32-143"><a href="#cb32-143" aria-hidden="true" tabindex="-1"></a>   <span class="bu">cd</span> /opt/wikibase</span>
-<span id="cb32-144"><a href="#cb32-144" aria-hidden="true" tabindex="-1"></a>   <span class="fu">git</span> pull </span>
-<span id="cb32-145"><a href="#cb32-145" aria-hidden="true" tabindex="-1"></a>   <span class="ex">--ff-only</span></span>
-<span id="cb32-146"><a href="#cb32-146" aria-hidden="true" tabindex="-1"></a>   <span class="ex">docker</span> compose <span class="at">-f</span> docker-compose.yml <span class="at">-f</span> docker-compose.<span class="op">&lt;</span>env<span class="op">&gt;</span>.yml up <span class="at">-d</span> <span class="at">--build</span></span>
-<span id="cb32-147"><a href="#cb32-147" aria-hidden="true" tabindex="-1"></a>   <span class="in">```</span></span>
-<span id="cb32-148"><a href="#cb32-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-149"><a href="#cb32-149" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-150"><a href="#cb32-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-151"><a href="#cb32-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. DB Promotion Flow (Content Changes)</span></span>
-<span id="cb32-152"><a href="#cb32-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-153"><a href="#cb32-153" aria-hidden="true" tabindex="-1"></a>Content is edited on DEV and flows upward, or LOCAL can push directly to TEST for staging:</span>
-<span id="cb32-154"><a href="#cb32-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-155"><a href="#cb32-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-156"><a href="#cb32-156" aria-hidden="true" tabindex="-1"></a><span class="in">LOCAL  →  TEST  (immediate staging from local)</span></span>
-<span id="cb32-157"><a href="#cb32-157" aria-hidden="true" tabindex="-1"></a><span class="in">DEV    →  TEST  →  PROD  (standard promotion path)</span></span>
-<span id="cb32-158"><a href="#cb32-158" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-159"><a href="#cb32-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-160"><a href="#cb32-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### LOCAL → DEV  (push local DB + files + LocalSettings to DEV)</span></span>
-<span id="cb32-161"><a href="#cb32-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-162"><a href="#cb32-162" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Use case**: promoting content created or bulk-imported locally (e.g. a data import tested via the experimental workflow) back to DEV as the new source of truth.</span></span>
-<span id="cb32-163"><a href="#cb32-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-164"><a href="#cb32-164" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-165"><a href="#cb32-165" aria-hidden="true" tabindex="-1"></a><span class="in"># Full sync (DB + images + git pull + container restart):</span></span>
-<span id="cb32-166"><a href="#cb32-166" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-local-to-dev.ps1</span></span>
-<span id="cb32-167"><a href="#cb32-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-168"><a href="#cb32-168" aria-hidden="true" tabindex="-1"></a><span class="in"># DB + git pull + restart only (skip images — faster when only data changed):</span></span>
-<span id="cb32-169"><a href="#cb32-169" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-local-to-dev.ps1 -DbOnly</span></span>
-<span id="cb32-170"><a href="#cb32-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-171"><a href="#cb32-171" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/sync-local-to-dev.ps1</span><span class="co">](../scripts/sync/sync-local-to-dev.ps1)</span></span>
-<span id="cb32-172"><a href="#cb32-172" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: requires typing </span><span class="in">`PROMOTE`</span><span class="at"> at the confirmation prompt — DEV is the DB source of truth.</span></span>
-<span id="cb32-173"><a href="#cb32-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-174"><a href="#cb32-174" aria-hidden="true" tabindex="-1"></a>Required entries in <span class="in">`C:\Wikibase\.env`</span>:</span>
-<span id="cb32-175"><a href="#cb32-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-176"><a href="#cb32-176" aria-hidden="true" tabindex="-1"></a><span class="in">DEV_DB_PASS=&lt;dev-mariadb-password&gt;</span></span>
-<span id="cb32-177"><a href="#cb32-177" aria-hidden="true" tabindex="-1"></a><span class="in">DEV_MW_ADMIN_PASS=&lt;dev-mediawiki-admin-password&gt;</span></span>
-<span id="cb32-178"><a href="#cb32-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-179"><a href="#cb32-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-180"><a href="#cb32-180" aria-hidden="true" tabindex="-1"></a><span class="fu">### LOCAL → TEST  (push local DB + files + LocalSettings to TEST)</span></span>
-<span id="cb32-181"><a href="#cb32-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-182"><a href="#cb32-182" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-183"><a href="#cb32-183" aria-hidden="true" tabindex="-1"></a><span class="in"># Full sync (DB + images + git pull + container restart):</span></span>
-<span id="cb32-184"><a href="#cb32-184" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-local-to-test.ps1</span></span>
-<span id="cb32-185"><a href="#cb32-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-186"><a href="#cb32-186" aria-hidden="true" tabindex="-1"></a><span class="in"># DB + git pull + restart only (skip images):</span></span>
-<span id="cb32-187"><a href="#cb32-187" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-local-to-test.ps1 -DbOnly</span></span>
-<span id="cb32-188"><a href="#cb32-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-189"><a href="#cb32-189" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/sync-local-to-test.ps1</span><span class="co">](../scripts/sync/sync-local-to-test.ps1)</span></span>
-<span id="cb32-190"><a href="#cb32-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-191"><a href="#cb32-191" aria-hidden="true" tabindex="-1"></a>Covers: database dump (395 MB, <span class="in">`--result-file`</span> pattern), uploads/images (unless <span class="in">`-DbOnly`</span>), <span class="in">`git pull`</span> of LocalSettings on TEST, Admin password reset to <span class="in">`TEST_MW_ADMIN_PASS`</span>, cache flush, <span class="in">`run.php update`</span>, container restart.</span>
-<span id="cb32-192"><a href="#cb32-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-193"><a href="#cb32-193" aria-hidden="true" tabindex="-1"></a>Required entries in <span class="in">`C:\Wikibase\.env`</span>:</span>
-<span id="cb32-194"><a href="#cb32-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-195"><a href="#cb32-195" aria-hidden="true" tabindex="-1"></a><span class="in">TEST_DB_PASS=&lt;test-mariadb-password&gt;</span></span>
-<span id="cb32-196"><a href="#cb32-196" aria-hidden="true" tabindex="-1"></a><span class="in">TEST_MW_ADMIN_PASS=&lt;test-mediawiki-admin-password&gt;</span></span>
-<span id="cb32-197"><a href="#cb32-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-198"><a href="#cb32-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-199"><a href="#cb32-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### DEV → TEST</span></span>
-<span id="cb32-200"><a href="#cb32-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-201"><a href="#cb32-201" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-202"><a href="#cb32-202" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-dev-to-test.ps1</span></span>
-<span id="cb32-203"><a href="#cb32-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-204"><a href="#cb32-204" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/sync-dev-to-test.ps1</span><span class="co">](../scripts/sync/sync-dev-to-test.ps1)</span></span>
-<span id="cb32-205"><a href="#cb32-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-206"><a href="#cb32-206" aria-hidden="true" tabindex="-1"></a><span class="fu">### DEV → PROD  (DB)</span></span>
-<span id="cb32-207"><a href="#cb32-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-208"><a href="#cb32-208" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-209"><a href="#cb32-209" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-dev-to-prod.ps1</span></span>
-<span id="cb32-210"><a href="#cb32-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-211"><a href="#cb32-211" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/sync-dev-to-prod.ps1</span><span class="co">](../scripts/sync/sync-dev-to-prod.ps1)</span></span>
-<span id="cb32-212"><a href="#cb32-212" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: requires typing </span><span class="in">`PROMOTE`</span><span class="at"> at the confirmation prompt to prevent accidental overwrites.</span></span>
-<span id="cb32-213"><a href="#cb32-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-214"><a href="#cb32-214" aria-hidden="true" tabindex="-1"></a><span class="fu">### TEST → PROD  (DB)</span></span>
-<span id="cb32-215"><a href="#cb32-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-216"><a href="#cb32-216" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Use case**: promoting staged content directly from TEST to PROD when TEST is the validated source (e.g. after a bulk import was reviewed on TEST).</span></span>
-<span id="cb32-217"><a href="#cb32-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-218"><a href="#cb32-218" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-219"><a href="#cb32-219" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-test-to-prod.ps1</span></span>
-<span id="cb32-220"><a href="#cb32-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-221"><a href="#cb32-221" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/sync-test-to-prod.ps1</span><span class="co">](../scripts/sync/sync-test-to-prod.ps1)</span></span>
-<span id="cb32-222"><a href="#cb32-222" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: requires typing </span><span class="in">`PROMOTE`</span><span class="at"> at the confirmation prompt to prevent accidental overwrites.</span></span>
-<span id="cb32-223"><a href="#cb32-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-224"><a href="#cb32-224" aria-hidden="true" tabindex="-1"></a>Required entries in <span class="in">`C:\Wikibase\.env`</span>:</span>
-<span id="cb32-225"><a href="#cb32-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-226"><a href="#cb32-226" aria-hidden="true" tabindex="-1"></a><span class="in">TEST_DB_PASS=&lt;test-mariadb-password&gt;</span></span>
-<span id="cb32-227"><a href="#cb32-227" aria-hidden="true" tabindex="-1"></a><span class="in">PROD_DB_PASS=&lt;prod-mariadb-password&gt;</span></span>
-<span id="cb32-228"><a href="#cb32-228" aria-hidden="true" tabindex="-1"></a><span class="in">PROD_MW_ADMIN_PASS=&lt;prod-mediawiki-admin-password&gt;</span></span>
-<span id="cb32-229"><a href="#cb32-229" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-230"><a href="#cb32-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-231"><a href="#cb32-231" aria-hidden="true" tabindex="-1"></a><span class="fu">### DEV → PROD  (uploads/images only)</span></span>
-<span id="cb32-232"><a href="#cb32-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-233"><a href="#cb32-233" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-234"><a href="#cb32-234" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\sync-dev-to-prod-files.ps1</span></span>
-<span id="cb32-235"><a href="#cb32-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-236"><a href="#cb32-236" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/sync-dev-to-prod-files.ps1</span><span class="co">](../scripts/sync/sync-dev-to-prod-files.ps1)</span></span>
-<span id="cb32-237"><a href="#cb32-237" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: also requires </span><span class="in">`PROMOTE`</span><span class="at"> confirmation.</span></span>
-<span id="cb32-238"><a href="#cb32-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-239"><a href="#cb32-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### DEV → LOCAL  (pull DEV DB to LOCAL for testing)</span></span>
-<span id="cb32-240"><a href="#cb32-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-241"><a href="#cb32-241" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-242"><a href="#cb32-242" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\sync\pull-from-dev.ps1</span></span>
-<span id="cb32-243"><a href="#cb32-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-244"><a href="#cb32-244" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Script: </span><span class="co">[</span><span class="ot">scripts/sync/pull-from-dev.ps1</span><span class="co">](../scripts/sync/pull-from-dev.ps1)</span></span>
-<span id="cb32-245"><a href="#cb32-245" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Note**: DB only — no </span><span class="in">`-DbOnly`</span><span class="at"> flag needed. Uploads/images are not copied.</span></span>
-<span id="cb32-246"><a href="#cb32-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-247"><a href="#cb32-247" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-248"><a href="#cb32-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-249"><a href="#cb32-249" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. Compose Commands Quick Reference</span></span>
-<span id="cb32-250"><a href="#cb32-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-251"><a href="#cb32-251" aria-hidden="true" tabindex="-1"></a><span class="fu">### LOCAL</span></span>
-<span id="cb32-252"><a href="#cb32-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-253"><a href="#cb32-253" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-254"><a href="#cb32-254" aria-hidden="true" tabindex="-1"></a><span class="in"># Auto-loads docker-compose.override.yml</span></span>
-<span id="cb32-255"><a href="#cb32-255" aria-hidden="true" tabindex="-1"></a><span class="in"># Exposes: 8080 (wiki), 9999 (SPARQL), 8081 (query UI)</span></span>
-<span id="cb32-256"><a href="#cb32-256" aria-hidden="true" tabindex="-1"></a><span class="in">docker compose up -d</span></span>
-<span id="cb32-257"><a href="#cb32-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-258"><a href="#cb32-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-259"><a href="#cb32-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### DEV  (on 178.104.156.88)</span></span>
-<span id="cb32-260"><a href="#cb32-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-261"><a href="#cb32-261" aria-hidden="true" tabindex="-1"></a><span class="in">```sh</span></span>
-<span id="cb32-262"><a href="#cb32-262" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose <span class="at">-f</span> docker-compose.yml <span class="at">-f</span> docker-compose.dev.yml up <span class="at">-d</span></span>
-<span id="cb32-263"><a href="#cb32-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-264"><a href="#cb32-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-265"><a href="#cb32-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### TEST  (on 46.224.66.24)</span></span>
-<span id="cb32-266"><a href="#cb32-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-267"><a href="#cb32-267" aria-hidden="true" tabindex="-1"></a><span class="in">```sh</span></span>
-<span id="cb32-268"><a href="#cb32-268" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose <span class="at">-f</span> docker-compose.yml <span class="at">-f</span> docker-compose.test.yml up <span class="at">-d</span></span>
-<span id="cb32-269"><a href="#cb32-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-270"><a href="#cb32-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-271"><a href="#cb32-271" aria-hidden="true" tabindex="-1"></a><span class="fu">### PROD  (on 178.105.222.174)</span></span>
-<span id="cb32-272"><a href="#cb32-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-273"><a href="#cb32-273" aria-hidden="true" tabindex="-1"></a><span class="in">```sh</span></span>
-<span id="cb32-274"><a href="#cb32-274" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose <span class="at">-f</span> docker-compose.yml <span class="at">-f</span> docker-compose.prod.yml up <span class="at">-d</span></span>
-<span id="cb32-275"><a href="#cb32-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-276"><a href="#cb32-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-277"><a href="#cb32-277" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-278"><a href="#cb32-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-279"><a href="#cb32-279" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. Full Server Build (fresh Ubuntu OS)</span></span>
-<span id="cb32-280"><a href="#cb32-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-281"><a href="#cb32-281" aria-hidden="true" tabindex="-1"></a>Run once from LOCAL to bootstrap a brand-new server:</span>
-<span id="cb32-282"><a href="#cb32-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-283"><a href="#cb32-283" aria-hidden="true" tabindex="-1"></a><span class="in">```sh</span></span>
-<span id="cb32-284"><a href="#cb32-284" aria-hidden="true" tabindex="-1"></a><span class="co"># DEV (already built — use only to rebuild)</span></span>
-<span id="cb32-285"><a href="#cb32-285" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> scripts/deploy/deploy-dev.sh scripts/deploy/deploy.sh <span class="kw">|</span> <span class="fu">ssh</span> root@178.104.156.88 <span class="st">'bash -s'</span></span>
-<span id="cb32-286"><a href="#cb32-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-287"><a href="#cb32-287" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TEST</span><span class="co"> (new server)</span></span>
-<span id="cb32-288"><a href="#cb32-288" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> scripts/deploy/deploy-test.sh scripts/deploy/deploy.sh <span class="kw">|</span> <span class="fu">ssh</span> root@46.224.66.24 <span class="st">'bash -s'</span></span>
-<span id="cb32-289"><a href="#cb32-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-290"><a href="#cb32-290" aria-hidden="true" tabindex="-1"></a><span class="co"># PROD (new server)</span></span>
-<span id="cb32-291"><a href="#cb32-291" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> scripts/deploy/deploy-prod.sh scripts/deploy/deploy.sh <span class="kw">|</span> <span class="fu">ssh</span> root@178.105.222.174 <span class="st">'bash -s'</span></span>
-<span id="cb32-292"><a href="#cb32-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-293"><a href="#cb32-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-294"><a href="#cb32-294" aria-hidden="true" tabindex="-1"></a>Scripts: <span class="co">[</span><span class="ot">deploy.sh</span><span class="co">](../scripts/deploy/deploy.sh)</span> · <span class="co">[</span><span class="ot">deploy-dev.sh</span><span class="co">](../scripts/deploy/deploy-dev.sh)</span> · <span class="co">[</span><span class="ot">deploy-test.sh</span><span class="co">](../scripts/deploy/deploy-test.sh)</span> · <span class="co">[</span><span class="ot">deploy-prod.sh</span><span class="co">](../scripts/deploy/deploy-prod.sh)</span></span>
-<span id="cb32-295"><a href="#cb32-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-296"><a href="#cb32-296" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Why `cat ... | ssh 'bash -s'` and not `ssh 'bash -s' &lt; wrapper.sh`?**</span></span>
-<span id="cb32-297"><a href="#cb32-297" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; When a single script is piped to </span><span class="in">`bash -s`</span><span class="at">, </span><span class="in">`BASH_SOURCE[0]`</span><span class="at"> is empty so the wrapper cannot locate </span><span class="in">`deploy.sh`</span><span class="at"> on the remote server (it hasn't been cloned yet). Concatenating both files into the pipe means </span><span class="in">`deploy.sh`</span><span class="at"> content flows inline immediately after the wrapper sets its variables.</span></span>
-<span id="cb32-298"><a href="#cb32-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-299"><a href="#cb32-299" aria-hidden="true" tabindex="-1"></a>Each deploy script:</span>
-<span id="cb32-300"><a href="#cb32-300" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Updates the OS and installs Docker, Nginx, Certbot</span>
-<span id="cb32-301"><a href="#cb32-301" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Clones the repo to <span class="in">`/opt/wikibase`</span></span>
-<span id="cb32-302"><a href="#cb32-302" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Creates <span class="in">`/opt/wikibase/.env`</span> from the matching env template with auto-generated passwords</span>
-<span id="cb32-303"><a href="#cb32-303" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Configures Nginx reverse proxy for that domain</span>
-<span id="cb32-304"><a href="#cb32-304" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Configures UFW firewall (ports 22, 80, 443)</span>
-<span id="cb32-305"><a href="#cb32-305" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Starts the Docker stack</span>
-<span id="cb32-306"><a href="#cb32-306" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Prints the Certbot command to obtain SSL</span>
-<span id="cb32-307"><a href="#cb32-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-308"><a href="#cb32-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### After deploy: obtain SSL</span></span>
-<span id="cb32-309"><a href="#cb32-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-310"><a href="#cb32-310" aria-hidden="true" tabindex="-1"></a><span class="in">```sh</span></span>
-<span id="cb32-311"><a href="#cb32-311" aria-hidden="true" tabindex="-1"></a><span class="ex">certbot</span> <span class="at">--nginx</span> <span class="at">-d</span> <span class="op">&lt;</span>domain<span class="op">&gt;</span> --non-interactive <span class="at">--agree-tos</span> <span class="at">-m</span> simon.worthington@tib.eu</span>
-<span id="cb32-312"><a href="#cb32-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-313"><a href="#cb32-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-314"><a href="#cb32-314" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-315"><a href="#cb32-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-316"><a href="#cb32-316" aria-hidden="true" tabindex="-1"></a><span class="fu">## 7. Compose &amp; Config Files per Environment</span></span>
-<span id="cb32-317"><a href="#cb32-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-318"><a href="#cb32-318" aria-hidden="true" tabindex="-1"></a>| File                           | Used by         |</span>
-<span id="cb32-319"><a href="#cb32-319" aria-hidden="true" tabindex="-1"></a>|--------------------------------|-----------------|</span>
-<span id="cb32-320"><a href="#cb32-320" aria-hidden="true" tabindex="-1"></a>| <span class="in">`docker-compose.yml`</span>           | All envs (base) |</span>
-<span id="cb32-321"><a href="#cb32-321" aria-hidden="true" tabindex="-1"></a>| <span class="in">`docker-compose.override.yml`</span>  | LOCAL (auto)    |</span>
-<span id="cb32-322"><a href="#cb32-322" aria-hidden="true" tabindex="-1"></a>| <span class="in">`docker-compose.dev.yml`</span>       | DEV             |</span>
-<span id="cb32-323"><a href="#cb32-323" aria-hidden="true" tabindex="-1"></a>| <span class="in">`docker-compose.test.yml`</span>      | TEST            |</span>
-<span id="cb32-324"><a href="#cb32-324" aria-hidden="true" tabindex="-1"></a>| <span class="in">`docker-compose.prod.yml`</span>      | PROD            |</span>
-<span id="cb32-325"><a href="#cb32-325" aria-hidden="true" tabindex="-1"></a>| <span class="in">`sites.xml`</span>                    | LOCAL sitelinks |</span>
-<span id="cb32-326"><a href="#cb32-326" aria-hidden="true" tabindex="-1"></a>| <span class="in">`sites.dev.xml`</span>                | DEV sitelinks   |</span>
-<span id="cb32-327"><a href="#cb32-327" aria-hidden="true" tabindex="-1"></a>| <span class="in">`sites.test.xml`</span>               | TEST sitelinks  |</span>
-<span id="cb32-328"><a href="#cb32-328" aria-hidden="true" tabindex="-1"></a>| <span class="in">`sites.prod.xml`</span>               | PROD sitelinks  |</span>
-<span id="cb32-329"><a href="#cb32-329" aria-hidden="true" tabindex="-1"></a>| <span class="in">`wdqs-custom-config.json`</span>      | LOCAL query UI  |</span>
-<span id="cb32-330"><a href="#cb32-330" aria-hidden="true" tabindex="-1"></a>| <span class="in">`wdqs-custom-config.dev.json`</span>  | DEV query UI    |</span>
-<span id="cb32-331"><a href="#cb32-331" aria-hidden="true" tabindex="-1"></a>| <span class="in">`wdqs-custom-config.test.json`</span> | TEST query UI   |</span>
-<span id="cb32-332"><a href="#cb32-332" aria-hidden="true" tabindex="-1"></a>| <span class="in">`wdqs-custom-config.prod.json`</span> | PROD query UI   |</span>
-<span id="cb32-333"><a href="#cb32-333" aria-hidden="true" tabindex="-1"></a>| <span class="in">`.env.dev.template`</span>            | DEV .env seed   |</span>
-<span id="cb32-334"><a href="#cb32-334" aria-hidden="true" tabindex="-1"></a>| <span class="in">`.env.test.template`</span>           | TEST .env seed  |</span>
-<span id="cb32-335"><a href="#cb32-335" aria-hidden="true" tabindex="-1"></a>| <span class="in">`.env.production`</span>              | PROD .env seed  |</span>
-<span id="cb32-336"><a href="#cb32-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-337"><a href="#cb32-337" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-338"><a href="#cb32-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-339"><a href="#cb32-339" aria-hidden="true" tabindex="-1"></a><span class="fu">## 8. SSH Key Setup (Windows — one-time)</span></span>
-<span id="cb32-340"><a href="#cb32-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-341"><a href="#cb32-341" aria-hidden="true" tabindex="-1"></a>SSH key setup instructions are stored in <span class="in">`.ssh-setup.md`</span> (gitignored for security).</span>
-<span id="cb32-342"><a href="#cb32-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-343"><a href="#cb32-343" aria-hidden="true" tabindex="-1"></a>Quick summary:</span>
-<span id="cb32-344"><a href="#cb32-344" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Generate key: <span class="in">`ssh-keygen -t ed25519 -f C:\Users\&lt;user&gt;\.ssh\id_wikibase_sync -N ""`</span></span>
-<span id="cb32-345"><a href="#cb32-345" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Copy public key to all servers</span>
-<span id="cb32-346"><a href="#cb32-346" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Enable SSH agent and add key</span>
-<span id="cb32-347"><a href="#cb32-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-348"><a href="#cb32-348" aria-hidden="true" tabindex="-1"></a>See <span class="in">`.ssh-setup.md`</span> in the repository root for complete instructions.</span>
-<span id="cb32-349"><a href="#cb32-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-350"><a href="#cb32-350" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-351"><a href="#cb32-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-352"><a href="#cb32-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## 9. .env Password Variables</span></span>
-<span id="cb32-353"><a href="#cb32-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-354"><a href="#cb32-354" aria-hidden="true" tabindex="-1"></a>Add these to <span class="in">`C:\Wikibase\.env`</span> (gitignored) so sync scripts can read them non-interactively:</span>
-<span id="cb32-355"><a href="#cb32-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-356"><a href="#cb32-356" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-357"><a href="#cb32-357" aria-hidden="true" tabindex="-1"></a><span class="in">DEV_DB_PASS=&lt;dev-mariadb-password&gt;</span></span>
-<span id="cb32-358"><a href="#cb32-358" aria-hidden="true" tabindex="-1"></a><span class="in">TEST_DB_PASS=&lt;test-mariadb-password&gt;</span></span>
-<span id="cb32-359"><a href="#cb32-359" aria-hidden="true" tabindex="-1"></a><span class="in">PROD_DB_PASS=&lt;prod-mariadb-password&gt;</span></span>
-<span id="cb32-360"><a href="#cb32-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-361"><a href="#cb32-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-362"><a href="#cb32-362" aria-hidden="true" tabindex="-1"></a>The actual passwords are stored in <span class="in">`/opt/wikibase/.env`</span> on each server (printed once during initial deploy).</span>
-<span id="cb32-363"><a href="#cb32-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-364"><a href="#cb32-364" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-365"><a href="#cb32-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-366"><a href="#cb32-366" aria-hidden="true" tabindex="-1"></a><span class="fu">## 10. Verification Checklist</span></span>
-<span id="cb32-367"><a href="#cb32-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-368"><a href="#cb32-368" aria-hidden="true" tabindex="-1"></a>After deploying or syncing an environment, verify:</span>
-<span id="cb32-369"><a href="#cb32-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-370"><a href="#cb32-370" aria-hidden="true" tabindex="-1"></a>**For LOCAL (localhost):**</span>
-<span id="cb32-371"><a href="#cb32-371" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Wiki responds at http://localhost:8080/wiki/Main_Page (200 OK)</span>
-<span id="cb32-372"><a href="#cb32-372" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Query UI responds at http://localhost:8081 (200 OK)</span>
-<span id="cb32-373"><a href="#cb32-373" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> SPARQL endpoint responds at http://localhost:9999/bigdata/namespace/wdq/sparql (200 OK)</span>
-<span id="cb32-374"><a href="#cb32-374" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> All 5 containers healthy: <span class="in">`docker compose ps`</span> → all <span class="in">`healthy`</span> or <span class="in">`running`</span></span>
-<span id="cb32-375"><a href="#cb32-375" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Sitelinks: visit http://localhost:8080/wiki/Special:Sites — <span class="in">`climatekg-wiki`</span> registered</span>
-<span id="cb32-376"><a href="#cb32-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-377"><a href="#cb32-377" aria-hidden="true" tabindex="-1"></a>**For remote environments (DEV/TEST/PROD):**</span>
-<span id="cb32-378"><a href="#cb32-378" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Wiki responds at <span class="in">`https://&lt;domain&gt;/wiki/Main_Page`</span> (200 OK)</span>
-<span id="cb32-379"><a href="#cb32-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Query UI responds at <span class="in">`https://&lt;domain&gt;/query/`</span> (200 OK)</span>
-<span id="cb32-380"><a href="#cb32-380" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> SPARQL endpoint responds at <span class="in">`https://&lt;domain&gt;/query/proxy/sparql`</span> (200 OK)</span>
-<span id="cb32-381"><a href="#cb32-381" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> All 5 containers healthy: <span class="in">`docker compose ps`</span> → all <span class="in">`healthy`</span> or <span class="in">`running`</span></span>
-<span id="cb32-382"><a href="#cb32-382" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Sitelinks: visit <span class="in">`Special:Sites`</span> — <span class="in">`climatekg-wiki`</span> registered with correct domain URLs</span>
-<span id="cb32-383"><a href="#cb32-383" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> SSL certificate valid (green padlock in browser)</span>
-<span id="cb32-384"><a href="#cb32-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-385"><a href="#cb32-385" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-386"><a href="#cb32-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-387"><a href="#cb32-387" aria-hidden="true" tabindex="-1"></a><span class="fu">## 11. Experimental Import Workflow (LOCAL)</span></span>
-<span id="cb32-388"><a href="#cb32-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-389"><a href="#cb32-389" aria-hidden="true" tabindex="-1"></a>When testing new data imports or reviewing Wikibase items before committing to production, use the experimental workflow to safely test changes without affecting your clean LOCAL database.</span>
-<span id="cb32-390"><a href="#cb32-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-391"><a href="#cb32-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### Workflow States</span></span>
-<span id="cb32-392"><a href="#cb32-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-393"><a href="#cb32-393" aria-hidden="true" tabindex="-1"></a>Your LOCAL database can be in one of two states:</span>
-<span id="cb32-394"><a href="#cb32-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-395"><a href="#cb32-395" aria-hidden="true" tabindex="-1"></a>| State | Description | Actions Available |</span>
-<span id="cb32-396"><a href="#cb32-396" aria-hidden="true" tabindex="-1"></a>|-------|-------------|-------------------|</span>
-<span id="cb32-397"><a href="#cb32-397" aria-hidden="true" tabindex="-1"></a>| **CLEAN** | Pure DEV data or approved experiments | Start new experiment, sync from DEV |</span>
-<span id="cb32-398"><a href="#cb32-398" aria-hidden="true" tabindex="-1"></a>| **EXPERIMENTAL** | Has unapproved experimental changes | Review → approve or rollback |</span>
-<span id="cb32-399"><a href="#cb32-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-400"><a href="#cb32-400" aria-hidden="true" tabindex="-1"></a><span class="fu">### Basic Workflow</span></span>
-<span id="cb32-401"><a href="#cb32-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-402"><a href="#cb32-402" aria-hidden="true" tabindex="-1"></a>**1. Check current state:**</span>
-<span id="cb32-403"><a href="#cb32-403" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-404"><a href="#cb32-404" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 status</span></span>
-<span id="cb32-405"><a href="#cb32-405" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-406"><a href="#cb32-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-407"><a href="#cb32-407" aria-hidden="true" tabindex="-1"></a>**2. Start an experiment:**</span>
-<span id="cb32-408"><a href="#cb32-408" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-409"><a href="#cb32-409" aria-hidden="true" tabindex="-1"></a><span class="in"># Creates snapshot of current CLEAN state</span></span>
-<span id="cb32-410"><a href="#cb32-410" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
-<span id="cb32-411"><a href="#cb32-411" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-412"><a href="#cb32-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-413"><a href="#cb32-413" aria-hidden="true" tabindex="-1"></a>**3. Run your experimental imports:**</span>
-<span id="cb32-414"><a href="#cb32-414" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-415"><a href="#cb32-415" aria-hidden="true" tabindex="-1"></a><span class="in"># Your import scripts here</span></span>
-<span id="cb32-416"><a href="#cb32-416" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\import\your-import-script.ps1</span></span>
-<span id="cb32-417"><a href="#cb32-417" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-418"><a href="#cb32-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-419"><a href="#cb32-419" aria-hidden="true" tabindex="-1"></a>**4. Review at http://localhost:8080**</span>
-<span id="cb32-420"><a href="#cb32-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-421"><a href="#cb32-421" aria-hidden="true" tabindex="-1"></a>**5. Decide:**</span>
-<span id="cb32-422"><a href="#cb32-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-423"><a href="#cb32-423" aria-hidden="true" tabindex="-1"></a>**If approved:**</span>
-<span id="cb32-424"><a href="#cb32-424" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-425"><a href="#cb32-425" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 approve</span></span>
-<span id="cb32-426"><a href="#cb32-426" aria-hidden="true" tabindex="-1"></a><span class="in"># Experimental changes become the new clean base</span></span>
-<span id="cb32-427"><a href="#cb32-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-428"><a href="#cb32-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-429"><a href="#cb32-429" aria-hidden="true" tabindex="-1"></a>**If rejected:**</span>
-<span id="cb32-430"><a href="#cb32-430" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-431"><a href="#cb32-431" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 rollback</span></span>
-<span id="cb32-432"><a href="#cb32-432" aria-hidden="true" tabindex="-1"></a><span class="in"># Discards all experimental changes, restores clean base</span></span>
-<span id="cb32-433"><a href="#cb32-433" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-434"><a href="#cb32-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-435"><a href="#cb32-435" aria-hidden="true" tabindex="-1"></a><span class="fu">### Syncing from DEV</span></span>
-<span id="cb32-436"><a href="#cb32-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-437"><a href="#cb32-437" aria-hidden="true" tabindex="-1"></a>**Pull fresh DEV data (only when CLEAN):**</span>
-<span id="cb32-438"><a href="#cb32-438" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-439"><a href="#cb32-439" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 sync</span></span>
-<span id="cb32-440"><a href="#cb32-440" aria-hidden="true" tabindex="-1"></a><span class="in"># Wrapper around pull-from-dev.ps1 with state tracking</span></span>
-<span id="cb32-441"><a href="#cb32-441" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-442"><a href="#cb32-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-443"><a href="#cb32-443" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Important**: Cannot sync from DEV while in EXPERIMENTAL state. Must approve or rollback first.</span></span>
-<span id="cb32-444"><a href="#cb32-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-445"><a href="#cb32-445" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Scenarios</span></span>
-<span id="cb32-446"><a href="#cb32-446" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-447"><a href="#cb32-447" aria-hidden="true" tabindex="-1"></a>**Scenario 1: Simple experiment**</span>
-<span id="cb32-448"><a href="#cb32-448" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-449"><a href="#cb32-449" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
-<span id="cb32-450"><a href="#cb32-450" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\import\my-import.ps1</span></span>
-<span id="cb32-451"><a href="#cb32-451" aria-hidden="true" tabindex="-1"></a><span class="in"># Review in browser</span></span>
-<span id="cb32-452"><a href="#cb32-452" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 approve</span></span>
-<span id="cb32-453"><a href="#cb32-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-454"><a href="#cb32-454" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-455"><a href="#cb32-455" aria-hidden="true" tabindex="-1"></a>**Scenario 2: Failed experiment, try again**</span>
-<span id="cb32-456"><a href="#cb32-456" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-457"><a href="#cb32-457" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
-<span id="cb32-458"><a href="#cb32-458" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\import\my-import.ps1</span></span>
-<span id="cb32-459"><a href="#cb32-459" aria-hidden="true" tabindex="-1"></a><span class="in"># Data looks wrong</span></span>
-<span id="cb32-460"><a href="#cb32-460" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 rollback</span></span>
-<span id="cb32-461"><a href="#cb32-461" aria-hidden="true" tabindex="-1"></a><span class="in"># Fix your import script</span></span>
-<span id="cb32-462"><a href="#cb32-462" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
-<span id="cb32-463"><a href="#cb32-463" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\import\my-import.ps1</span></span>
-<span id="cb32-464"><a href="#cb32-464" aria-hidden="true" tabindex="-1"></a><span class="in"># Now it looks good</span></span>
-<span id="cb32-465"><a href="#cb32-465" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 approve</span></span>
-<span id="cb32-466"><a href="#cb32-466" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-467"><a href="#cb32-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-468"><a href="#cb32-468" aria-hidden="true" tabindex="-1"></a>**Scenario 3: Need fresh DEV data mid-experiment**</span>
-<span id="cb32-469"><a href="#cb32-469" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-470"><a href="#cb32-470" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
-<span id="cb32-471"><a href="#cb32-471" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\import\my-import.ps1</span></span>
-<span id="cb32-472"><a href="#cb32-472" aria-hidden="true" tabindex="-1"></a><span class="in"># Wait, DEV was updated with new content I need</span></span>
-<span id="cb32-473"><a href="#cb32-473" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 rollback</span></span>
-<span id="cb32-474"><a href="#cb32-474" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 sync</span></span>
-<span id="cb32-475"><a href="#cb32-475" aria-hidden="true" tabindex="-1"></a><span class="in"># Now re-run experiment on fresh DEV base</span></span>
-<span id="cb32-476"><a href="#cb32-476" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 start</span></span>
-<span id="cb32-477"><a href="#cb32-477" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\import\my-import.ps1</span></span>
-<span id="cb32-478"><a href="#cb32-478" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\experimental-import-workflow.ps1 approve</span></span>
-<span id="cb32-479"><a href="#cb32-479" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-480"><a href="#cb32-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-481"><a href="#cb32-481" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Rules</span></span>
-<span id="cb32-482"><a href="#cb32-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-483"><a href="#cb32-483" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Only sync from DEV when CLEAN** — Never pull DEV updates while mid-experiment</span>
-<span id="cb32-484"><a href="#cb32-484" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Always snapshot before experiments** — Use <span class="in">`start`</span> to create a rollback point</span>
-<span id="cb32-485"><a href="#cb32-485" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Approve or rollback before syncing** — Finish one experiment before starting another</span>
-<span id="cb32-486"><a href="#cb32-486" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Track your state** — Use <span class="in">`status`</span> to see where you are</span>
-<span id="cb32-487"><a href="#cb32-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-488"><a href="#cb32-488" aria-hidden="true" tabindex="-1"></a><span class="fu">### State Management</span></span>
-<span id="cb32-489"><a href="#cb32-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-490"><a href="#cb32-490" aria-hidden="true" tabindex="-1"></a>State is tracked in <span class="in">`C:\Wikibase\backups\.workflow_state.json`</span>:</span>
-<span id="cb32-491"><a href="#cb32-491" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Current workflow state (CLEAN or EXPERIMENTAL)</span>
-<span id="cb32-492"><a href="#cb32-492" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Last DEV sync timestamp</span>
-<span id="cb32-493"><a href="#cb32-493" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Last state change timestamp</span>
-<span id="cb32-494"><a href="#cb32-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-495"><a href="#cb32-495" aria-hidden="true" tabindex="-1"></a>Snapshots are stored in <span class="in">`C:\Wikibase\backups\`</span>:</span>
-<span id="cb32-496"><a href="#cb32-496" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`experimental_snapshot.sql`</span> — Active rollback point</span>
-<span id="cb32-497"><a href="#cb32-497" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`approved_experiment_YYYYMMDD_HHMMSS.sql`</span> — Archived approved snapshots</span>
-<span id="cb32-498"><a href="#cb32-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-499"><a href="#cb32-499" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb32-500"><a href="#cb32-500" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-501"><a href="#cb32-501" aria-hidden="true" tabindex="-1"></a><span class="fu">## 12. Backup Strategy</span></span>
-<span id="cb32-502"><a href="#cb32-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-503"><a href="#cb32-503" aria-hidden="true" tabindex="-1"></a><span class="fu">### Taking a local backup</span></span>
-<span id="cb32-504"><a href="#cb32-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-505"><a href="#cb32-505" aria-hidden="true" tabindex="-1"></a>Run <span class="co">[</span><span class="ot">`backup-local-db.ps1`</span><span class="co">](../scripts/backup/backup-local-db.ps1)</span> from <span class="in">`C:\Wikibase`</span> to dump the local MariaDB database to a timestamped <span class="in">`.sql`</span> file in <span class="in">`C:\Wikibase\backups\`</span>:</span>
-<span id="cb32-506"><a href="#cb32-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-507"><a href="#cb32-507" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
-<span id="cb32-508"><a href="#cb32-508" aria-hidden="true" tabindex="-1"></a><span class="in">.\scripts\backup\backup-local-db.ps1</span></span>
-<span id="cb32-509"><a href="#cb32-509" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb32-510"><a href="#cb32-510" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-511"><a href="#cb32-511" aria-hidden="true" tabindex="-1"></a>Outputs <span class="in">`mw_db_YYYYMMDD_HHMMSS.sql`</span>. See <span class="in">`backups/README.md`</span> for full backup guide (DB + filesystem + config files).</span>
-<span id="cb32-512"><a href="#cb32-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-513"><a href="#cb32-513" aria-hidden="true" tabindex="-1"></a><span class="fu">### What is already covered</span></span>
-<span id="cb32-514"><a href="#cb32-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-515"><a href="#cb32-515" aria-hidden="true" tabindex="-1"></a>| Asset | How it is backed up |</span>
-<span id="cb32-516"><a href="#cb32-516" aria-hidden="true" tabindex="-1"></a>|-------|---------------------|</span>
-<span id="cb32-517"><a href="#cb32-517" aria-hidden="true" tabindex="-1"></a>| Config / scripts / docs | GitHub (<span class="in">`mrchristian/Wikibase`</span> <span class="in">`master`</span>) — push after every change |</span>
-<span id="cb32-518"><a href="#cb32-518" aria-hidden="true" tabindex="-1"></a>| Database (authoritative) | DEV server — Hetzner infrastructure; supplemented by SQL dumps in <span class="in">`C:\Wikibase\backups\`</span> |</span>
-<span id="cb32-519"><a href="#cb32-519" aria-hidden="true" tabindex="-1"></a>| Database (point-in-time) | <span class="co">[</span><span class="ot">`backup-local-db.ps1`</span><span class="co">](../scripts/backup/backup-local-db.ps1)</span> and <span class="in">`pull-from-dev.ps1`</span> write timestamped <span class="in">`.sql`</span> files to <span class="in">`C:\Wikibase\backups\`</span> |</span>
-<span id="cb32-520"><a href="#cb32-520" aria-hidden="true" tabindex="-1"></a>| Experimental snapshots | <span class="in">`C:\Wikibase\backups\approved_experiment_*.sql`</span> (created by experimental workflow) |</span>
-<span id="cb32-521"><a href="#cb32-521" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-522"><a href="#cb32-522" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gitignored items that need separate backup</span></span>
-<span id="cb32-523"><a href="#cb32-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-524"><a href="#cb32-524" aria-hidden="true" tabindex="-1"></a>The following are excluded from the GitHub repo and must be backed up independently:</span>
-<span id="cb32-525"><a href="#cb32-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-526"><a href="#cb32-526" aria-hidden="true" tabindex="-1"></a>| Item | Why gitignored | Recommended backup |</span>
-<span id="cb32-527"><a href="#cb32-527" aria-hidden="true" tabindex="-1"></a>|------|---------------|--------------------|</span>
-<span id="cb32-528"><a href="#cb32-528" aria-hidden="true" tabindex="-1"></a>| <span class="in">`C:\Wikibase\.env`</span> | Contains passwords | Store key/value pairs in a password manager (Bitwarden, KeePass, etc.) |</span>
-<span id="cb32-529"><a href="#cb32-529" aria-hidden="true" tabindex="-1"></a>| <span class="in">`C:\Wikibase\backups\*.sql`</span> | Large binary files | Enable cloud sync on <span class="in">`C:\Wikibase\backups\`</span> (e.g. OneDrive) |</span>
-<span id="cb32-530"><a href="#cb32-530" aria-hidden="true" tabindex="-1"></a>| Uploads / images | Large binaries | DEV server is authoritative; <span class="in">`sync-local-to-dev.ps1`</span> keeps DEV current |</span>
-<span id="cb32-531"><a href="#cb32-531" aria-hidden="true" tabindex="-1"></a>| <span class="in">`data-import/`</span> | Large data files | Keep source files in their own repo or cloud storage |</span>
-<span id="cb32-532"><a href="#cb32-532" aria-hidden="true" tabindex="-1"></a>| <span class="in">`.ssh-setup.md`</span> | Security | Copy to password manager or encrypted notes |</span>
-<span id="cb32-533"><a href="#cb32-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-534"><a href="#cb32-534" aria-hidden="true" tabindex="-1"></a><span class="fu">### Minimum backup checklist</span></span>
-<span id="cb32-535"><a href="#cb32-535" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-536"><a href="#cb32-536" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> All config changes pushed to GitHub (<span class="in">`git push`</span> / PR merged)</span>
-<span id="cb32-537"><a href="#cb32-537" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> <span class="in">`C:\Wikibase\.env`</span> passwords recorded in password manager</span>
-<span id="cb32-538"><a href="#cb32-538" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> <span class="in">`C:\Wikibase\backups\`</span> folder synced to cloud storage (OneDrive or equivalent)</span>
-<span id="cb32-539"><a href="#cb32-539" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> SSH key <span class="in">`C:\Users\&lt;user&gt;\.ssh\id_wikibase_sync`</span> backed up securely (or regeneratable — pub key is on servers)</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-      &nbsp;
-    </div>   
+<div class="site-footer-project">
+Climate Knowledge Graph is a research and development project from TIB.
+</div>
+</div>   
     <div class="nav-footer-center">
-<p><a href=".\about.html">About</a> | <a href=".\roadmap.html">Roadmap</a> | <a href=".\change-log.html">Change Log</a> | <a href=".\imprint.html">Imprint</a> | <a href=".\data-protection.html">Data protection</a> | <a href=".\terms-of-use.html">Terms of use</a> | <a href=".\accessibility.html">Accessibility</a></p>
+<nav class="site-footer-nav" aria-label="Footer navigation">
+<ul class="site-footer-links">
+<li>
+<a href="./about.html">About</a>
+</li>
+<li>
+<a href="./documentation/test-report-7/incite.html">Our publications</a>
+</li>
+<li>
+<a href="./roadmap.html">Roadmap</a>
+</li>
+<li>
+<a href="./change-log.html">Change Log</a>
+</li>
+<li>
+<a href="./imprint.html">Imprint</a>
+</li>
+<li>
+<a href="./data-protection.html">Data protection</a>
+</li>
+<li>
+<a href="./terms-of-use.html">Terms of use</a>
+</li>
+<li>
+<a href="./accessibility.html">Accessibility</a>
+</li>
+</ul>
+</nav>
 </div>
     <div class="nav-footer-right">
       &nbsp;

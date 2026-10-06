@@ -2,7 +2,13 @@
 title: "ER Model"
 ---
 
-## ER Model
+This page shows the core entity-relationship model used in ClimateKG Data Bench.
+It maps AR6 corpus structure, authorship, glossary, acronym, and bibliographic
+entities into Wikibase classes and properties.
 
-This page is a placeholder. The entity-relationship model documentation will
-be added here.
+```{mermaid}
+%%| file: research_data/data-xml-dtd/erm/er-diagram-wikibase.mmd
+```
+
+For the full mapping workflow and generated artefacts, see
+[research_data/data-xml-dtd/erm/README.qmd](research_data/data-xml-dtd/erm/README.qmd).

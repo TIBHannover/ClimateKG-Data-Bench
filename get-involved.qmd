@@ -4,4 +4,38 @@ title: "Get Involved!"
 
 ## Get Involved
 
-This page is a placeholder. Information on how to get involved with the project will be added here.
+ClimateKG is a community knowledge graph for climate science literature. We welcome contributors from data science, publishing, policy, and citizen science who want to help make the IPCC AR6 corpus more discoverable, queryable, and reusable.
+
+## Contribute data to the Knowledge Graph
+
+You can contribute by helping improve and extend the core data layers used in ClimateKG:
+
+- Corpus structure and full text links
+- Bibliographic information and references
+- Glossary terms and acronyms
+- Author and contribution metadata
+
+Contributions can include data cleaning, quality checks, mapping fields to the ER model, and helping prepare structured data for import workflows.
+
+## Analyse AR6 climate science and contribute back
+
+ClimateKG Data Bench is designed as a practical workspace for analysing AR6 with notebooks, SPARQL, and structured datasets. You can:
+
+- Run analyses on author distributions, report structures, and terminology usage
+- Reproduce and improve existing query and notebook workflows
+- Contribute new findings and derived datasets back to the project
+
+This supports a cycle where analysis results help improve the knowledge graph and make future analysis better.
+
+## Join citizen science projects from #semanticClimate
+
+ClimateKG works with #semanticClimate, including youth and citizen science activities focused on climate-related literature and data. If you want to participate in collaborative projects, educational activities, or public-interest data work, this is a key entry point for involvement.
+
+## Build on a syntactic bibliographic framework
+
+ClimateKG provides a syntactic bibliographic knowledge graph as a stable foundation: datasets are connected through the ER model so contributors can add richer semantic layers over time. This means community contributions can move from structural organisation to deeper semantic enrichment while keeping data traceable and reusable.
+
+## Contact
+
+- Simon Worthington
+- [simon.worthington@tib.eu](mailto:simon.worthington@tib.eu)

@@ -2,7 +2,26 @@
 title: "Software"
 ---
 
-## Software
+ClimateKG software focuses on two core components developed in the project:
 
-This page is a placeholder. Content describing ClimateKG software components
-will be added here.
+### 1. CKG Scrape
+
+A web scraping and ETL pipeline that converts the full IPCC AR6 web corpus into
+structured knowledge graph content for MediaWiki and Wikibase, including full
+text and linked data.
+
+- Details: [CKG Scrape](ckg-scrape.qmd)
+- Online: [GitHub repository](https://github.com/TIBHannover/CKG-Scrape)
+
+### 2. CKG Data
+
+An XML/DTD-based data framework for import/export, validation, portability, and
+distribution of ClimateKG data.
+
+- Details: [CKG Data](ckg-data.qmd)
+- Online: [CKG Data page](https://tibhannover.github.io/ClimateKG-Data-Bench/ckg-data)
+
+## Related project software links
+
+- ClimateKG main repository: [github.com/TIBHannover/climate-knowledge-graph](https://github.com/TIBHannover/climate-knowledge-graph)
+- ClimateKG Data Bench: [tibhannover.github.io/ClimateKG-Data-Bench](https://tibhannover.github.io/ClimateKG-Data-Bench/)

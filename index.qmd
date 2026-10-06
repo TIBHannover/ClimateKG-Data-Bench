@@ -1,38 +1,54 @@
 ---
-title: "Climate-KG Data Bench"
-subtitle: "IPCC AR6 Knowledge Graph — Data Model, Pipeline & Analysis"
+title: "A knowledge graph of the IPCC AR6 Report"
+format:
+  html:
+    code-tools: false
+    code-fold: false
 ---
 
-## Data Model & Pipeline
+> A bibliographic foundation for the data science community to semantify climate science
 
-ClimateKG structures IPCC AR6 publications as a Wikibase knowledge graph.
-The data follows a **CSV → XML/DTD → Wikibase** pipeline, documented through
-an Entity-Relationship Model (ERM) that maps every DTD element to a confirmed
-Wikibase property (PID) or class item (QID).
+ClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change's Sixth Assessment Report (IPCC AR6) as a [Wikibase knowledge graph](https://climatekg.tibwiki.io/).
+
+What we have *so far* as datasets:
+
+1. [Corpus](data/corpus-ar6.html): Structured hierarchy of AR6 reports, chapters, and text divisions; 7,524,958 words, 2,153 image files, 88 chapters, 7 reports.
+2. [Bibliography](data/bibliographic-ar6.html): Bibliographic information for AR6 reports and chapters; 95 DOIs.
+3. [Glossary](data/glossary-ar6.html): Key AR6 terms and definitions for climate concepts; 1,274 terms.
+4. [Acronyms](data/acronyms-ar6.html): AR6 acronym index with expanded forms and references; 1,910 acronyms.
+5. [Authors](data/authors-ar6.html): Author identities and links to AR6 report/chapter contributions; 932 authors.
+
+## An invitation to data scientists 
+
+ClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.
+
+Add to the graph or make use of the data.
+
+[Get Involved](get-involved.html){.btn .btn-primary .btn-lg role="button"}
+
+## How the knowledge graph is made  
+
+ClimateKG has made software to structure the IPCC AR6 report.
+
+::: {.callout-note}
+## Pipeline Formula
+
+**Web scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)**
+:::
+
+The AR6 report is web scraped from the IPCC AR6 website and follows a **CSV → XML/DTD → Wikibase** import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID). 
+
+The tools and resources: 
 
 | Resource | Description |
 |----------|-------------|
-| [ERM Diagram](research_data/data-xml-dtd/erm/erm-diagram.html) | Interactive entity-relationship diagram — fullscreen & zoomable |
-| [ERM Documentation](research_data/data-xml-dtd/erm/README.html) | Property reference (P1–P33), QID table, workflow |
-| [XML/HTML Pipeline](xml-html-documentation.html) | CSV → XML → XSLT → HTML pipeline overview |
-| [Corpus](data/corpus-ar6.html) · [Authors](data/authors-ar6.html) · [Acronyms](data/acronyms-ar6.html) · [Bibliography](data/bibliographic-ar6.html) · [Glossary](data/glossary-ar6.html) | Generated data pages |
+| [CKG Scrape](ckg-scrape.html) | Web scraping workflow used to extract and structure the IPCC AR6 report. |
+| [Datasets](datasets.html) | [Corpus](data/corpus-ar6.html) · [Authors](data/authors-ar6.html) · [Acronyms](data/acronyms-ar6.html) · [Bibliography](data/bibliographic-ar6.html) · [Glossary](data/glossary-ar6.html) |
+| [ER Model](research_data/data-xml-dtd/erm/erm-diagram.html) | Interactive entity-relationship diagram — fullscreen, zoomable, and showing the corpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6) |
+| [XML / DTD > IN](ckg-data.html) | Validated XML and DTD layer for structuring data before import into Wikibase, with XSLT transformation for reusable outputs. |
+| [Knowledge Graph](https://climatekg.tibwiki.io/) | Wikibase for structured data and linked relationships across the report corpus. |
+| [Browser Report](https://climatekg.tibwiki.io/) | MediaWiki for browsing the report, page structure, and connected content. |
+| Access the data | [SPARQL](https://climatekg.tibwiki.io/query/) · [XML](xml-html-documentation.html) · [APIs](https://climatekg.tibwiki.io/w/api.php) · Data dumps |
+| Access full text | [MediaWiki API](https://climatekg.tibwiki.io/w/api.php) · [XSLT transformation](xml-html-documentation.html) |
 
-**Corpus hierarchy:** Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)
 
----
-
-## Data Analyses
-
-### [AR6 Authors Distribution](research_data/data-vis/ar6-authors-distribution-analysis.html)
-Gender and Global North/South demographics of IPCC AR6 author teams, by report and chapter.
-
-### [Wikibase Inventory Dashboard](research_data/data-vis/wikibase-inventory-dashboard.html)
-Item counts, property usage, and data quality metrics for the ClimateKG Wikibase instance.
-
----
-
-## About
-
-ClimateKG is a knowledge graph for IPCC AR6 climate science literature built on Wikibase.
-Data sources: IPCC AR6 author metadata, bibliography, glossary, and acronyms.
-Stack: Wikibase · Python · Plotly · Quarto.

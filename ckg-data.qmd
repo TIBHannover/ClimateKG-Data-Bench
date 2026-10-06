@@ -2,6 +2,24 @@
 title: "CKG Data"
 ---
 
-## CKG Data
+CKG Data is the XML/DTD data framework used to move structured data in and out
+of the ClimateKG knowledge graph while keeping data quality and portability.
 
-This page is a placeholder. Documentation for CKG Data will be added here.
+## What it does
+
+- Provides XML/DTD data packages for core AR6 datasets
+- Supports validation against the ER model and data constraints
+- Enables import/export workflows for Wikibase and related tooling
+- Keeps data portable for distribution and reuse
+
+## Credits
+
+- Laura Oldenbourg
+- Darron M. Broad
+- Simon Worthington
+
+## Where to find it online
+
+- CKG Data page: [tibhannover.github.io/ClimateKG-Data-Bench/ckg-data](https://tibhannover.github.io/ClimateKG-Data-Bench/ckg-data)
+- Data Bench repository: [github.com/TIBHannover/Climate-KG-data](https://github.com/TIBHannover/Climate-KG-data)
+- Project repository: [github.com/TIBHannover/climate-knowledge-graph](https://github.com/TIBHannover/climate-knowledge-graph)

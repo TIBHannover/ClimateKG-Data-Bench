@@ -1,0 +1,15 @@
+---
+title: "Browse AR6"
+---
+
+## Browse AR6
+
+Use this page as a quick entry point to browse the IPCC AR6 corpus data.
+
+- [Corpus structure](data/corpus-ar6.html)
+- [Authors directory](data/authors-ar6.html)
+- [Acronyms index](data/acronyms-ar6.html)
+- [Bibliography](data/bibliographic-ar6.html)
+- [Glossary](data/glossary-ar6.html)
+
+For analysis workflows, see [Data Analysis](index.qmd).

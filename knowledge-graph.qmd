@@ -2,6 +2,17 @@
 title: Knowledge Graph
 ---
 
-This is temporary Knowledge Graph content.
+ClimateKG is a community knowledge graph built from the IPCC AR6 report corpus. Based on the ClimateKG final report, the project combines structured datasets with full text to turn a large, browsable publication set into a reusable data resource for analysis, navigation, and open science reuse.
 
-More details will be added soon.
+The platform uses Wikibase for structured graph data and MediaWiki for browsing report content. This enables linked exploration of chapters, glossary terms, acronyms, bibliographic records, and authors, with query access through APIs and SPARQL.
+
+Key points from the current implementation:
+
+- Scope: AR6 corpus across 7 reports and 88 chapters
+- Structured foundation: corpus structure, bibliographic information, glossary terms, acronyms, and authors
+- Current scale: 7,524,958 words, 2,153 image files, 932 authors, 1,274 glossary terms, 1,910 acronyms
+- Purpose: support data science, citizen science, document distribution, and knowledge enrichment workflows
+
+Explore the live knowledge graph:
+
+- [ClimateKG on Wikibase and MediaWiki](https://climatekg.tibwiki.io/)

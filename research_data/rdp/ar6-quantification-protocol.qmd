@@ -372,5 +372,5 @@ https://www.gerics.de/products_and_publications/publications/detail/102556/index
 
 ## Related repository content
 
-- [ar6.qmd](../../ar6.qmd) — structural browse page listing all AR6 report parts and chapters.
-- [reports.qmd](../../reports.qmd) — reports overview page.
+- [data/corpus-ar6.html](../../data/corpus-ar6.html) — structural browse page listing AR6 report parts and chapters.
+- [datasets.qmd](../../datasets.qmd) — reports and datasets overview page.

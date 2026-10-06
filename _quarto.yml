@@ -17,12 +17,21 @@ project:
 
 website:
   title: "ClimateKG Data Bench"
+  description: "A community portal for working on the Climate Knowledge Graph"
   navbar:
     left:
       - text: "Get Involved!"
         file: get-involved.qmd
+      - text: "|"
+      - text: "IPCC AR6:"
+      - text: "Knowledge Graph"
+        file: knowledge-graph.qmd
+      - text: "Browse MediaWiki"
+        href: https://climatekg.tibwiki.io/wiki/IPCC:AR6
       - text: "Data Analysis"
         menu:
+          - text: "Data Analysis"
+            file: data-analysis.qmd
           - text: "AR6 Author Distribution"
             file: research_data/data-vis/gender-distribution-simple.ipynb
           - text: "Top 10 Global South Authors"
@@ -36,22 +45,17 @@ website:
           - text: "---"
           - text: "View Notebooks on GitHub"
             href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
-      - text: "Knowledge Graph"
-        file: knowledge-graph.qmd
       - text: "Data"
         menu:
-          - text: "ClimateKG Dashboard"
-            file: research_data/data-vis/kg-stats-dashboard.ipynb
-          - text: "About Data"
+          - text: "Data"
             file: about-data.qmd
-          - text: "Datasets"
-            file: datasets.qmd
-          - text: "ER model"
-            file: er-model.qmd
-          - text: "Research Data Protocol"
-            file: research_data/rdp/ar6-quantification-protocol.qmd
           - text: "XML/HTML Pipeline Overview"
             file: xml-html-documentation.md
+          - text: "ClimateKG Dashboard"
+            file: research_data/data-vis/kg-stats-dashboard.ipynb
+          - text: "---"
+          - text: "Research Data Protocol"
+            file: research_data/rdp/ar6-quantification-protocol.qmd
           - text: "---"
           - text: "Generated Data Pages"
           - text: "Authors Directory"
@@ -66,10 +70,13 @@ website:
             href: data/glossary-ar6.html  
       - text: "ER Model"  
         menu:
+          - text: "ER Model"
+            file: er-model.qmd
+          - text: "Wikibase ERM Diagram"
+            file: research_data/data-xml-dtd/erm/erm-diagram.qmd  
           - text: "ER Model Documentation"
             file: research_data/data-xml-dtd/erm/README.qmd
-          - text: "Wikibase ERM Diagram"
-            file: research_data/data-xml-dtd/erm/erm-diagram.qmd            
+      - text: "|"
       - text: "Software"
         menu:
           - text: "Software"
@@ -79,15 +86,31 @@ website:
           - text: "CKG Data"
             file: ckg-data.qmd
   page-footer:
-    center: "[About](/about.html) | [Roadmap](/roadmap.html) | [Change Log](/change-log.html) | [Imprint](/imprint.html) | [Data protection](/data-protection.html) | [Terms of use](/terms-of-use.html) | [Accessibility](/accessibility.html)"
+    left: |
+      <div class="site-footer-project">Climate Knowledge Graph is a research and development project from TIB.</div>
+    center: |
+      <nav class="site-footer-nav" aria-label="Footer navigation">
+        <ul class="site-footer-links">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/documentation/test-report-7/incite.html">Our publications</a></li>
+          <li><a href="/roadmap.html">Roadmap</a></li>
+          <li><a href="/change-log.html">Change Log</a></li>
+          <li><a href="/imprint.html">Imprint</a></li>
+          <li><a href="/data-protection.html">Data protection</a></li>
+          <li><a href="/terms-of-use.html">Terms of use</a></li>
+          <li><a href="/accessibility.html">Accessibility</a></li>
+        </ul>
+      </nav>
 
 format:
   html:
     theme: cosmo
+    css:
+      - styles/footer-accessibility.css
     toc: true
     toc-depth: 3
-    code-fold: true
-    code-tools: true
+    code-fold: false
+    code-tools: false
     code-summary: "Show code"
     number-sections: false
     fig-width: 10
@@ -96,6 +119,52 @@ format:
     include-in-header:
       - text: |
           <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+          <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var siteHeader = document.querySelector("body > header");
+            var existing = document.querySelector(".site-strapline");
+            if (!siteHeader || existing) {
+              return;
+            }
+
+            var strapline = document.createElement("div");
+            strapline.className = "site-strapline";
+            strapline.setAttribute("role", "note");
+            strapline.innerHTML = "<div class=\"site-strapline-inner\">A community portal for working on the Climate Knowledge Graph</div>";
+            siteHeader.insertAdjacentElement("afterend", strapline);
+
+            // Make the IPCC AR6 navbar text a visual label, not an interactive link.
+            var navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-nav .dropdown-toggle");
+            navLinks.forEach(function (link) {
+              if (link.textContent && link.textContent.trim() === "IPCC AR6:") {
+                link.classList.add("nav-label-item");
+                link.setAttribute("aria-disabled", "true");
+                link.setAttribute("tabindex", "-1");
+              }
+            });
+          });
+          </script>
+
+          <style>
+          .navbar-nav .nav-link.nav-label-item,
+          .navbar-nav .dropdown-toggle.nav-label-item {
+            font-weight: 700;
+            pointer-events: none;
+            cursor: default;
+          }
+
+          .navbar-nav .nav-link.nav-label-item:hover,
+          .navbar-nav .dropdown-toggle.nav-label-item:hover,
+          .navbar-nav .nav-link.nav-label-item:focus,
+          .navbar-nav .dropdown-toggle.nav-label-item:focus,
+          .navbar-nav .nav-link.nav-label-item.active,
+          .navbar-nav .dropdown-toggle.nav-label-item.active {
+            background: transparent !important;
+            color: inherit !important;
+            text-decoration: none !important;
+            box-shadow: none !important;
+          }
+          </style>
 
 execute:
   freeze: false
