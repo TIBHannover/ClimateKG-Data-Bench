@@ -80,8 +80,39 @@ document.addEventListener("DOMContentLoaded", function () {
   strapline.setAttribute("role", "note");
   strapline.innerHTML = "<div class=\"site-strapline-inner\">A community portal for working on the Climate Knowledge Graph</div>";
   siteHeader.insertAdjacentElement("afterend", strapline);
+
+  // Make the IPCC AR6 navbar text a visual label, not an interactive link.
+  var navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-nav .dropdown-toggle");
+  navLinks.forEach(function (link) {
+    if (link.textContent && link.textContent.trim() === "IPCC AR6:") {
+      link.classList.add("nav-label-item");
+      link.setAttribute("aria-disabled", "true");
+      link.setAttribute("tabindex", "-1");
+    }
+  });
 });
 </script>
+
+<style>
+.navbar-nav .nav-link.nav-label-item,
+.navbar-nav .dropdown-toggle.nav-label-item {
+  font-weight: 700;
+  pointer-events: none;
+  cursor: default;
+}
+
+.navbar-nav .nav-link.nav-label-item:hover,
+.navbar-nav .dropdown-toggle.nav-label-item:hover,
+.navbar-nav .nav-link.nav-label-item:focus,
+.navbar-nav .dropdown-toggle.nav-label-item:focus,
+.navbar-nav .nav-link.nav-label-item.active,
+.navbar-nav .dropdown-toggle.nav-label-item.active {
+  background: transparent !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+</style>
 
 
 <link rel="stylesheet" href="styles/footer-accessibility.css">
@@ -109,14 +140,32 @@ document.addEventListener("DOMContentLoaded", function () {
 <span class="menu-text">Get Involved!</span></a>
   </li>  
   <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">IPCC AR6:</span>
+    </span>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./knowledge-graph.html"> 
 <span class="menu-text">Knowledge Graph</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://climatekg.tibwiki.io/wiki/IPCC:AR6"> 
+<span class="menu-text">Browse MediaWiki</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Data Analysis</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="./data-analysis.html">
+ <span class="dropdown-text">Data Analysis</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="./research_data/data-vis/gender-distribution-simple.html">
  <span class="dropdown-text">AR6 Author Distribution</span></a>
@@ -151,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
         <li>
     <a class="dropdown-item" href="./about-data.html">
- <span class="dropdown-text">About Data</span></a>
+ <span class="dropdown-text">Data</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./xml-html-documentation.html">
@@ -161,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <a class="dropdown-item" href="./research_data/data-vis/kg-stats-dashboard.html">
  <span class="dropdown-text">ClimateKG Dashboard</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
         <li>
     <a class="dropdown-item" href="./research_data/rdp/ar6-quantification-protocol.html">
  <span class="dropdown-text">Research Data Protocol</span></a>
@@ -196,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-er-model">    
         <li>
     <a class="dropdown-item" href="./er-model.html">
- <span class="dropdown-text">ER model</span></a>
+ <span class="dropdown-text">ER Model</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/erm-diagram.html">
@@ -208,6 +258,11 @@ document.addEventListener("DOMContentLoaded", function () {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Software</span>
@@ -243,7 +298,9 @@ document.addEventListener("DOMContentLoaded", function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#ckg-scrape" id="toc-ckg-scrape" class="nav-link active" data-scroll-target="#ckg-scrape">CKG Scrape</a></li>
+  <li><a href="#what-it-does" id="toc-what-it-does" class="nav-link active" data-scroll-target="#what-it-does">What it does</a></li>
+  <li><a href="#credits" id="toc-credits" class="nav-link" data-scroll-target="#credits">Credits</a></li>
+  <li><a href="#where-to-find-it-online" id="toc-where-to-find-it-online" class="nav-link" data-scroll-target="#where-to-find-it-online">Where to find it online</a></li>
   </ul>
 </nav>
     </div>
@@ -269,9 +326,30 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<section id="ckg-scrape" class="level2">
-<h2 class="anchored" data-anchor-id="ckg-scrape">CKG Scrape</h2>
-<p>This page is a placeholder. Details about the CKG Scrape tooling and workflow will be added here.</p>
+<p>CKG Scrape is the project software pipeline that harvests and normalises the IPCC AR6 web corpus, then prepares and loads the content into the ClimateKG stack (MediaWiki + Wikibase).</p>
+<section id="what-it-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-it-does">What it does</h2>
+<ul>
+<li>Scrapes AR6 corpus content from web sources</li>
+<li>Normalises report structure and metadata</li>
+<li>Produces structured content and linked open data for KG loading</li>
+<li>Supports reuse on other web corpora (with custom ETL scripting)</li>
+</ul>
+</section>
+<section id="credits" class="level2">
+<h2 class="anchored" data-anchor-id="credits">Credits</h2>
+<ul>
+<li>Darron M. Broad (software development)</li>
+<li>Simon Worthington</li>
+<li>Laura Oldenbourg</li>
+</ul>
+</section>
+<section id="where-to-find-it-online" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-find-it-online">Where to find it online</h2>
+<ul>
+<li>Software repository: <a href="https://github.com/TIBHannover/CKG-Scrape">github.com/TIBHannover/CKG-Scrape</a></li>
+<li>Project context: <a href="https://github.com/TIBHannover/climate-knowledge-graph">github.com/TIBHannover/climate-knowledge-graph</a></li>
+</ul>
 
 
 </section>

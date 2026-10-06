@@ -126,92 +126,106 @@
     "text": "Corpus hierarchy (QID reference)\n\n\n\nEntity\nQID\nWikibase label\nAlso known as\n\n\n\n\nWORK\nQ2\nWork\n\n\n\nREPORT_SERIES\nQ3\nReport Series\nMonographic Series\n\n\nREPORT\nQ4\nReport\nBook; Monograph; Volume\n\n\nTEXT_DIVISION\nQ5\nText Division\nDivision\n\n\nCHAPTER\nQ6\nChapter\n\n\n\nAUTHOR\nQ3998\nAuthor\n\n\n\nGLOSSARY_TERM\nQ1\nCategory\nGlossary Terms\n\n\nACRONYM\nQ2087\nAcronym\n\n\n\n\nSee the ERM documentation for the full property reference (P1–P33) and workflow for updating the mapping."
   },
   {
-    "objectID": "research_data/data-vis/index.html",
-    "href": "research_data/data-vis/index.html",
-    "title": "Climate-KG Data Analysis Dashboard",
+    "objectID": "software.html",
+    "href": "software.html",
+    "title": "Software",
     "section": "",
-    "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
+    "text": "ClimateKG software focuses on two core components developed in the project:"
   },
   {
-    "objectID": "research_data/data-vis/index.html#overview",
-    "href": "research_data/data-vis/index.html#overview",
-    "title": "Climate-KG Data Analysis Dashboard",
+    "objectID": "software.html#related-project-software-links",
+    "href": "software.html#related-project-software-links",
+    "title": "Software",
+    "section": "Related project software links",
+    "text": "Related project software links\n\nClimateKG main repository: github.com/TIBHannover/climate-knowledge-graph\nClimateKG Data Bench: tibhannover.github.io/ClimateKG-Data-Bench"
+  },
+  {
+    "objectID": "knowledge-graph.html",
+    "href": "knowledge-graph.html",
+    "title": "Knowledge Graph",
     "section": "",
-    "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
+    "text": "ClimateKG is a community knowledge graph built from the IPCC AR6 report corpus. Based on the ClimateKG final report, the project combines structured datasets with full text to turn a large, browsable publication set into a reusable data resource for analysis, navigation, and open science reuse.\nThe platform uses Wikibase for structured graph data and MediaWiki for browsing report content. This enables linked exploration of chapters, glossary terms, acronyms, bibliographic records, and authors, with query access through APIs and SPARQL.\nKey points from the current implementation:\n\nScope: AR6 corpus across 7 reports and 88 chapters\nStructured foundation: corpus structure, bibliographic information, glossary terms, acronyms, and authors\nCurrent scale: 7,524,958 words, 2,153 image files, 932 authors, 1,274 glossary terms, 1,910 acronyms\nPurpose: support data science, citizen science, document distribution, and knowledge enrichment workflows\n\nExplore the live knowledge graph:\n\nClimateKG on Wikibase and MediaWiki"
   },
   {
-    "objectID": "research_data/data-vis/index.html#about-climate-kg",
-    "href": "research_data/data-vis/index.html#about-climate-kg",
-    "title": "Climate-KG Data Analysis Dashboard",
-    "section": "About Climate-KG",
-    "text": "About Climate-KG\nClimate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.\n\nData Sources\n\nAuthors: IPCC AR6 author metadata (demographics, affiliations, contributions)\nBibliography: Climate science literature references\nGlossary: Climate science terminology from IPCC reports\nAcronyms: Standard climate science abbreviations\n\n\n\nTechnology Stack\n\nWikibase: Knowledge graph database\nPython: Data processing and analysis\nPlotly: Interactive visualizations\nQuarto: Documentation and reporting"
-  },
-  {
-    "objectID": "research_data/data-vis/index.html#getting-started",
-    "href": "research_data/data-vis/index.html#getting-started",
-    "title": "Climate-KG Data Analysis Dashboard",
-    "section": "Getting Started",
-    "text": "Getting Started\nAll code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.\nNote: Code sections are collapsed by default. Click “Show code” to expand and view the Python code used for each analysis."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "A knowledge graph of the IPCC AR6 Report",
+    "objectID": "get-involved.html",
+    "href": "get-involved.html",
+    "title": "Get Involved!",
     "section": "",
-    "text": "A bibliographic foundation for the data science community to semantify climate science\nClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a Wikibase knowledge graph.\nWhat we have so far as datasets:"
+    "text": "ClimateKG is a community knowledge graph for climate science literature. We welcome contributors from data science, publishing, policy, and citizen science who want to help make the IPCC AR6 corpus more discoverable, queryable, and reusable."
   },
   {
-    "objectID": "index.html#an-invitation-to-data-scientists",
-    "href": "index.html#an-invitation-to-data-scientists",
-    "title": "A knowledge graph of the IPCC AR6 Report",
-    "section": "An invitation to data scientists",
-    "text": "An invitation to data scientists\nClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.\nAdd to the graph or make use of the data.\nGet Involved"
+    "objectID": "get-involved.html#contribute-data-to-the-knowledge-graph",
+    "href": "get-involved.html#contribute-data-to-the-knowledge-graph",
+    "title": "Get Involved!",
+    "section": "Contribute data to the Knowledge Graph",
+    "text": "Contribute data to the Knowledge Graph\nYou can contribute by helping improve and extend the core data layers used in ClimateKG:\n\nCorpus structure and full text links\nBibliographic information and references\nGlossary terms and acronyms\nAuthor and contribution metadata\n\nContributions can include data cleaning, quality checks, mapping fields to the ER model, and helping prepare structured data for import workflows."
   },
   {
-    "objectID": "index.html#how-the-knowledge-graph-is-made",
-    "href": "index.html#how-the-knowledge-graph-is-made",
-    "title": "A knowledge graph of the IPCC AR6 Report",
-    "section": "How the knowledge graph is made",
-    "text": "How the knowledge graph is made\nClimateKG has made software to structure the IPCC AR6 report.\n\n\n\n\n\n\nPipeline Formula\n\n\n\nWeb scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)\n\n\nThe AR6 report is web scraped from the IPCC AR6 website and follows a CSV → XML/DTD → Wikibase import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).\nThe tools and resources:\n\n\n\nResource\nDescription\n\n\n\n\nCKG Scrape\nWeb scraping workflow used to extract and structure the IPCC AR6 report.\n\n\nDatasets\nCorpus · Authors · Acronyms · Bibliography · Glossary\n\n\nER Model\nInteractive entity-relationship diagram — fullscreen, zoomable, and showing the corpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)\n\n\nXML / DTD &gt; IN\nValidated XML and DTD layer for structuring data before import into Wikibase, with XSLT transformation for reusable outputs.\n\n\nKnowledge Graph\nWikibase for structured data and linked relationships across the report corpus.\n\n\nBrowser Report\nMediaWiki for browsing the report, page structure, and connected content.\n\n\nAccess the data\nSPARQL · XML · APIs · Data dumps\n\n\nAccess full text\nMediaWiki API · XSLT transformation"
+    "objectID": "get-involved.html#analyse-ar6-climate-science-and-contribute-back",
+    "href": "get-involved.html#analyse-ar6-climate-science-and-contribute-back",
+    "title": "Get Involved!",
+    "section": "Analyse AR6 climate science and contribute back",
+    "text": "Analyse AR6 climate science and contribute back\nClimateKG Data Bench is designed as a practical workspace for analysing AR6 with notebooks, SPARQL, and structured datasets. You can:\n\nRun analyses on author distributions, report structures, and terminology usage\nReproduce and improve existing query and notebook workflows\nContribute new findings and derived datasets back to the project\n\nThis supports a cycle where analysis results help improve the knowledge graph and make future analysis better."
   },
   {
-    "objectID": "er-model.html",
-    "href": "er-model.html",
-    "title": "ER Model",
+    "objectID": "get-involved.html#join-citizen-science-projects-from-semanticclimate",
+    "href": "get-involved.html#join-citizen-science-projects-from-semanticclimate",
+    "title": "Get Involved!",
+    "section": "Join citizen science projects from #semanticClimate",
+    "text": "Join citizen science projects from #semanticClimate\nClimateKG works with #semanticClimate, including youth and citizen science activities focused on climate-related literature and data. If you want to participate in collaborative projects, educational activities, or public-interest data work, this is a key entry point for involvement."
+  },
+  {
+    "objectID": "get-involved.html#build-on-a-syntactic-bibliographic-framework",
+    "href": "get-involved.html#build-on-a-syntactic-bibliographic-framework",
+    "title": "Get Involved!",
+    "section": "Build on a syntactic bibliographic framework",
+    "text": "Build on a syntactic bibliographic framework\nClimateKG provides a syntactic bibliographic knowledge graph as a stable foundation: datasets are connected through the ER model so contributors can add richer semantic layers over time. This means community contributions can move from structural organisation to deeper semantic enrichment while keeping data traceable and reusable."
+  },
+  {
+    "objectID": "get-involved.html#contact",
+    "href": "get-involved.html#contact",
+    "title": "Get Involved!",
+    "section": "Contact",
+    "text": "Contact\n\nSimon Worthington\nsimon.worthington@tib.eu"
+  },
+  {
+    "objectID": "data-analysis.html",
+    "href": "data-analysis.html",
+    "title": "Data Analysis",
     "section": "",
-    "text": "This page shows the core entity-relationship model used in ClimateKG Data Bench. It maps AR6 corpus structure, authorship, glossary, acronym, and bibliographic entities into Wikibase classes and properties.\n\n\n\n\n\nerDiagram\n\n    WORK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2\"\n    }\n    REPORT_SERIES {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3\"\n        String title \"rdfs:label item label\"\n        String description \"rdfs:description item description\"\n        WikibaseItem part_of \"P3 Part of: parent Work\"\n        WikibaseItem parts \"P4 Parts: child Series or Books\"\n    }\n    REPORT {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q4\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Report Series\"\n        WikibaseItem parts \"P4 Parts: child Books and Chapters\"\n    }\n    TEXT_DIVISION {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q5\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Series\"\n        WikibaseItem parts \"P4 Parts: child Chapters\"\n    }\n    CHAPTER {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q6\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String openalex \"P9 OPENALEX\"\n        Url wiki \"P5 Wiki\"\n        Url source \"P6 Source\"\n        Url pdf \"P7 PDF\"\n        WikibaseItem tags \"P12 Has TAG\"\n        WikibaseItem part_of \"P3 Part of: parent Book\"\n    }\n\n    AUTHOR {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3998\"\n        String climatkg_author_id \"P20 ClimateKG Author ID: e.g. AU0001\"\n        String last_name \"P21 last name\"\n        String first_name \"P22 first name\"\n        String gender \"P23 gender: M or F\"\n        String citizenship \"P24 citizenship\"\n        String country_of_residence \"P25 country of residence\"\n        String affiliation \"P26 affiliation\"\n        WikibaseItem contributed_to \"P27 contributed to chapter: FK to Q6 Chapter\"\n    }\n\n    GLOSSARY_TERM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q1 Category\"\n        String name \"rdfs:label item label\"\n        String also_known_as \"skos:altLabel item alias\"\n        Monolingualtext definition \"P13 Definition\"\n        WikibaseItem part_of_series \"P3 Part of: FK to Q4 Series via series_ref\"\n    }\n\n    ACRONYM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2087\"\n        String code \"rdfs:label acronym code as item label\"\n        Monolingualtext description \"P13 Definition: multiple; source as qualifier\"\n        WikibaseItem report \"P3 Part of: FK to Q4 Series (report)\"\n    }\n\n    WORK ||--|{ REPORT_SERIES : \"contains\"\n    REPORT_SERIES ||--|{ REPORT : \"contains\"\n    REPORT ||--|{ TEXT_DIVISION : \"contains\"\n    TEXT_DIVISION ||--|{ CHAPTER : \"contains\"\n    AUTHOR ||--|{ CHAPTER : \"contributes to\"\n    REPORT ||--|{ GLOSSARY_TERM : \"has\"\n    REPORT ||--|{ ACRONYM : \"has\"\n\n\n    \n\n\n\n\n\nFor the full mapping workflow and generated artefacts, see research_data/data-xml-dtd/erm/README.qmd."
+    "text": "ClimateKG data analysis combines several methods and tools: SPARQL queries for graph patterns, APIs for structured retrieval, Jupyter Notebooks for exploration and reproducible workflows, Quarto for publishing analysis outputs, and Plotly for interactive visualisation.\nAt the moment, data analysis in this project mainly demonstrates the syntactic, bibliographic Linked Open Data (LOD) foundation of ClimateKG, including the document structure and its connected metadata.\nClimateKG is open to contributions. If you want to add analyses, methods, or data improvements, please see the Get Involved section."
   },
   {
-    "objectID": "er-model.html#er-model",
-    "href": "er-model.html#er-model",
-    "title": "ER Model",
+    "objectID": "ckg-data.html",
+    "href": "ckg-data.html",
+    "title": "CKG Data",
     "section": "",
-    "text": "This page is a placeholder. The entity-relationship model documentation will be added here."
+    "text": "CKG Data is the XML/DTD data framework used to move structured data in and out of the ClimateKG knowledge graph while keeping data quality and portability."
   },
   {
-    "objectID": "ckg-scrape.html",
-    "href": "ckg-scrape.html",
-    "title": "CKG Scrape",
-    "section": "",
-    "text": "This page is a placeholder. Details about the CKG Scrape tooling and workflow will be added here."
+    "objectID": "ckg-data.html#what-it-does",
+    "href": "ckg-data.html#what-it-does",
+    "title": "CKG Data",
+    "section": "What it does",
+    "text": "What it does\n\nProvides XML/DTD data packages for core AR6 datasets\nSupports validation against the ER model and data constraints\nEnables import/export workflows for Wikibase and related tooling\nKeeps data portable for distribution and reuse"
   },
   {
-    "objectID": "ckg-scrape.html#ckg-scrape",
-    "href": "ckg-scrape.html#ckg-scrape",
-    "title": "CKG Scrape",
-    "section": "",
-    "text": "This page is a placeholder. Details about the CKG Scrape tooling and workflow will be added here."
+    "objectID": "ckg-data.html#credits",
+    "href": "ckg-data.html#credits",
+    "title": "CKG Data",
+    "section": "Credits",
+    "text": "Credits\n\nLaura Oldenbourg\nDarron M. Broad\nSimon Worthington"
+  },
+  {
+    "objectID": "ckg-data.html#where-to-find-it-online",
+    "href": "ckg-data.html#where-to-find-it-online",
+    "title": "CKG Data",
+    "section": "Where to find it online",
+    "text": "Where to find it online\n\nCKG Data page: tibhannover.github.io/ClimateKG-Data-Bench/ckg-data\nData Bench repository: github.com/TIBHannover/Climate-KG-data\nProject repository: github.com/TIBHannover/climate-knowledge-graph"
   },
   {
     "objectID": "about-data.html",
     "href": "about-data.html",
-    "title": "About Data",
-    "section": "",
-    "text": "ClimateKG provides a structured data layer for the IPCC AR6 corpus, combining full text, metadata, and linked entities for reuse in analysis and knowledge graph workflows."
-  },
-  {
-    "objectID": "about-data.html#about-data",
-    "href": "about-data.html#about-data",
     "title": "About Data",
     "section": "",
     "text": "ClimateKG provides a structured data layer for the IPCC AR6 corpus, combining full text, metadata, and linked entities for reuse in analysis and knowledge graph workflows."
@@ -1358,18 +1372,46 @@
     "text": "data/corpus-ar6.html — structural browse page listing AR6 report parts and chapters.\ndatasets.qmd — reports and datasets overview page."
   },
   {
-    "objectID": "ckg-data.html",
-    "href": "ckg-data.html",
-    "title": "CKG Data",
+    "objectID": "browser-ar6.html",
+    "href": "browser-ar6.html",
+    "title": "Browse AR6",
     "section": "",
-    "text": "This page is a placeholder. Documentation for CKG Data will be added here."
+    "text": "Use this page as a quick entry point to browse the IPCC AR6 corpus data.\n\nCorpus structure\nAuthors directory\nAcronyms index\nBibliography\nGlossary\n\nFor analysis workflows, see Data Analysis."
   },
   {
-    "objectID": "ckg-data.html#ckg-data",
-    "href": "ckg-data.html#ckg-data",
-    "title": "CKG Data",
+    "objectID": "browser-ar6.html#browse-ar6",
+    "href": "browser-ar6.html#browse-ar6",
+    "title": "Browse AR6",
     "section": "",
-    "text": "This page is a placeholder. Documentation for CKG Data will be added here."
+    "text": "Use this page as a quick entry point to browse the IPCC AR6 corpus data.\n\nCorpus structure\nAuthors directory\nAcronyms index\nBibliography\nGlossary\n\nFor analysis workflows, see Data Analysis."
+  },
+  {
+    "objectID": "ckg-scrape.html",
+    "href": "ckg-scrape.html",
+    "title": "CKG Scrape",
+    "section": "",
+    "text": "CKG Scrape is the project software pipeline that harvests and normalises the IPCC AR6 web corpus, then prepares and loads the content into the ClimateKG stack (MediaWiki + Wikibase)."
+  },
+  {
+    "objectID": "ckg-scrape.html#what-it-does",
+    "href": "ckg-scrape.html#what-it-does",
+    "title": "CKG Scrape",
+    "section": "What it does",
+    "text": "What it does\n\nScrapes AR6 corpus content from web sources\nNormalises report structure and metadata\nProduces structured content and linked open data for KG loading\nSupports reuse on other web corpora (with custom ETL scripting)"
+  },
+  {
+    "objectID": "ckg-scrape.html#credits",
+    "href": "ckg-scrape.html#credits",
+    "title": "CKG Scrape",
+    "section": "Credits",
+    "text": "Credits\n\nDarron M. Broad (software development)\nSimon Worthington\nLaura Oldenbourg"
+  },
+  {
+    "objectID": "ckg-scrape.html#where-to-find-it-online",
+    "href": "ckg-scrape.html#where-to-find-it-online",
+    "title": "CKG Scrape",
+    "section": "Where to find it online",
+    "text": "Where to find it online\n\nSoftware repository: github.com/TIBHannover/CKG-Scrape\nProject context: github.com/TIBHannover/climate-knowledge-graph"
   },
   {
     "objectID": "datasets.html",
@@ -1386,39 +1428,60 @@
     "text": "This page is a placeholder. Content describing the available datasets will be added here."
   },
   {
-    "objectID": "get-involved.html",
-    "href": "get-involved.html",
-    "title": "Get Involved!",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "A knowledge graph of the IPCC AR6 Report",
     "section": "",
-    "text": "ClimateKG is a community knowledge graph for climate science literature. We welcome contributors from data science, publishing, policy, and citizen science who want to help make the IPCC AR6 corpus more discoverable, queryable, and reusable."
+    "text": "A bibliographic foundation for the data science community to semantify climate science\nClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a Wikibase knowledge graph.\nWhat we have so far as datasets:"
   },
   {
-    "objectID": "get-involved.html#get-involved",
-    "href": "get-involved.html#get-involved",
-    "title": "Get Involved!",
-    "section": "",
-    "text": "ClimateKG is a community knowledge graph for climate science literature. We welcome contributors from data science, publishing, policy, and citizen science who want to help make the IPCC AR6 corpus more discoverable, queryable, and reusable."
+    "objectID": "index.html#an-invitation-to-data-scientists",
+    "href": "index.html#an-invitation-to-data-scientists",
+    "title": "A knowledge graph of the IPCC AR6 Report",
+    "section": "An invitation to data scientists",
+    "text": "An invitation to data scientists\nClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.\nAdd to the graph or make use of the data.\nGet Involved"
   },
   {
-    "objectID": "knowledge-graph.html",
-    "href": "knowledge-graph.html",
-    "title": "Knowledge Graph",
-    "section": "",
-    "text": "ClimateKG is a community knowledge graph built from the IPCC AR6 report corpus. Based on the ClimateKG final report, the project combines structured datasets with full text to turn a large, browsable publication set into a reusable data resource for analysis, navigation, and open science reuse.\nThe platform uses Wikibase for structured graph data and MediaWiki for browsing report content. This enables linked exploration of chapters, glossary terms, acronyms, bibliographic records, and authors, with query access through APIs and SPARQL.\nKey points from the current implementation:\n\nScope: AR6 corpus across 7 reports and 88 chapters\nStructured foundation: corpus structure, bibliographic information, glossary terms, acronyms, and authors\nCurrent scale: 7,524,958 words, 2,153 image files, 932 authors, 1,274 glossary terms, 1,910 acronyms\nPurpose: support data science, citizen science, document distribution, and knowledge enrichment workflows\n\nExplore the live knowledge graph:\n\nClimateKG on Wikibase and MediaWiki"
+    "objectID": "index.html#how-the-knowledge-graph-is-made",
+    "href": "index.html#how-the-knowledge-graph-is-made",
+    "title": "A knowledge graph of the IPCC AR6 Report",
+    "section": "How the knowledge graph is made",
+    "text": "How the knowledge graph is made\nClimateKG has made software to structure the IPCC AR6 report.\n\n\n\n\n\n\nPipeline Formula\n\n\n\nWeb scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)\n\n\nThe AR6 report is web scraped from the IPCC AR6 website and follows a CSV → XML/DTD → Wikibase import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).\nThe tools and resources:\n\n\n\nResource\nDescription\n\n\n\n\nCKG Scrape\nWeb scraping workflow used to extract and structure the IPCC AR6 report.\n\n\nDatasets\nCorpus · Authors · Acronyms · Bibliography · Glossary\n\n\nER Model\nInteractive entity-relationship diagram — fullscreen, zoomable, and showing the corpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)\n\n\nXML / DTD &gt; IN\nValidated XML and DTD layer for structuring data before import into Wikibase, with XSLT transformation for reusable outputs.\n\n\nKnowledge Graph\nWikibase for structured data and linked relationships across the report corpus.\n\n\nBrowser Report\nMediaWiki for browsing the report, page structure, and connected content.\n\n\nAccess the data\nSPARQL · XML · APIs · Data dumps\n\n\nAccess full text\nMediaWiki API · XSLT transformation"
   },
   {
-    "objectID": "software.html",
-    "href": "software.html",
-    "title": "Software",
+    "objectID": "research_data/data-vis/index.html",
+    "href": "research_data/data-vis/index.html",
+    "title": "Climate-KG Data Analysis Dashboard",
     "section": "",
-    "text": "This page is a placeholder. Content describing ClimateKG software components will be added here."
+    "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
   },
   {
-    "objectID": "software.html#software",
-    "href": "software.html#software",
-    "title": "Software",
+    "objectID": "research_data/data-vis/index.html#overview",
+    "href": "research_data/data-vis/index.html#overview",
+    "title": "Climate-KG Data Analysis Dashboard",
     "section": "",
-    "text": "This page is a placeholder. Content describing ClimateKG software components will be added here."
+    "text": "This site presents data analysis and visualizations for the Climate-KG Wikibase project, focusing on IPCC AR6 assessment reports.\n\n\n\n\nComprehensive demographic analysis of IPCC AR6 authors examining:\n\nGlobal North vs Global South distribution - Regional representation across reports\nGender distribution - Gender demographics of author teams\nIntersectional analysis - Combined gender and regional patterns\nChapter-level variations - Demographic distribution across different chapters\n\nKey visualizations include: - Regional distribution maps and charts - Gender distribution by region and chapter - Country-level author contributions - Report-specific demographic breakdowns\n\n\n\nComprehensive inventory and quality analysis of the Climate-KG Wikibase instance:\n\nItem counts and distribution\nProperty usage statistics\nData quality metrics\nMediaWiki page inventory"
+  },
+  {
+    "objectID": "research_data/data-vis/index.html#about-climate-kg",
+    "href": "research_data/data-vis/index.html#about-climate-kg",
+    "title": "Climate-KG Data Analysis Dashboard",
+    "section": "About Climate-KG",
+    "text": "About Climate-KG\nClimate-KG is a knowledge graph project focused on climate science literature, particularly IPCC assessment reports. The project uses Wikibase to structure and connect climate science data, making it accessible for research and analysis.\n\nData Sources\n\nAuthors: IPCC AR6 author metadata (demographics, affiliations, contributions)\nBibliography: Climate science literature references\nGlossary: Climate science terminology from IPCC reports\nAcronyms: Standard climate science abbreviations\n\n\n\nTechnology Stack\n\nWikibase: Knowledge graph database\nPython: Data processing and analysis\nPlotly: Interactive visualizations\nQuarto: Documentation and reporting"
+  },
+  {
+    "objectID": "research_data/data-vis/index.html#getting-started",
+    "href": "research_data/data-vis/index.html#getting-started",
+    "title": "Climate-KG Data Analysis Dashboard",
+    "section": "Getting Started",
+    "text": "Getting Started\nAll code used to generate these analyses is available in the notebooks. Click on any analysis above to view the interactive reports with collapsible code sections.\nNote: Code sections are collapsed by default. Click “Show code” to expand and view the Python code used for each analysis."
+  },
+  {
+    "objectID": "er-model.html",
+    "href": "er-model.html",
+    "title": "ER Model",
+    "section": "",
+    "text": "This page shows the core entity-relationship model used in ClimateKG Data Bench. It maps AR6 corpus structure, authorship, glossary, acronym, and bibliographic entities into Wikibase classes and properties.\n\n\n\n\n\nerDiagram\n\n    WORK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2\"\n    }\n    REPORT_SERIES {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3\"\n        String title \"rdfs:label item label\"\n        String description \"rdfs:description item description\"\n        WikibaseItem part_of \"P3 Part of: parent Work\"\n        WikibaseItem parts \"P4 Parts: child Series or Books\"\n    }\n    REPORT {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q4\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Report Series\"\n        WikibaseItem parts \"P4 Parts: child Books and Chapters\"\n    }\n    TEXT_DIVISION {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q5\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Series\"\n        WikibaseItem parts \"P4 Parts: child Chapters\"\n    }\n    CHAPTER {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q6\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String openalex \"P9 OPENALEX\"\n        Url wiki \"P5 Wiki\"\n        Url source \"P6 Source\"\n        Url pdf \"P7 PDF\"\n        WikibaseItem tags \"P12 Has TAG\"\n        WikibaseItem part_of \"P3 Part of: parent Book\"\n    }\n\n    AUTHOR {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3998\"\n        String climatkg_author_id \"P20 ClimateKG Author ID: e.g. AU0001\"\n        String last_name \"P21 last name\"\n        String first_name \"P22 first name\"\n        String gender \"P23 gender: M or F\"\n        String citizenship \"P24 citizenship\"\n        String country_of_residence \"P25 country of residence\"\n        String affiliation \"P26 affiliation\"\n        WikibaseItem contributed_to \"P27 contributed to chapter: FK to Q6 Chapter\"\n    }\n\n    GLOSSARY_TERM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q1 Category\"\n        String name \"rdfs:label item label\"\n        String also_known_as \"skos:altLabel item alias\"\n        Monolingualtext definition \"P13 Definition\"\n        WikibaseItem part_of_series \"P3 Part of: FK to Q4 Series via series_ref\"\n    }\n\n    ACRONYM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2087\"\n        String code \"rdfs:label acronym code as item label\"\n        Monolingualtext description \"P13 Definition: multiple; source as qualifier\"\n        WikibaseItem report \"P3 Part of: FK to Q4 Series (report)\"\n    }\n\n    WORK ||--|{ REPORT_SERIES : \"contains\"\n    REPORT_SERIES ||--|{ REPORT : \"contains\"\n    REPORT ||--|{ TEXT_DIVISION : \"contains\"\n    TEXT_DIVISION ||--|{ CHAPTER : \"contains\"\n    AUTHOR ||--|{ CHAPTER : \"contributes to\"\n    REPORT ||--|{ GLOSSARY_TERM : \"has\"\n    REPORT ||--|{ ACRONYM : \"has\"\n\n\n    \n\n\n\n\n\nFor the full mapping workflow and generated artefacts, see research_data/data-xml-dtd/erm/README.qmd."
   },
   {
     "objectID": "research_data/data-xml-dtd/erm/README.html",
@@ -1461,201 +1524,5 @@
     "title": "Entity-Relationship Model (ERM) — Wikibase Mapping",
     "section": "Previewing the diagram",
     "text": "Previewing the diagram\nThe diagram can also be viewed online at mermaid.live.\nThis diagram maps the IPCC AR6 XML/DTD entities to their corresponding Wikibase properties (PIDs) and class items (QIDs) on the local ClimateKG Wikibase instance.\nSource file: er-diagram-wikibase.mmd — regenerate by running generate-erm.ps1 whenever erm-wikibase-mapping.xml changes.\n\n\n\n\n\n\nerDiagram\n\n    WORK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2\"\n    }\n    REPORT_SERIES {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3\"\n        String title \"rdfs:label item label\"\n        String description \"rdfs:description item description\"\n        WikibaseItem part_of \"P3 Part of: parent Work\"\n        WikibaseItem parts \"P4 Parts: child Series or Books\"\n    }\n    REPORT {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q4\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Report Series\"\n        WikibaseItem parts \"P4 Parts: child Books and Chapters\"\n    }\n    TEXT_DIVISION {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q5\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Series\"\n        WikibaseItem parts \"P4 Parts: child Chapters\"\n    }\n    CHAPTER {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q6\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String openalex \"P9 OPENALEX\"\n        Url wiki \"P5 Wiki\"\n        Url source \"P6 Source\"\n        Url pdf \"P7 PDF\"\n        WikibaseItem tags \"P12 Has TAG\"\n        WikibaseItem part_of \"P3 Part of: parent Book\"\n    }\n\n    AUTHOR {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3998\"\n        String climatkg_author_id \"P20 ClimateKG Author ID: e.g. AU0001\"\n        String last_name \"P21 last name\"\n        String first_name \"P22 first name\"\n        String gender \"P23 gender: M or F\"\n        String citizenship \"P24 citizenship\"\n        String country_of_residence \"P25 country of residence\"\n        String affiliation \"P26 affiliation\"\n        WikibaseItem contributed_to \"P27 contributed to chapter: FK to Q6 Chapter\"\n    }\n\n    GLOSSARY_TERM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q1 Category\"\n        String name \"rdfs:label item label\"\n        String also_known_as \"skos:altLabel item alias\"\n        Monolingualtext definition \"P13 Definition\"\n        WikibaseItem part_of_series \"P3 Part of: FK to Q4 Series via series_ref\"\n    }\n\n    ACRONYM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2087\"\n        String code \"rdfs:label acronym code as item label\"\n        Monolingualtext description \"P13 Definition: multiple; source as qualifier\"\n        WikibaseItem report \"P3 Part of: FK to Q4 Series (report)\"\n    }\n\n    WORK ||--|{ REPORT_SERIES : \"contains\"\n    REPORT_SERIES ||--|{ REPORT : \"contains\"\n    REPORT ||--|{ TEXT_DIVISION : \"contains\"\n    TEXT_DIVISION ||--|{ CHAPTER : \"contains\"\n    AUTHOR ||--|{ CHAPTER : \"contributes to\"\n    REPORT ||--|{ GLOSSARY_TERM : \"has\"\n    REPORT ||--|{ ACRONYM : \"has\"\n\n\n    \n\n\n\n\n\n\n\n  ⛶ Fullscreen\n  🔗 View on Mermaid Viewer\n\n\n\n\n  \n  \n    \n      Scroll to zoom · Drag to pan · Esc to close\n      \n        +\n        −\n        Reset\n        ✕ Close"
-  },
-  {
-    "objectID": "get-involved.html#contribute-data-to-the-knowledge-graph",
-    "href": "get-involved.html#contribute-data-to-the-knowledge-graph",
-    "title": "Get Involved!",
-    "section": "Contribute data to the Knowledge Graph",
-    "text": "Contribute data to the Knowledge Graph\nYou can contribute by helping improve and extend the core data layers used in ClimateKG:\n\nCorpus structure and full text links\nBibliographic information and references\nGlossary terms and acronyms\nAuthor and contribution metadata\n\nContributions can include data cleaning, quality checks, mapping fields to the ER model, and helping prepare structured data for import workflows."
-  },
-  {
-    "objectID": "get-involved.html#analyse-ar6-climate-science-and-contribute-back",
-    "href": "get-involved.html#analyse-ar6-climate-science-and-contribute-back",
-    "title": "Get Involved!",
-    "section": "Analyse AR6 climate science and contribute back",
-    "text": "Analyse AR6 climate science and contribute back\nClimateKG Data Bench is designed as a practical workspace for analysing AR6 with notebooks, SPARQL, and structured datasets. You can:\n\nRun analyses on author distributions, report structures, and terminology usage\nReproduce and improve existing query and notebook workflows\nContribute new findings and derived datasets back to the project\n\nThis supports a cycle where analysis results help improve the knowledge graph and make future analysis better."
-  },
-  {
-    "objectID": "get-involved.html#join-citizen-science-projects-from-semanticclimate",
-    "href": "get-involved.html#join-citizen-science-projects-from-semanticclimate",
-    "title": "Get Involved!",
-    "section": "Join citizen science projects from #semanticClimate",
-    "text": "Join citizen science projects from #semanticClimate\nClimateKG works with #semanticClimate, including youth and citizen science activities focused on climate-related literature and data. If you want to participate in collaborative projects, educational activities, or public-interest data work, this is a key entry point for involvement."
-  },
-  {
-    "objectID": "get-involved.html#build-on-a-syntactic-bibliographic-framework",
-    "href": "get-involved.html#build-on-a-syntactic-bibliographic-framework",
-    "title": "Get Involved!",
-    "section": "Build on a syntactic bibliographic framework",
-    "text": "Build on a syntactic bibliographic framework\nClimateKG provides a syntactic bibliographic knowledge graph as a stable foundation: datasets are connected through the ER model so contributors can add richer semantic layers over time. This means community contributions can move from structural organisation to deeper semantic enrichment while keeping data traceable and reusable."
-  },
-  {
-    "objectID": "get-involved.html#contact",
-    "href": "get-involved.html#contact",
-    "title": "Get Involved!",
-    "section": "Contact",
-    "text": "Contact\n\nSimon Worthington\nsimon.worthington@tib.eu"
-  },
-  {
-    "objectID": "software.html#related-project-software-links",
-    "href": "software.html#related-project-software-links",
-    "title": "Software",
-    "section": "Related project software links",
-    "text": "Related project software links\n\nClimateKG main repository: github.com/TIBHannover/climate-knowledge-graph\nClimateKG Data Bench: tibhannover.github.io/ClimateKG-Data-Bench"
-  },
-  {
-    "objectID": "ckg-scrape.html#what-it-does",
-    "href": "ckg-scrape.html#what-it-does",
-    "title": "CKG Scrape",
-    "section": "What it does",
-    "text": "What it does\n\nScrapes AR6 corpus content from web sources\nNormalises report structure and metadata\nProduces structured content and linked open data for KG loading\nSupports reuse on other web corpora (with custom ETL scripting)"
-  },
-  {
-    "objectID": "ckg-scrape.html#credits",
-    "href": "ckg-scrape.html#credits",
-    "title": "CKG Scrape",
-    "section": "Credits",
-    "text": "Credits\n\nDarron M. Broad (software development)\nSimon Worthington\nLaura Oldenbourg"
-  },
-  {
-    "objectID": "ckg-scrape.html#where-to-find-it-online",
-    "href": "ckg-scrape.html#where-to-find-it-online",
-    "title": "CKG Scrape",
-    "section": "Where to find it online",
-    "text": "Where to find it online\n\nSoftware repository: github.com/TIBHannover/CKG-Scrape\nProject context: github.com/TIBHannover/climate-knowledge-graph"
-  },
-  {
-    "objectID": "software.html#ckg-scrape-1",
-    "href": "software.html#ckg-scrape-1",
-    "title": "CKG Data",
-    "section": "CKG Scrape",
-    "text": "CKG Scrape\nCKG Scrape is the project software pipeline that harvests and normalises the IPCC AR6 web corpus, then prepares and loads the content into the ClimateKG stack (MediaWiki + Wikibase)."
-  },
-  {
-    "objectID": "software.html#what-it-does",
-    "href": "software.html#what-it-does",
-    "title": "CKG Data",
-    "section": "What it does",
-    "text": "What it does\n\nScrapes AR6 corpus content from web sources\nNormalises report structure and metadata\nProduces structured content and linked open data for KG loading\nSupports reuse on other web corpora (with custom ETL scripting)"
-  },
-  {
-    "objectID": "software.html#credits",
-    "href": "software.html#credits",
-    "title": "CKG Data",
-    "section": "Credits",
-    "text": "Credits\n\nDarron M. Broad (software development)\nSimon Worthington\nLaura Oldenbourg"
-  },
-  {
-    "objectID": "software.html#where-to-find-it-online",
-    "href": "software.html#where-to-find-it-online",
-    "title": "CKG Data",
-    "section": "Where to find it online",
-    "text": "Where to find it online\n\nSoftware repository: github.com/TIBHannover/CKG-Scrape\nProject context: github.com/TIBHannover/climate-knowledge-graph"
-  },
-  {
-    "objectID": "software.html#ckg-data-1",
-    "href": "software.html#ckg-data-1",
-    "title": "CKG Data",
-    "section": "CKG Data",
-    "text": "CKG Data\nCKG Data is the XML/DTD data framework used to move structured data in and out of the ClimateKG knowledge graph while keeping data quality and portability."
-  },
-  {
-    "objectID": "software.html#what-it-does-1",
-    "href": "software.html#what-it-does-1",
-    "title": "CKG Data",
-    "section": "What it does",
-    "text": "What it does\n\nProvides XML/DTD data packages for core AR6 datasets\nSupports validation against the ER model and data constraints\nEnables import/export workflows for Wikibase and related tooling\nKeeps data portable for distribution and reuse"
-  },
-  {
-    "objectID": "software.html#credits-1",
-    "href": "software.html#credits-1",
-    "title": "CKG Data",
-    "section": "Credits",
-    "text": "Credits\n\nLaura Oldenbourg\nDarron M. Broad\nSimon Worthington"
-  },
-  {
-    "objectID": "software.html#where-to-find-it-online-1",
-    "href": "software.html#where-to-find-it-online-1",
-    "title": "CKG Data",
-    "section": "Where to find it online",
-    "text": "Where to find it online\n\nCKG Data page: tibhannover.github.io/ClimateKG-Data-Bench/ckg-data\nData Bench repository: github.com/TIBHannover/Climate-KG-data\nProject repository: github.com/TIBHannover/climate-knowledge-graph"
-  },
-  {
-    "objectID": "ckg-data.html#what-it-does",
-    "href": "ckg-data.html#what-it-does",
-    "title": "CKG Data",
-    "section": "What it does",
-    "text": "What it does\n\nProvides XML/DTD data packages for core AR6 datasets\nSupports validation against the ER model and data constraints\nEnables import/export workflows for Wikibase and related tooling\nKeeps data portable for distribution and reuse"
-  },
-  {
-    "objectID": "ckg-data.html#credits",
-    "href": "ckg-data.html#credits",
-    "title": "CKG Data",
-    "section": "Credits",
-    "text": "Credits\n\nLaura Oldenbourg\nDarron M. Broad\nSimon Worthington"
-  },
-  {
-    "objectID": "ckg-data.html#where-to-find-it-online",
-    "href": "ckg-data.html#where-to-find-it-online",
-    "title": "CKG Data",
-    "section": "Where to find it online",
-    "text": "Where to find it online\n\nCKG Data page: tibhannover.github.io/ClimateKG-Data-Bench/ckg-data\nData Bench repository: github.com/TIBHannover/Climate-KG-data\nProject repository: github.com/TIBHannover/climate-knowledge-graph"
-  },
-  {
-    "objectID": "browser-ar6.html",
-    "href": "browser-ar6.html",
-    "title": "Browse AR6",
-    "section": "",
-    "text": "Use this page as a quick entry point to browse the IPCC AR6 corpus data.\n\nCorpus structure\nAuthors directory\nAcronyms index\nBibliography\nGlossary\n\nFor analysis workflows, see Data Analysis."
-  },
-  {
-    "objectID": "browser-ar6.html#browse-ar6",
-    "href": "browser-ar6.html#browse-ar6",
-    "title": "Browse AR6",
-    "section": "",
-    "text": "Use this page as a quick entry point to browse the IPCC AR6 corpus data.\n\nCorpus structure\nAuthors directory\nAcronyms index\nBibliography\nGlossary\n\nFor analysis workflows, see Data Analysis."
-  },
-  {
-    "objectID": "data-analysis.html",
-    "href": "data-analysis.html",
-    "title": "Data Analysis",
-    "section": "",
-    "text": "ClimateKG data analysis combines several methods and tools: SPARQL queries for graph patterns, APIs for structured retrieval, Jupyter Notebooks for exploration and reproducible workflows, Quarto for publishing analysis outputs, and Plotly for interactive visualisation.\nAt the moment, data analysis in this project mainly demonstrates the syntactic, bibliographic Linked Open Data (LOD) foundation of ClimateKG, including the document structure and its connected metadata.\nClimateKG is open to contributions. If you want to add analyses, methods, or data improvements, please see the Get Involved section."
-  },
-  {
-    "objectID": "index.html#contribute-data-to-the-knowledge-graph",
-    "href": "index.html#contribute-data-to-the-knowledge-graph",
-    "title": "Get Involved!",
-    "section": "Contribute data to the Knowledge Graph",
-    "text": "Contribute data to the Knowledge Graph\nYou can contribute by helping improve and extend the core data layers used in ClimateKG:\n\nCorpus structure and full text links\nBibliographic information and references\nGlossary terms and acronyms\nAuthor and contribution metadata\n\nContributions can include data cleaning, quality checks, mapping fields to the ER model, and helping prepare structured data for import workflows."
-  },
-  {
-    "objectID": "index.html#analyse-ar6-climate-science-and-contribute-back",
-    "href": "index.html#analyse-ar6-climate-science-and-contribute-back",
-    "title": "Get Involved!",
-    "section": "Analyse AR6 climate science and contribute back",
-    "text": "Analyse AR6 climate science and contribute back\nClimateKG Data Bench is designed as a practical workspace for analysing AR6 with notebooks, SPARQL, and structured datasets. You can:\n\nRun analyses on author distributions, report structures, and terminology usage\nReproduce and improve existing query and notebook workflows\nContribute new findings and derived datasets back to the project\n\nThis supports a cycle where analysis results help improve the knowledge graph and make future analysis better."
-  },
-  {
-    "objectID": "index.html#join-citizen-science-projects-from-semanticclimate",
-    "href": "index.html#join-citizen-science-projects-from-semanticclimate",
-    "title": "Get Involved!",
-    "section": "Join citizen science projects from #semanticClimate",
-    "text": "Join citizen science projects from #semanticClimate\nClimateKG works with #semanticClimate, including youth and citizen science activities focused on climate-related literature and data. If you want to participate in collaborative projects, educational activities, or public-interest data work, this is a key entry point for involvement."
-  },
-  {
-    "objectID": "index.html#build-on-a-syntactic-bibliographic-framework",
-    "href": "index.html#build-on-a-syntactic-bibliographic-framework",
-    "title": "Get Involved!",
-    "section": "Build on a syntactic bibliographic framework",
-    "text": "Build on a syntactic bibliographic framework\nClimateKG provides a syntactic bibliographic knowledge graph as a stable foundation: datasets are connected through the ER model so contributors can add richer semantic layers over time. This means community contributions can move from structural organisation to deeper semantic enrichment while keeping data traceable and reusable."
-  },
-  {
-    "objectID": "index.html#contact",
-    "href": "index.html#contact",
-    "title": "Get Involved!",
-    "section": "Contact",
-    "text": "Contact\n\nSimon Worthington\nsimon.worthington@tib.eu"
   }
 ]

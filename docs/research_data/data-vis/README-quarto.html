@@ -114,8 +114,39 @@ document.addEventListener("DOMContentLoaded", function () {
   strapline.setAttribute("role", "note");
   strapline.innerHTML = "<div class=\"site-strapline-inner\">A community portal for working on the Climate Knowledge Graph</div>";
   siteHeader.insertAdjacentElement("afterend", strapline);
+
+  // Make the IPCC AR6 navbar text a visual label, not an interactive link.
+  var navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-nav .dropdown-toggle");
+  navLinks.forEach(function (link) {
+    if (link.textContent && link.textContent.trim() === "IPCC AR6:") {
+      link.classList.add("nav-label-item");
+      link.setAttribute("aria-disabled", "true");
+      link.setAttribute("tabindex", "-1");
+    }
+  });
 });
 </script>
+
+<style>
+.navbar-nav .nav-link.nav-label-item,
+.navbar-nav .dropdown-toggle.nav-label-item {
+  font-weight: 700;
+  pointer-events: none;
+  cursor: default;
+}
+
+.navbar-nav .nav-link.nav-label-item:hover,
+.navbar-nav .dropdown-toggle.nav-label-item:hover,
+.navbar-nav .nav-link.nav-label-item:focus,
+.navbar-nav .dropdown-toggle.nav-label-item:focus,
+.navbar-nav .nav-link.nav-label-item.active,
+.navbar-nav .dropdown-toggle.nav-label-item.active {
+  background: transparent !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+</style>
 
 
 <link rel="stylesheet" href="../../styles/footer-accessibility.css">
@@ -143,14 +174,32 @@ document.addEventListener("DOMContentLoaded", function () {
 <span class="menu-text">Get Involved!</span></a>
   </li>  
   <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">IPCC AR6:</span>
+    </span>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../knowledge-graph.html"> 
 <span class="menu-text">Knowledge Graph</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://climatekg.tibwiki.io/wiki/IPCC:AR6"> 
+<span class="menu-text">Browse MediaWiki</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Data Analysis</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../data-analysis.html">
+ <span class="dropdown-text">Data Analysis</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="../../research_data/data-vis/gender-distribution-simple.html">
  <span class="dropdown-text">AR6 Author Distribution</span></a>
@@ -185,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
         <li>
     <a class="dropdown-item" href="../../about-data.html">
- <span class="dropdown-text">About Data</span></a>
+ <span class="dropdown-text">Data</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../xml-html-documentation.html">
@@ -195,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <a class="dropdown-item" href="../../research_data/data-vis/kg-stats-dashboard.html">
  <span class="dropdown-text">ClimateKG Dashboard</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
         <li>
     <a class="dropdown-item" href="../../research_data/rdp/ar6-quantification-protocol.html">
  <span class="dropdown-text">Research Data Protocol</span></a>
@@ -230,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-er-model">    
         <li>
     <a class="dropdown-item" href="../../er-model.html">
- <span class="dropdown-text">ER model</span></a>
+ <span class="dropdown-text">ER Model</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../../research_data/data-xml-dtd/erm/erm-diagram.html">
@@ -242,6 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Software</span>
