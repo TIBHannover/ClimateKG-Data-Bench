@@ -19,25 +19,8 @@ website:
   title: "ClimateKG Data Bench"
   navbar:
     left:
-      - text: "Home"
-        file: index.qmd
-      - text: "Dashboards"
-        menu:
-          - text: "ClimateKG Dashboard"
-            file: research_data/data-vis/kg-stats-dashboard.ipynb
-          - text: "IPCC Namespace Word Count"
-            file: research_data/data-vis/mediawiki-word-count.ipynb
-          - text: "Graph Visualisation"
-            file: sparql_queries/graph-visualisation.ipynb
-      - text: "SPARQL Queries"
-        menu:
-          - text: "Class Instance Counts"
-            file: sparql_queries/class-counts.ipynb
-          - text: "Investigation: Q1 Count Discrepancy"
-            file: sparql_queries/investigate-q1-count.ipynb
-          - text: "---"
-          - text: "View Notebooks on GitHub"
-            href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
+      - text: "Get Involved!"
+        file: get-involved.qmd
       - text: "Data Analysis"
         menu:
           - text: "AR6 Author Distribution"
@@ -46,18 +29,27 @@ website:
             file: research_data/data-vis/authors-top-ten.ipynb
           - text: "Buildings & Urban"
             file: research_data/data-vis/buildings-urban-chapters.ipynb
-      - text: "ERM / Wikibase Mapping"  
+          - text: "Class Instance Counts"
+            file: sparql_queries/class-counts.ipynb
+          - text: "Investigation: Q1 Count Discrepancy"
+            file: sparql_queries/investigate-q1-count.ipynb
+          - text: "---"
+          - text: "View Notebooks on GitHub"
+            href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
+      - text: "Knowledge Graph"
+        file: knowledge-graph.qmd
+      - text: "Data"
         menu:
-          - text: "ERM Documentation"
-            file: research_data/data-xml-dtd/erm/README.qmd
-          - text: "Wikibase ERM Diagram"
-            file: research_data/data-xml-dtd/erm/erm-diagram.qmd
-      # - text: "AR6 Authors Analysis"
-      #   file: research_data/data-vis/ar6-authors-distribution-analysis.ipynb
-      # - text: "Wikibase Inventory"
-      #   file: research_data/data-vis/wikibase-inventory-dashboard.ipynb
-      - text: "Data Documentation"
-        menu:
+          - text: "ClimateKG Dashboard"
+            file: research_data/data-vis/kg-stats-dashboard.ipynb
+          - text: "About Data"
+            file: about-data.qmd
+          - text: "Datasets"
+            file: datasets.qmd
+          - text: "ER model"
+            file: er-model.qmd
+          - text: "Research Data Protocol"
+            file: research_data/rdp/ar6-quantification-protocol.qmd
           - text: "XML/HTML Pipeline Overview"
             file: xml-html-documentation.md
           - text: "---"
@@ -71,17 +63,13 @@ website:
           - text: "Corpus Structure"
             href: data/corpus-ar6.html
           - text: "Glossary"
-            href: data/glossary-ar6.html
-      - text: "Data"
+            href: data/glossary-ar6.html  
+      - text: "ER Model"  
         menu:
-          - text: "About Data"
-            file: about-data.qmd
-          - text: "Datasets"
-            file: datasets.qmd
-          - text: "ER model"
-            file: er-model.qmd
-          - text: "Research Data Protocol"
-            file: research_data/rdp/ar6-quantification-protocol.qmd
+          - text: "ER Model Documentation"
+            file: research_data/data-xml-dtd/erm/README.qmd
+          - text: "Wikibase ERM Diagram"
+            file: research_data/data-xml-dtd/erm/erm-diagram.qmd            
       - text: "Software"
         menu:
           - text: "Software"
@@ -90,6 +78,8 @@ website:
             file: ckg-scrape.qmd
           - text: "CKG Data"
             file: ckg-data.qmd
+  page-footer:
+    center: "[About](/about.html) | [Roadmap](/roadmap.html) | [Change Log](/change-log.html) | [Imprint](/imprint.html) | [Data protection](/data-protection.html) | [Terms of use](/terms-of-use.html) | [Accessibility](/accessibility.html)"
 
 format:
   html:
