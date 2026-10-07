@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Analysis – ClimateKG Data Bench</title>
+<title>Report Structure – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,22 +57,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -100,6 +100,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -149,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </style>
 
 
-<link rel="stylesheet" href="styles/footer-accessibility.css">
+<link rel="stylesheet" href="../styles/footer-accessibility.css">
 </head>
 
 <body class="nav-fixed">
@@ -159,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">ClimateKG Data Bench</span>
     </a>
   </div>
@@ -170,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./get-involved.html"> 
+    <a class="nav-link" href="../get-involved.html"> 
 <span class="menu-text">Get Involved!</span></a>
   </li>  
   <li class="nav-item">
@@ -184,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </span>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./knowledge-graph.html"> 
+    <a class="nav-link" href="../knowledge-graph.html"> 
 <span class="menu-text">Knowledge Graph</span></a>
   </li>  
   <li class="nav-item">
@@ -197,29 +200,29 @@ document.addEventListener("DOMContentLoaded", function () {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
         <li>
-    <a class="dropdown-item" href="./data-analysis.html">
+    <a class="dropdown-item" href="../data-analysis.html">
  <span class="dropdown-text">Data Analysis</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./sparql_queries/report-structure.html">
+    <a class="dropdown-item" href="../sparql_queries/report-structure.html">
  <span class="dropdown-text">Report Structure</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sparql_queries/authors.html">
+    <a class="dropdown-item" href="../sparql_queries/authors.html">
  <span class="dropdown-text">Authors</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sparql_queries/glossary.html">
+    <a class="dropdown-item" href="../sparql_queries/glossary.html">
  <span class="dropdown-text">Glossary Terms</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sparql_queries/acronyms.html">
+    <a class="dropdown-item" href="../sparql_queries/acronyms.html">
  <span class="dropdown-text">Acronyms</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./sparql_queries/question-bank.html">
+    <a class="dropdown-item" href="../sparql_queries/question-bank.html">
  <span class="dropdown-text">SPARQL Question Bank</span></a>
   </li>  
         <li>
@@ -227,28 +230,28 @@ document.addEventListener("DOMContentLoaded", function () {
  <span class="dropdown-text">View Notebooks on GitHub</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sparql_queries/service-test-main.html">
+    <a class="dropdown-item" href="../sparql_queries/service-test-main.html">
  <span class="dropdown-text">Service Status Check</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./research_data/data-vis/gender-distribution-simple.html">
+    <a class="dropdown-item" href="../research_data/data-vis/gender-distribution-simple.html">
  <span class="dropdown-text">AR6 Author Distribution</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./research_data/data-vis/authors-top-ten.html">
+    <a class="dropdown-item" href="../research_data/data-vis/authors-top-ten.html">
  <span class="dropdown-text">Top 10 Global South Authors</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./research_data/data-vis/buildings-urban-chapters.html">
+    <a class="dropdown-item" href="../research_data/data-vis/buildings-urban-chapters.html">
  <span class="dropdown-text">Buildings &amp; Urban</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sparql_queries/class-counts.html">
+    <a class="dropdown-item" href="../sparql_queries/class-counts.html">
  <span class="dropdown-text">Class Instance Counts</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./sparql_queries/investigate-q1-count.html">
+    <a class="dropdown-item" href="../sparql_queries/investigate-q1-count.html">
  <span class="dropdown-text">Investigation: Q1 Count Discrepancy</span></a>
   </li>  
     </ul>
@@ -259,42 +262,42 @@ document.addEventListener("DOMContentLoaded", function () {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
         <li>
-    <a class="dropdown-item" href="./about-data.html">
+    <a class="dropdown-item" href="../about-data.html">
  <span class="dropdown-text">Data</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./xml-html-documentation.html">
+    <a class="dropdown-item" href="../xml-html-documentation.html">
  <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./research_data/data-vis/kg-stats-dashboard.html">
+    <a class="dropdown-item" href="../research_data/data-vis/kg-stats-dashboard.html">
  <span class="dropdown-text">ClimateKG Dashboard</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li>
-    <a class="dropdown-item" href="./research_data/rdp/ar6-quantification-protocol.html">
+    <a class="dropdown-item" href="../research_data/rdp/ar6-quantification-protocol.html">
  <span class="dropdown-text">Research Data Protocol</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Generated Data Pages</li>
         <li>
-    <a class="dropdown-item" href="./data/authors-ar6.html">
+    <a class="dropdown-item" href="../data/authors-ar6.html">
  <span class="dropdown-text">Authors Directory</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./data/acronyms-ar6.html">
+    <a class="dropdown-item" href="../data/acronyms-ar6.html">
  <span class="dropdown-text">Acronyms Index</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./data/bibliographic-ar6.html">
+    <a class="dropdown-item" href="../data/bibliographic-ar6.html">
  <span class="dropdown-text">Bibliography</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./data/corpus-ar6.html">
+    <a class="dropdown-item" href="../data/corpus-ar6.html">
  <span class="dropdown-text">Corpus Structure</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./data/glossary-ar6.html">
+    <a class="dropdown-item" href="../data/glossary-ar6.html">
  <span class="dropdown-text">Glossary</span></a>
   </li>  
     </ul>
@@ -305,15 +308,15 @@ document.addEventListener("DOMContentLoaded", function () {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-er-model">    
         <li>
-    <a class="dropdown-item" href="./er-model.html">
+    <a class="dropdown-item" href="../er-model.html">
  <span class="dropdown-text">ER Model</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/erm-diagram.html">
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/erm-diagram.html">
  <span class="dropdown-text">Wikibase ERM Diagram</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./research_data/data-xml-dtd/erm/README.html">
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/README.html">
  <span class="dropdown-text">ER Model Documentation</span></a>
   </li>  
     </ul>
@@ -329,15 +332,15 @@ document.addEventListener("DOMContentLoaded", function () {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-software">    
         <li>
-    <a class="dropdown-item" href="./software.html">
+    <a class="dropdown-item" href="../software.html">
  <span class="dropdown-text">Software</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./ckg-scrape.html">
+    <a class="dropdown-item" href="../ckg-scrape.html">
  <span class="dropdown-text">CKG Scrape</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./ckg-data.html">
+    <a class="dropdown-item" href="../ckg-data.html">
  <span class="dropdown-text">CKG Data</span></a>
   </li>  
     </ul>
@@ -353,15 +356,21 @@ document.addEventListener("DOMContentLoaded", function () {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link active" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Data Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<h1 class="title">Report Structure</h1>
 </div>
 
 
@@ -378,13 +387,123 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<p>ClimateKG data analysis combines several methods and tools: SPARQL queries for graph patterns, APIs for structured retrieval, Jupyter Notebooks for exploration and reproducible workflows, Quarto for publishing analysis outputs, and Plotly for interactive visualisation.</p>
-<p>At the moment, data analysis in this project mainly demonstrates the syntactic, bibliographic Linked Open Data (LOD) foundation of ClimateKG, including the document structure and its connected metadata.</p>
-<p>ClimateKG is open to contributions. If you want to add analyses, methods, or data improvements, please see the <a href="./get-involved.html">Get Involved</a> section.</p>
+<p>This notebook explores the current ClimateKG knowledge graph by tracing the report hierarchy using the live Wikibase data.</p>
+<p>We start with the relationship that connects an item to its parent in the corpus structure: <code>P3</code>.</p>
+<p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
+<p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
+<p>This notebook is intentionally query-first: we validate the structure before adding deeper interpretation.</p>
+<div id="f19f78b4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> JSON</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wikibase_auth <span class="im">import</span> DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_USERNAME"</span>, <span class="st">"ckg"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_PASSWORD"</span>, <span class="st">"fairdata"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>, DEFAULT_SPARQL_ENDPOINT)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>, DEFAULT_WIKIBASE_URL)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>'ckg'</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>'fairdata'</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Endpoint: https://climatekg.tibwiki.io/query/proxy/sparql
+Libraries imported successfully</code></pre>
+</div>
+</div>
+<div id="3067d5c7" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?item ?itemLabel ?parent ?parentLabel ?itemType ?itemTypeLabel</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE {</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ?item wdt:P3 ?parent .</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  OPTIONAL { ?item wdt:P1 ?itemType . }</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?parent ?itemLabel</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 200</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows returned: 3</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
 
 
-<!-- -->
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">item</th>
+<th data-quarto-table-cell-role="th">parent</th>
+<th data-quarto-table-cell-role="th">itemType</th>
+<th data-quarto-table-cell-role="th">itemLabel</th>
+<th data-quarto-table-cell-role="th">parentLabel</th>
+<th data-quarto-table-cell-role="th">itemTypeLabel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>https://climatekg.tibwiki.io/entity/Q188</td>
+<td>https://climatekg.tibwiki.io/entity/Q153</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>Accelerating the Transition in the Context of ...</td>
+<td>https://climatekg.tibwiki.io/entity/Q153</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>https://climatekg.tibwiki.io/entity/Q190</td>
+<td>https://climatekg.tibwiki.io/entity/Q189</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>Summary for Policymakers</td>
+<td>https://climatekg.tibwiki.io/entity/Q189</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>https://climatekg.tibwiki.io/entity/Q192</td>
+<td>https://climatekg.tibwiki.io/entity/Q191</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>Longer Report</td>
+<td>https://climatekg.tibwiki.io/entity/Q191</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+</tr>
+</tbody>
+</table>
 
+</div>
+</div>
+</div>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>Each row represents an item with a parent item in the report hierarchy. In the current ClimateKG graph this gives us the basic structure for a report tree: the item becomes a child of the parent node via <code>P3</code>.</p>
+<p>This is the right foundation for the report-structure notebook because it shows how reports, sections, and related objects are connected in context rather than as isolated records.</p>
+<p>The next step could be to aggregate these rows by parent and count child items, or to add a direct graph visualisation of the hierarchy.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -857,25 +976,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Data Analysis"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ClimateKG data analysis combines several methods and tools: SPARQL queries for</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>graph patterns, APIs for structured retrieval, Jupyter Notebooks for</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>exploration and reproducible workflows, Quarto for publishing analysis outputs,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>and Plotly for interactive visualisation.</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>At the moment, data analysis in this project mainly demonstrates the syntactic,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>bibliographic Linked Open Data (LOD) foundation of ClimateKG, including the</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>document structure and its connected metadata.</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ClimateKG is open to contributions. If you want to add analyses, methods, or</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>data improvements, please see the <span class="co">[</span><span class="ot">Get Involved</span><span class="co">](get-involved.qmd)</span> section.</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -888,28 +989,28 @@ Climate Knowledge Graph is a research and development project from TIB.
 <nav class="site-footer-nav" aria-label="Footer navigation">
 <ul class="site-footer-links">
 <li>
-<a href="./about.html">About</a>
+<a href="../about.html">About</a>
 </li>
 <li>
-<a href="./documentation/test-report-7/incite.html">Our publications</a>
+<a href="../documentation/test-report-7/incite.html">Our publications</a>
 </li>
 <li>
-<a href="./roadmap.html">Roadmap</a>
+<a href="../roadmap.html">Roadmap</a>
 </li>
 <li>
-<a href="./change-log.html">Change Log</a>
+<a href="../change-log.html">Change Log</a>
 </li>
 <li>
-<a href="./imprint.html">Imprint</a>
+<a href="../imprint.html">Imprint</a>
 </li>
 <li>
-<a href="./data-protection.html">Data protection</a>
+<a href="../data-protection.html">Data protection</a>
 </li>
 <li>
-<a href="./terms-of-use.html">Terms of use</a>
+<a href="../terms-of-use.html">Terms of use</a>
 </li>
 <li>
-<a href="./accessibility.html">Accessibility</a>
+<a href="../accessibility.html">Accessibility</a>
 </li>
 </ul>
 </nav>

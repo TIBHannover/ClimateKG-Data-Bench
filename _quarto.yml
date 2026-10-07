@@ -34,6 +34,15 @@ website:
           - text: "Data Analysis"
             file: data-analysis.qmd
           - text: "---"
+          - text: "Report Structure"
+            file: sparql_queries/report-structure.ipynb
+          - text: "Authors"
+            file: sparql_queries/authors.ipynb
+          - text: "Glossary Terms"
+            file: sparql_queries/glossary.ipynb
+          - text: "Acronyms"
+            file: sparql_queries/acronyms.ipynb
+          - text: "---"
           - text: "SPARQL Question Bank"
             file: sparql_queries/question-bank.md
           - text: "View Notebooks on GitHub"
