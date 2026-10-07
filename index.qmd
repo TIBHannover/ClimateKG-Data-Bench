@@ -36,7 +36,7 @@ ClimateKG has made a software pipeline to structure corpora like the IPCC AR6.
 **Web scrape → (full text + datasets) + Entity-Relationship model = knowledge graph (syntactic bibliographic foundation)**
 :::
 
-The AR6 report is web scraped from the IPCC AR6 website and follows a **CSV → XML/DTD → Wikibase** import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property. 
+The AR6 report is web scraped from the IPCC AR6 website and follows a **CSV → XML/DTD → Wikibase** import pipeline. An Entity-Relationship Model (ER Model) maps every DTD element to a confirmed Wikibase property. 
 
 Our tools and resources: 
 
