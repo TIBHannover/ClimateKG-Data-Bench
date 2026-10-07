@@ -1,13 +1,14 @@
 # SPARQL Queries
 
-This directory contains Jupyter notebooks demonstrating SPARQL queries against the ClimateKG Wikibase instance.
+This directory contains Jupyter notebooks that demonstrate a query-first, evidence-based workflow for the ClimateKG Wikibase instance.
 
 ## Purpose
 
 These notebooks serve as:
-- **Educational examples** of SPARQL query patterns for Wikibase
-- **Interactive tutorials** that can be run locally or viewed in the Quarto website
-- **Documentation** of common queries for working with ClimateKG data
+- **Question-led analysis** of the Climate Knowledge Graph
+- **SPARQL examples** for working with the current ClimateKG Wikibase instance
+- **Reusable notebooks** that can be cited, shared, and extended on GitHub
+- **Documentation** for common graph queries across the bibliographic foundation of the knowledge graph
 
 ## Notebooks
 
@@ -29,11 +30,12 @@ Each query includes:
 
 ## Wikibase Instance
 
-These queries are designed for the production ClimateKG Wikibase instance:
+These queries are designed for the current ClimateKG Wikibase instance:
 
-- **Main Page**: https://prod-climatekg.semanticclimate.org/wiki/Main_Page
-- **SPARQL Endpoint**: https://prod-climatekg.semanticclimate.org/bigdata/sparql
-- **Query Interface**: https://prod-climatekg.semanticclimate.org/query/
+- **Main Page**: https://climatekg.tibwiki.io/
+- **SPARQL Endpoint**: https://climatekg.tibwiki.io/query/sparql
+- **Query Interface**: https://climatekg.tibwiki.io/query/
+- **Access note**: local notebook execution may require the off-web credentials supplied for the current deployment (username: `ckg`, password: `fairdata`).
 
 ## Running the Notebooks
 
@@ -68,8 +70,8 @@ The notebooks are automatically rendered as part of the Quarto website. Visit th
 All queries follow standard Wikibase SPARQL patterns:
 
 ```sparql
-PREFIX wd: <https://prod-climatekg.semanticclimate.org/entity/>
-PREFIX wdt: <https://prod-climatekg.semanticclimate.org/prop/direct/>
+PREFIX wd: <https://climatekg.tibwiki.io/entity/>
+PREFIX wdt: <https://climatekg.tibwiki.io/prop/direct/>
 
 SELECT ... WHERE {
   # Query patterns here
@@ -86,9 +88,10 @@ To add new query examples:
 
 1. Create a new Jupyter notebook in this directory
 2. Follow the structure of existing notebooks
-3. Include explanatory text and links to Wikibase
-4. Update this README with a description of your notebook
-5. Update `_quarto.yml` to include the new notebook in the menu
+3. Start from a research question, then convert it into a validated SPARQL query
+4. Include explanatory text and links to Wikibase
+5. Add academic metadata for future citation and DOI assignment
+6. Update `_quarto.yml` to include the new notebook in the Data Analysis menu
 
 ## Resources
 
