@@ -10,6 +10,7 @@ project:
     - "research_data/data-xml-dtd/erm/erm-diagram.qmd"
     - "research_data/data-xml-dtd/erm/README.qmd"
     - "research_data/rdp/ar6-quantification-protocol.qmd"
+    - "sparql_queries/*.md"
     - "sparql_queries/*.ipynb"
     - "!research_data/data-vis/ar6-authors-distribution-analysis.ipynb"
     - "!research_data/data-vis/wikibase-inventory-dashboard.ipynb"
@@ -38,6 +39,8 @@ website:
             file: research_data/data-vis/authors-top-ten.ipynb
           - text: "Buildings & Urban"
             file: research_data/data-vis/buildings-urban-chapters.ipynb
+          - text: "SPARQL Question Bank"
+            file: sparql_queries/question-bank.md
           - text: "Class Instance Counts"
             file: sparql_queries/class-counts.ipynb
           - text: "Investigation: Q1 Count Discrepancy"

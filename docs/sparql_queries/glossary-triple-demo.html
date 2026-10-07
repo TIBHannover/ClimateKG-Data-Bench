@@ -213,6 +213,10 @@ document.addEventListener("DOMContentLoaded", function () {
  <span class="dropdown-text">Buildings &amp; Urban</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="../sparql_queries/question-bank.html">
+ <span class="dropdown-text">SPARQL Question Bank</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../sparql_queries/class-counts.html">
  <span class="dropdown-text">Class Instance Counts</span></a>
   </li>  
@@ -395,9 +399,9 @@ document.addEventListener("DOMContentLoaded", function () {
 </section>
 <section id="sparql-query-graph-view" class="level2">
 <h2 class="anchored" data-anchor-id="sparql-query-graph-view">SPARQL Query — Graph View</h2>
-<p>Paste this into the <a href="https://prod-climatekg.semanticclimate.org/query/">production SPARQL query interface</a> and switch to the <strong>Graph</strong> tab.</p>
-<pre class="sparql"><code>PREFIX ckg:  &lt;https://prod-climatekg.semanticclimate.org/entity/&gt;
-PREFIX ckgp: &lt;https://prod-climatekg.semanticclimate.org/prop/direct/&gt;
+<p>Paste this into the <a href="https://climatekg.tibwiki.io/query/">production SPARQL query interface</a> and switch to the <strong>Graph</strong> tab.</p>
+<pre class="sparql"><code>PREFIX ckg:  &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX ckgp: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
 PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
 
 SELECT ?subject ?subjectLabel ?linkLabel ?object ?objectLabel
@@ -955,11 +959,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## SPARQL Query — Graph View</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>Paste this into the <span class="co">[</span><span class="ot">production SPARQL query interface</span><span class="co">](https://prod-climatekg.semanticclimate.org/query/)</span> and switch to the **Graph** tab.</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>Paste this into the <span class="co">[</span><span class="ot">production SPARQL query interface</span><span class="co">](https://climatekg.tibwiki.io/query/)</span> and switch to the **Graph** tab.</span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX ckg:  &lt;https://prod-climatekg.semanticclimate.org/entity/&gt;</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX ckgp: &lt;https://prod-climatekg.semanticclimate.org/prop/direct/&gt;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX ckg:  &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX ckgp: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="in">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?subject ?subjectLabel ?linkLabel ?object ?objectLabel</span></span>

@@ -35,7 +35,7 @@ These queries are designed for the current ClimateKG Wikibase instance:
 - **Main Page**: https://climatekg.tibwiki.io/
 - **SPARQL Endpoint**: https://climatekg.tibwiki.io/query/sparql
 - **Query Interface**: https://climatekg.tibwiki.io/query/
-- **Access note**: local notebook execution may require the off-web credentials supplied for the current deployment (username: `ckg`, password: `fairdata`).
+- **Access note**: the live service is protected; if your deployment requires credentials, export `CLIMATEKG_SPARQL_USERNAME` and `CLIMATEKG_SPARQL_PASSWORD` before running the notebooks. On the current instance this is typically `ckg` and `fairdata`.
 
 ## Running the Notebooks
 
@@ -54,12 +54,18 @@ pip install SPARQLWrapper pandas ipython jupyter
    cd sparql_queries
    ```
 
-2. Launch Jupyter:
+2. Set the credentials for the endpoint if required:
+   ```bash
+   export CLIMATEKG_SPARQL_USERNAME=ckg
+   export CLIMATEKG_SPARQL_PASSWORD=fairdata
+   ```
+
+3. Launch Jupyter:
    ```bash
    jupyter notebook
    ```
 
-3. Open and run the desired notebook
+4. Open and run the desired notebook
 
 ### View in Quarto Website
 

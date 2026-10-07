@@ -24,11 +24,11 @@ The relationship between a glossary term and its source report is via **P3 (part
 
 ## SPARQL Query — Graph View
 
-Paste this into the [production SPARQL query interface](https://prod-climatekg.semanticclimate.org/query/) and switch to the **Graph** tab.
+Paste this into the [production SPARQL query interface](https://climatekg.tibwiki.io/query/) and switch to the **Graph** tab.
 
 ```sparql
-PREFIX ckg:  <https://prod-climatekg.semanticclimate.org/entity/>
-PREFIX ckgp: <https://prod-climatekg.semanticclimate.org/prop/direct/>
+PREFIX ckg:  <https://climatekg.tibwiki.io/entity/>
+PREFIX ckgp: <https://climatekg.tibwiki.io/prop/direct/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?subject ?subjectLabel ?linkLabel ?object ?objectLabel

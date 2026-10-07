@@ -1,0 +1,36 @@
+services:
+  wikibase:
+    image: wikibase/wikibase:mw1.45.0
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      DB_SERVER: mariadb:3306
+      DB_USER: wikibase
+      DB_PASS: wikibase
+      DB_NAME: wikibase
+      MW_ADMIN_NAME: admin
+      MW_ADMIN_PASS: admin
+      MW_ADMIN_EMAIL: admin@example.org
+      MW_WG_SERVER: http://localhost:8080
+    depends_on:
+      - mariadb
+    volumes:
+      - wikibase_config:/config
+      - wikibase_images:/var/www/html/images
+
+  mariadb:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wikibase
+      MYSQL_USER: wikibase
+      MYSQL_PASSWORD: wikibase
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - wikibase_data:/var/lib/mysql
+
+volumes:
+  wikibase_data:
+  wikibase_config:
+  wikibase_images:
