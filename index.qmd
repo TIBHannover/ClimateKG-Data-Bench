@@ -1,5 +1,5 @@
 ---
-title: "A knowledge graph of the IPCC AR6 Report"
+title: "A knowledge graph of the IPCC Sixth Assessment Report"
 format:
   html:
     code-tools: false
@@ -8,11 +8,11 @@ format:
 
 > A bibliographic foundation for the data science community to semantify climate science
 
-ClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change's Sixth Assessment Report (IPCC AR6) as a [Wikibase knowledge graph](https://climatekg.tibwiki.io/).
+ClimateKG has structured the Intergovernmental Panel on Climate Change's Sixth Assessment Report (IPCC AR6) as a [Wikibase knowledge graph](https://climatekg.tibwiki.io/).
 
-What we have *so far* as datasets:
+The foundation is made of five datasets:
 
-1. [Corpus](data/corpus-ar6.html): Structured hierarchy of AR6 reports, chapters, and text divisions; 7,524,958 words, 2,153 image files, 88 chapters, 7 reports.
+1. [Corpus](data/corpus-ar6.html): Structured hierarchy of AR6 reports, chapters, and text divisions; 7,524,958 words, 2,153 image files, 88 chapters, 7 reports, and a full text import into MediaWiki.
 2. [Bibliography](data/bibliographic-ar6.html): Bibliographic information for AR6 reports and chapters; 95 DOIs.
 3. [Glossary](data/glossary-ar6.html): Key AR6 terms and definitions for climate concepts; 1,274 terms.
 4. [Acronyms](data/acronyms-ar6.html): AR6 acronym index with expanded forms and references; 1,910 acronyms.
@@ -20,25 +20,25 @@ What we have *so far* as datasets:
 
 ## An invitation to data scientists 
 
-ClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.
+The graph acts as a structural (syntactic) framework for data scientists to add linked open data (LOD) about the scientific findings contained in the report.  
 
-Add to the graph or make use of the data.
+Add to the graph or make use of the data yourself. Find out more here: 
 
 [Get Involved](get-involved.html){.btn .btn-primary role="button"}
 
 ## How the knowledge graph is made  
 
-ClimateKG has made software to structure the IPCC AR6 report.
+ClimateKG has made software to structure corpora like the IPCC AR6.
 
 ::: {.callout-note}
 ## Pipeline Formula
 
-**Web scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)**
+**Web scrape → (full text + datasets) + Entity-Relationship model = knowledge graph (syntactic bibliographic foundation)**
 :::
 
-The AR6 report is web scraped from the IPCC AR6 website and follows a **CSV → XML/DTD → Wikibase** import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID). 
+The AR6 report is web scraped from the IPCC AR6 website and follows a **CSV → XML/DTD → Wikibase** import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property. 
 
-The tools and resources: 
+Our tools and resources: 
 
 | Resource | Description |
 |----------|-------------|
@@ -50,5 +50,3 @@ The tools and resources:
 | [Browser Report](https://climatekg.tibwiki.io/) | MediaWiki for browsing the report, page structure, and connected content. |
 | Access the data | [SPARQL](https://climatekg.tibwiki.io/query/) · [XML](xml-html-documentation.html) · [APIs](https://climatekg.tibwiki.io/w/api.php) · Data dumps |
 | Access full text | [MediaWiki API](https://climatekg.tibwiki.io/w/api.php) · [XSLT transformation](xml-html-documentation.html) |
-
-

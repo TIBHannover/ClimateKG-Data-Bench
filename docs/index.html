@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A knowledge graph of the IPCC AR6 Report – ClimateKG Data Bench</title>
+<title>A knowledge graph of the IPCC Sixth Assessment Report – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">A knowledge graph of the IPCC AR6 Report</h1>
+<h1 class="title">A knowledge graph of the IPCC Sixth Assessment Report</h1>
 </div>
 
 
@@ -328,10 +328,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <blockquote class="blockquote">
 <p>A bibliographic foundation for the data science community to semantify climate science</p>
 </blockquote>
-<p>ClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a <a href="https://climatekg.tibwiki.io/">Wikibase knowledge graph</a>.</p>
-<p>What we have <em>so far</em> as datasets:</p>
+<p>ClimateKG has structured the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a <a href="https://climatekg.tibwiki.io/">Wikibase knowledge graph</a>.</p>
+<p>The foundation is made of five datasets:</p>
 <ol type="1">
-<li><a href="data/corpus-ar6.html">Corpus</a>: Structured hierarchy of AR6 reports, chapters, and text divisions; 7,524,958 words, 2,153 image files, 88 chapters, 7 reports.</li>
+<li><a href="data/corpus-ar6.html">Corpus</a>: Structured hierarchy of AR6 reports, chapters, and text divisions; 7,524,958 words, 2,153 image files, 88 chapters, 7 reports, and a full text import into MediaWiki.</li>
 <li><a href="data/bibliographic-ar6.html">Bibliography</a>: Bibliographic information for AR6 reports and chapters; 95 DOIs.</li>
 <li><a href="data/glossary-ar6.html">Glossary</a>: Key AR6 terms and definitions for climate concepts; 1,274 terms.</li>
 <li><a href="data/acronyms-ar6.html">Acronyms</a>: AR6 acronym index with expanded forms and references; 1,910 acronyms.</li>
@@ -339,13 +339,13 @@ document.addEventListener("DOMContentLoaded", function () {
 </ol>
 <section id="an-invitation-to-data-scientists" class="level2">
 <h2 class="anchored" data-anchor-id="an-invitation-to-data-scientists">An invitation to data scientists</h2>
-<p>ClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.</p>
-<p>Add to the graph or make use of the data.</p>
+<p>The graph acts as a structural (syntactic) framework for data scientists to add linked open data (LOD) about the scientific findings contained in the report.</p>
+<p>Add to the graph or make use of the data yourself. Find out more here:</p>
 <p><a href="get-involved.html" class="btn btn-primary" role="button">Get Involved</a></p>
 </section>
 <section id="how-the-knowledge-graph-is-made" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-knowledge-graph-is-made">How the knowledge graph is made</h2>
-<p>ClimateKG has made software to structure the IPCC AR6 report.</p>
+<p>ClimateKG has made software to structure corpora like the IPCC AR6.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -356,11 +356,11 @@ Pipeline Formula
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Web scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)</strong></p>
+<p><strong>Web scrape → (full text + datasets) + Entity-Relationship model = knowledge graph (syntactic bibliographic foundation)</strong></p>
 </div>
 </div>
-<p>The AR6 report is web scraped from the IPCC AR6 website and follows a <strong>CSV → XML/DTD → Wikibase</strong> import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).</p>
-<p>The tools and resources:</p>
+<p>The AR6 report is web scraped from the IPCC AR6 website and follows a <strong>CSV → XML/DTD → Wikibase</strong> import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property.</p>
+<p>Our tools and resources:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">

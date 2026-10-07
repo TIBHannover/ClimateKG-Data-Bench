@@ -1430,23 +1430,23 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "A knowledge graph of the IPCC AR6 Report",
+    "title": "A knowledge graph of the IPCC Sixth Assessment Report",
     "section": "",
-    "text": "A bibliographic foundation for the data science community to semantify climate science\nClimateKG has structured and imported the full text of the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a Wikibase knowledge graph.\nWhat we have so far as datasets:"
+    "text": "A bibliographic foundation for the data science community to semantify climate science\nClimateKG has structured the Intergovernmental Panel on Climate Change’s Sixth Assessment Report (IPCC AR6) as a Wikibase knowledge graph.\nThe foundation is made of five datasets:"
   },
   {
     "objectID": "index.html#an-invitation-to-data-scientists",
     "href": "index.html#an-invitation-to-data-scientists",
-    "title": "A knowledge graph of the IPCC AR6 Report",
+    "title": "A knowledge graph of the IPCC Sixth Assessment Report",
     "section": "An invitation to data scientists",
-    "text": "An invitation to data scientists\nClimateKG acts as a structural (syntactic) framework for scientific findings contained in the report and enables data scientists to contribute, analyze, and extend the knowledge graph.\nAdd to the graph or make use of the data.\nGet Involved"
+    "text": "An invitation to data scientists\nThe graph acts as a structural (syntactic) framework for data scientists to add linked open data (LOD) about the scientific findings contained in the report.\nAdd to the graph or make use of the data yourself. Find out more here:\nGet Involved"
   },
   {
     "objectID": "index.html#how-the-knowledge-graph-is-made",
     "href": "index.html#how-the-knowledge-graph-is-made",
-    "title": "A knowledge graph of the IPCC AR6 Report",
+    "title": "A knowledge graph of the IPCC Sixth Assessment Report",
     "section": "How the knowledge graph is made",
-    "text": "How the knowledge graph is made\nClimateKG has made software to structure the IPCC AR6 report.\n\n\n\n\n\n\nPipeline Formula\n\n\n\nWeb scrape → (full text + datasets) + ER model = knowledge graph (syntactic bibliographic foundation)\n\n\nThe AR6 report is web scraped from the IPCC AR6 website and follows a CSV → XML/DTD → Wikibase import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property (PID) or class item (QID).\nThe tools and resources:\n\n\n\nResource\nDescription\n\n\n\n\nCKG Scrape\nWeb scraping workflow used to extract and structure the IPCC AR6 report.\n\n\nDatasets\nCorpus · Authors · Acronyms · Bibliography · Glossary\n\n\nER Model\nInteractive entity-relationship diagram — fullscreen, zoomable, and showing the corpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)\n\n\nXML / DTD &gt; IN\nValidated XML and DTD layer for structuring data before import into Wikibase, with XSLT transformation for reusable outputs.\n\n\nKnowledge Graph\nWikibase for structured data and linked relationships across the report corpus.\n\n\nBrowser Report\nMediaWiki for browsing the report, page structure, and connected content.\n\n\nAccess the data\nSPARQL · XML · APIs · Data dumps\n\n\nAccess full text\nMediaWiki API · XSLT transformation"
+    "text": "How the knowledge graph is made\nClimateKG has made software to structure corpora like the IPCC AR6.\n\n\n\n\n\n\nPipeline Formula\n\n\n\nWeb scrape → (full text + datasets) + Entity-Relationship model = knowledge graph (syntactic bibliographic foundation)\n\n\nThe AR6 report is web scraped from the IPCC AR6 website and follows a CSV → XML/DTD → Wikibase import pipeline. An Entity-Relationship Model (ERM) maps every DTD element to a confirmed Wikibase property.\nOur tools and resources:\n\n\n\nResource\nDescription\n\n\n\n\nCKG Scrape\nWeb scraping workflow used to extract and structure the IPCC AR6 report.\n\n\nDatasets\nCorpus · Authors · Acronyms · Bibliography · Glossary\n\n\nER Model\nInteractive entity-relationship diagram — fullscreen, zoomable, and showing the corpus hierarchy: Work (Q2) → Report Series (Q3) → Report (Q4) → Text Division (Q5) → Chapter (Q6)\n\n\nXML / DTD &gt; IN\nValidated XML and DTD layer for structuring data before import into Wikibase, with XSLT transformation for reusable outputs.\n\n\nKnowledge Graph\nWikibase for structured data and linked relationships across the report corpus.\n\n\nBrowser Report\nMediaWiki for browsing the report, page structure, and connected content.\n\n\nAccess the data\nSPARQL · XML · APIs · Data dumps\n\n\nAccess full text\nMediaWiki API · XSLT transformation"
   },
   {
     "objectID": "research_data/data-vis/index.html",
