@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>service-test-main – ClimateKG Data Bench</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var siteHeader = document.querySelector("body > header");
+  var existing = document.querySelector(".site-strapline");
+  if (!siteHeader || existing) {
+    return;
+  }
+
+  var strapline = document.createElement("div");
+  strapline.className = "site-strapline";
+  strapline.setAttribute("role", "note");
+  strapline.innerHTML = "<div class=\"site-strapline-inner\">A community portal for working on the Climate Knowledge Graph</div>";
+  siteHeader.insertAdjacentElement("afterend", strapline);
+
+  // Make the IPCC AR6 navbar text a visual label, not an interactive link.
+  var navLinks = document.querySelectorAll(".navbar-nav .nav-link, .navbar-nav .dropdown-toggle");
+  navLinks.forEach(function (link) {
+    if (link.textContent && link.textContent.trim() === "IPCC AR6:") {
+      link.classList.add("nav-label-item");
+      link.setAttribute("aria-disabled", "true");
+      link.setAttribute("tabindex", "-1");
+    }
+  });
+});
+</script>
+
+<style>
+.navbar-nav .nav-link.nav-label-item,
+.navbar-nav .dropdown-toggle.nav-label-item {
+  font-weight: 700;
+  pointer-events: none;
+  cursor: default;
+}
+
+.navbar-nav .nav-link.nav-label-item:hover,
+.navbar-nav .dropdown-toggle.nav-label-item:hover,
+.navbar-nav .nav-link.nav-label-item:focus,
+.navbar-nav .dropdown-toggle.nav-label-item:focus,
+.navbar-nav .nav-link.nav-label-item.active,
+.navbar-nav .dropdown-toggle.nav-label-item.active {
+  background: transparent !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+</style>
+
+
+<link rel="stylesheet" href="../styles/footer-accessibility.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ClimateKG Data Bench</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../get-involved.html"> 
+<span class="menu-text">Get Involved!</span></a>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">IPCC AR6:</span>
+    </span>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../knowledge-graph.html"> 
+<span class="menu-text">Knowledge Graph</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://climatekg.tibwiki.io/wiki/IPCC:AR6"> 
+<span class="menu-text">Browse MediaWiki</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-analysis">    
+        <li>
+    <a class="dropdown-item" href="../data-analysis.html">
+ <span class="dropdown-text">Data Analysis</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/question-bank.html">
+ <span class="dropdown-text">SPARQL Question Bank</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/service-test-main.html">
+ <span class="dropdown-text">Service Status Check</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/gender-distribution-simple.html">
+ <span class="dropdown-text">AR6 Author Distribution</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/authors-top-ten.html">
+ <span class="dropdown-text">Top 10 Global South Authors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/buildings-urban-chapters.html">
+ <span class="dropdown-text">Buildings &amp; Urban</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/class-counts.html">
+ <span class="dropdown-text">Class Instance Counts</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/investigate-q1-count.html">
+ <span class="dropdown-text">Investigation: Q1 Count Discrepancy</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Data</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data">    
+        <li>
+    <a class="dropdown-item" href="../about-data.html">
+ <span class="dropdown-text">Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../xml-html-documentation.html">
+ <span class="dropdown-text">XML/HTML Pipeline Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-vis/kg-stats-dashboard.html">
+ <span class="dropdown-text">ClimateKG Dashboard</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../research_data/rdp/ar6-quantification-protocol.html">
+ <span class="dropdown-text">Research Data Protocol</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Generated Data Pages</li>
+        <li>
+    <a class="dropdown-item" href="../data/authors-ar6.html">
+ <span class="dropdown-text">Authors Directory</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/acronyms-ar6.html">
+ <span class="dropdown-text">Acronyms Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/bibliographic-ar6.html">
+ <span class="dropdown-text">Bibliography</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/corpus-ar6.html">
+ <span class="dropdown-text">Corpus Structure</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../data/glossary-ar6.html">
+ <span class="dropdown-text">Glossary</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-er-model" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ER Model</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-er-model">    
+        <li>
+    <a class="dropdown-item" href="../er-model.html">
+ <span class="dropdown-text">ER Model</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/erm-diagram.html">
+ <span class="dropdown-text">Wikibase ERM Diagram</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../research_data/data-xml-dtd/erm/README.html">
+ <span class="dropdown-text">ER Model Documentation</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">|</span>
+    </span>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Software</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-software">    
+        <li>
+    <a class="dropdown-item" href="../software.html">
+ <span class="dropdown-text">Software</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ckg-scrape.html">
+ <span class="dropdown-text">CKG Scrape</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ckg-data.html">
+ <span class="dropdown-text">CKG Data</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sparql-and-api-tests-graph-queries-for-climatekg-wikibase" id="toc-sparql-and-api-tests-graph-queries-for-climatekg-wikibase" class="nav-link active" data-scroll-target="#sparql-and-api-tests-graph-queries-for-climatekg-wikibase">SPARQL and API Tests + Graph Queries for ClimateKG Wikibase</a>
+  <ul class="collapse">
+  <li><a href="#verified-sparql-interfaces-climatekg.tibwiki.io" id="toc-verified-sparql-interfaces-climatekg.tibwiki.io" class="nav-link" data-scroll-target="#verified-sparql-interfaces-climatekg.tibwiki.io">Verified SPARQL Interfaces (climatekg.tibwiki.io)</a>
+  <ul class="collapse">
+  <li><a href="#date-stamped-connectivity-test" id="toc-date-stamped-connectivity-test" class="nav-link" data-scroll-target="#date-stamped-connectivity-test">Date-Stamped Connectivity Test</a></li>
+  <li><a href="#api-running-test-mediawiki-api" id="toc-api-running-test-mediawiki-api" class="nav-link" data-scroll-target="#api-running-test-mediawiki-api">API Running Test (MediaWiki API)</a></li>
+  </ul></li>
+  <li><a href="#important-notes" id="toc-important-notes" class="nav-link" data-scroll-target="#important-notes">Important Notes</a></li>
+  <li><a href="#key-properties-discovered" id="toc-key-properties-discovered" class="nav-link" data-scroll-target="#key-properties-discovered">Key Properties Discovered</a></li>
+  <li><a href="#working-graph-queries" id="toc-working-graph-queries" class="nav-link" data-scroll-target="#working-graph-queries">Working Graph Queries</a>
+  <ul class="collapse">
+  <li><a href="#topic-relationships-simple" id="toc-topic-relationships-simple" class="nav-link" data-scroll-target="#topic-relationships-simple">1. Topic Relationships (Simple)</a></li>
+  <li><a href="#all-direct-connections-comprehensive" id="toc-all-direct-connections-comprehensive" class="nav-link" data-scroll-target="#all-direct-connections-comprehensive">2. All Direct Connections (Comprehensive)</a></li>
+  <li><a href="#chapters-and-their-connections" id="toc-chapters-and-their-connections" class="nav-link" data-scroll-target="#chapters-and-their-connections">3. Chapters and Their Connections</a></li>
+  <li><a href="#instance-of-relationships" id="toc-instance-of-relationships" class="nav-link" data-scroll-target="#instance-of-relationships">4. Instance-of Relationships</a></li>
+  <li><a href="#two-hop-network-explore-from-one-item" id="toc-two-hop-network-explore-from-one-item" class="nav-link" data-scroll-target="#two-hop-network-explore-from-one-item">5. Two-Hop Network (Explore from One Item)</a></li>
+  </ul></li>
+  <li><a href="#non-graph-queries-list-views" id="toc-non-graph-queries-list-views" class="nav-link" data-scroll-target="#non-graph-queries-list-views">Non-Graph Queries (List Views)</a>
+  <ul class="collapse">
+  <li><a href="#list-all-items" id="toc-list-all-items" class="nav-link" data-scroll-target="#list-all-items">List All Items</a></li>
+  <li><a href="#explore-one-items-properties" id="toc-explore-one-items-properties" class="nav-link" data-scroll-target="#explore-one-items-properties">Explore One Item’s Properties</a></li>
+  <li><a href="#discover-available-properties" id="toc-discover-available-properties" class="nav-link" data-scroll-target="#discover-available-properties">Discover Available Properties</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#query-returns-empty-results" id="toc-query-returns-empty-results" class="nav-link" data-scroll-target="#query-returns-empty-results">Query Returns Empty Results</a></li>
+  <li><a href="#graph-view-not-appearing" id="toc-graph-view-not-appearing" class="nav-link" data-scroll-target="#graph-view-not-appearing">Graph View Not Appearing</a></li>
+  <li><a href="#performance-issues" id="toc-performance-issues" class="nav-link" data-scroll-target="#performance-issues">Performance Issues</a></li>
+  </ul></li>
+  <li><a href="#example-items-in-climatekg" id="toc-example-items-in-climatekg" class="nav-link" data-scroll-target="#example-items-in-climatekg">Example Items in ClimateKG</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="sparql-and-api-tests-graph-queries-for-climatekg-wikibase" class="level1">
+<h1>SPARQL and API Tests + Graph Queries for ClimateKG Wikibase</h1>
+<p>This document contains working SPARQL queries for visualizing the ClimateKG knowledge graph.</p>
+<section id="verified-sparql-interfaces-climatekg.tibwiki.io" class="level2">
+<h2 class="anchored" data-anchor-id="verified-sparql-interfaces-climatekg.tibwiki.io">Verified SPARQL Interfaces (climatekg.tibwiki.io)</h2>
+<p>The public site is protected by nginx basic auth to reduce bot traffic.</p>
+<ul>
+<li>Username: <code>ckg</code></li>
+<li>Password: <code>fairdata</code></li>
+</ul>
+<p>Working addresses:</p>
+<ul>
+<li>Query UI (interactive editor): https://climatekg.tibwiki.io/query/</li>
+<li>SPARQL endpoint (API): https://climatekg.tibwiki.io/query/proxy/sparql</li>
+</ul>
+<section id="date-stamped-connectivity-test" class="level3">
+<h3 class="anchored" data-anchor-id="date-stamped-connectivity-test">Date-Stamped Connectivity Test</h3>
+<p>Test date: <strong>2026-10-07</strong></p>
+<p>Test query:</p>
+<pre class="sparql"><code>SELECT * WHERE { ?s ?p ?o } LIMIT 1</code></pre>
+<p>Command used:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curl</span><span class="op">.</span><span class="fu">exe</span> <span class="op">-</span>u ckg<span class="op">:</span>fairdata <span class="op">-</span>s <span class="op">-</span>G <span class="op">--</span>data-urlencode <span class="st">"query=SELECT * WHERE { ?s ?p ?o } LIMIT 1"</span> <span class="op">-</span>H <span class="st">"Accept: application/sparql-results+json"</span> <span class="op">-</span>o NUL <span class="op">-</span>w <span class="st">"%{http_code}</span><span class="ch">`t</span><span class="st">%{content_type}</span><span class="ch">`t</span><span class="st">%{url_effective}"</span> https<span class="op">://</span>climatekg<span class="op">.</span><span class="fu">tibwiki</span><span class="op">.</span><span class="fu">io</span><span class="op">/</span>query<span class="op">/</span>proxy<span class="op">/</span>sparql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Observed result:</p>
+<pre class="text"><code>200 application/sparql-results+json;charset=utf-8   https://climatekg.tibwiki.io/query/proxy/sparql?query=SELECT+%2A+WHERE+%7B+%3Fs+%3Fp+%3Fo+%7D+LIMIT+1</code></pre>
+<p>UI execution check on the same date:</p>
+<ul>
+<li>https://climatekg.tibwiki.io/query/ returned results for the same query.</li>
+<li>Query executed successfully in the Wikibase Query Service table view.</li>
+</ul>
+</section>
+<section id="api-running-test-mediawiki-api" class="level3">
+<h3 class="anchored" data-anchor-id="api-running-test-mediawiki-api">API Running Test (MediaWiki API)</h3>
+<p>Test date: <strong>2026-10-07</strong></p>
+<p>API endpoint:</p>
+<ul>
+<li>https://climatekg.tibwiki.io/w/api.php</li>
+</ul>
+<p>Command used:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curl</span><span class="op">.</span><span class="fu">exe</span> <span class="op">-</span>u ckg<span class="op">:</span>fairdata <span class="op">-</span>s <span class="op">-</span>o NUL <span class="op">-</span>w <span class="st">"%{http_code}</span><span class="ch">`t</span><span class="st">%{content_type}</span><span class="ch">`t</span><span class="st">%{url_effective}"</span> <span class="st">"https://climatekg.tibwiki.io/w/api.php?action=query&amp;meta=siteinfo&amp;format=json"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Observed result:</p>
+<pre class="text"><code>200 application/json; charset=utf-8 https://climatekg.tibwiki.io/w/api.php?action=query&amp;meta=siteinfo&amp;format=json</code></pre>
+<p>Optional content check (returns JSON including <code>query.general.sitename</code>):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curl</span><span class="op">.</span><span class="fu">exe</span> <span class="op">-</span>u ckg<span class="op">:</span>fairdata <span class="op">-</span>s <span class="st">"https://climatekg.tibwiki.io/w/api.php?action=query&amp;meta=siteinfo&amp;format=json"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected indicator in response body:</p>
+<ul>
+<li><code>"sitename":"ClimateKG"</code></li>
+</ul>
+</section>
+</section>
+<section id="important-notes" class="level2">
+<h2 class="anchored" data-anchor-id="important-notes">Important Notes</h2>
+<ul>
+<li><strong>Use full property URIs</strong>: The <code>wdt:</code> prefix may not work consistently. Use full URIs like <code>&lt;https://prod-climatekg.semanticclimate.org/prop/direct/P12&gt;</code> instead.</li>
+<li><strong>Graph view trigger</strong>: Add <code>#defaultView:Graph</code> as the first line to automatically switch to graph visualization.</li>
+<li><strong>Query interface</strong>: https://climatekg.tibwiki.io/query/</li>
+</ul>
+</section>
+<section id="key-properties-discovered" class="level2">
+<h2 class="anchored" data-anchor-id="key-properties-discovered">Key Properties Discovered</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>URI</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P1</td>
+<td><code>.../prop/direct/P1</code></td>
+<td>Instance of / type</td>
+</tr>
+<tr class="even">
+<td>P3</td>
+<td><code>.../prop/direct/P3</code></td>
+<td>Category (e.g., Chapters)</td>
+</tr>
+<tr class="odd">
+<td>P12</td>
+<td><code>.../prop/direct/P12</code></td>
+<td>Related topics/items</td>
+</tr>
+<tr class="even">
+<td>P10</td>
+<td><code>.../prop/direct/P10</code></td>
+<td>DOI identifier</td>
+</tr>
+<tr class="odd">
+<td>P5, P6, P7</td>
+<td><code>.../prop/direct/P5-7</code></td>
+<td>External URLs</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="working-graph-queries" class="level2">
+<h2 class="anchored" data-anchor-id="working-graph-queries">Working Graph Queries</h2>
+<section id="topic-relationships-simple" class="level3">
+<h3 class="anchored" data-anchor-id="topic-relationships-simple">1. Topic Relationships (Simple)</h3>
+<p>Shows connections between items via the P12 (related topics) property.</p>
+<pre class="sparql"><code>#defaultView:Graph
+SELECT ?item ?itemLabel ?linkTo ?linkToLabel
+WHERE {
+  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P12&gt; ?linkTo .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+LIMIT 200</code></pre>
+</section>
+<section id="all-direct-connections-comprehensive" class="level3">
+<h3 class="anchored" data-anchor-id="all-direct-connections-comprehensive">2. All Direct Connections (Comprehensive)</h3>
+<p>Shows all entity-to-entity connections across all direct properties.</p>
+<pre class="sparql"><code>#defaultView:Graph
+SELECT ?item ?itemLabel ?linkTo ?linkToLabel
+WHERE {
+  ?item ?property ?linkTo .
+  FILTER(STRSTARTS(STR(?property), "https://prod-climatekg.semanticclimate.org/prop/direct/P"))
+  FILTER(STRSTARTS(STR(?linkTo), "https://prod-climatekg.semanticclimate.org/entity/Q"))
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+LIMIT 300</code></pre>
+<p><strong>Recommended</strong>: Try this query first to see the full knowledge graph structure.</p>
+</section>
+<section id="chapters-and-their-connections" class="level3">
+<h3 class="anchored" data-anchor-id="chapters-and-their-connections">3. Chapters and Their Connections</h3>
+<p>Focuses on items classified as chapters (Q110) and their related topics.</p>
+<pre class="sparql"><code>#defaultView:Graph
+SELECT ?chapter ?chapterLabel ?related ?relatedLabel
+WHERE {
+  ?chapter &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P3&gt; &lt;https://prod-climatekg.semanticclimate.org/entity/Q110&gt; .
+  ?chapter &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P12&gt; ?related .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}</code></pre>
+</section>
+<section id="instance-of-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="instance-of-relationships">4. Instance-of Relationships</h3>
+<p>Shows the type hierarchy (P1 = instance of).</p>
+<pre class="sparql"><code>#defaultView:Graph
+SELECT ?item ?itemLabel ?type ?typeLabel
+WHERE {
+  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P1&gt; ?type .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+LIMIT 150</code></pre>
+</section>
+<section id="two-hop-network-explore-from-one-item" class="level3">
+<h3 class="anchored" data-anchor-id="two-hop-network-explore-from-one-item">5. Two-Hop Network (Explore from One Item)</h3>
+<p>Shows items connected to Q114 (Oceans chapter) and their connections.</p>
+<pre class="sparql"><code>#defaultView:Graph
+SELECT ?item1 ?item1Label ?item2 ?item2Label
+WHERE {
+  {
+    &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; ?prop1 ?item2 .
+    BIND(&lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; AS ?item1)
+  } UNION {
+    &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; ?prop1 ?mid .
+    ?mid ?prop2 ?item2 .
+    BIND(?mid AS ?item1)
+    FILTER(?mid != &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt;)
+  }
+  FILTER(STRSTARTS(STR(?item2), "https://prod-climatekg.semanticclimate.org/entity/Q"))
+  FILTER(STRSTARTS(STR(?item1), "https://prod-climatekg.semanticclimate.org/entity/Q"))
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+LIMIT 200</code></pre>
+<p><strong>Usage</strong>: Replace Q114 with any item ID to explore its neighborhood.</p>
+</section>
+</section>
+<section id="non-graph-queries-list-views" class="level2">
+<h2 class="anchored" data-anchor-id="non-graph-queries-list-views">Non-Graph Queries (List Views)</h2>
+<section id="list-all-items" class="level3">
+<h3 class="anchored" data-anchor-id="list-all-items">List All Items</h3>
+<pre class="sparql"><code>SELECT DISTINCT ?item ?itemLabel
+WHERE {
+  ?item ?p ?o .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+LIMIT 100</code></pre>
+</section>
+<section id="explore-one-items-properties" class="level3">
+<h3 class="anchored" data-anchor-id="explore-one-items-properties">Explore One Item’s Properties</h3>
+<p>Replace Q114 with your target item.</p>
+<pre class="sparql"><code>SELECT ?propertyLabel ?value ?valueLabel
+WHERE {
+  &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; ?property ?value .
+  FILTER(STRSTARTS(STR(?property), "https://prod-climatekg.semanticclimate.org/prop/direct/"))
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}</code></pre>
+</section>
+<section id="discover-available-properties" class="level3">
+<h3 class="anchored" data-anchor-id="discover-available-properties">Discover Available Properties</h3>
+<pre class="sparql"><code>SELECT DISTINCT ?prop
+WHERE {
+  ?s ?prop ?o .
+  FILTER(STRSTARTS(STR(?prop), "https://prod-climatekg.semanticclimate.org/prop/direct/P"))
+}
+LIMIT 50</code></pre>
+</section>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<section id="query-returns-empty-results" class="level3">
+<h3 class="anchored" data-anchor-id="query-returns-empty-results">Query Returns Empty Results</h3>
+<ul>
+<li>Check that you’re using full URIs: <code>&lt;https://prod-climatekg.semanticclimate.org/...&gt;</code> instead of prefixed names</li>
+<li>Verify the property/item exists in your instance</li>
+<li>Try reducing LIMIT or removing filters</li>
+</ul>
+</section>
+<section id="graph-view-not-appearing" class="level3">
+<h3 class="anchored" data-anchor-id="graph-view-not-appearing">Graph View Not Appearing</h3>
+<ul>
+<li>Ensure the query returns two connected variables (e.g., <code>?item</code> and <code>?linkTo</code>)</li>
+<li>Add <code>#defaultView:Graph</code> as the first line</li>
+<li>Click the “Graph” button above the results table if needed</li>
+</ul>
+</section>
+<section id="performance-issues" class="level3">
+<h3 class="anchored" data-anchor-id="performance-issues">Performance Issues</h3>
+<ul>
+<li>Reduce the LIMIT value</li>
+<li>Add more specific FILTER conditions</li>
+<li>Focus on specific properties rather than querying all properties</li>
+</ul>
+</section>
+</section>
+<section id="example-items-in-climatekg" class="level2">
+<h2 class="anchored" data-anchor-id="example-items-in-climatekg">Example Items in ClimateKG</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Label</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Q114</td>
+<td>Oceans and Coastal Ecosystems and Their Services</td>
+<td>Chapter</td>
+</tr>
+<tr class="even">
+<td>Q116</td>
+<td>Water</td>
+<td>Chapter</td>
+</tr>
+<tr class="odd">
+<td>Q117</td>
+<td>Food, Fibre and Other Ecosystem Products</td>
+<td>Chapter</td>
+</tr>
+<tr class="even">
+<td>Q110</td>
+<td>Chapters</td>
+<td>Type/Category</td>
+</tr>
+<tr class="odd">
+<td>Q102</td>
+<td>Climate services</td>
+<td>Topic</td>
+</tr>
+<tr class="even">
+<td>Q115</td>
+<td>Water security</td>
+<td>Topic</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="see-also" class="level2">
+<h2 class="anchored" data-anchor-id="see-also">See Also</h2>
+<ul>
+<li><a href="multi-env-workflow.md">Multi-Environment Workflow</a> — Environment URLs and access</li>
+<li><a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/Wikidata_Query_Help">Wikidata SPARQL Query Help</a> — General SPARQL guidance</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb15" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># SPARQL and API Tests + Graph Queries for ClimateKG Wikibase</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>This document contains working SPARQL queries for visualizing the ClimateKG knowledge graph.</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## Verified SPARQL Interfaces (climatekg.tibwiki.io)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>The public site is protected by nginx basic auth to reduce bot traffic.</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Username: <span class="in">`ckg`</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Password: <span class="in">`fairdata`</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>Working addresses:</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Query UI (interactive editor): https://climatekg.tibwiki.io/query/</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SPARQL endpoint (API): https://climatekg.tibwiki.io/query/proxy/sparql</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### Date-Stamped Connectivity Test</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>Test date: **2026-10-07**</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>Test query:</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT * WHERE { ?s ?p ?o } LIMIT 1</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>Command used:</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="in">curl.exe -u ckg:fairdata -s -G --data-urlencode "query=SELECT * WHERE { ?s ?p ?o } LIMIT 1" -H "Accept: application/sparql-results+json" -o NUL -w "%{http_code}`t%{content_type}`t%{url_effective}" https://climatekg.tibwiki.io/query/proxy/sparql</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>Observed result:</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="in">200 application/sparql-results+json;charset=utf-8   https://climatekg.tibwiki.io/query/proxy/sparql?query=SELECT+%2A+WHERE+%7B+%3Fs+%3Fp+%3Fo+%7D+LIMIT+1</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>UI execution check on the same date:</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>https://climatekg.tibwiki.io/query/ returned results for the same query.</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Query executed successfully in the Wikibase Query Service table view.</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### API Running Test (MediaWiki API)</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>Test date: **2026-10-07**</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>API endpoint:</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>https://climatekg.tibwiki.io/w/api.php</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>Command used:</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="in">curl.exe -u ckg:fairdata -s -o NUL -w "%{http_code}`t%{content_type}`t%{url_effective}" "https://climatekg.tibwiki.io/w/api.php?action=query&amp;meta=siteinfo&amp;format=json"</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>Observed result:</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="in">200 application/json; charset=utf-8 https://climatekg.tibwiki.io/w/api.php?action=query&amp;meta=siteinfo&amp;format=json</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>Optional content check (returns JSON including <span class="in">`query.general.sitename`</span>):</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="in">curl.exe -u ckg:fairdata -s "https://climatekg.tibwiki.io/w/api.php?action=query&amp;meta=siteinfo&amp;format=json"</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>Expected indicator in response body:</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`"sitename":"ClimateKG"`</span></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## Important Notes</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Use full property URIs**: The <span class="in">`wdt:`</span> prefix may not work consistently. Use full URIs like <span class="in">`&lt;https://prod-climatekg.semanticclimate.org/prop/direct/P12&gt;`</span> instead.</span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Graph view trigger**: Add <span class="in">`#defaultView:Graph`</span> as the first line to automatically switch to graph visualization.</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Query interface**: https://climatekg.tibwiki.io/query/</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key Properties Discovered</span></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>| Property | URI | Description |</span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>|----------|-----|-------------|</span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>| P1 | <span class="in">`.../prop/direct/P1`</span> | Instance of / type |</span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>| P3 | <span class="in">`.../prop/direct/P3`</span> | Category (e.g., Chapters) |</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>| P12 | <span class="in">`.../prop/direct/P12`</span> | Related topics/items |</span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>| P10 | <span class="in">`.../prop/direct/P10`</span> | DOI identifier |</span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>| P5, P6, P7 | <span class="in">`.../prop/direct/P5-7`</span> | External URLs |</span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## Working Graph Queries</span></span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Topic Relationships (Simple)</span></span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>Shows connections between items via the P12 (related topics) property.</span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a><span class="in">#defaultView:Graph</span></span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?item ?itemLabel ?linkTo ?linkToLabel</span></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a><span class="in">  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P12&gt; ?linkTo .</span></span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a><span class="in">LIMIT 200</span></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. All Direct Connections (Comprehensive)</span></span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>Shows all entity-to-entity connections across all direct properties.</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a><span class="in">#defaultView:Graph</span></span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?item ?itemLabel ?linkTo ?linkToLabel</span></span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a><span class="in">  ?item ?property ?linkTo .</span></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a><span class="in">  FILTER(STRSTARTS(STR(?property), "https://prod-climatekg.semanticclimate.org/prop/direct/P"))</span></span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a><span class="in">  FILTER(STRSTARTS(STR(?linkTo), "https://prod-climatekg.semanticclimate.org/entity/Q"))</span></span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="in">LIMIT 300</span></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a>**Recommended**: Try this query first to see the full knowledge graph structure.</span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Chapters and Their Connections</span></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>Focuses on items classified as chapters (Q110) and their related topics.</span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a><span class="in">#defaultView:Graph</span></span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?chapter ?chapterLabel ?related ?relatedLabel</span></span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a><span class="in">  ?chapter &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P3&gt; &lt;https://prod-climatekg.semanticclimate.org/entity/Q110&gt; .</span></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a><span class="in">  ?chapter &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P12&gt; ?related .</span></span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. Instance-of Relationships</span></span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a>Shows the type hierarchy (P1 = instance of).</span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="in">#defaultView:Graph</span></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?item ?itemLabel ?type ?typeLabel</span></span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a><span class="in">  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P1&gt; ?type .</span></span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a><span class="in">LIMIT 150</span></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5. Two-Hop Network (Explore from One Item)</span></span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a>Shows items connected to Q114 (Oceans chapter) and their connections.</span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a><span class="in">#defaultView:Graph</span></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?item1 ?item1Label ?item2 ?item2Label</span></span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a><span class="in">  {</span></span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; ?prop1 ?item2 .</span></span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="in">    BIND(&lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; AS ?item1)</span></span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a><span class="in">  } UNION {</span></span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; ?prop1 ?mid .</span></span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a><span class="in">    ?mid ?prop2 ?item2 .</span></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="in">    BIND(?mid AS ?item1)</span></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a><span class="in">    FILTER(?mid != &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt;)</span></span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a><span class="in">  FILTER(STRSTARTS(STR(?item2), "https://prod-climatekg.semanticclimate.org/entity/Q"))</span></span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a><span class="in">  FILTER(STRSTARTS(STR(?item1), "https://prod-climatekg.semanticclimate.org/entity/Q"))</span></span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a><span class="in">LIMIT 200</span></span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>**Usage**: Replace Q114 with any item ID to explore its neighborhood.</span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## Non-Graph Queries (List Views)</span></span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a><span class="fu">### List All Items</span></span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT DISTINCT ?item ?itemLabel</span></span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a><span class="in">  ?item ?p ?o .</span></span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a><span class="in">LIMIT 100</span></span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a><span class="fu">### Explore One Item's Properties</span></span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>Replace Q114 with your target item.</span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT ?propertyLabel ?value ?valueLabel</span></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;https://prod-climatekg.semanticclimate.org/entity/Q114&gt; ?property ?value .</span></span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a><span class="in">  FILTER(STRSTARTS(STR(?property), "https://prod-climatekg.semanticclimate.org/prop/direct/"))</span></span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a><span class="in">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Discover Available Properties</span></span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a><span class="in">```sparql</span></span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a><span class="in">SELECT DISTINCT ?prop</span></span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a><span class="in">WHERE {</span></span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a><span class="in">  ?s ?prop ?o .</span></span>
+<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a><span class="in">  FILTER(STRSTARTS(STR(?prop), "https://prod-climatekg.semanticclimate.org/prop/direct/P"))</span></span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a><span class="in">LIMIT 50</span></span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a><span class="fu">## Troubleshooting</span></span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Query Returns Empty Results</span></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Check that you're using full URIs: <span class="in">`&lt;https://prod-climatekg.semanticclimate.org/...&gt;`</span> instead of prefixed names</span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Verify the property/item exists in your instance</span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Try reducing LIMIT or removing filters</span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Graph View Not Appearing</span></span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ensure the query returns two connected variables (e.g., <span class="in">`?item`</span> and <span class="in">`?linkTo`</span>)</span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Add <span class="in">`#defaultView:Graph`</span> as the first line</span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Click the "Graph" button above the results table if needed</span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### Performance Issues</span></span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Reduce the LIMIT value</span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Add more specific FILTER conditions</span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Focus on specific properties rather than querying all properties</span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example Items in ClimateKG</span></span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a>| ID | Label | Type |</span>
+<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a>|----|-------|------|</span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a>| Q114 | Oceans and Coastal Ecosystems and Their Services | Chapter |</span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a>| Q116 | Water | Chapter |</span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a>| Q117 | Food, Fibre and Other Ecosystem Products | Chapter |</span>
+<span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a>| Q110 | Chapters | Type/Category |</span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a>| Q102 | Climate services | Topic |</span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a>| Q115 | Water security | Topic |</span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a><span class="fu">## See Also</span></span>
+<span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Multi-Environment Workflow</span><span class="co">](multi-env-workflow.md)</span> — Environment URLs and access</span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Wikidata SPARQL Query Help</span><span class="co">](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/Wikidata_Query_Help)</span> — General SPARQL guidance</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<div class="site-footer-project">
+Climate Knowledge Graph is a research and development project from TIB.
+</div>
+</div>   
+    <div class="nav-footer-center">
+<nav class="site-footer-nav" aria-label="Footer navigation">
+<ul class="site-footer-links">
+<li>
+<a href="../about.html">About</a>
+</li>
+<li>
+<a href="../documentation/test-report-7/incite.html">Our publications</a>
+</li>
+<li>
+<a href="../roadmap.html">Roadmap</a>
+</li>
+<li>
+<a href="../change-log.html">Change Log</a>
+</li>
+<li>
+<a href="../imprint.html">Imprint</a>
+</li>
+<li>
+<a href="../data-protection.html">Data protection</a>
+</li>
+<li>
+<a href="../terms-of-use.html">Terms of use</a>
+</li>
+<li>
+<a href="../accessibility.html">Accessibility</a>
+</li>
+</ul>
+</nav>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

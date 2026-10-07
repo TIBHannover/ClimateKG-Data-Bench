@@ -33,8 +33,8 @@ Each query includes:
 These queries are designed for the current ClimateKG Wikibase instance:
 
 - **Main Page**: https://climatekg.tibwiki.io/
-- **SPARQL Endpoint**: https://climatekg.tibwiki.io/query/sparql
-- **Query Interface**: https://climatekg.tibwiki.io/query/
+- **Query UI**: https://climatekg.tibwiki.io/query/
+- **SPARQL Endpoint**: https://climatekg.tibwiki.io/query/proxy/sparql
 - **Access note**: the live service is protected; if your deployment requires credentials, export `CLIMATEKG_SPARQL_USERNAME` and `CLIMATEKG_SPARQL_PASSWORD` before running the notebooks. On the current instance this is typically `ckg` and `fairdata`.
 
 ## Running the Notebooks

@@ -5,7 +5,7 @@ from SPARQLWrapper import BASIC, SPARQLWrapper
 DEFAULT_WIKIBASE_URL = os.getenv("CLIMATEKG_WIKIBASE_URL", "https://climatekg.tibwiki.io")
 DEFAULT_SPARQL_ENDPOINT = os.getenv(
     "CLIMATEKG_SPARQL_ENDPOINT",
-    f"{DEFAULT_WIKIBASE_URL}/query/sparql",
+    f"{DEFAULT_WIKIBASE_URL}/query/proxy/sparql",
 )
 
 

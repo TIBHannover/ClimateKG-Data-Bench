@@ -33,21 +33,24 @@ website:
         menu:
           - text: "Data Analysis"
             file: data-analysis.qmd
+          - text: "---"
+          - text: "SPARQL Question Bank"
+            file: sparql_queries/question-bank.md
+          - text: "View Notebooks on GitHub"
+            href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
+          - text: "Service Status Check"
+            file: sparql_queries/service-test-main.md
+          - text: "---"
           - text: "AR6 Author Distribution"
             file: research_data/data-vis/gender-distribution-simple.ipynb
           - text: "Top 10 Global South Authors"
             file: research_data/data-vis/authors-top-ten.ipynb
           - text: "Buildings & Urban"
             file: research_data/data-vis/buildings-urban-chapters.ipynb
-          - text: "SPARQL Question Bank"
-            file: sparql_queries/question-bank.md
           - text: "Class Instance Counts"
             file: sparql_queries/class-counts.ipynb
           - text: "Investigation: Q1 Count Discrepancy"
             file: sparql_queries/investigate-q1-count.ipynb
-          - text: "---"
-          - text: "View Notebooks on GitHub"
-            href: https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries
       - text: "Data"
         menu:
           - text: "Data"

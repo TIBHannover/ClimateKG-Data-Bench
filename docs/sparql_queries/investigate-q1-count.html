@@ -200,6 +200,20 @@ document.addEventListener("DOMContentLoaded", function () {
     <a class="dropdown-item" href="../data-analysis.html">
  <span class="dropdown-text">Data Analysis</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/question-bank.html">
+ <span class="dropdown-text">SPARQL Question Bank</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
+ <span class="dropdown-text">View Notebooks on GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../sparql_queries/service-test-main.html">
+ <span class="dropdown-text">Service Status Check</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
         <li>
     <a class="dropdown-item" href="../research_data/data-vis/gender-distribution-simple.html">
  <span class="dropdown-text">AR6 Author Distribution</span></a>
@@ -213,21 +227,12 @@ document.addEventListener("DOMContentLoaded", function () {
  <span class="dropdown-text">Buildings &amp; Urban</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../sparql_queries/question-bank.html">
- <span class="dropdown-text">SPARQL Question Bank</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../sparql_queries/class-counts.html">
  <span class="dropdown-text">Class Instance Counts</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../sparql_queries/investigate-q1-count.html">
  <span class="dropdown-text">Investigation: Q1 Count Discrepancy</span></a>
-  </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li>
-    <a class="dropdown-item" href="https://github.com/TIBHannover/Climate-KG-data/tree/main/sparql_queries">
- <span class="dropdown-text">View Notebooks on GitHub</span></a>
   </li>  
     </ul>
   </li>
@@ -373,30 +378,33 @@ document.addEventListener("DOMContentLoaded", function () {
 <p><strong>Goal</strong>: The class-counts notebook returns <strong>1001</strong> items for Q1 (Category), but the expected count is <strong>920</strong>. This notebook investigates the 81 extra items.</p>
 <p><strong>Wikibase Instance</strong>: <a href="https://climatekg.tibwiki.io/wiki/Main_Page">ClimateKG Wikibase</a></p>
 <p><strong>📓 Download Notebook</strong>: <a href="https://github.com/TIBHannover/Climate-KG-data/blob/main/sparql_queries/investigate-q1-count.ipynb">investigate-q1-count.ipynb</a></p>
-<div id="b8061e4e" class="cell" data-execution_count="1">
+<div id="b8061e4e" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> SPARQLWrapper, JSON</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown, HTML</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> <span class="st">"https://climatekg.tibwiki.io/query/sparql"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> <span class="st">"https://climatekg.tibwiki.io"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>PREFIXES <span class="op">=</span> <span class="ss">f"""</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/entity/&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/prop/direct/&gt;</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_query(query):</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    sparql <span class="op">=</span> SPARQLWrapper(SPARQL_ENDPOINT)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    sparql.setQuery(PREFIXES <span class="op">+</span> query)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    sparql.setReturnFormat(JSON)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> sparql.query().convert()</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> [{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> b.items()} <span class="cf">for</span> b <span class="kw">in</span> results[<span class="st">"results"</span>][<span class="st">"bindings"</span>]]</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(rows)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Ready"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> JSON</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown, HTML</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wikibase_auth <span class="im">import</span> DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>, DEFAULT_SPARQL_ENDPOINT)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>, DEFAULT_WIKIBASE_URL)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>PREFIXES <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/entity/&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/prop/direct/&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_query(query):</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    sparql.setQuery(PREFIXES <span class="op">+</span> query)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    sparql.setReturnFormat(JSON)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> [{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> b.items()} <span class="cf">for</span> b <span class="kw">in</span> results[<span class="st">"results"</span>][<span class="st">"bindings"</span>]]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(rows)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Ready"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>✓ Ready</code></pre>
