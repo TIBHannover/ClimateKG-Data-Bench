@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Authors – ClimateKG Data Bench</title>
+<title>Glossary Terms – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -370,7 +370,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Authors</h1>
+<h1 class="title">Glossary Terms</h1>
 </div>
 
 
@@ -387,12 +387,12 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<p>This notebook explores author contribution patterns in the ClimateKG graph by tracing which chapters each author contributed to.</p>
+<p>This notebook explores glossary terms in the ClimateKG graph by tracing how glossary entries are linked to report and concept structure.</p>
 <p>We use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.</p>
 <p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
 <p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
-<p>This notebook follows the same query-first workflow as the Report Structure notebook: validate the graph structure before moving to analysis.</p>
-<div id="80fd13b5" class="cell" data-execution_count="1">
+<p>This notebook follows the same query-first workflow as the earlier notebooks: validate the graph structure before interpreting the terminology and concept distribution.</p>
+<div id="85df28ca" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> JSON</span>
@@ -419,19 +419,19 @@ document.addEventListener("DOMContentLoaded", function () {
 Libraries imported successfully</code></pre>
 </div>
 </div>
-<div id="41d7e684" class="cell" data-execution_count="2">
+<div id="54df3336" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?author ?authorLabel ?chapter ?chapterLabel ?authorId</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?term ?termLabel ?report ?reportLabel ?termType ?termTypeLabel</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE {</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ?author wdt:P20 ?authorId .</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  ?author wdt:P27 ?chapter .</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  ?chapter wdt:P1 wd:Q6 .</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ?term wdt:P1 wd:Q1 .</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  ?term wdt:P3 ?report .</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  OPTIONAL { ?term wdt:P1 ?termType . }</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?authorLabel ?chapterLabel</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?reportLabel ?termLabel</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 200</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -466,8 +466,8 @@ Libraries imported successfully</code></pre>
 </div>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Each row records an author linked to a chapter they contributed to. The <code>P20</code> property is a stable author identifier used to deduplicate repeated author entries, while <code>P27</code> captures the chapter contribution relationship.</p>
-<p>This gives us a clean starting point for author-level analysis: we can count how many chapters each author contributed to, find repeated collaborators, and then extend the analysis to a more network-oriented view.</p>
+<p>Each row connects a glossary term to a report or corpus item via the <code>P3</code> relationship. That lets us see the terminology in context rather than as isolated labels.</p>
+<p>This is the right starting point for glossary analysis: once the relation is confirmed, the next step is to count terms by report, identify repeated concepts, and compare the terms against the glossary pages already generated in the site.</p>
 
 
 </section>
