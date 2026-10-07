@@ -28,7 +28,7 @@ Add to the graph or make use of the data yourself. Find out more here:
 
 ## How the knowledge graph is made  
 
-ClimateKG has made software to structure corpora like the IPCC AR6.
+ClimateKG has made a software pipeline to structure corpora like the IPCC AR6.
 
 ::: {.callout-note}
 ## Pipeline Formula
