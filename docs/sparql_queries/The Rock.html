@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Authors – ClimateKG Data Bench</title>
+<title>the-rock – ClimateKG Data Bench</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -100,9 +100,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -361,290 +358,102 @@ document.addEventListener("DOMContentLoaded", function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#authors" id="toc-authors" class="nav-link active" data-scroll-target="#authors">Authors</a>
+  <li><a href="#the-rock" id="toc-the-rock" class="nav-link active" data-scroll-target="#the-rock">The Rock</a>
   <ul class="collapse">
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#important-links" id="toc-important-links" class="nav-link" data-scroll-target="#important-links">Important links</a></li>
+  <li><a href="#canonical-kg-structure" id="toc-canonical-kg-structure" class="nav-link" data-scroll-target="#canonical-kg-structure">Canonical KG structure</a></li>
+  <li><a href="#relationship-semantics" id="toc-relationship-semantics" class="nav-link" data-scroll-target="#relationship-semantics">Relationship semantics</a></li>
+  <li><a href="#entity-and-class-mapping" id="toc-entity-and-class-mapping" class="nav-link" data-scroll-target="#entity-and-class-mapping">Entity and class mapping</a></li>
+  <li><a href="#dtd-sections-represented-in-the-model" id="toc-dtd-sections-represented-in-the-model" class="nav-link" data-scroll-target="#dtd-sections-represented-in-the-model">DTD sections represented in the model</a></li>
+  <li><a href="#working-rule-for-the-notebooks" id="toc-working-rule-for-the-notebooks" class="nav-link" data-scroll-target="#working-rule-for-the-notebooks">Working rule for the notebooks</a></li>
+  <li><a href="#in-plain-terms" id="toc-in-plain-terms" class="nav-link" data-scroll-target="#in-plain-terms">In plain terms</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Authors</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
-</div>
+<main class="content" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="authors" class="level1">
-<h1>Authors</h1>
-<p>This notebook explores author contribution patterns in the ClimateKG graph by tracing which chapters each author contributed to.</p>
-<p>We use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.</p>
-<p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
-<p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
-<p>This notebook follows the same query-first workflow as the Report Structure notebook: validate the graph structure before moving to analysis.</p>
-<div id="80fd13b5" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> JSON</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wikibase_auth <span class="im">import</span> DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_USERNAME"</span>, <span class="st">"ckg"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_PASSWORD"</span>, <span class="st">"fairdata"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>, DEFAULT_SPARQL_ENDPOINT)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>, DEFAULT_WIKIBASE_URL)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>'ckg'</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>'fairdata'</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Endpoint: https://climatekg.tibwiki.io/query/proxy/sparql
-Libraries imported successfully</code></pre>
-</div>
-</div>
-<div id="41d7e684" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?author ?authorLabel ?chapter ?chapterLabel ?authorId</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE {</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ?author wdt:P20 ?authorId .</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  ?author wdt:P27 ?chapter .</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  ?chapter wdt:P1 wd:Q6 .</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?authorLabel ?chapterLabel</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 200</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sparql.query().convert()</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows returned: 200</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
+<section id="the-rock" class="level1">
+<h1>The Rock</h1>
+<section id="important-links" class="level2">
+<h2 class="anchored" data-anchor-id="important-links">Important links</h2>
+<ul>
+<li><a href="../research_data/data-xml-dtd/erm/README.html">ERM model README</a></li>
+<li><a href="../sparql_queries/class-counts.html">Class instance counts notebook</a></li>
+<li><a href="../sparql_queries/The Rock.html">The Rock reference</a></li>
+</ul>
+<p>This note is the shared reference base for the ClimateKG notebooks. It captures the core ER model and keeps the graph interpretation stable across the report-structure, authors, glossary, and acronyms analyses.</p>
+<p>The source of truth for this reference is the ER model documentation in <a href="../research_data/data-xml-dtd/erm/README.html">research_data/data-xml-dtd/erm/README.qmd</a>.</p>
+</section>
+<section id="canonical-kg-structure" class="level2">
+<h2 class="anchored" data-anchor-id="canonical-kg-structure">Canonical KG structure</h2>
+<p>The intended corpus hierarchy is:</p>
+<p>Work (Q2) -&gt; Report Series (Q3) -&gt; Report (Q4) -&gt; Text Division (Q5) -&gt; Chapter (Q6)</p>
+<p>This is the governing structure for the report hierarchy. The notebook queries should be interpreted against this model, not the other way around.</p>
+</section>
+<section id="relationship-semantics" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-semantics">Relationship semantics</h2>
+<ul>
+<li><code>P1</code> = Instance of</li>
+<li><code>P3</code> = Part of</li>
+<li><code>P4</code> = Parts</li>
+</ul>
+<p>In the intended model, the report tree is represented through the part-of / parts relationships between items in the hierarchy.</p>
+</section>
+<section id="entity-and-class-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="entity-and-class-mapping">Entity and class mapping</h2>
+<p>The ER model defines the relevant classes and their roles in the graph:</p>
+<ul>
+<li><code>Q2</code> Work</li>
+<li><code>Q3</code> Report Series</li>
+<li><code>Q4</code> Report</li>
+<li><code>Q5</code> Text Division</li>
+<li><code>Q6</code> Chapter</li>
+<li><code>Q1</code> Category / glossary terms</li>
+<li><code>Q2087</code> Acronym</li>
+<li><code>Q3998</code> Author</li>
+</ul>
+<p>The same model also defines the key author and enrichment properties used across the notebooks:</p>
+<ul>
+<li><code>P20</code> ClimateKG Author ID</li>
+<li><code>P27</code> contributed to chapter</li>
+<li><code>P3</code>/<code>P4</code> for report structure</li>
+<li><code>P13</code> Definition</li>
+<li><code>P12</code> Has TAG</li>
+</ul>
+</section>
+<section id="dtd-sections-represented-in-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="dtd-sections-represented-in-the-model">DTD sections represented in the model</h2>
+<p>The ER model is organized around the five XML/DTD sections:</p>
+<ol type="1">
+<li><code>corpus-ar6</code> — top-level corpus hierarchy</li>
+<li><code>authors-ar6</code> — author records and contributions</li>
+<li><code>bibliographic-ar6</code> — DOI / bibliographic enrichment</li>
+<li><code>glossary-ar6</code> — glossary terms / category entries</li>
+<li><code>acronyms-ar6</code> — acronym entries</li>
+</ol>
+</section>
+<section id="working-rule-for-the-notebooks" class="level2">
+<h2 class="anchored" data-anchor-id="working-rule-for-the-notebooks">Working rule for the notebooks</h2>
+<p>Each notebook should follow the same pattern:</p>
+<ol type="1">
+<li>Start from the canonical ER model in this note.</li>
+<li>Query the live Wikibase to see what is actually present.</li>
+<li>Compare the live result to the intended model.</li>
+<li>Report the graph faithfully, including partial or snapshot-style outputs when the live data is incomplete.</li>
+</ol>
+<p>This means that a notebook should not silently assume the full hierarchy exists if only a subset is present. Instead, it should record the actual live structure and call out the difference against the ER model.</p>
+</section>
+<section id="in-plain-terms" class="level2">
+<h2 class="anchored" data-anchor-id="in-plain-terms">In plain terms</h2>
+<p>The Rock is the stable reference layer: it keeps the KB structure clear, preserves the intended hierarchy, and prevents the notebooks from drifting into interpretations that are not grounded in the project ER mapping.</p>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">chapter</th>
-<th data-quarto-table-cell-role="th">author</th>
-<th data-quarto-table-cell-role="th">authorId</th>
-<th data-quarto-table-cell-role="th">authorLabel</th>
-<th data-quarto-table-cell-role="th">chapterLabel</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>https://climatekg.tibwiki.io/entity/Q158</td>
-<td>https://climatekg.tibwiki.io/entity/Q4750</td>
-<td>AU0752</td>
-<td>Adam Mohammed Sebbit</td>
-<td>Mitigation Pathways Compatible with Long-term ...</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>https://climatekg.tibwiki.io/entity/Q141</td>
-<td>https://climatekg.tibwiki.io/entity/Q4833</td>
-<td>AU0835</td>
-<td>Adelle Thomas</td>
-<td>Cities and Settlements by the Sea</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>https://climatekg.tibwiki.io/entity/Q26</td>
-<td>https://climatekg.tibwiki.io/entity/Q4833</td>
-<td>AU0835</td>
-<td>Adelle Thomas</td>
-<td>Impacts of 1.5°C Global Warming on Natural and...</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>https://climatekg.tibwiki.io/entity/Q133</td>
-<td>https://climatekg.tibwiki.io/entity/Q4833</td>
-<td>AU0835</td>
-<td>Adelle Thomas</td>
-<td>Key Risks across Sectors and Regions</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>https://climatekg.tibwiki.io/entity/Q67</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>High Mountain Areas</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>https://climatekg.tibwiki.io/entity/Q192</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>Longer Report</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>https://climatekg.tibwiki.io/entity/Q190</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>Summary for Policymakers</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>https://climatekg.tibwiki.io/entity/Q116</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>Water</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>https://climatekg.tibwiki.io/entity/Q178</td>
-<td>https://climatekg.tibwiki.io/entity/Q4007</td>
-<td>AU0009</td>
-<td>Adolf Acquaye</td>
-<td>Industry</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>https://climatekg.tibwiki.io/entity/Q179</td>
-<td>https://climatekg.tibwiki.io/entity/Q4484</td>
-<td>AU0486</td>
-<td>Adrian Leip</td>
-<td>Cross-sectoral Perspectives</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">10</td>
-<td>https://climatekg.tibwiki.io/entity/Q44</td>
-<td>https://climatekg.tibwiki.io/entity/Q4785</td>
-<td>AU0787</td>
-<td>Adrian Spence</td>
-<td>Framing and context</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">11</td>
-<td>https://climatekg.tibwiki.io/entity/Q126</td>
-<td>https://climatekg.tibwiki.io/entity/Q4287</td>
-<td>AU0289</td>
-<td>Adugna Gemeda</td>
-<td>Africa</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">12</td>
-<td>https://climatekg.tibwiki.io/entity/Q183</td>
-<td>https://climatekg.tibwiki.io/entity/Q4739</td>
-<td>AU0741</td>
-<td>Agus Pratama Sari</td>
-<td>International Cooperation</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">13</td>
-<td>https://climatekg.tibwiki.io/entity/Q117</td>
-<td>https://climatekg.tibwiki.io/entity/Q4253</td>
-<td>AU0255</td>
-<td>Aidan Farrell</td>
-<td>Food, Fibre and Other Ecosystem Products</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14</td>
-<td>https://climatekg.tibwiki.io/entity/Q149</td>
-<td>https://climatekg.tibwiki.io/entity/Q4253</td>
-<td>AU0255</td>
-<td>Aidan Farrell</td>
-<td>Tropical Forests</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">15</td>
-<td>https://climatekg.tibwiki.io/entity/Q192</td>
-<td>https://climatekg.tibwiki.io/entity/Q4774</td>
-<td>AU0776</td>
-<td>Aimée Slangen</td>
-<td>Longer Report</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">16</td>
-<td>https://climatekg.tibwiki.io/entity/Q98</td>
-<td>https://climatekg.tibwiki.io/entity/Q4774</td>
-<td>AU0776</td>
-<td>Aimée Slangen</td>
-<td>Ocean, Cryosphere and Sea Level Change</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">17</td>
-<td>https://climatekg.tibwiki.io/entity/Q190</td>
-<td>https://climatekg.tibwiki.io/entity/Q4774</td>
-<td>AU0776</td>
-<td>Aimée Slangen</td>
-<td>Summary for Policymakers</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">18</td>
-<td>https://climatekg.tibwiki.io/entity/Q168</td>
-<td>https://climatekg.tibwiki.io/entity/Q4769</td>
-<td>AU0771</td>
-<td>Ajay Kumar Singh</td>
-<td>Energy Systems</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">19</td>
-<td>https://climatekg.tibwiki.io/entity/Q127</td>
-<td>https://climatekg.tibwiki.io/entity/Q4441</td>
-<td>AU0443</td>
-<td>Akio Kitoh</td>
-<td>Asia</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Each row records an author linked to a chapter they contributed to. The <code>P20</code> property is a stable author identifier used to deduplicate repeated author entries, while <code>P27</code> captures the chapter contribution relationship.</p>
-<p>This gives us a clean starting point for author-level analysis: we can count how many chapters each author contributed to, find repeated collaborators, and then extend the analysis to a more network-oriented view.</p>
-
+<!-- -->
 
 </section>
 </section>
@@ -1120,7 +929,81 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Rock</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Important links</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">ERM model README</span><span class="co">](../research_data/data-xml-dtd/erm/README.qmd)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Class instance counts notebook</span><span class="co">](./class-counts.ipynb)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">The Rock reference</span><span class="co">](./The%20Rock.md)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>This note is the shared reference base for the ClimateKG notebooks. It captures the core ER model and keeps the graph interpretation stable across the report-structure, authors, glossary, and acronyms analyses.</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>The source of truth for this reference is the ER model documentation in <span class="co">[</span><span class="ot">research_data/data-xml-dtd/erm/README.qmd</span><span class="co">](../research_data/data-xml-dtd/erm/README.qmd)</span>.</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Canonical KG structure</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>The intended corpus hierarchy is:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Work (Q2) -&gt; Report Series (Q3) -&gt; Report (Q4) -&gt; Text Division (Q5) -&gt; Chapter (Q6)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>This is the governing structure for the report hierarchy. The notebook queries should be interpreted against this model, not the other way around.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Relationship semantics</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P1`</span> = Instance of</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P3`</span> = Part of</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P4`</span> = Parts</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>In the intended model, the report tree is represented through the part-of / parts relationships between items in the hierarchy.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Entity and class mapping</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>The ER model defines the relevant classes and their roles in the graph:</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q2`</span> Work</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q3`</span> Report Series</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q4`</span> Report</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q5`</span> Text Division</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q6`</span> Chapter</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q1`</span> Category / glossary terms</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q2087`</span> Acronym</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`Q3998`</span> Author</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>The same model also defines the key author and enrichment properties used across the notebooks:</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P20`</span> ClimateKG Author ID</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P27`</span> contributed to chapter</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P3`</span>/<span class="in">`P4`</span> for report structure</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P13`</span> Definition</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`P12`</span> Has TAG</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## DTD sections represented in the model</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>The ER model is organized around the five XML/DTD sections:</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="in">`corpus-ar6`</span> — top-level corpus hierarchy</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="in">`authors-ar6`</span> — author records and contributions</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="in">`bibliographic-ar6`</span> — DOI / bibliographic enrichment</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="in">`glossary-ar6`</span> — glossary terms / category entries</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span><span class="in">`acronyms-ar6`</span> — acronym entries</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Working rule for the notebooks</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>Each notebook should follow the same pattern:</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Start from the canonical ER model in this note.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Query the live Wikibase to see what is actually present.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Compare the live result to the intended model.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Report the graph faithfully, including partial or snapshot-style outputs when the live data is incomplete.</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>This means that a notebook should not silently assume the full hierarchy exists if only a subset is present. Instead, it should record the actual live structure and call out the difference against the ER model.</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## In plain terms</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>The Rock is the stable reference layer: it keeps the KB structure clear, preserves the intended hierarchy, and prevents the notebooks from drifting into interpretations that are not grounded in the project ER mapping.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

@@ -103,6 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -361,7 +362,13 @@ document.addEventListener("DOMContentLoaded", function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link active" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#report-structure" id="toc-report-structure" class="nav-link active" data-scroll-target="#report-structure">Report Structure</a>
+  <ul class="collapse">
+  <li><a href="#relationship-check" id="toc-relationship-check" class="nav-link" data-scroll-target="#relationship-check">Relationship check</a></li>
+  <li><a href="#full-hierarchy-contents" id="toc-full-hierarchy-contents" class="nav-link" data-scroll-target="#full-hierarchy-contents">Full hierarchy contents</a></li>
+  <li><a href="#searchable-nested-hierarchy" id="toc-searchable-nested-hierarchy" class="nav-link" data-scroll-target="#searchable-nested-hierarchy">Searchable nested hierarchy</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -370,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Report Structure</h1>
+<div class="quarto-title-block"><div><h1 class="title">Report Structure</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
 
 
@@ -387,27 +394,44 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<p>This notebook explores the current ClimateKG knowledge graph by tracing the report hierarchy using the live Wikibase data.</p>
-<p>We start with the relationship that connects an item to its parent in the corpus structure: <code>P3</code>.</p>
+<section id="report-structure" class="level1">
+<h1>Report Structure</h1>
+<p>This notebook is anchored to <strong><a href="../sparql_queries/The Rock.html">The Rock</a></strong>, the shared reference note for the ClimateKG ER model.</p>
+<p><strong>Key references</strong>: - <a href="../research_data/data-xml-dtd/erm/README.html">ERM model README</a> - <a href="../sparql_queries/class-counts.html">Class instance counts notebook</a> - <a href="../sparql_queries/The Rock.html">The Rock reference</a></p>
+<p>The canonical corpus hierarchy is:</p>
+<p>Work (Q2) -&gt; Report Series (Q3) -&gt; Report (Q4) -&gt; Text Division (Q5) -&gt; Chapter (Q6)</p>
+<p>The graph logic in the ER model is defined through <code>P3 = Part of</code> and <code>P4 = Parts</code>. The live Wikibase is checked against that intended model in order to record what actually exists today, not to assume the whole hierarchy is present.</p>
 <p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
 <p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
-<p>This notebook is intentionally query-first: we validate the structure before adding deeper interpretation.</p>
-<div id="f19f78b4" class="cell" data-execution_count="1">
+<div id="eecb9c55" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> JSON</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wikibase_auth <span class="im">import</span> DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_USERNAME"</span>, <span class="st">"ckg"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_PASSWORD"</span>, <span class="st">"fairdata"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>, DEFAULT_SPARQL_ENDPOINT)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>, DEFAULT_WIKIBASE_URL)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>] <span class="op">=</span> <span class="st">"https://climatekg.tibwiki.io"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>] <span class="op">=</span> <span class="st">"https://climatekg.tibwiki.io/query/proxy/sparql"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_USERNAME"</span>, <span class="st">"ckg"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>os.environ.setdefault(<span class="st">"CLIMATEKG_SPARQL_PASSWORD"</span>, <span class="st">"fairdata"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>, DEFAULT_SPARQL_ENDPOINT)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>, DEFAULT_WIKIBASE_URL).rstrip(<span class="st">"/"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ENTITY_NS <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/entity/"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>PROPERTY_NS <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/prop/direct/"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Entity namespace (RDF prefix): </span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Property namespace (RDF prefix): </span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Example item page: </span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/wiki/Item:Q2"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Example property page: </span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/wiki/Property:P1"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>'ckg'</code></pre>
 </div>
@@ -416,35 +440,235 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Endpoint: https://climatekg.tibwiki.io/query/proxy/sparql
-Libraries imported successfully</code></pre>
+Libraries imported successfully
+Entity namespace (RDF prefix): https://climatekg.tibwiki.io/entity/
+Property namespace (RDF prefix): https://climatekg.tibwiki.io/prop/direct/
+Example item page: https://climatekg.tibwiki.io/wiki/Item:Q2
+Example property page: https://climatekg.tibwiki.io/wiki/Property:P1</code></pre>
 </div>
 </div>
-<div id="3067d5c7" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
+<div id="cda37eb2" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>class_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?item ?itemLabel ?parent ?parentLabel ?itemType ?itemTypeLabel</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE {</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ?item wdt:P3 ?parent .</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  OPTIONAL { ?item wdt:P1 ?itemType . }</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?parent ?itemLabel</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 200</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?class ?classLabel (COUNT(?item) AS ?count)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  VALUES ?class </span><span class="ch">{{</span><span class="ss"> wd:Q2 wd:Q3 wd:Q4 wd:Q5 wd:Q6 </span><span class="ch">}}</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?item wdt:P1 ?class . </span><span class="ch">}}</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">  SERVICE wikibase:label </span><span class="ch">{{</span><span class="ss"> bd:serviceParam wikibase:language "en". </span><span class="ch">}}</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?class ?classLabel</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?class</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(class_query)</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sparql.query().convert()</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>class_results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>class_rows <span class="op">=</span> class_results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>class_df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> class_rows])</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Class counts returned: </span><span class="sc">{</span><span class="bu">len</span>(class_df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>display(class_df)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows returned: 3</code></pre>
+<pre><code>Class counts returned: 5</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">classLabel</th>
+<th data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>https://climatekg.tibwiki.io/entity/Q2</td>
+<td>Work</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>https://climatekg.tibwiki.io/entity/Q3</td>
+<td>Report Series</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>https://climatekg.tibwiki.io/entity/Q4</td>
+<td>Report</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>https://climatekg.tibwiki.io/entity/Q5</td>
+<td>Text Division</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>Chapter</td>
+<td>87</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="d65b5183" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hierarchy_model <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"level"</span>: <span class="dv">1</span>, <span class="st">"class"</span>: <span class="st">"Q2"</span>, <span class="st">"label"</span>: <span class="st">"Work"</span>, <span class="st">"role"</span>: <span class="st">"top-level corpus"</span>},</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"level"</span>: <span class="dv">2</span>, <span class="st">"class"</span>: <span class="st">"Q3"</span>, <span class="st">"label"</span>: <span class="st">"Report Series"</span>, <span class="st">"role"</span>: <span class="st">"series container"</span>},</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"level"</span>: <span class="dv">3</span>, <span class="st">"class"</span>: <span class="st">"Q4"</span>, <span class="st">"label"</span>: <span class="st">"Report"</span>, <span class="st">"role"</span>: <span class="st">"report container"</span>},</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"level"</span>: <span class="dv">4</span>, <span class="st">"class"</span>: <span class="st">"Q5"</span>, <span class="st">"label"</span>: <span class="st">"Text Division"</span>, <span class="st">"role"</span>: <span class="st">"division / section"</span>},</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"level"</span>: <span class="dv">5</span>, <span class="st">"class"</span>: <span class="st">"Q6"</span>, <span class="st">"label"</span>: <span class="st">"Chapter"</span>, <span class="st">"role"</span>: <span class="st">"leaf content unit"</span>},</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>hierarchy_view <span class="op">=</span> hierarchy_model.copy()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>hierarchy_view[<span class="st">"class_uri"</span>] <span class="op">=</span> hierarchy_view[<span class="st">"class"</span>].<span class="bu">map</span>(<span class="kw">lambda</span> v: <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/entity/</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>hierarchy_view <span class="op">=</span> hierarchy_view.merge(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    class_df.rename(columns<span class="op">=</span>{<span class="st">"class"</span>: <span class="st">"class_uri"</span>, <span class="st">"classLabel"</span>: <span class="st">"current_label"</span>, <span class="st">"count"</span>: <span class="st">"items_in_graph"</span>}),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span><span class="st">"class_uri"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"left"</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>hierarchy_view[<span class="st">"items_in_graph"</span>] <span class="op">=</span> pd.to_numeric(hierarchy_view[<span class="st">"items_in_graph"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>).fillna(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Canonical report hierarchy model vs current graph"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>display(hierarchy_view[[<span class="st">"level"</span>, <span class="st">"label"</span>, <span class="st">"role"</span>, <span class="st">"items_in_graph"</span>]].rename(columns<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"expected_label"</span>}))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This view shows the intended hierarchy from Work down to Chapter together with the live count of items currently represented in the graph."</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Canonical report hierarchy model vs current graph</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">level</th>
+<th data-quarto-table-cell-role="th">expected_label</th>
+<th data-quarto-table-cell-role="th">role</th>
+<th data-quarto-table-cell-role="th">items_in_graph</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>Work</td>
+<td>top-level corpus</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>Report Series</td>
+<td>series container</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>Report</td>
+<td>report container</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>Text Division</td>
+<td>division / section</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>Chapter</td>
+<td>leaf content unit</td>
+<td>87</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This view shows the intended hierarchy from Work down to Chapter together with the live count of items currently represented in the graph.</code></pre>
+</div>
+</div>
+<section id="relationship-check" class="level3">
+<h3 class="anchored" data-anchor-id="relationship-check">Relationship check</h3>
+<p>Note: this validation block is intentionally kept as a checkpoint. It confirms whether the live graph contains the expected <code>P3 = Part of</code> and <code>P4 = Parts</code> links before the hierarchy is interpreted more broadly. We will return to it when the model is checked against the current data.</p>
+<p>This section is a follow-up validation step: it checks whether the graph actually contains the expected <code>P3</code> / <code>P4</code> structure that links the hierarchy together.</p>
+<div id="e957a476" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p3_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?item ?itemLabel ?itemType ?itemTypeLabel ?parent ?parentLabel</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?item wdt:P3 ?parent .</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?item wdt:P1 ?itemType . </span><span class="ch">}}</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ss">  SERVICE wikibase:label </span><span class="ch">{{</span><span class="ss"> bd:serviceParam wikibase:language "en". </span><span class="ch">}}</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?itemLabel</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ss">LIMIT 200</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>p4_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?parent ?parentLabel ?child ?childLabel</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?parent wdt:P4 ?child .</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="ss">  SERVICE wikibase:label </span><span class="ch">{{</span><span class="ss"> bd:serviceParam wikibase:language "en". </span><span class="ch">}}</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?parentLabel ?childLabel</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="ss">LIMIT 200</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>p3.setQuery(p3_query)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>p3.setReturnFormat(JSON)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>p3_results <span class="op">=</span> p3.query().convert()</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>p3_rows <span class="op">=</span> p3_results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>p3_df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> p3_rows])</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>p4 <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>p4.setQuery(p4_query)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>p4.setReturnFormat(JSON)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>p4_results <span class="op">=</span> p4.query().convert()</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>p4_rows <span class="op">=</span> p4_results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>p4_df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> p4_rows])</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Direct P3 edges found:"</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>display(p3_df)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Direct P4 edges found:"</span>)</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>display(p4_df)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Direct P3 edges found:</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -458,54 +682,608 @@ Libraries imported successfully</code></pre>
 <th data-quarto-table-cell-role="th">parent</th>
 <th data-quarto-table-cell-role="th">itemType</th>
 <th data-quarto-table-cell-role="th">itemLabel</th>
-<th data-quarto-table-cell-role="th">parentLabel</th>
 <th data-quarto-table-cell-role="th">itemTypeLabel</th>
+<th data-quarto-table-cell-role="th">parentLabel</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>https://climatekg.tibwiki.io/entity/Q188</td>
-<td>https://climatekg.tibwiki.io/entity/Q153</td>
-<td>https://climatekg.tibwiki.io/entity/Q6</td>
-<td>Accelerating the Transition in the Context of ...</td>
-<td>https://climatekg.tibwiki.io/entity/Q153</td>
-<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>https://climatekg.tibwiki.io/entity/Q2089</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>https://climatekg.tibwiki.io/entity/Q2087</td>
+<td>1.5DS</td>
+<td>Acronym</td>
+<td>Special Report: Global Warming of 1.5°C</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>https://climatekg.tibwiki.io/entity/Q190</td>
-<td>https://climatekg.tibwiki.io/entity/Q189</td>
-<td>https://climatekg.tibwiki.io/entity/Q6</td>
-<td>Summary for Policymakers</td>
-<td>https://climatekg.tibwiki.io/entity/Q189</td>
-<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>https://climatekg.tibwiki.io/entity/Q1167</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>1.5°C pathway</td>
+<td>Category</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>https://climatekg.tibwiki.io/entity/Q192</td>
-<td>https://climatekg.tibwiki.io/entity/Q191</td>
-<td>https://climatekg.tibwiki.io/entity/Q6</td>
-<td>Longer Report</td>
-<td>https://climatekg.tibwiki.io/entity/Q191</td>
-<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>https://climatekg.tibwiki.io/entity/Q1167</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>1.5°C pathway</td>
+<td>Category</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
 </tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>https://climatekg.tibwiki.io/entity/Q1168</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>1.5°C warmer worlds</td>
+<td>Category</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>https://climatekg.tibwiki.io/entity/Q1169</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>13C</td>
+<td>Category</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">195</td>
+<td>https://climatekg.tibwiki.io/entity/Q2660</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>https://climatekg.tibwiki.io/entity/Q2087</td>
+<td>AWD</td>
+<td>Acronym</td>
+<td>Special Report: Climate Change and Land</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">196</td>
+<td>https://climatekg.tibwiki.io/entity/Q3069</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q2087</td>
+<td>AZM</td>
+<td>Acronym</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">197</td>
+<td>https://climatekg.tibwiki.io/entity/Q1172</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Ablation</td>
+<td>Category</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">198</td>
+<td>https://climatekg.tibwiki.io/entity/Q1173</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Abrupt change</td>
+<td>Category</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">199</td>
+<td>https://climatekg.tibwiki.io/entity/Q1173</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Abrupt change</td>
+<td>Category</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+</tr>
+</tbody>
+</table>
+
+<p>200 rows × 6 columns</p>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Direct P4 edges found:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
+</section>
+<section id="full-hierarchy-contents" class="level2">
+<h2 class="anchored" data-anchor-id="full-hierarchy-contents">Full hierarchy contents</h2>
+<p>This table shows the items currently populating the report hierarchy, with their class, direct parent/child links, and the corresponding wiki page when it exists. It is the complete live view of the structure that the model describes.</p>
+<div id="02a8b4b1" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>full_hierarchy_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?item ?itemLabel ?class ?classLabel ?parent ?parentLabel ?child ?childLabel</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  VALUES ?class </span><span class="ch">{{</span><span class="ss"> wd:Q2 wd:Q3 wd:Q4 wd:Q5 wd:Q6 </span><span class="ch">}}</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?item wdt:P1 ?class .</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?item wdt:P3 ?parent . </span><span class="ch">}}</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?item wdt:P4 ?child . </span><span class="ch">}}</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="ss">  SERVICE wikibase:label </span><span class="ch">{{</span><span class="ss"> bd:serviceParam wikibase:language "en". </span><span class="ch">}}</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?class ?itemLabel</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>full_hierarchy <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>full_hierarchy.setQuery(full_hierarchy_query)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>full_hierarchy.setReturnFormat(JSON)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>full_hierarchy_results <span class="op">=</span> full_hierarchy.query().convert()</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>full_hierarchy_rows <span class="op">=</span> full_hierarchy_results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>full_hierarchy_df <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"class"</span>: <span class="va">None</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"classLabel"</span>: <span class="va">None</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"item"</span>: <span class="va">None</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"itemLabel"</span>: <span class="va">None</span>,</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"parent"</span>: <span class="va">None</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"parentLabel"</span>: <span class="va">None</span>,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"child"</span>: <span class="va">None</span>,</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"childLabel"</span>: <span class="va">None</span>,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    } <span class="op">|</span> {k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()}</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> full_hierarchy_rows</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> full_hierarchy_df.empty:</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    full_hierarchy_df[<span class="st">"item_id"</span>] <span class="op">=</span> full_hierarchy_df[<span class="st">"item"</span>].<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>, expand<span class="op">=</span><span class="va">True</span>)[<span class="dv">1</span>]</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    full_hierarchy_df[<span class="st">"wiki_url"</span>] <span class="op">=</span> full_hierarchy_df[<span class="st">"item_id"</span>].<span class="bu">map</span>(<span class="kw">lambda</span> v: <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">}</span><span class="ss">/wiki/Item:</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    full_hierarchy_df[<span class="st">"nested_structure"</span>] <span class="op">=</span> full_hierarchy_df.<span class="bu">apply</span>(</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>        <span class="kw">lambda</span> row: <span class="ss">f"</span><span class="sc">{</span>row[<span class="st">'parentLabel'</span>]<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>row[<span class="st">'itemLabel'</span>]<span class="sc">}</span><span class="ss">"</span> <span class="cf">if</span> pd.notna(row.get(<span class="st">'parentLabel'</span>)) <span class="cf">else</span> row[<span class="st">'itemLabel'</span>],</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>        axis<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    full_hierarchy_df <span class="op">=</span> full_hierarchy_df[[</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"classLabel"</span>,</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"itemLabel"</span>,</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"item"</span>,</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"parent"</span>,</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"item_id"</span>,</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"wiki_url"</span>,</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">"parentLabel"</span>,</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">"childLabel"</span>,</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"nested_structure"</span>,</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>    ]].rename(columns<span class="op">=</span>{</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">'classLabel'</span>: <span class="st">'class'</span>,</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">'itemLabel'</span>: <span class="st">'name'</span>,</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item'</span>: <span class="st">'item'</span>,</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        <span class="st">'parent'</span>: <span class="st">'parent'</span>,</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">'item_id'</span>: <span class="st">'P number'</span>,</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>        <span class="st">'wiki_url'</span>: <span class="st">'wiki_link'</span>,</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">'parentLabel'</span>: <span class="st">'parent_label'</span>,</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">'childLabel'</span>: <span class="st">'part'</span>,</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nested_structure'</span>: <span class="st">'nested_structure'</span>,</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    display(full_hierarchy_df)</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No items found for the canonical hierarchy in the current graph."</span>)</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This table shows the live population of the report hierarchy and how each item is nested within it."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">item</th>
+<th data-quarto-table-cell-role="th">parent</th>
+<th data-quarto-table-cell-role="th">P number</th>
+<th data-quarto-table-cell-role="th">wiki_link</th>
+<th data-quarto-table-cell-role="th">parent_label</th>
+<th data-quarto-table-cell-role="th">part</th>
+<th data-quarto-table-cell-role="th">nested_structure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Work</td>
+<td>IPCC Sixth Assessment Report</td>
+<td>https://climatekg.tibwiki.io/entity/Q7</td>
+<td>NaN</td>
+<td>Q7</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q7</td>
+<td>NaN</td>
+<td>None</td>
+<td>IPCC Sixth Assessment Report</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Work</td>
+<td>Report Series</td>
+<td>https://climatekg.tibwiki.io/entity/Q3</td>
+<td>NaN</td>
+<td>Q3</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q3</td>
+<td>NaN</td>
+<td>None</td>
+<td>Report Series</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Report Series</td>
+<td>IPCC Sixth Assessment Report</td>
+<td>https://climatekg.tibwiki.io/entity/Q7</td>
+<td>NaN</td>
+<td>Q7</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q7</td>
+<td>NaN</td>
+<td>None</td>
+<td>IPCC Sixth Assessment Report</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Report</td>
+<td>Climate Change 2023: Synthesis Report. Contrib...</td>
+<td>https://climatekg.tibwiki.io/entity/Q189</td>
+<td>https://climatekg.tibwiki.io/entity/Q7</td>
+<td>Q189</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q189</td>
+<td>IPCC Sixth Assessment Report</td>
+<td>None</td>
+<td>IPCC Sixth Assessment Report -&gt; Climate Change...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Report</td>
+<td>Special Report: Climate Change and Land</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>https://climatekg.tibwiki.io/entity/Q7</td>
+<td>Q35</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q35</td>
+<td>IPCC Sixth Assessment Report</td>
+<td>None</td>
+<td>IPCC Sixth Assessment Report -&gt; Special Report...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">102</td>
+<td>Chapter</td>
+<td>Tropical Forests</td>
+<td>https://climatekg.tibwiki.io/entity/Q149</td>
+<td>https://climatekg.tibwiki.io/entity/Q137</td>
+<td>Q149</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q149</td>
+<td>Cross-Chapter Papers (Text Division)</td>
+<td>None</td>
+<td>Cross-Chapter Papers (Text Division) -&gt; Tropic...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">103</td>
+<td>Chapter</td>
+<td>Urban Systems and Other Settlements</td>
+<td>https://climatekg.tibwiki.io/entity/Q172</td>
+<td>https://climatekg.tibwiki.io/entity/Q153</td>
+<td>Q172</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q172</td>
+<td>Chapters (Text Division)</td>
+<td>None</td>
+<td>Chapters (Text Division) -&gt; Urban Systems and ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">104</td>
+<td>Chapter</td>
+<td>Water</td>
+<td>https://climatekg.tibwiki.io/entity/Q116</td>
+<td>https://climatekg.tibwiki.io/entity/Q110</td>
+<td>Q116</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q116</td>
+<td>Chapters (Text Division)</td>
+<td>None</td>
+<td>Chapters (Text Division) -&gt; Water</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">105</td>
+<td>Chapter</td>
+<td>Water Cycle Changes</td>
+<td>https://climatekg.tibwiki.io/entity/Q96</td>
+<td>https://climatekg.tibwiki.io/entity/Q81</td>
+<td>Q96</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q96</td>
+<td>Chapters</td>
+<td>None</td>
+<td>Chapters -&gt; Water Cycle Changes</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">106</td>
+<td>Chapter</td>
+<td>Weather and Climate Extreme Events in a Changi...</td>
+<td>https://climatekg.tibwiki.io/entity/Q101</td>
+<td>https://climatekg.tibwiki.io/entity/Q81</td>
+<td>Q101</td>
+<td>https://climatekg.tibwiki.io/wiki/Item:Q101</td>
+<td>Chapters</td>
+<td>None</td>
+<td>Chapters -&gt; Weather and Climate Extreme Events...</td>
+</tr>
+</tbody>
+</table>
+
+<p>107 rows × 9 columns</p>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This table shows the live population of the report hierarchy and how each item is nested within it.</code></pre>
+</div>
+</div>
+<div id="9d5a685f" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML, display</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>hierarchy_q_map <span class="op">=</span> {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Work"</span>: <span class="st">"Q2"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Report Series"</span>: <span class="st">"Q3"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Report"</span>: <span class="st">"Q4"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Text Division"</span>: <span class="st">"Q5"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Chapter"</span>: <span class="st">"Q6"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>report_tree <span class="op">=</span> full_hierarchy_df.copy()</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> report_tree.empty:</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No report hierarchy rows available to list."</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    report_tree[<span class="st">"class_q"</span>] <span class="op">=</span> report_tree[<span class="st">"class"</span>].<span class="bu">map</span>(hierarchy_q_map).fillna(<span class="st">"Q?"</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    report_tree[<span class="st">"item"</span>] <span class="op">=</span> report_tree.get(<span class="st">"item"</span>, pd.Series(<span class="st">""</span>, index<span class="op">=</span>report_tree.index)).fillna(<span class="st">""</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    report_tree[<span class="st">"parent"</span>] <span class="op">=</span> report_tree.get(<span class="st">"parent"</span>, pd.Series(<span class="st">""</span>, index<span class="op">=</span>report_tree.index)).fillna(<span class="st">""</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    report_tree[<span class="st">"name"</span>] <span class="op">=</span> report_tree[<span class="st">"name"</span>].fillna(<span class="st">""</span>)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    report_lookup <span class="op">=</span> (</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        report_tree[report_tree[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Report"</span>]</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        [[<span class="st">"item"</span>, <span class="st">"name"</span>]]</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        .drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        .set_index(<span class="st">"item"</span>)[<span class="st">"name"</span>]</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        .to_dict()</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    work_rows <span class="op">=</span> report_tree[report_tree[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Work"</span>].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    work_rows <span class="op">=</span> work_rows[<span class="op">~</span>work_rows[<span class="st">"item"</span>].fillna(<span class="st">""</span>).<span class="bu">str</span>.endswith(<span class="st">"/Q3"</span>, na<span class="op">=</span><span class="va">False</span>)].copy()</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    work_rows <span class="op">=</span> work_rows[<span class="op">~</span>work_rows[<span class="st">"name"</span>].fillna(<span class="st">""</span>).<span class="bu">str</span>.strip().eq(<span class="st">"Report Series"</span>)].copy()</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    series_rows <span class="op">=</span> report_tree[report_tree[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Report Series"</span>].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    series_rows <span class="op">=</span> series_rows[<span class="op">~</span>series_rows[<span class="st">"item"</span>].fillna(<span class="st">""</span>).<span class="bu">str</span>.endswith(<span class="st">"/Q3"</span>, na<span class="op">=</span><span class="va">False</span>)].copy()</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    series_rows <span class="op">=</span> series_rows[<span class="op">~</span>series_rows[<span class="st">"name"</span>].fillna(<span class="st">""</span>).<span class="bu">str</span>.strip().eq(<span class="st">"Report Series"</span>)].copy()</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    helper_q7_rows <span class="op">=</span> report_tree[report_tree[<span class="st">"item"</span>].<span class="bu">str</span>.endswith(<span class="st">"/Q7"</span>, na<span class="op">=</span><span class="va">False</span>)].copy()</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    helper_q7_rows <span class="op">=</span> helper_q7_rows[<span class="op">~</span>helper_q7_rows[<span class="st">"name"</span>].fillna(<span class="st">""</span>).<span class="bu">str</span>.strip().eq(<span class="st">"Report Series"</span>)].copy()</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> helper_q7_rows.empty:</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        helper_q7_rows <span class="op">=</span> helper_q7_rows[(helper_q7_rows[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Work"</span>) <span class="op">|</span> (helper_q7_rows[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Report Series"</span>)].copy()</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        helper_q7_rows[<span class="st">"display_name"</span>] <span class="op">=</span> helper_q7_rows[<span class="st">"name"</span>].fillna(<span class="st">"Q7"</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> series_rows.empty:</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>            series_rows <span class="op">=</span> helper_q7_rows[[<span class="st">"item"</span>, <span class="st">"display_name"</span>, <span class="st">"wiki_link"</span>]].rename(columns<span class="op">=</span>{<span class="st">"display_name"</span>: <span class="st">"name"</span>})</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> work_rows.empty:</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>            work_rows <span class="op">=</span> helper_q7_rows[[<span class="st">"item"</span>, <span class="st">"display_name"</span>, <span class="st">"wiki_link"</span>]].rename(columns<span class="op">=</span>{<span class="st">"display_name"</span>: <span class="st">"name"</span>})</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>    text_divisions <span class="op">=</span> report_tree[report_tree[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Text Division"</span>].copy()</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    text_divisions[<span class="st">"report_name"</span>] <span class="op">=</span> text_divisions[<span class="st">"parent"</span>].<span class="bu">map</span>(report_lookup).fillna(<span class="st">"Unassigned"</span>)</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>    chapters <span class="op">=</span> report_tree[report_tree[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Chapter"</span>].copy()</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    td_lookup <span class="op">=</span> (</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>        text_divisions[[<span class="st">"item"</span>, <span class="st">"name"</span>]]</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        .drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>        .set_index(<span class="st">"item"</span>)[<span class="st">"name"</span>]</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>        .to_dict()</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>    chapters[<span class="st">"text_division_name"</span>] <span class="op">=</span> chapters[<span class="st">"parent"</span>].<span class="bu">map</span>(td_lookup).fillna(<span class="st">"Unassigned"</span>)</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>    reports <span class="op">=</span> (</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>        report_tree[report_tree[<span class="st">"class"</span>] <span class="op">==</span> <span class="st">"Report"</span>]</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>        .drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>        .sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> render_title(row, label_field<span class="op">=</span><span class="st">"name"</span>):</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> row.get(label_field) <span class="kw">or</span> row.get(<span class="st">"name"</span>) <span class="kw">or</span> <span class="st">"Unnamed item"</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>        item_ref <span class="op">=</span> row.get(<span class="st">"item"</span>)</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>        item_id <span class="op">=</span> item_ref.rsplit(<span class="st">"/"</span>, <span class="dv">1</span>)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">if</span> <span class="bu">isinstance</span>(item_ref, <span class="bu">str</span>) <span class="kw">and</span> <span class="st">"/"</span> <span class="kw">in</span> item_ref <span class="cf">else</span> <span class="va">None</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> item_id:</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>            label <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>item_id<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pd.notna(row.get(<span class="st">"wiki_link"</span>)) <span class="kw">and</span> <span class="bu">str</span>(row[<span class="st">"wiki_link"</span>]).strip():</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="ss">f'&lt;a href="</span><span class="sc">{</span>row[<span class="st">"wiki_link"</span>]<span class="sc">}</span><span class="ss">" target="_blank"&gt;</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">&lt;/a&gt;'</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">str</span>(label)</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>    html_parts <span class="op">=</span> [<span class="st">'&lt;div&gt;&lt;strong&gt;Work, report series, and nested report structure&lt;/strong&gt;&lt;ul&gt;'</span>]</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> work_rows.empty:</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>        html_parts.append(<span class="st">'&lt;li&gt;&lt;em&gt;No work items found.&lt;/em&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _, work_row <span class="kw">in</span> work_rows.iterrows():</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>            work_title <span class="op">=</span> render_title(work_row)</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>            html_parts.append(<span class="ss">f'&lt;li&gt;&lt;strong&gt;Work:&lt;/strong&gt; </span><span class="sc">{</span>work_title<span class="sc">}</span><span class="ss">&lt;ul&gt;'</span>)</span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>            display_series <span class="op">=</span> series_rows[series_rows[<span class="st">"item"</span>] <span class="op">==</span> work_row[<span class="st">"item"</span>]].copy()</span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> display_series.empty <span class="kw">and</span> <span class="kw">not</span> helper_q7_rows.empty:</span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>                display_series <span class="op">=</span> helper_q7_rows[helper_q7_rows[<span class="st">"item"</span>] <span class="op">==</span> work_row[<span class="st">"item"</span>]].copy()</span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> display_series.empty:</span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>                display_series <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"item"</span>, <span class="st">"name"</span>, <span class="st">"wiki_link"</span>])</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> _, series_row <span class="kw">in</span> display_series.iterrows():</span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>                series_title <span class="op">=</span> render_title(series_row)</span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>                html_parts.append(<span class="ss">f'&lt;li&gt;&lt;strong&gt;Report Series:&lt;/strong&gt; </span><span class="sc">{</span>series_title<span class="sc">}</span><span class="ss">&lt;ul&gt;'</span>)</span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>                series_reports <span class="op">=</span> reports[reports[<span class="st">"parent"</span>] <span class="op">==</span> series_row[<span class="st">"item"</span>]].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> series_reports.empty:</span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>                    series_reports <span class="op">=</span> reports[reports[<span class="st">"parent"</span>] <span class="op">==</span> work_row[<span class="st">"item"</span>]].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> series_reports.empty:</span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>                    html_parts.append(<span class="st">'&lt;/ul&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> _, report_row <span class="kw">in</span> series_reports.iterrows():</span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>                    report_uri <span class="op">=</span> report_row[<span class="st">"item"</span>]</span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>                    report_title <span class="op">=</span> render_title(report_row)</span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>                    html_parts.append(<span class="ss">f'&lt;li&gt;&lt;strong&gt;</span><span class="sc">{</span>report_title<span class="sc">}</span><span class="ss">&lt;/strong&gt; — </span><span class="sc">{</span>report_row[<span class="st">"class"</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>report_row[<span class="st">"class_q"</span>]<span class="sc">}</span><span class="ss">)&lt;ul&gt;'</span>)</span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>                    report_text_divisions <span class="op">=</span> text_divisions[</span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>                        text_divisions[<span class="st">"parent"</span>] <span class="op">==</span> report_uri</span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>                    ].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> report_text_divisions.empty:</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>                        html_parts.append(<span class="st">'&lt;li&gt;&lt;em&gt;No text divisions nested under this report.&lt;/em&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span>:</span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> _, td <span class="kw">in</span> report_text_divisions.iterrows():</span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>                            td_title <span class="op">=</span> render_title(td)</span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>                            html_parts.append(<span class="ss">f'&lt;li&gt;&lt;strong&gt;</span><span class="sc">{</span>td_title<span class="sc">}</span><span class="ss">&lt;/strong&gt; — </span><span class="sc">{</span>td[<span class="st">"class"</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>td[<span class="st">"class_q"</span>]<span class="sc">}</span><span class="ss">)&lt;ul&gt;'</span>)</span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>                            report_chapters <span class="op">=</span> chapters[</span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>                                (chapters[<span class="st">"parent"</span>] <span class="op">==</span> td[<span class="st">"item"</span>]) <span class="op">|</span> (chapters[<span class="st">"item"</span>] <span class="op">==</span> td[<span class="st">"item"</span>])</span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>                            ].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">if</span> report_chapters.empty:</span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>                                html_parts.append(<span class="st">'&lt;li&gt;&lt;em&gt;No chapters nested under this text division.&lt;/em&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">else</span>:</span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">for</span> _, ch <span class="kw">in</span> report_chapters.iterrows():</span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a>                                    ch_title <span class="op">=</span> render_title(ch)</span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>                                    html_parts.append(<span class="ss">f'&lt;li&gt;</span><span class="sc">{</span>ch_title<span class="sc">}</span><span class="ss"> — </span><span class="sc">{</span>ch[<span class="st">"class"</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>ch[<span class="st">"class_q"</span>]<span class="sc">}</span><span class="ss">)&lt;/li&gt;'</span>)</span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>                            html_parts.append(<span class="st">'&lt;/ul&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a>                    html_parts.append(<span class="st">'&lt;/ul&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a>                html_parts.append(<span class="st">'&lt;/ul&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> series_rows.empty <span class="kw">and</span> <span class="kw">not</span> reports[reports[<span class="st">"parent"</span>] <span class="op">==</span> work_row[<span class="st">"item"</span>]].empty:</span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>                direct_reports <span class="op">=</span> reports[reports[<span class="st">"parent"</span>] <span class="op">==</span> work_row[<span class="st">"item"</span>]].drop_duplicates(subset<span class="op">=</span>[<span class="st">"item"</span>], keep<span class="op">=</span><span class="st">"first"</span>).sort_values(<span class="st">"name"</span>)</span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="kw">not</span> direct_reports.empty:</span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a>                    html_parts.append(<span class="st">'&lt;li&gt;&lt;strong&gt;Reports directly under this work:&lt;/strong&gt;&lt;ul&gt;'</span>)</span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> _, report_row <span class="kw">in</span> direct_reports.iterrows():</span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a>                        report_title <span class="op">=</span> render_title(report_row)</span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a>                        html_parts.append(<span class="ss">f'&lt;li&gt;</span><span class="sc">{</span>report_title<span class="sc">}</span><span class="ss"> — </span><span class="sc">{</span>report_row[<span class="st">"class"</span>]<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>report_row[<span class="st">"class_q"</span>]<span class="sc">}</span><span class="ss">)&lt;/li&gt;'</span>)</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>                    html_parts.append(<span class="st">'&lt;/ul&gt;&lt;/li&gt;'</span>)</span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a>    html_parts.append(<span class="st">'&lt;/ul&gt;&lt;/div&gt;'</span>)</span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>    display(HTML(<span class="st">''</span>.join(html_parts)))</span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This view shows the full Report hierarchy, including Work and Report Series above the report entries."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div><strong>Work, report series, and nested report structure</strong><ul><li><strong>Work:</strong> <a href="https://climatekg.tibwiki.io/wiki/Item:Q7" target="_blank">IPCC Sixth Assessment Report (Q7)</a><ul><li><strong>Report Series:</strong> <a href="https://climatekg.tibwiki.io/wiki/Item:Q7" target="_blank">IPCC Sixth Assessment Report (Q7)</a><ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q189" target="_blank">Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (Q189)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q191" target="_blank">Chapters (Text Division) (Q191)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q192" target="_blank">Longer Report (Q192)</a> — Chapter (Q6)</li></ul></li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q35" target="_blank">Special Report: Climate Change and Land (Q35)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q42" target="_blank">Chapters (Text Division) (Q42)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q48" target="_blank">Desertification (Q48)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q53" target="_blank">Food security (Q53)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q44" target="_blank">Framing and context (Q44)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q54" target="_blank">Interlinkages between desertification, land degradation, food security and greenhouse gas fluxes: Synergies, trade-offs and integrated response options (Q54)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q50" target="_blank">Land degradation (Q50)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q45" target="_blank">Land–climate interactions (Q45)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q55" target="_blank">Risk management and decision-making in relation to sustainable development (Q55)</a> — Chapter (Q6)</li></ul></li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q10" target="_blank">Special Report: Global Warming of 1.5°C (Q10)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q18" target="_blank">Chapters (Text Division) (Q18)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q21" target="_blank">Framing and Context (Q21)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q26" target="_blank">Impacts of 1.5°C Global Warming on Natural and Human Systems (Q26)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q24" target="_blank">Mitigation Pathways Compatible with 1.5°C in the Context of Sustainable Development (Q24)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q30" target="_blank">Strengthening and Implementing the Global Response (Q30)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q33" target="_blank">Sustainable Development, Poverty Eradication and Reducing Inequalities (Q33)</a> — Chapter (Q6)</li></ul></li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q57" target="_blank">Special Report: The Ocean and Cryosphere in a Changing Climate (Q57)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q62" target="_blank">Chapters (Text Division) (Q62)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q72" target="_blank">Changing Ocean, Marine Ecosystems, and Dependent Communities (Q72)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q74" target="_blank">Extremes, Abrupt Changes and Managing Risks (Q74)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q64" target="_blank">Framing and Context of the Report (Q64)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q67" target="_blank">High Mountain Areas (Q67)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q69" target="_blank">Polar Regions (Q69)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q71" target="_blank">Sea Level Rise and Implications for Low-Lying Islands, Coasts and Communities (Q71)</a> — Chapter (Q6)</li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q75" target="_blank">Cross-Chapter Box (Text Division) (Q75)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q76" target="_blank">Integrative Cross-Chapter Box on Low-lying Islands and Coasts (Q76)</a> — Chapter (Q6)</li></ul></li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q77" target="_blank">Working Group I: Climate Change 2021 – The Physical Science Basis (Q77)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q104" target="_blank">Atlas (Text Division) (Q104)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q104" target="_blank">Atlas (Text Division) (Q104)</a> — Chapter (Q6)</li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q81" target="_blank">Chapters (Q81)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q85" target="_blank">Changing State of the Climate System (Q85)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q103" target="_blank">Climate Change Information for Regional Impact and for Risk Assessment (Q103)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q83" target="_blank">Framing, Context, and Methods (Q83)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q88" target="_blank">Future Global Climate: Scenario-based Projections and Near-term Information (Q88)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q90" target="_blank">Global Carbon and Other Biogeochemical Cycles and Feedbacks (Q90)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q87" target="_blank">Human Influence on the Climate System (Q87)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q100" target="_blank">Linking Global to Regional Climate Change (Q100)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q98" target="_blank">Ocean, Cryosphere and Sea Level Change (Q98)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q93" target="_blank">Short-lived Climate Forcers (Q93)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q95" target="_blank">The Earth’s Energy Budget, Climate Feedbacks and Climate Sensitivity (Q95)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q96" target="_blank">Water Cycle Changes (Q96)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q101" target="_blank">Weather and Climate Extreme Events in a Changing Climate (Q101)</a> — Chapter (Q6)</li></ul></li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q106" target="_blank">Working Group II: Climate Change 2022 – Impacts, Adaptation and Vulnerability (Q106)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q110" target="_blank">Chapters (Text Division) (Q110)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q126" target="_blank">Africa (Q126)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q127" target="_blank">Asia (Q127)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q129" target="_blank">Central and South America (Q129)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q120" target="_blank">Cities, Settlements and Key Infrastructure (Q120)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q136" target="_blank">Climate Resilient Development Pathways (Q136)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q135" target="_blank">Decision-Making Options for Managing Risk (Q135)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q130" target="_blank">Europe (Q130)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q117" target="_blank">Food, Fibre and Other Ecosystem Products (Q117)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q123" target="_blank">Health, Wellbeing and the Changing Structure of Communities (Q123)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q133" target="_blank">Key Risks across Sectors and Regions (Q133)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q131" target="_blank">North America (Q131)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q114" target="_blank">Oceans and Coastal Ecosystems and Their Services (Q114)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q111" target="_blank">Point of Departure and Key Concepts (Q111)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q125" target="_blank">Poverty, Livelihoods and Sustainable Development (Q125)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q132" target="_blank">Small Islands (Q132)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q112" target="_blank">Terrestrial and Freshwater Ecosystems and Their Services (Q112)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q116" target="_blank">Water (Q116)</a> — Chapter (Q6)</li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q137" target="_blank">Cross-Chapter Papers (Text Division) (Q137)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q140" target="_blank">Biodiversity Hotspots (Q140)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q141" target="_blank">Cities and Settlements by the Sea (Q141)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q142" target="_blank">Deserts, Semiarid Areas and Desertification (Q142)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q143" target="_blank">Mediterranean Region (Q143)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q145" target="_blank">Mountains (Q145)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q146" target="_blank">Polar Regions (Q146)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q149" target="_blank">Tropical Forests (Q149)</a> — Chapter (Q6)</li></ul></li></ul></li><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q150" target="_blank">Working Group III: Climate Change 2022 – Mitigation of Climate Change (Q150)</a></strong> — Report (Q4)<ul><li><strong><a href="https://climatekg.tibwiki.io/wiki/Item:Q153" target="_blank">Chapters (Text Division) (Q153)</a></strong> — Text Division (Q5)<ul><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q188" target="_blank">Accelerating the Transition in the Context of Sustainable Development (Q188)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q170" target="_blank">Agriculture, Forestry and Other Land Uses (AFOLU) (Q170)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q174" target="_blank">Buildings (Q174)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q179" target="_blank">Cross-sectoral Perspectives (Q179)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q164" target="_blank">Demand, Services and Social Aspects of Mitigation (Q164)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q157" target="_blank">Emissions Trends and Drivers (Q157)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q168" target="_blank">Energy Systems (Q168)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q178" target="_blank">Industry (Q178)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q186" target="_blank">Innovation, Technology Development and Transfer (Q186)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q183" target="_blank">International Cooperation (Q183)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q154" target="_blank">Introduction and Framing (Q154)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q184" target="_blank">Investment and Finance (Q184)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q158" target="_blank">Mitigation Pathways Compatible with Long-term Goals (Q158)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q160" target="_blank">Mitigation and Development Pathways in the Near to Mid-term (Q160)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q181" target="_blank">National and Sub-national Policies and Institutions (Q181)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q176" target="_blank">Transport (Q176)</a> — Chapter (Q6)</li><li><a href="https://climatekg.tibwiki.io/wiki/Item:Q172" target="_blank">Urban Systems and Other Settlements (Q172)</a> — Chapter (Q6)</li></ul></li></ul></li></ul></li></ul></li></ul></div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This view shows the full Report hierarchy, including Work and Report Series above the report entries.</code></pre>
+</div>
+</div>
+</section>
+<section id="searchable-nested-hierarchy" class="level2">
+<h2 class="anchored" data-anchor-id="searchable-nested-hierarchy">Searchable nested hierarchy</h2>
+<p>This view turns the table into a readable hierarchy so a reader can quickly find a report part and trace its position in the corpus from the top-level work down to the chapter or section it belongs to.</p>
+<div id="2253de84" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> widgets</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML, display</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>hierarchy_lookup <span class="op">=</span> full_hierarchy_df.copy()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>hierarchy_lookup[<span class="st">"class_rank"</span>] <span class="op">=</span> hierarchy_lookup[<span class="st">"class"</span>].<span class="bu">map</span>({<span class="st">"Work"</span>: <span class="dv">1</span>, <span class="st">"Report Series"</span>: <span class="dv">2</span>, <span class="st">"Report"</span>: <span class="dv">3</span>, <span class="st">"Text Division"</span>: <span class="dv">4</span>, <span class="st">"Chapter"</span>: <span class="dv">5</span>}).fillna(<span class="dv">99</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>hierarchy_lookup[<span class="st">"path"</span>] <span class="op">=</span> hierarchy_lookup[<span class="st">"nested_structure"</span>].fillna(hierarchy_lookup[<span class="st">"name"</span>])</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>hierarchy_lookup <span class="op">=</span> hierarchy_lookup.sort_values([<span class="st">"class_rank"</span>, <span class="st">"name"</span>]).drop_duplicates(subset<span class="op">=</span>[<span class="st">"name"</span>], keep<span class="op">=</span><span class="st">'first'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>search_box <span class="op">=</span> widgets.Text(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    value<span class="op">=</span><span class="st">''</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    placeholder<span class="op">=</span><span class="st">'Search names or path...'</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">'Find report part:'</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    layout<span class="op">=</span>widgets.Layout(width<span class="op">=</span><span class="st">'500px'</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> widgets.Output()</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> render_matches(change<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> search_box.value.strip().lower()</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    matches <span class="op">=</span> hierarchy_lookup.copy()</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> query:</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        matches <span class="op">=</span> matches[</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>            matches[<span class="st">'name'</span>].<span class="bu">str</span>.lower().<span class="bu">str</span>.contains(query, na<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>            <span class="op">|</span> matches[<span class="st">'path'</span>].<span class="bu">str</span>.lower().<span class="bu">str</span>.contains(query, na<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>            <span class="op">|</span> matches[<span class="st">'class'</span>].<span class="bu">str</span>.lower().<span class="bu">str</span>.contains(query, na<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    html <span class="op">=</span> <span class="st">'&lt;div&gt;&lt;strong&gt;Nested report hierarchy&lt;/strong&gt;&lt;ul&gt;'</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> matches.empty:</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>        html <span class="op">+=</span> <span class="st">'&lt;li&gt;No matching report part found.&lt;/li&gt;'</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _, row <span class="kw">in</span> matches.head(<span class="dv">50</span>).iterrows():</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>            label <span class="op">=</span> row[<span class="st">'name'</span>]</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pd.notna(row.get(<span class="st">'wiki_link'</span>)) <span class="kw">and</span> <span class="bu">str</span>(row[<span class="st">'wiki_link'</span>]).strip():</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>                label <span class="op">=</span> <span class="ss">f"&lt;a href=</span><span class="ch">\"</span><span class="sc">{</span>row[<span class="st">'wiki_link'</span>]<span class="sc">}</span><span class="ch">\"</span><span class="ss"> target=</span><span class="ch">\"</span><span class="ss">_blank</span><span class="ch">\"</span><span class="ss">&gt;</span><span class="sc">{</span>row[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss"> &lt;/a&gt;"</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>            parent_text <span class="op">=</span> row[<span class="st">'parent'</span>] <span class="cf">if</span> pd.notna(row.get(<span class="st">'parent'</span>)) <span class="cf">else</span> <span class="st">'top level'</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>            html <span class="op">+=</span> <span class="ss">f"&lt;li&gt;&lt;strong&gt;</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">&lt;/strong&gt; (</span><span class="sc">{</span>row[<span class="st">'class'</span>]<span class="sc">}</span><span class="ss">)&lt;br&gt;Parent: </span><span class="sc">{</span>parent_text<span class="sc">}</span><span class="ss">&lt;br&gt;Path: </span><span class="sc">{</span>row[<span class="st">'path'</span>]<span class="sc">}</span><span class="ss"> &lt;/li&gt;"</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    html <span class="op">+=</span> <span class="st">'&lt;/ul&gt;&lt;/div&gt;'</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> output:</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>        output.clear_output()</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>        display(HTML(html))</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>search_box.observe(render_matches, names<span class="op">=</span><span class="st">'value'</span>)</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>render_matches()</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>display(search_box, output)</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"0459fcbbad2c47ed9ffea288d7f7e7ec","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"223a37629f9e4f7d968005f89c3b8a75","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+</section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Each row represents an item with a parent item in the report hierarchy. In the current ClimateKG graph this gives us the basic structure for a report tree: the item becomes a child of the parent node via <code>P3</code>.</p>
-<p>This is the right foundation for the report-structure notebook because it shows how reports, sections, and related objects are connected in context rather than as isolated records.</p>
-<p>The next step could be to aggregate these rows by parent and count child items, or to add a direct graph visualisation of the hierarchy.</p>
+<p>The ER model recorded in <strong>The Rock</strong> defines the intended corpus structure: <code>Q2</code> Work, <code>Q3</code> Report Series, <code>Q4</code> Report, <code>Q5</code> Text Division, and <code>Q6</code> Chapter. In that schema, <code>P3</code> is the parent / part-of relationship and <code>P4</code> is the child / parts relationship.</p>
+<p>The live graph is now populated across the expected report hierarchy: class counts show items at all five levels, from <code>Q2</code> through <code>Q6</code>. This means the graph is no longer a chapter-only snapshot and now contains a working structure that can be compared directly against the ER model.</p>
+<p>The current data therefore supports a more nuanced conclusion: the graph reflects a genuinely populated report hierarchy, while the notebook continues to use the canonical ER model as the baseline for checking which entities and relationship patterns are present and how they fit together.</p>
 
 
 </section>
+</section>
 
 </main> <!-- /main -->
+<script type="application/vnd.jupyter.widget-state+json">
+{"state":{"0459fcbbad2c47ed9ffea288d7f7e7ec":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"TextModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"2.0.0","_model_name":"TextModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"2.0.0","_view_name":"TextView","continuous_update":true,"description":"Find report part:","description_allow_html":false,"disabled":false,"layout":"IPY_MODEL_cbe5eb8befe1445dbd62caedb72c3bf7","placeholder":"Search names or path...","style":"IPY_MODEL_4b99d8dbddf3476b8d4117ac4019b9bb","tabbable":null,"tooltip":null,"value":""}},"223a37629f9e4f7d968005f89c3b8a75":{"model_module":"@jupyter-widgets/output","model_module_version":"1.0.0","model_name":"OutputModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/output","_model_module_version":"1.0.0","_model_name":"OutputModel","_view_count":null,"_view_module":"@jupyter-widgets/output","_view_module_version":"1.0.0","_view_name":"OutputView","layout":"IPY_MODEL_f3dba26031d149d9b3d03f7d29dec8c9","msg_id":"","outputs":[{"data":{"text/html":"<div><strong>Nested report hierarchy</strong><ul><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q7\" target=\"_blank\">IPCC Sixth Assessment Report </a></strong> (Work)<br>Parent: top level<br>Path: IPCC Sixth Assessment Report </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q3\" target=\"_blank\">Report Series </a></strong> (Work)<br>Parent: top level<br>Path: Report Series </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q189\" target=\"_blank\">Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q35\" target=\"_blank\">Special Report: Climate Change and Land </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Special Report: Climate Change and Land </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q10\" target=\"_blank\">Special Report: Global Warming of 1.5°C </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Special Report: Global Warming of 1.5°C </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q57\" target=\"_blank\">Special Report: The Ocean and Cryosphere in a Changing Climate </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Special Report: The Ocean and Cryosphere in a Changing Climate </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q77\" target=\"_blank\">Working Group I: Climate Change 2021 – The Physical Science Basis </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Working Group I: Climate Change 2021 – The Physical Science Basis </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q106\" target=\"_blank\">Working Group II: Climate Change 2022 – Impacts, Adaptation and Vulnerability </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Working Group II: Climate Change 2022 – Impacts, Adaptation and Vulnerability </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q150\" target=\"_blank\">Working Group III: Climate Change 2022 – Mitigation of Climate Change </a></strong> (Report)<br>Parent: https://climatekg.tibwiki.io/entity/Q7<br>Path: IPCC Sixth Assessment Report -> Working Group III: Climate Change 2022 – Mitigation of Climate Change </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q104\" target=\"_blank\">Atlas (Text Division) </a></strong> (Text Division)<br>Parent: https://climatekg.tibwiki.io/entity/Q77<br>Path: Working Group I: Climate Change 2021 – The Physical Science Basis -> Atlas (Text Division) </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q81\" target=\"_blank\">Chapters </a></strong> (Text Division)<br>Parent: https://climatekg.tibwiki.io/entity/Q77<br>Path: Working Group I: Climate Change 2021 – The Physical Science Basis -> Chapters </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q18\" target=\"_blank\">Chapters (Text Division) </a></strong> (Text Division)<br>Parent: https://climatekg.tibwiki.io/entity/Q10<br>Path: Special Report: Global Warming of 1.5°C -> Chapters (Text Division) </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q75\" target=\"_blank\">Cross-Chapter Box (Text Division) </a></strong> (Text Division)<br>Parent: https://climatekg.tibwiki.io/entity/Q57<br>Path: Special Report: The Ocean and Cryosphere in a Changing Climate -> Cross-Chapter Box (Text Division) </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q137\" target=\"_blank\">Cross-Chapter Papers (Text Division) </a></strong> (Text Division)<br>Parent: https://climatekg.tibwiki.io/entity/Q106<br>Path: Working Group II: Climate Change 2022 – Impacts, Adaptation and Vulnerability -> Cross-Chapter Papers (Text Division) </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q188\" target=\"_blank\">Accelerating the Transition in the Context of Sustainable Development </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Accelerating the Transition in the Context of Sustainable Development </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q126\" target=\"_blank\">Africa </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Africa </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q170\" target=\"_blank\">Agriculture, Forestry and Other Land Uses (AFOLU) </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Agriculture, Forestry and Other Land Uses (AFOLU) </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q127\" target=\"_blank\">Asia </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Asia </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q140\" target=\"_blank\">Biodiversity Hotspots </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q137<br>Path: Cross-Chapter Papers (Text Division) -> Biodiversity Hotspots </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q174\" target=\"_blank\">Buildings </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Buildings </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q129\" target=\"_blank\">Central and South America </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Central and South America </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q72\" target=\"_blank\">Changing Ocean, Marine Ecosystems, and Dependent Communities </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q62<br>Path: Chapters (Text Division) -> Changing Ocean, Marine Ecosystems, and Dependent Communities </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q85\" target=\"_blank\">Changing State of the Climate System </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q81<br>Path: Chapters -> Changing State of the Climate System </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q141\" target=\"_blank\">Cities and Settlements by the Sea </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q137<br>Path: Cross-Chapter Papers (Text Division) -> Cities and Settlements by the Sea </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q120\" target=\"_blank\">Cities, Settlements and Key Infrastructure </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Cities, Settlements and Key Infrastructure </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q103\" target=\"_blank\">Climate Change Information for Regional Impact and for Risk Assessment </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q81<br>Path: Chapters -> Climate Change Information for Regional Impact and for Risk Assessment </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q136\" target=\"_blank\">Climate Resilient Development Pathways </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Climate Resilient Development Pathways </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q179\" target=\"_blank\">Cross-sectoral Perspectives </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Cross-sectoral Perspectives </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q135\" target=\"_blank\">Decision-Making Options for Managing Risk </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Decision-Making Options for Managing Risk </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q164\" target=\"_blank\">Demand, Services and Social Aspects of Mitigation </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Demand, Services and Social Aspects of Mitigation </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q48\" target=\"_blank\">Desertification </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q42<br>Path: Chapters (Text Division) -> Desertification </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q142\" target=\"_blank\">Deserts, Semiarid Areas and Desertification </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q137<br>Path: Cross-Chapter Papers (Text Division) -> Deserts, Semiarid Areas and Desertification </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q157\" target=\"_blank\">Emissions Trends and Drivers </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Emissions Trends and Drivers </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q168\" target=\"_blank\">Energy Systems </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Energy Systems </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q130\" target=\"_blank\">Europe </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Europe </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q74\" target=\"_blank\">Extremes, Abrupt Changes and Managing Risks </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q62<br>Path: Chapters (Text Division) -> Extremes, Abrupt Changes and Managing Risks </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q53\" target=\"_blank\">Food security </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q42<br>Path: Chapters (Text Division) -> Food security </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q117\" target=\"_blank\">Food, Fibre and Other Ecosystem Products </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Food, Fibre and Other Ecosystem Products </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q21\" target=\"_blank\">Framing and Context </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q18<br>Path: Chapters (Text Division) -> Framing and Context </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q64\" target=\"_blank\">Framing and Context of the Report </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q62<br>Path: Chapters (Text Division) -> Framing and Context of the Report </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q44\" target=\"_blank\">Framing and context </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q42<br>Path: Chapters (Text Division) -> Framing and context </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q83\" target=\"_blank\">Framing, Context, and Methods </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q81<br>Path: Chapters -> Framing, Context, and Methods </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q88\" target=\"_blank\">Future Global Climate: Scenario-based Projections and Near-term Information </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q81<br>Path: Chapters -> Future Global Climate: Scenario-based Projections and Near-term Information </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q90\" target=\"_blank\">Global Carbon and Other Biogeochemical Cycles and Feedbacks </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q81<br>Path: Chapters -> Global Carbon and Other Biogeochemical Cycles and Feedbacks </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q123\" target=\"_blank\">Health, Wellbeing and the Changing Structure of Communities </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q110<br>Path: Chapters (Text Division) -> Health, Wellbeing and the Changing Structure of Communities </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q67\" target=\"_blank\">High Mountain Areas </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q62<br>Path: Chapters (Text Division) -> High Mountain Areas </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q87\" target=\"_blank\">Human Influence on the Climate System </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q81<br>Path: Chapters -> Human Influence on the Climate System </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q26\" target=\"_blank\">Impacts of 1.5°C Global Warming on Natural and Human Systems </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q18<br>Path: Chapters (Text Division) -> Impacts of 1.5°C Global Warming on Natural and Human Systems </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q178\" target=\"_blank\">Industry </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Industry </li><li><strong><a href=\"https://climatekg.tibwiki.io/wiki/Item:Q186\" target=\"_blank\">Innovation, Technology Development and Transfer </a></strong> (Chapter)<br>Parent: https://climatekg.tibwiki.io/entity/Q153<br>Path: Chapters (Text Division) -> Innovation, Technology Development and Transfer </li></ul></div>","text/plain":"<IPython.core.display.HTML object>"},"metadata":{},"output_type":"display_data"}],"tabbable":null,"tooltip":null}},"4b99d8dbddf3476b8d4117ac4019b9bb":{"model_module":"@jupyter-widgets/controls","model_module_version":"2.0.0","model_name":"TextStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"2.0.0","_model_name":"TextStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"StyleView","background":null,"description_width":"","font_size":null,"text_color":null}},"cbe5eb8befe1445dbd62caedb72c3bf7":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":"500px"}},"f3dba26031d149d9b3d03f7d29dec8c9":{"model_module":"@jupyter-widgets/base","model_module_version":"2.0.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"2.0.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"2.0.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border_bottom":null,"border_left":null,"border_right":null,"border_top":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}}},"version_major":2,"version_minor":0}
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

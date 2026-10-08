@@ -2,6 +2,8 @@
 
 This is the first working query for the planned "Report Structure" notebook. It uses the live ClimateKG Wikibase and extracts the hierarchy encoded through the `P3` property, which represents the current graph's parent/child structure.
 
+For the canonical background, see **The Rock** in this folder. It records the project ER-model baseline: `Work (Q2) -> Report Series (Q3) -> Report (Q4) -> Text Division (Q5) -> Chapter (Q6)`, with `P3 = Part of` and `P4 = Parts` as the relevant structure properties.
+
 ## Endpoint
 
 - Query UI: https://climatekg.tibwiki.io/query/

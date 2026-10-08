@@ -361,7 +361,10 @@ document.addEventListener("DOMContentLoaded", function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link active" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#glossary-terms" id="toc-glossary-terms" class="nav-link active" data-scroll-target="#glossary-terms">Glossary Terms</a>
+  <ul class="collapse">
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -370,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Glossary Terms</h1>
+<div class="quarto-title-block"><div><h1 class="title">Glossary Terms</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
 
 
@@ -387,12 +390,16 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
+<section id="glossary-terms" class="level1">
+<h1>Glossary Terms</h1>
 <p>This notebook explores glossary terms in the ClimateKG graph by tracing how glossary entries are linked to report and concept structure.</p>
 <p>We use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.</p>
 <p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
 <p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
 <p>This notebook follows the same query-first workflow as the earlier notebooks: validate the graph structure before interpreting the terminology and concept distribution.</p>
 <div id="85df28ca" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> SPARQLWrapper <span class="im">import</span> JSON</span>
@@ -408,6 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>'ckg'</code></pre>
 </div>
@@ -420,6 +428,8 @@ Libraries imported successfully</code></pre>
 </div>
 </div>
 <div id="54df3336" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
@@ -444,8 +454,9 @@ Libraries imported successfully</code></pre>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows returned: 0</code></pre>
+<pre><code>Rows returned: 200</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -455,9 +466,195 @@ Libraries imported successfully</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">term</th>
+<th data-quarto-table-cell-role="th">report</th>
+<th data-quarto-table-cell-role="th">termType</th>
+<th data-quarto-table-cell-role="th">termLabel</th>
+<th data-quarto-table-cell-role="th">reportLabel</th>
+<th data-quarto-table-cell-role="th">termTypeLabel</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>https://climatekg.tibwiki.io/entity/Q1168</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>1.5°C warmer worlds</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>https://climatekg.tibwiki.io/entity/Q1167</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>1.5°C pathway</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>https://climatekg.tibwiki.io/entity/Q1169</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>13C</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>https://climatekg.tibwiki.io/entity/Q1170</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>14C</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>https://climatekg.tibwiki.io/entity/Q1172</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Ablation</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>https://climatekg.tibwiki.io/entity/Q1173</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Abrupt change</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>https://climatekg.tibwiki.io/entity/Q1174</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Abrupt climate change</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>https://climatekg.tibwiki.io/entity/Q259</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Accumulation</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>https://climatekg.tibwiki.io/entity/Q260</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Active layer</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>https://climatekg.tibwiki.io/entity/Q262</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Adaptation</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>https://climatekg.tibwiki.io/entity/Q270</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Adaptation options</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>https://climatekg.tibwiki.io/entity/Q272</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Adaptive capacity</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>https://climatekg.tibwiki.io/entity/Q275</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Added value</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>https://climatekg.tibwiki.io/entity/Q277</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Adjustments</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>https://climatekg.tibwiki.io/entity/Q278</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Advection</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>https://climatekg.tibwiki.io/entity/Q280</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Aerosol</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>https://climatekg.tibwiki.io/entity/Q282</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Aerosol effective radiative forcing</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>https://climatekg.tibwiki.io/entity/Q283</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Aerosol optical depth</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>https://climatekg.tibwiki.io/entity/Q281</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Aerosol–cloud interaction</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>https://climatekg.tibwiki.io/entity/Q284</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>https://climatekg.tibwiki.io/entity/Q1</td>
+<td>Aerosol–radiation interaction</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>Category</td>
+</tr>
 </tbody>
 </table>
 
@@ -470,6 +667,7 @@ Libraries imported successfully</code></pre>
 <p>This is the right starting point for glossary analysis: once the relation is confirmed, the next step is to count terms by report, identify repeated concepts, and compare the terms against the glossary pages already generated in the site.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

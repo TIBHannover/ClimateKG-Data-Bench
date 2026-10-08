@@ -256,14 +256,28 @@
     "href": "sparql_queries/report-structure.html",
     "title": "Report Structure",
     "section": "",
-    "text": "This notebook explores the current ClimateKG knowledge graph by tracing the report hierarchy using the live Wikibase data.\nWe start with the relationship that connects an item to its parent in the corpus structure: P3.\nQuery UI: https://climatekg.tibwiki.io/query/\nSPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nThis notebook is intentionally query-first: we validate the structure before adding deeper interpretation.\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\n\nSELECT ?item ?itemLabel ?parent ?parentLabel ?itemType ?itemTypeLabel\nWHERE {\n  ?item wdt:P3 ?parent .\n  OPTIONAL { ?item wdt:P1 ?itemType . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?parent ?itemLabel\nLIMIT 200\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\nRows returned: 3\n\n\n\n\n\n\n\n\n\nitem\nparent\nitemType\nitemLabel\nparentLabel\nitemTypeLabel\n\n\n\n\n0\nhttps://climatekg.tibwiki.io/entity/Q188\nhttps://climatekg.tibwiki.io/entity/Q153\nhttps://climatekg.tibwiki.io/entity/Q6\nAccelerating the Transition in the Context of ...\nhttps://climatekg.tibwiki.io/entity/Q153\nhttps://climatekg.tibwiki.io/entity/Q6\n\n\n1\nhttps://climatekg.tibwiki.io/entity/Q190\nhttps://climatekg.tibwiki.io/entity/Q189\nhttps://climatekg.tibwiki.io/entity/Q6\nSummary for Policymakers\nhttps://climatekg.tibwiki.io/entity/Q189\nhttps://climatekg.tibwiki.io/entity/Q6\n\n\n2\nhttps://climatekg.tibwiki.io/entity/Q192\nhttps://climatekg.tibwiki.io/entity/Q191\nhttps://climatekg.tibwiki.io/entity/Q6\nLonger Report\nhttps://climatekg.tibwiki.io/entity/Q191\nhttps://climatekg.tibwiki.io/entity/Q6"
+    "text": "This notebook is anchored to The Rock, the shared reference note for the ClimateKG ER model.\nKey references: - ERM model README - Class instance counts notebook - The Rock reference\nThe canonical corpus hierarchy is:\nWork (Q2) -&gt; Report Series (Q3) -&gt; Report (Q4) -&gt; Text Division (Q5) -&gt; Chapter (Q6)\nThe graph logic in the ER model is defined through P3 = Part of and P4 = Parts. The live Wikibase is checked against that intended model in order to record what actually exists today, not to assume the whole hierarchy is present.\nQuery UI: https://climatekg.tibwiki.io/query/\nSPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\n\n\nShow code\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ[\"CLIMATEKG_WIKIBASE_URL\"] = \"https://climatekg.tibwiki.io\"\nos.environ[\"CLIMATEKG_SPARQL_ENDPOINT\"] = \"https://climatekg.tibwiki.io/query/proxy/sparql\"\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL).rstrip(\"/\")\nENTITY_NS = f\"{WIKIBASE_URL}/entity/\"\nPROPERTY_NS = f\"{WIKIBASE_URL}/prop/direct/\"\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\nprint(f\"Entity namespace (RDF prefix): {ENTITY_NS}\")\nprint(f\"Property namespace (RDF prefix): {PROPERTY_NS}\")\nprint(f\"Example item page: {WIKIBASE_URL}/wiki/Item:Q2\")\nprint(f\"Example property page: {WIKIBASE_URL}/wiki/Property:P1\")\n\n\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\nEntity namespace (RDF prefix): https://climatekg.tibwiki.io/entity/\nProperty namespace (RDF prefix): https://climatekg.tibwiki.io/prop/direct/\nExample item page: https://climatekg.tibwiki.io/wiki/Item:Q2\nExample property page: https://climatekg.tibwiki.io/wiki/Property:P1\n\n\n\n\nShow code\nclass_query = f'''\nPREFIX wd: &lt;{ENTITY_NS}&gt;\nPREFIX wdt: &lt;{PROPERTY_NS}&gt;\n\nSELECT ?class ?classLabel (COUNT(?item) AS ?count)\nWHERE {{\n  VALUES ?class {{ wd:Q2 wd:Q3 wd:Q4 wd:Q5 wd:Q6 }}\n  OPTIONAL {{ ?item wdt:P1 ?class . }}\n  SERVICE wikibase:label {{ bd:serviceParam wikibase:language \"en\". }}\n}}\nGROUP BY ?class ?classLabel\nORDER BY ?class\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(class_query)\nsparql.setReturnFormat(JSON)\nclass_results = sparql.query().convert()\nclass_rows = class_results.get(\"results\", {}).get(\"bindings\", [])\nclass_df = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in class_rows])\n\nprint(f\"Class counts returned: {len(class_df)}\")\ndisplay(class_df)\n\n\n\nClass counts returned: 5\n\n\n\n\n\n\n\n\n\nclass\nclassLabel\ncount\n\n\n\n\n0\nhttps://climatekg.tibwiki.io/entity/Q2\nWork\n2\n\n\n1\nhttps://climatekg.tibwiki.io/entity/Q3\nReport Series\n1\n\n\n2\nhttps://climatekg.tibwiki.io/entity/Q4\nReport\n7\n\n\n3\nhttps://climatekg.tibwiki.io/entity/Q5\nText Division\n10\n\n\n4\nhttps://climatekg.tibwiki.io/entity/Q6\nChapter\n87\n\n\n\n\n\n\n\n\n\nShow code\nhierarchy_model = pd.DataFrame([\n    {\"level\": 1, \"class\": \"Q2\", \"label\": \"Work\", \"role\": \"top-level corpus\"},\n    {\"level\": 2, \"class\": \"Q3\", \"label\": \"Report Series\", \"role\": \"series container\"},\n    {\"level\": 3, \"class\": \"Q4\", \"label\": \"Report\", \"role\": \"report container\"},\n    {\"level\": 4, \"class\": \"Q5\", \"label\": \"Text Division\", \"role\": \"division / section\"},\n    {\"level\": 5, \"class\": \"Q6\", \"label\": \"Chapter\", \"role\": \"leaf content unit\"},\n])\n\nhierarchy_view = hierarchy_model.copy()\nhierarchy_view[\"class_uri\"] = hierarchy_view[\"class\"].map(lambda v: f\"{WIKIBASE_URL}/entity/{v}\")\nhierarchy_view = hierarchy_view.merge(\n    class_df.rename(columns={\"class\": \"class_uri\", \"classLabel\": \"current_label\", \"count\": \"items_in_graph\"}),\n    on=\"class_uri\",\n    how=\"left\"\n)\nhierarchy_view[\"items_in_graph\"] = pd.to_numeric(hierarchy_view[\"items_in_graph\"], errors=\"coerce\").fillna(0).astype(int)\n\nprint(\"Canonical report hierarchy model vs current graph\")\ndisplay(hierarchy_view[[\"level\", \"label\", \"role\", \"items_in_graph\"]].rename(columns={\"label\": \"expected_label\"}))\nprint(\"This view shows the intended hierarchy from Work down to Chapter together with the live count of items currently represented in the graph.\")\n\n\n\nCanonical report hierarchy model vs current graph\n\n\n\n\n\n\n\n\n\nlevel\nexpected_label\nrole\nitems_in_graph\n\n\n\n\n0\n1\nWork\ntop-level corpus\n2\n\n\n1\n2\nReport Series\nseries container\n1\n\n\n2\n3\nReport\nreport container\n7\n\n\n3\n4\nText Division\ndivision / section\n10\n\n\n4\n5\nChapter\nleaf content unit\n87\n\n\n\n\n\n\n\nThis view shows the intended hierarchy from Work down to Chapter together with the live count of items currently represented in the graph.\n\n\n\n\nNote: this validation block is intentionally kept as a checkpoint. It confirms whether the live graph contains the expected P3 = Part of and P4 = Parts links before the hierarchy is interpreted more broadly. We will return to it when the model is checked against the current data.\nThis section is a follow-up validation step: it checks whether the graph actually contains the expected P3 / P4 structure that links the hierarchy together.\n\n\nShow code\np3_query = f'''\nPREFIX wd: &lt;{ENTITY_NS}&gt;\nPREFIX wdt: &lt;{PROPERTY_NS}&gt;\n\nSELECT ?item ?itemLabel ?itemType ?itemTypeLabel ?parent ?parentLabel\nWHERE {{\n  ?item wdt:P3 ?parent .\n  OPTIONAL {{ ?item wdt:P1 ?itemType . }}\n  SERVICE wikibase:label {{ bd:serviceParam wikibase:language \"en\". }}\n}}\nORDER BY ?itemLabel\nLIMIT 200\n'''\n\np4_query = f'''\nPREFIX wdt: &lt;{PROPERTY_NS}&gt;\nSELECT ?parent ?parentLabel ?child ?childLabel\nWHERE {{\n  ?parent wdt:P4 ?child .\n  SERVICE wikibase:label {{ bd:serviceParam wikibase:language \"en\". }}\n}}\nORDER BY ?parentLabel ?childLabel\nLIMIT 200\n'''\n\np3 = build_sparql_client(SPARQL_ENDPOINT)\np3.setQuery(p3_query)\np3.setReturnFormat(JSON)\np3_results = p3.query().convert()\np3_rows = p3_results.get(\"results\", {}).get(\"bindings\", [])\np3_df = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in p3_rows])\n\np4 = build_sparql_client(SPARQL_ENDPOINT)\np4.setQuery(p4_query)\np4.setReturnFormat(JSON)\np4_results = p4.query().convert()\np4_rows = p4_results.get(\"results\", {}).get(\"bindings\", [])\np4_df = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in p4_rows])\n\nprint(\"Direct P3 edges found:\")\ndisplay(p3_df)\nprint(\"Direct P4 edges found:\")\ndisplay(p4_df)\n\n\n\nDirect P3 edges found:\n\n\n\n\n\n\n\n\n\nitem\nparent\nitemType\nitemLabel\nitemTypeLabel\nparentLabel\n\n\n\n\n0\nhttps://climatekg.tibwiki.io/entity/Q2089\nhttps://climatekg.tibwiki.io/entity/Q10\nhttps://climatekg.tibwiki.io/entity/Q2087\n1.5DS\nAcronym\nSpecial Report: Global Warming of 1.5°C\n\n\n1\nhttps://climatekg.tibwiki.io/entity/Q1167\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\n1.5°C pathway\nCategory\nWorking Group I: Climate Change 2021 – The Phy...\n\n\n2\nhttps://climatekg.tibwiki.io/entity/Q1167\nhttps://climatekg.tibwiki.io/entity/Q150\nhttps://climatekg.tibwiki.io/entity/Q1\n1.5°C pathway\nCategory\nWorking Group III: Climate Change 2022 – Mitig...\n\n\n3\nhttps://climatekg.tibwiki.io/entity/Q1168\nhttps://climatekg.tibwiki.io/entity/Q10\nhttps://climatekg.tibwiki.io/entity/Q1\n1.5°C warmer worlds\nCategory\nSpecial Report: Global Warming of 1.5°C\n\n\n4\nhttps://climatekg.tibwiki.io/entity/Q1169\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\n13C\nCategory\nWorking Group I: Climate Change 2021 – The Phy...\n\n\n...\n...\n...\n...\n...\n...\n...\n\n\n195\nhttps://climatekg.tibwiki.io/entity/Q2660\nhttps://climatekg.tibwiki.io/entity/Q35\nhttps://climatekg.tibwiki.io/entity/Q2087\nAWD\nAcronym\nSpecial Report: Climate Change and Land\n\n\n196\nhttps://climatekg.tibwiki.io/entity/Q3069\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q2087\nAZM\nAcronym\nWorking Group I: Climate Change 2021 – The Phy...\n\n\n197\nhttps://climatekg.tibwiki.io/entity/Q1172\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAblation\nCategory\nWorking Group I: Climate Change 2021 – The Phy...\n\n\n198\nhttps://climatekg.tibwiki.io/entity/Q1173\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAbrupt change\nCategory\nWorking Group I: Climate Change 2021 – The Phy...\n\n\n199\nhttps://climatekg.tibwiki.io/entity/Q1173\nhttps://climatekg.tibwiki.io/entity/Q106\nhttps://climatekg.tibwiki.io/entity/Q1\nAbrupt change\nCategory\nWorking Group II: Climate Change 2022 – Impact...\n\n\n\n\n200 rows × 6 columns\n\n\n\nDirect P4 edges found:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis table shows the items currently populating the report hierarchy, with their class, direct parent/child links, and the corresponding wiki page when it exists. It is the complete live view of the structure that the model describes.\n\n\nShow code\nfull_hierarchy_query = f'''\nPREFIX wd: &lt;{ENTITY_NS}&gt;\nPREFIX wdt: &lt;{PROPERTY_NS}&gt;\n\nSELECT ?item ?itemLabel ?class ?classLabel ?parent ?parentLabel ?child ?childLabel\nWHERE {{\n  VALUES ?class {{ wd:Q2 wd:Q3 wd:Q4 wd:Q5 wd:Q6 }}\n  ?item wdt:P1 ?class .\n  OPTIONAL {{ ?item wdt:P3 ?parent . }}\n  OPTIONAL {{ ?item wdt:P4 ?child . }}\n  SERVICE wikibase:label {{ bd:serviceParam wikibase:language \"en\". }}\n}}\nORDER BY ?class ?itemLabel\n'''\n\nfull_hierarchy = build_sparql_client(SPARQL_ENDPOINT)\nfull_hierarchy.setQuery(full_hierarchy_query)\nfull_hierarchy.setReturnFormat(JSON)\nfull_hierarchy_results = full_hierarchy.query().convert()\nfull_hierarchy_rows = full_hierarchy_results.get(\"results\", {}).get(\"bindings\", [])\nfull_hierarchy_df = pd.DataFrame([\n    {\n        \"class\": None,\n        \"classLabel\": None,\n        \"item\": None,\n        \"itemLabel\": None,\n        \"parent\": None,\n        \"parentLabel\": None,\n        \"child\": None,\n        \"childLabel\": None,\n    } | {k: v[\"value\"] for k, v in row.items()}\n    for row in full_hierarchy_rows\n])\n\nif not full_hierarchy_df.empty:\n    full_hierarchy_df[\"item_id\"] = full_hierarchy_df[\"item\"].str.rsplit(\"/\", n=1, expand=True)[1]\n    full_hierarchy_df[\"wiki_url\"] = full_hierarchy_df[\"item_id\"].map(lambda v: f\"{WIKIBASE_URL}/wiki/Item:{v}\")\n    full_hierarchy_df[\"nested_structure\"] = full_hierarchy_df.apply(\n        lambda row: f\"{row['parentLabel']} -&gt; {row['itemLabel']}\" if pd.notna(row.get('parentLabel')) else row['itemLabel'],\n        axis=1,\n    )\n    full_hierarchy_df = full_hierarchy_df[[\n        \"classLabel\",\n        \"itemLabel\",\n        \"item\",\n        \"parent\",\n        \"item_id\",\n        \"wiki_url\",\n        \"parentLabel\",\n        \"childLabel\",\n        \"nested_structure\",\n    ]].rename(columns={\n        'classLabel': 'class',\n        'itemLabel': 'name',\n        'item': 'item',\n        'parent': 'parent',\n        'item_id': 'P number',\n        'wiki_url': 'wiki_link',\n        'parentLabel': 'parent_label',\n        'childLabel': 'part',\n        'nested_structure': 'nested_structure',\n    })\n    display(full_hierarchy_df)\nelse:\n    print(\"No items found for the canonical hierarchy in the current graph.\")\n\nprint(\"This table shows the live population of the report hierarchy and how each item is nested within it.\")\n\n\n\n\n\n\n\n\n\nclass\nname\nitem\nparent\nP number\nwiki_link\nparent_label\npart\nnested_structure\n\n\n\n\n0\nWork\nIPCC Sixth Assessment Report\nhttps://climatekg.tibwiki.io/entity/Q7\nNaN\nQ7\nhttps://climatekg.tibwiki.io/wiki/Item:Q7\nNaN\nNone\nIPCC Sixth Assessment Report\n\n\n1\nWork\nReport Series\nhttps://climatekg.tibwiki.io/entity/Q3\nNaN\nQ3\nhttps://climatekg.tibwiki.io/wiki/Item:Q3\nNaN\nNone\nReport Series\n\n\n2\nReport Series\nIPCC Sixth Assessment Report\nhttps://climatekg.tibwiki.io/entity/Q7\nNaN\nQ7\nhttps://climatekg.tibwiki.io/wiki/Item:Q7\nNaN\nNone\nIPCC Sixth Assessment Report\n\n\n3\nReport\nClimate Change 2023: Synthesis Report. Contrib...\nhttps://climatekg.tibwiki.io/entity/Q189\nhttps://climatekg.tibwiki.io/entity/Q7\nQ189\nhttps://climatekg.tibwiki.io/wiki/Item:Q189\nIPCC Sixth Assessment Report\nNone\nIPCC Sixth Assessment Report -&gt; Climate Change...\n\n\n4\nReport\nSpecial Report: Climate Change and Land\nhttps://climatekg.tibwiki.io/entity/Q35\nhttps://climatekg.tibwiki.io/entity/Q7\nQ35\nhttps://climatekg.tibwiki.io/wiki/Item:Q35\nIPCC Sixth Assessment Report\nNone\nIPCC Sixth Assessment Report -&gt; Special Report...\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n102\nChapter\nTropical Forests\nhttps://climatekg.tibwiki.io/entity/Q149\nhttps://climatekg.tibwiki.io/entity/Q137\nQ149\nhttps://climatekg.tibwiki.io/wiki/Item:Q149\nCross-Chapter Papers (Text Division)\nNone\nCross-Chapter Papers (Text Division) -&gt; Tropic...\n\n\n103\nChapter\nUrban Systems and Other Settlements\nhttps://climatekg.tibwiki.io/entity/Q172\nhttps://climatekg.tibwiki.io/entity/Q153\nQ172\nhttps://climatekg.tibwiki.io/wiki/Item:Q172\nChapters (Text Division)\nNone\nChapters (Text Division) -&gt; Urban Systems and ...\n\n\n104\nChapter\nWater\nhttps://climatekg.tibwiki.io/entity/Q116\nhttps://climatekg.tibwiki.io/entity/Q110\nQ116\nhttps://climatekg.tibwiki.io/wiki/Item:Q116\nChapters (Text Division)\nNone\nChapters (Text Division) -&gt; Water\n\n\n105\nChapter\nWater Cycle Changes\nhttps://climatekg.tibwiki.io/entity/Q96\nhttps://climatekg.tibwiki.io/entity/Q81\nQ96\nhttps://climatekg.tibwiki.io/wiki/Item:Q96\nChapters\nNone\nChapters -&gt; Water Cycle Changes\n\n\n106\nChapter\nWeather and Climate Extreme Events in a Changi...\nhttps://climatekg.tibwiki.io/entity/Q101\nhttps://climatekg.tibwiki.io/entity/Q81\nQ101\nhttps://climatekg.tibwiki.io/wiki/Item:Q101\nChapters\nNone\nChapters -&gt; Weather and Climate Extreme Events...\n\n\n\n\n107 rows × 9 columns\n\n\n\nThis table shows the live population of the report hierarchy and how each item is nested within it.\n\n\n\n\nShow code\nfrom IPython.display import HTML, display\n\nhierarchy_q_map = {\n    \"Work\": \"Q2\",\n    \"Report Series\": \"Q3\",\n    \"Report\": \"Q4\",\n    \"Text Division\": \"Q5\",\n    \"Chapter\": \"Q6\",\n}\n\nreport_tree = full_hierarchy_df.copy()\n\nif report_tree.empty:\n    print(\"No report hierarchy rows available to list.\")\nelse:\n    report_tree[\"class_q\"] = report_tree[\"class\"].map(hierarchy_q_map).fillna(\"Q?\")\n    report_tree[\"item\"] = report_tree.get(\"item\", pd.Series(\"\", index=report_tree.index)).fillna(\"\")\n    report_tree[\"parent\"] = report_tree.get(\"parent\", pd.Series(\"\", index=report_tree.index)).fillna(\"\")\n    report_tree[\"name\"] = report_tree[\"name\"].fillna(\"\")\n\n    report_lookup = (\n        report_tree[report_tree[\"class\"] == \"Report\"]\n        [[\"item\", \"name\"]]\n        .drop_duplicates(subset=[\"item\"], keep=\"first\")\n        .set_index(\"item\")[\"name\"]\n        .to_dict()\n    )\n\n    work_rows = report_tree[report_tree[\"class\"] == \"Work\"].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n    work_rows = work_rows[~work_rows[\"item\"].fillna(\"\").str.endswith(\"/Q3\", na=False)].copy()\n    work_rows = work_rows[~work_rows[\"name\"].fillna(\"\").str.strip().eq(\"Report Series\")].copy()\n    series_rows = report_tree[report_tree[\"class\"] == \"Report Series\"].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n    series_rows = series_rows[~series_rows[\"item\"].fillna(\"\").str.endswith(\"/Q3\", na=False)].copy()\n    series_rows = series_rows[~series_rows[\"name\"].fillna(\"\").str.strip().eq(\"Report Series\")].copy()\n    helper_q7_rows = report_tree[report_tree[\"item\"].str.endswith(\"/Q7\", na=False)].copy()\n    helper_q7_rows = helper_q7_rows[~helper_q7_rows[\"name\"].fillna(\"\").str.strip().eq(\"Report Series\")].copy()\n    if not helper_q7_rows.empty:\n        helper_q7_rows = helper_q7_rows[(helper_q7_rows[\"class\"] == \"Work\") | (helper_q7_rows[\"class\"] == \"Report Series\")].copy()\n        helper_q7_rows[\"display_name\"] = helper_q7_rows[\"name\"].fillna(\"Q7\")\n        if series_rows.empty:\n            series_rows = helper_q7_rows[[\"item\", \"display_name\", \"wiki_link\"]].rename(columns={\"display_name\": \"name\"})\n        if work_rows.empty:\n            work_rows = helper_q7_rows[[\"item\", \"display_name\", \"wiki_link\"]].rename(columns={\"display_name\": \"name\"})\n    text_divisions = report_tree[report_tree[\"class\"] == \"Text Division\"].copy()\n    text_divisions[\"report_name\"] = text_divisions[\"parent\"].map(report_lookup).fillna(\"Unassigned\")\n\n    chapters = report_tree[report_tree[\"class\"] == \"Chapter\"].copy()\n    td_lookup = (\n        text_divisions[[\"item\", \"name\"]]\n        .drop_duplicates(subset=[\"item\"], keep=\"first\")\n        .set_index(\"item\")[\"name\"]\n        .to_dict()\n    )\n    chapters[\"text_division_name\"] = chapters[\"parent\"].map(td_lookup).fillna(\"Unassigned\")\n\n    reports = (\n        report_tree[report_tree[\"class\"] == \"Report\"]\n        .drop_duplicates(subset=[\"item\"], keep=\"first\")\n        .sort_values(\"name\")\n    )\n\n    def render_title(row, label_field=\"name\"):\n        label = row.get(label_field) or row.get(\"name\") or \"Unnamed item\"\n        item_ref = row.get(\"item\")\n        item_id = item_ref.rsplit(\"/\", 1)[-1] if isinstance(item_ref, str) and \"/\" in item_ref else None\n        if item_id:\n            label = f\"{label} ({item_id})\"\n        if pd.notna(row.get(\"wiki_link\")) and str(row[\"wiki_link\"]).strip():\n            return f'&lt;a href=\"{row[\"wiki_link\"]}\" target=\"_blank\"&gt;{label}&lt;/a&gt;'\n        return str(label)\n\n    html_parts = ['&lt;div&gt;&lt;strong&gt;Work, report series, and nested report structure&lt;/strong&gt;&lt;ul&gt;']\n\n    if work_rows.empty:\n        html_parts.append('&lt;li&gt;&lt;em&gt;No work items found.&lt;/em&gt;&lt;/li&gt;')\n    else:\n        for _, work_row in work_rows.iterrows():\n            work_title = render_title(work_row)\n            html_parts.append(f'&lt;li&gt;&lt;strong&gt;Work:&lt;/strong&gt; {work_title}&lt;ul&gt;')\n\n            display_series = series_rows[series_rows[\"item\"] == work_row[\"item\"]].copy()\n            if display_series.empty and not helper_q7_rows.empty:\n                display_series = helper_q7_rows[helper_q7_rows[\"item\"] == work_row[\"item\"]].copy()\n            if display_series.empty:\n                display_series = pd.DataFrame(columns=[\"item\", \"name\", \"wiki_link\"])\n\n            for _, series_row in display_series.iterrows():\n                series_title = render_title(series_row)\n                html_parts.append(f'&lt;li&gt;&lt;strong&gt;Report Series:&lt;/strong&gt; {series_title}&lt;ul&gt;')\n\n                series_reports = reports[reports[\"parent\"] == series_row[\"item\"]].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n                if series_reports.empty:\n                    series_reports = reports[reports[\"parent\"] == work_row[\"item\"]].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n\n                if series_reports.empty:\n                    html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n                    continue\n\n                for _, report_row in series_reports.iterrows():\n                    report_uri = report_row[\"item\"]\n                    report_title = render_title(report_row)\n                    html_parts.append(f'&lt;li&gt;&lt;strong&gt;{report_title}&lt;/strong&gt; — {report_row[\"class\"]} ({report_row[\"class_q\"]})&lt;ul&gt;')\n\n                    report_text_divisions = text_divisions[\n                        text_divisions[\"parent\"] == report_uri\n                    ].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n\n                    if report_text_divisions.empty:\n                        html_parts.append('&lt;li&gt;&lt;em&gt;No text divisions nested under this report.&lt;/em&gt;&lt;/li&gt;')\n                    else:\n                        for _, td in report_text_divisions.iterrows():\n                            td_title = render_title(td)\n                            html_parts.append(f'&lt;li&gt;&lt;strong&gt;{td_title}&lt;/strong&gt; — {td[\"class\"]} ({td[\"class_q\"]})&lt;ul&gt;')\n\n                            report_chapters = chapters[\n                                (chapters[\"parent\"] == td[\"item\"]) | (chapters[\"item\"] == td[\"item\"])\n                            ].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n\n                            if report_chapters.empty:\n                                html_parts.append('&lt;li&gt;&lt;em&gt;No chapters nested under this text division.&lt;/em&gt;&lt;/li&gt;')\n                            else:\n                                for _, ch in report_chapters.iterrows():\n                                    ch_title = render_title(ch)\n                                    html_parts.append(f'&lt;li&gt;{ch_title} — {ch[\"class\"]} ({ch[\"class_q\"]})&lt;/li&gt;')\n\n                            html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n                    html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n                html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n            if series_rows.empty and not reports[reports[\"parent\"] == work_row[\"item\"]].empty:\n                direct_reports = reports[reports[\"parent\"] == work_row[\"item\"]].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n                if not direct_reports.empty:\n                    html_parts.append('&lt;li&gt;&lt;strong&gt;Reports directly under this work:&lt;/strong&gt;&lt;ul&gt;')\n                    for _, report_row in direct_reports.iterrows():\n                        report_title = render_title(report_row)\n                        html_parts.append(f'&lt;li&gt;{report_title} — {report_row[\"class\"]} ({report_row[\"class_q\"]})&lt;/li&gt;')\n                    html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n    html_parts.append('&lt;/ul&gt;&lt;/div&gt;')\n    display(HTML(''.join(html_parts)))\n\nprint(\"This view shows the full Report hierarchy, including Work and Report Series above the report entries.\")\n\n\nWork, report series, and nested report structureWork: IPCC Sixth Assessment Report (Q7)Report Series: IPCC Sixth Assessment Report (Q7)Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (Q189) — Report (Q4)Chapters (Text Division) (Q191) — Text Division (Q5)Longer Report (Q192) — Chapter (Q6)Special Report: Climate Change and Land (Q35) — Report (Q4)Chapters (Text Division) (Q42) — Text Division (Q5)Desertification (Q48) — Chapter (Q6)Food security (Q53) — Chapter (Q6)Framing and context (Q44) — Chapter (Q6)Interlinkages between desertification, land degradation, food security and greenhouse gas fluxes: Synergies, trade-offs and integrated response options (Q54) — Chapter (Q6)Land degradation (Q50) — Chapter (Q6)Land–climate interactions (Q45) — Chapter (Q6)Risk management and decision-making in relation to sustainable development (Q55) — Chapter (Q6)Special Report: Global Warming of 1.5°C (Q10) — Report (Q4)Chapters (Text Division) (Q18) — Text Division (Q5)Framing and Context (Q21) — Chapter (Q6)Impacts of 1.5°C Global Warming on Natural and Human Systems (Q26) — Chapter (Q6)Mitigation Pathways Compatible with 1.5°C in the Context of Sustainable Development (Q24) — Chapter (Q6)Strengthening and Implementing the Global Response (Q30) — Chapter (Q6)Sustainable Development, Poverty Eradication and Reducing Inequalities (Q33) — Chapter (Q6)Special Report: The Ocean and Cryosphere in a Changing Climate (Q57) — Report (Q4)Chapters (Text Division) (Q62) — Text Division (Q5)Changing Ocean, Marine Ecosystems, and Dependent Communities (Q72) — Chapter (Q6)Extremes, Abrupt Changes and Managing Risks (Q74) — Chapter (Q6)Framing and Context of the Report (Q64) — Chapter (Q6)High Mountain Areas (Q67) — Chapter (Q6)Polar Regions (Q69) — Chapter (Q6)Sea Level Rise and Implications for Low-Lying Islands, Coasts and Communities (Q71) — Chapter (Q6)Cross-Chapter Box (Text Division) (Q75) — Text Division (Q5)Integrative Cross-Chapter Box on Low-lying Islands and Coasts (Q76) — Chapter (Q6)Working Group I: Climate Change 2021 – The Physical Science Basis (Q77) — Report (Q4)Atlas (Text Division) (Q104) — Text Division (Q5)Atlas (Text Division) (Q104) — Chapter (Q6)Chapters (Q81) — Text Division (Q5)Changing State of the Climate System (Q85) — Chapter (Q6)Climate Change Information for Regional Impact and for Risk Assessment (Q103) — Chapter (Q6)Framing, Context, and Methods (Q83) — Chapter (Q6)Future Global Climate: Scenario-based Projections and Near-term Information (Q88) — Chapter (Q6)Global Carbon and Other Biogeochemical Cycles and Feedbacks (Q90) — Chapter (Q6)Human Influence on the Climate System (Q87) — Chapter (Q6)Linking Global to Regional Climate Change (Q100) — Chapter (Q6)Ocean, Cryosphere and Sea Level Change (Q98) — Chapter (Q6)Short-lived Climate Forcers (Q93) — Chapter (Q6)The Earth’s Energy Budget, Climate Feedbacks and Climate Sensitivity (Q95) — Chapter (Q6)Water Cycle Changes (Q96) — Chapter (Q6)Weather and Climate Extreme Events in a Changing Climate (Q101) — Chapter (Q6)Working Group II: Climate Change 2022 – Impacts, Adaptation and Vulnerability (Q106) — Report (Q4)Chapters (Text Division) (Q110) — Text Division (Q5)Africa (Q126) — Chapter (Q6)Asia (Q127) — Chapter (Q6)Central and South America (Q129) — Chapter (Q6)Cities, Settlements and Key Infrastructure (Q120) — Chapter (Q6)Climate Resilient Development Pathways (Q136) — Chapter (Q6)Decision-Making Options for Managing Risk (Q135) — Chapter (Q6)Europe (Q130) — Chapter (Q6)Food, Fibre and Other Ecosystem Products (Q117) — Chapter (Q6)Health, Wellbeing and the Changing Structure of Communities (Q123) — Chapter (Q6)Key Risks across Sectors and Regions (Q133) — Chapter (Q6)North America (Q131) — Chapter (Q6)Oceans and Coastal Ecosystems and Their Services (Q114) — Chapter (Q6)Point of Departure and Key Concepts (Q111) — Chapter (Q6)Poverty, Livelihoods and Sustainable Development (Q125) — Chapter (Q6)Small Islands (Q132) — Chapter (Q6)Terrestrial and Freshwater Ecosystems and Their Services (Q112) — Chapter (Q6)Water (Q116) — Chapter (Q6)Cross-Chapter Papers (Text Division) (Q137) — Text Division (Q5)Biodiversity Hotspots (Q140) — Chapter (Q6)Cities and Settlements by the Sea (Q141) — Chapter (Q6)Deserts, Semiarid Areas and Desertification (Q142) — Chapter (Q6)Mediterranean Region (Q143) — Chapter (Q6)Mountains (Q145) — Chapter (Q6)Polar Regions (Q146) — Chapter (Q6)Tropical Forests (Q149) — Chapter (Q6)Working Group III: Climate Change 2022 – Mitigation of Climate Change (Q150) — Report (Q4)Chapters (Text Division) (Q153) — Text Division (Q5)Accelerating the Transition in the Context of Sustainable Development (Q188) — Chapter (Q6)Agriculture, Forestry and Other Land Uses (AFOLU) (Q170) — Chapter (Q6)Buildings (Q174) — Chapter (Q6)Cross-sectoral Perspectives (Q179) — Chapter (Q6)Demand, Services and Social Aspects of Mitigation (Q164) — Chapter (Q6)Emissions Trends and Drivers (Q157) — Chapter (Q6)Energy Systems (Q168) — Chapter (Q6)Industry (Q178) — Chapter (Q6)Innovation, Technology Development and Transfer (Q186) — Chapter (Q6)International Cooperation (Q183) — Chapter (Q6)Introduction and Framing (Q154) — Chapter (Q6)Investment and Finance (Q184) — Chapter (Q6)Mitigation Pathways Compatible with Long-term Goals (Q158) — Chapter (Q6)Mitigation and Development Pathways in the Near to Mid-term (Q160) — Chapter (Q6)National and Sub-national Policies and Institutions (Q181) — Chapter (Q6)Transport (Q176) — Chapter (Q6)Urban Systems and Other Settlements (Q172) — Chapter (Q6)\n\n\nThis view shows the full Report hierarchy, including Work and Report Series above the report entries.\n\n\n\n\n\nThis view turns the table into a readable hierarchy so a reader can quickly find a report part and trace its position in the corpus from the top-level work down to the chapter or section it belongs to.\n\n\nShow code\nimport ipywidgets as widgets\nfrom IPython.display import HTML, display\n\nhierarchy_lookup = full_hierarchy_df.copy()\nhierarchy_lookup[\"class_rank\"] = hierarchy_lookup[\"class\"].map({\"Work\": 1, \"Report Series\": 2, \"Report\": 3, \"Text Division\": 4, \"Chapter\": 5}).fillna(99)\nhierarchy_lookup[\"path\"] = hierarchy_lookup[\"nested_structure\"].fillna(hierarchy_lookup[\"name\"])\nhierarchy_lookup = hierarchy_lookup.sort_values([\"class_rank\", \"name\"]).drop_duplicates(subset=[\"name\"], keep='first')\n\nsearch_box = widgets.Text(\n    value='',\n    placeholder='Search names or path...',\n    description='Find report part:',\n    layout=widgets.Layout(width='500px')\n)\noutput = widgets.Output()\n\ndef render_matches(change=None):\n    query = search_box.value.strip().lower()\n    matches = hierarchy_lookup.copy()\n    if query:\n        matches = matches[\n            matches['name'].str.lower().str.contains(query, na=False)\n            | matches['path'].str.lower().str.contains(query, na=False)\n            | matches['class'].str.lower().str.contains(query, na=False)\n        ]\n\n    html = '&lt;div&gt;&lt;strong&gt;Nested report hierarchy&lt;/strong&gt;&lt;ul&gt;'\n    if matches.empty:\n        html += '&lt;li&gt;No matching report part found.&lt;/li&gt;'\n    else:\n        for _, row in matches.head(50).iterrows():\n            label = row['name']\n            if pd.notna(row.get('wiki_link')) and str(row['wiki_link']).strip():\n                label = f\"&lt;a href=\\\"{row['wiki_link']}\\\" target=\\\"_blank\\\"&gt;{row['name']} &lt;/a&gt;\"\n            parent_text = row['parent'] if pd.notna(row.get('parent')) else 'top level'\n            html += f\"&lt;li&gt;&lt;strong&gt;{label}&lt;/strong&gt; ({row['class']})&lt;br&gt;Parent: {parent_text}&lt;br&gt;Path: {row['path']} &lt;/li&gt;\"\n    html += '&lt;/ul&gt;&lt;/div&gt;'\n\n    with output:\n        output.clear_output()\n        display(HTML(html))\n\nsearch_box.observe(render_matches, names='value')\nrender_matches()\ndisplay(search_box, output)\n\n\n\n\n\n\n\n\n\n\n\n\nThe ER model recorded in The Rock defines the intended corpus structure: Q2 Work, Q3 Report Series, Q4 Report, Q5 Text Division, and Q6 Chapter. In that schema, P3 is the parent / part-of relationship and P4 is the child / parts relationship.\nThe live graph is now populated across the expected report hierarchy: class counts show items at all five levels, from Q2 through Q6. This means the graph is no longer a chapter-only snapshot and now contains a working structure that can be compared directly against the ER model.\nThe current data therefore supports a more nuanced conclusion: the graph reflects a genuinely populated report hierarchy, while the notebook continues to use the canonical ER model as the baseline for checking which entities and relationship patterns are present and how they fit together."
+  },
+  {
+    "objectID": "sparql_queries/report-structure.html#full-hierarchy-contents",
+    "href": "sparql_queries/report-structure.html#full-hierarchy-contents",
+    "title": "Report Structure",
+    "section": "",
+    "text": "This table shows the items currently populating the report hierarchy, with their class, direct parent/child links, and the corresponding wiki page when it exists. It is the complete live view of the structure that the model describes.\n\n\nShow code\nfull_hierarchy_query = f'''\nPREFIX wd: &lt;{ENTITY_NS}&gt;\nPREFIX wdt: &lt;{PROPERTY_NS}&gt;\n\nSELECT ?item ?itemLabel ?class ?classLabel ?parent ?parentLabel ?child ?childLabel\nWHERE {{\n  VALUES ?class {{ wd:Q2 wd:Q3 wd:Q4 wd:Q5 wd:Q6 }}\n  ?item wdt:P1 ?class .\n  OPTIONAL {{ ?item wdt:P3 ?parent . }}\n  OPTIONAL {{ ?item wdt:P4 ?child . }}\n  SERVICE wikibase:label {{ bd:serviceParam wikibase:language \"en\". }}\n}}\nORDER BY ?class ?itemLabel\n'''\n\nfull_hierarchy = build_sparql_client(SPARQL_ENDPOINT)\nfull_hierarchy.setQuery(full_hierarchy_query)\nfull_hierarchy.setReturnFormat(JSON)\nfull_hierarchy_results = full_hierarchy.query().convert()\nfull_hierarchy_rows = full_hierarchy_results.get(\"results\", {}).get(\"bindings\", [])\nfull_hierarchy_df = pd.DataFrame([\n    {\n        \"class\": None,\n        \"classLabel\": None,\n        \"item\": None,\n        \"itemLabel\": None,\n        \"parent\": None,\n        \"parentLabel\": None,\n        \"child\": None,\n        \"childLabel\": None,\n    } | {k: v[\"value\"] for k, v in row.items()}\n    for row in full_hierarchy_rows\n])\n\nif not full_hierarchy_df.empty:\n    full_hierarchy_df[\"item_id\"] = full_hierarchy_df[\"item\"].str.rsplit(\"/\", n=1, expand=True)[1]\n    full_hierarchy_df[\"wiki_url\"] = full_hierarchy_df[\"item_id\"].map(lambda v: f\"{WIKIBASE_URL}/wiki/Item:{v}\")\n    full_hierarchy_df[\"nested_structure\"] = full_hierarchy_df.apply(\n        lambda row: f\"{row['parentLabel']} -&gt; {row['itemLabel']}\" if pd.notna(row.get('parentLabel')) else row['itemLabel'],\n        axis=1,\n    )\n    full_hierarchy_df = full_hierarchy_df[[\n        \"classLabel\",\n        \"itemLabel\",\n        \"item\",\n        \"parent\",\n        \"item_id\",\n        \"wiki_url\",\n        \"parentLabel\",\n        \"childLabel\",\n        \"nested_structure\",\n    ]].rename(columns={\n        'classLabel': 'class',\n        'itemLabel': 'name',\n        'item': 'item',\n        'parent': 'parent',\n        'item_id': 'P number',\n        'wiki_url': 'wiki_link',\n        'parentLabel': 'parent_label',\n        'childLabel': 'part',\n        'nested_structure': 'nested_structure',\n    })\n    display(full_hierarchy_df)\nelse:\n    print(\"No items found for the canonical hierarchy in the current graph.\")\n\nprint(\"This table shows the live population of the report hierarchy and how each item is nested within it.\")\n\n\n\n\n\n\n\n\n\nclass\nname\nitem\nparent\nP number\nwiki_link\nparent_label\npart\nnested_structure\n\n\n\n\n0\nWork\nIPCC Sixth Assessment Report\nhttps://climatekg.tibwiki.io/entity/Q7\nNaN\nQ7\nhttps://climatekg.tibwiki.io/wiki/Item:Q7\nNaN\nNone\nIPCC Sixth Assessment Report\n\n\n1\nWork\nReport Series\nhttps://climatekg.tibwiki.io/entity/Q3\nNaN\nQ3\nhttps://climatekg.tibwiki.io/wiki/Item:Q3\nNaN\nNone\nReport Series\n\n\n2\nReport Series\nIPCC Sixth Assessment Report\nhttps://climatekg.tibwiki.io/entity/Q7\nNaN\nQ7\nhttps://climatekg.tibwiki.io/wiki/Item:Q7\nNaN\nNone\nIPCC Sixth Assessment Report\n\n\n3\nReport\nClimate Change 2023: Synthesis Report. Contrib...\nhttps://climatekg.tibwiki.io/entity/Q189\nhttps://climatekg.tibwiki.io/entity/Q7\nQ189\nhttps://climatekg.tibwiki.io/wiki/Item:Q189\nIPCC Sixth Assessment Report\nNone\nIPCC Sixth Assessment Report -&gt; Climate Change...\n\n\n4\nReport\nSpecial Report: Climate Change and Land\nhttps://climatekg.tibwiki.io/entity/Q35\nhttps://climatekg.tibwiki.io/entity/Q7\nQ35\nhttps://climatekg.tibwiki.io/wiki/Item:Q35\nIPCC Sixth Assessment Report\nNone\nIPCC Sixth Assessment Report -&gt; Special Report...\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n102\nChapter\nTropical Forests\nhttps://climatekg.tibwiki.io/entity/Q149\nhttps://climatekg.tibwiki.io/entity/Q137\nQ149\nhttps://climatekg.tibwiki.io/wiki/Item:Q149\nCross-Chapter Papers (Text Division)\nNone\nCross-Chapter Papers (Text Division) -&gt; Tropic...\n\n\n103\nChapter\nUrban Systems and Other Settlements\nhttps://climatekg.tibwiki.io/entity/Q172\nhttps://climatekg.tibwiki.io/entity/Q153\nQ172\nhttps://climatekg.tibwiki.io/wiki/Item:Q172\nChapters (Text Division)\nNone\nChapters (Text Division) -&gt; Urban Systems and ...\n\n\n104\nChapter\nWater\nhttps://climatekg.tibwiki.io/entity/Q116\nhttps://climatekg.tibwiki.io/entity/Q110\nQ116\nhttps://climatekg.tibwiki.io/wiki/Item:Q116\nChapters (Text Division)\nNone\nChapters (Text Division) -&gt; Water\n\n\n105\nChapter\nWater Cycle Changes\nhttps://climatekg.tibwiki.io/entity/Q96\nhttps://climatekg.tibwiki.io/entity/Q81\nQ96\nhttps://climatekg.tibwiki.io/wiki/Item:Q96\nChapters\nNone\nChapters -&gt; Water Cycle Changes\n\n\n106\nChapter\nWeather and Climate Extreme Events in a Changi...\nhttps://climatekg.tibwiki.io/entity/Q101\nhttps://climatekg.tibwiki.io/entity/Q81\nQ101\nhttps://climatekg.tibwiki.io/wiki/Item:Q101\nChapters\nNone\nChapters -&gt; Weather and Climate Extreme Events...\n\n\n\n\n107 rows × 9 columns\n\n\n\nThis table shows the live population of the report hierarchy and how each item is nested within it.\n\n\n\n\nShow code\nfrom IPython.display import HTML, display\n\nhierarchy_q_map = {\n    \"Work\": \"Q2\",\n    \"Report Series\": \"Q3\",\n    \"Report\": \"Q4\",\n    \"Text Division\": \"Q5\",\n    \"Chapter\": \"Q6\",\n}\n\nreport_tree = full_hierarchy_df.copy()\n\nif report_tree.empty:\n    print(\"No report hierarchy rows available to list.\")\nelse:\n    report_tree[\"class_q\"] = report_tree[\"class\"].map(hierarchy_q_map).fillna(\"Q?\")\n    report_tree[\"item\"] = report_tree.get(\"item\", pd.Series(\"\", index=report_tree.index)).fillna(\"\")\n    report_tree[\"parent\"] = report_tree.get(\"parent\", pd.Series(\"\", index=report_tree.index)).fillna(\"\")\n    report_tree[\"name\"] = report_tree[\"name\"].fillna(\"\")\n\n    report_lookup = (\n        report_tree[report_tree[\"class\"] == \"Report\"]\n        [[\"item\", \"name\"]]\n        .drop_duplicates(subset=[\"item\"], keep=\"first\")\n        .set_index(\"item\")[\"name\"]\n        .to_dict()\n    )\n\n    work_rows = report_tree[report_tree[\"class\"] == \"Work\"].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n    work_rows = work_rows[~work_rows[\"item\"].fillna(\"\").str.endswith(\"/Q3\", na=False)].copy()\n    work_rows = work_rows[~work_rows[\"name\"].fillna(\"\").str.strip().eq(\"Report Series\")].copy()\n    series_rows = report_tree[report_tree[\"class\"] == \"Report Series\"].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n    series_rows = series_rows[~series_rows[\"item\"].fillna(\"\").str.endswith(\"/Q3\", na=False)].copy()\n    series_rows = series_rows[~series_rows[\"name\"].fillna(\"\").str.strip().eq(\"Report Series\")].copy()\n    helper_q7_rows = report_tree[report_tree[\"item\"].str.endswith(\"/Q7\", na=False)].copy()\n    helper_q7_rows = helper_q7_rows[~helper_q7_rows[\"name\"].fillna(\"\").str.strip().eq(\"Report Series\")].copy()\n    if not helper_q7_rows.empty:\n        helper_q7_rows = helper_q7_rows[(helper_q7_rows[\"class\"] == \"Work\") | (helper_q7_rows[\"class\"] == \"Report Series\")].copy()\n        helper_q7_rows[\"display_name\"] = helper_q7_rows[\"name\"].fillna(\"Q7\")\n        if series_rows.empty:\n            series_rows = helper_q7_rows[[\"item\", \"display_name\", \"wiki_link\"]].rename(columns={\"display_name\": \"name\"})\n        if work_rows.empty:\n            work_rows = helper_q7_rows[[\"item\", \"display_name\", \"wiki_link\"]].rename(columns={\"display_name\": \"name\"})\n    text_divisions = report_tree[report_tree[\"class\"] == \"Text Division\"].copy()\n    text_divisions[\"report_name\"] = text_divisions[\"parent\"].map(report_lookup).fillna(\"Unassigned\")\n\n    chapters = report_tree[report_tree[\"class\"] == \"Chapter\"].copy()\n    td_lookup = (\n        text_divisions[[\"item\", \"name\"]]\n        .drop_duplicates(subset=[\"item\"], keep=\"first\")\n        .set_index(\"item\")[\"name\"]\n        .to_dict()\n    )\n    chapters[\"text_division_name\"] = chapters[\"parent\"].map(td_lookup).fillna(\"Unassigned\")\n\n    reports = (\n        report_tree[report_tree[\"class\"] == \"Report\"]\n        .drop_duplicates(subset=[\"item\"], keep=\"first\")\n        .sort_values(\"name\")\n    )\n\n    def render_title(row, label_field=\"name\"):\n        label = row.get(label_field) or row.get(\"name\") or \"Unnamed item\"\n        item_ref = row.get(\"item\")\n        item_id = item_ref.rsplit(\"/\", 1)[-1] if isinstance(item_ref, str) and \"/\" in item_ref else None\n        if item_id:\n            label = f\"{label} ({item_id})\"\n        if pd.notna(row.get(\"wiki_link\")) and str(row[\"wiki_link\"]).strip():\n            return f'&lt;a href=\"{row[\"wiki_link\"]}\" target=\"_blank\"&gt;{label}&lt;/a&gt;'\n        return str(label)\n\n    html_parts = ['&lt;div&gt;&lt;strong&gt;Work, report series, and nested report structure&lt;/strong&gt;&lt;ul&gt;']\n\n    if work_rows.empty:\n        html_parts.append('&lt;li&gt;&lt;em&gt;No work items found.&lt;/em&gt;&lt;/li&gt;')\n    else:\n        for _, work_row in work_rows.iterrows():\n            work_title = render_title(work_row)\n            html_parts.append(f'&lt;li&gt;&lt;strong&gt;Work:&lt;/strong&gt; {work_title}&lt;ul&gt;')\n\n            display_series = series_rows[series_rows[\"item\"] == work_row[\"item\"]].copy()\n            if display_series.empty and not helper_q7_rows.empty:\n                display_series = helper_q7_rows[helper_q7_rows[\"item\"] == work_row[\"item\"]].copy()\n            if display_series.empty:\n                display_series = pd.DataFrame(columns=[\"item\", \"name\", \"wiki_link\"])\n\n            for _, series_row in display_series.iterrows():\n                series_title = render_title(series_row)\n                html_parts.append(f'&lt;li&gt;&lt;strong&gt;Report Series:&lt;/strong&gt; {series_title}&lt;ul&gt;')\n\n                series_reports = reports[reports[\"parent\"] == series_row[\"item\"]].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n                if series_reports.empty:\n                    series_reports = reports[reports[\"parent\"] == work_row[\"item\"]].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n\n                if series_reports.empty:\n                    html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n                    continue\n\n                for _, report_row in series_reports.iterrows():\n                    report_uri = report_row[\"item\"]\n                    report_title = render_title(report_row)\n                    html_parts.append(f'&lt;li&gt;&lt;strong&gt;{report_title}&lt;/strong&gt; — {report_row[\"class\"]} ({report_row[\"class_q\"]})&lt;ul&gt;')\n\n                    report_text_divisions = text_divisions[\n                        text_divisions[\"parent\"] == report_uri\n                    ].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n\n                    if report_text_divisions.empty:\n                        html_parts.append('&lt;li&gt;&lt;em&gt;No text divisions nested under this report.&lt;/em&gt;&lt;/li&gt;')\n                    else:\n                        for _, td in report_text_divisions.iterrows():\n                            td_title = render_title(td)\n                            html_parts.append(f'&lt;li&gt;&lt;strong&gt;{td_title}&lt;/strong&gt; — {td[\"class\"]} ({td[\"class_q\"]})&lt;ul&gt;')\n\n                            report_chapters = chapters[\n                                (chapters[\"parent\"] == td[\"item\"]) | (chapters[\"item\"] == td[\"item\"])\n                            ].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n\n                            if report_chapters.empty:\n                                html_parts.append('&lt;li&gt;&lt;em&gt;No chapters nested under this text division.&lt;/em&gt;&lt;/li&gt;')\n                            else:\n                                for _, ch in report_chapters.iterrows():\n                                    ch_title = render_title(ch)\n                                    html_parts.append(f'&lt;li&gt;{ch_title} — {ch[\"class\"]} ({ch[\"class_q\"]})&lt;/li&gt;')\n\n                            html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n                    html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n                html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n            if series_rows.empty and not reports[reports[\"parent\"] == work_row[\"item\"]].empty:\n                direct_reports = reports[reports[\"parent\"] == work_row[\"item\"]].drop_duplicates(subset=[\"item\"], keep=\"first\").sort_values(\"name\")\n                if not direct_reports.empty:\n                    html_parts.append('&lt;li&gt;&lt;strong&gt;Reports directly under this work:&lt;/strong&gt;&lt;ul&gt;')\n                    for _, report_row in direct_reports.iterrows():\n                        report_title = render_title(report_row)\n                        html_parts.append(f'&lt;li&gt;{report_title} — {report_row[\"class\"]} ({report_row[\"class_q\"]})&lt;/li&gt;')\n                    html_parts.append('&lt;/ul&gt;&lt;/li&gt;')\n\n    html_parts.append('&lt;/ul&gt;&lt;/div&gt;')\n    display(HTML(''.join(html_parts)))\n\nprint(\"This view shows the full Report hierarchy, including Work and Report Series above the report entries.\")\n\n\nWork, report series, and nested report structureWork: IPCC Sixth Assessment Report (Q7)Report Series: IPCC Sixth Assessment Report (Q7)Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (Q189) — Report (Q4)Chapters (Text Division) (Q191) — Text Division (Q5)Longer Report (Q192) — Chapter (Q6)Special Report: Climate Change and Land (Q35) — Report (Q4)Chapters (Text Division) (Q42) — Text Division (Q5)Desertification (Q48) — Chapter (Q6)Food security (Q53) — Chapter (Q6)Framing and context (Q44) — Chapter (Q6)Interlinkages between desertification, land degradation, food security and greenhouse gas fluxes: Synergies, trade-offs and integrated response options (Q54) — Chapter (Q6)Land degradation (Q50) — Chapter (Q6)Land–climate interactions (Q45) — Chapter (Q6)Risk management and decision-making in relation to sustainable development (Q55) — Chapter (Q6)Special Report: Global Warming of 1.5°C (Q10) — Report (Q4)Chapters (Text Division) (Q18) — Text Division (Q5)Framing and Context (Q21) — Chapter (Q6)Impacts of 1.5°C Global Warming on Natural and Human Systems (Q26) — Chapter (Q6)Mitigation Pathways Compatible with 1.5°C in the Context of Sustainable Development (Q24) — Chapter (Q6)Strengthening and Implementing the Global Response (Q30) — Chapter (Q6)Sustainable Development, Poverty Eradication and Reducing Inequalities (Q33) — Chapter (Q6)Special Report: The Ocean and Cryosphere in a Changing Climate (Q57) — Report (Q4)Chapters (Text Division) (Q62) — Text Division (Q5)Changing Ocean, Marine Ecosystems, and Dependent Communities (Q72) — Chapter (Q6)Extremes, Abrupt Changes and Managing Risks (Q74) — Chapter (Q6)Framing and Context of the Report (Q64) — Chapter (Q6)High Mountain Areas (Q67) — Chapter (Q6)Polar Regions (Q69) — Chapter (Q6)Sea Level Rise and Implications for Low-Lying Islands, Coasts and Communities (Q71) — Chapter (Q6)Cross-Chapter Box (Text Division) (Q75) — Text Division (Q5)Integrative Cross-Chapter Box on Low-lying Islands and Coasts (Q76) — Chapter (Q6)Working Group I: Climate Change 2021 – The Physical Science Basis (Q77) — Report (Q4)Atlas (Text Division) (Q104) — Text Division (Q5)Atlas (Text Division) (Q104) — Chapter (Q6)Chapters (Q81) — Text Division (Q5)Changing State of the Climate System (Q85) — Chapter (Q6)Climate Change Information for Regional Impact and for Risk Assessment (Q103) — Chapter (Q6)Framing, Context, and Methods (Q83) — Chapter (Q6)Future Global Climate: Scenario-based Projections and Near-term Information (Q88) — Chapter (Q6)Global Carbon and Other Biogeochemical Cycles and Feedbacks (Q90) — Chapter (Q6)Human Influence on the Climate System (Q87) — Chapter (Q6)Linking Global to Regional Climate Change (Q100) — Chapter (Q6)Ocean, Cryosphere and Sea Level Change (Q98) — Chapter (Q6)Short-lived Climate Forcers (Q93) — Chapter (Q6)The Earth’s Energy Budget, Climate Feedbacks and Climate Sensitivity (Q95) — Chapter (Q6)Water Cycle Changes (Q96) — Chapter (Q6)Weather and Climate Extreme Events in a Changing Climate (Q101) — Chapter (Q6)Working Group II: Climate Change 2022 – Impacts, Adaptation and Vulnerability (Q106) — Report (Q4)Chapters (Text Division) (Q110) — Text Division (Q5)Africa (Q126) — Chapter (Q6)Asia (Q127) — Chapter (Q6)Central and South America (Q129) — Chapter (Q6)Cities, Settlements and Key Infrastructure (Q120) — Chapter (Q6)Climate Resilient Development Pathways (Q136) — Chapter (Q6)Decision-Making Options for Managing Risk (Q135) — Chapter (Q6)Europe (Q130) — Chapter (Q6)Food, Fibre and Other Ecosystem Products (Q117) — Chapter (Q6)Health, Wellbeing and the Changing Structure of Communities (Q123) — Chapter (Q6)Key Risks across Sectors and Regions (Q133) — Chapter (Q6)North America (Q131) — Chapter (Q6)Oceans and Coastal Ecosystems and Their Services (Q114) — Chapter (Q6)Point of Departure and Key Concepts (Q111) — Chapter (Q6)Poverty, Livelihoods and Sustainable Development (Q125) — Chapter (Q6)Small Islands (Q132) — Chapter (Q6)Terrestrial and Freshwater Ecosystems and Their Services (Q112) — Chapter (Q6)Water (Q116) — Chapter (Q6)Cross-Chapter Papers (Text Division) (Q137) — Text Division (Q5)Biodiversity Hotspots (Q140) — Chapter (Q6)Cities and Settlements by the Sea (Q141) — Chapter (Q6)Deserts, Semiarid Areas and Desertification (Q142) — Chapter (Q6)Mediterranean Region (Q143) — Chapter (Q6)Mountains (Q145) — Chapter (Q6)Polar Regions (Q146) — Chapter (Q6)Tropical Forests (Q149) — Chapter (Q6)Working Group III: Climate Change 2022 – Mitigation of Climate Change (Q150) — Report (Q4)Chapters (Text Division) (Q153) — Text Division (Q5)Accelerating the Transition in the Context of Sustainable Development (Q188) — Chapter (Q6)Agriculture, Forestry and Other Land Uses (AFOLU) (Q170) — Chapter (Q6)Buildings (Q174) — Chapter (Q6)Cross-sectoral Perspectives (Q179) — Chapter (Q6)Demand, Services and Social Aspects of Mitigation (Q164) — Chapter (Q6)Emissions Trends and Drivers (Q157) — Chapter (Q6)Energy Systems (Q168) — Chapter (Q6)Industry (Q178) — Chapter (Q6)Innovation, Technology Development and Transfer (Q186) — Chapter (Q6)International Cooperation (Q183) — Chapter (Q6)Introduction and Framing (Q154) — Chapter (Q6)Investment and Finance (Q184) — Chapter (Q6)Mitigation Pathways Compatible with Long-term Goals (Q158) — Chapter (Q6)Mitigation and Development Pathways in the Near to Mid-term (Q160) — Chapter (Q6)National and Sub-national Policies and Institutions (Q181) — Chapter (Q6)Transport (Q176) — Chapter (Q6)Urban Systems and Other Settlements (Q172) — Chapter (Q6)\n\n\nThis view shows the full Report hierarchy, including Work and Report Series above the report entries."
+  },
+  {
+    "objectID": "sparql_queries/report-structure.html#searchable-nested-hierarchy",
+    "href": "sparql_queries/report-structure.html#searchable-nested-hierarchy",
+    "title": "Report Structure",
+    "section": "",
+    "text": "This view turns the table into a readable hierarchy so a reader can quickly find a report part and trace its position in the corpus from the top-level work down to the chapter or section it belongs to.\n\n\nShow code\nimport ipywidgets as widgets\nfrom IPython.display import HTML, display\n\nhierarchy_lookup = full_hierarchy_df.copy()\nhierarchy_lookup[\"class_rank\"] = hierarchy_lookup[\"class\"].map({\"Work\": 1, \"Report Series\": 2, \"Report\": 3, \"Text Division\": 4, \"Chapter\": 5}).fillna(99)\nhierarchy_lookup[\"path\"] = hierarchy_lookup[\"nested_structure\"].fillna(hierarchy_lookup[\"name\"])\nhierarchy_lookup = hierarchy_lookup.sort_values([\"class_rank\", \"name\"]).drop_duplicates(subset=[\"name\"], keep='first')\n\nsearch_box = widgets.Text(\n    value='',\n    placeholder='Search names or path...',\n    description='Find report part:',\n    layout=widgets.Layout(width='500px')\n)\noutput = widgets.Output()\n\ndef render_matches(change=None):\n    query = search_box.value.strip().lower()\n    matches = hierarchy_lookup.copy()\n    if query:\n        matches = matches[\n            matches['name'].str.lower().str.contains(query, na=False)\n            | matches['path'].str.lower().str.contains(query, na=False)\n            | matches['class'].str.lower().str.contains(query, na=False)\n        ]\n\n    html = '&lt;div&gt;&lt;strong&gt;Nested report hierarchy&lt;/strong&gt;&lt;ul&gt;'\n    if matches.empty:\n        html += '&lt;li&gt;No matching report part found.&lt;/li&gt;'\n    else:\n        for _, row in matches.head(50).iterrows():\n            label = row['name']\n            if pd.notna(row.get('wiki_link')) and str(row['wiki_link']).strip():\n                label = f\"&lt;a href=\\\"{row['wiki_link']}\\\" target=\\\"_blank\\\"&gt;{row['name']} &lt;/a&gt;\"\n            parent_text = row['parent'] if pd.notna(row.get('parent')) else 'top level'\n            html += f\"&lt;li&gt;&lt;strong&gt;{label}&lt;/strong&gt; ({row['class']})&lt;br&gt;Parent: {parent_text}&lt;br&gt;Path: {row['path']} &lt;/li&gt;\"\n    html += '&lt;/ul&gt;&lt;/div&gt;'\n\n    with output:\n        output.clear_output()\n        display(HTML(html))\n\nsearch_box.observe(render_matches, names='value')\nrender_matches()\ndisplay(search_box, output)"
   },
   {
     "objectID": "sparql_queries/report-structure.html#interpretation",
     "href": "sparql_queries/report-structure.html#interpretation",
     "title": "Report Structure",
-    "section": "Interpretation",
-    "text": "Interpretation\nEach row represents an item with a parent item in the report hierarchy. In the current ClimateKG graph this gives us the basic structure for a report tree: the item becomes a child of the parent node via P3.\nThis is the right foundation for the report-structure notebook because it shows how reports, sections, and related objects are connected in context rather than as isolated records.\nThe next step could be to aggregate these rows by parent and count child items, or to add a direct graph visualisation of the hierarchy."
+    "section": "",
+    "text": "The ER model recorded in The Rock defines the intended corpus structure: Q2 Work, Q3 Report Series, Q4 Report, Q5 Text Division, and Q6 Chapter. In that schema, P3 is the parent / part-of relationship and P4 is the child / parts relationship.\nThe live graph is now populated across the expected report hierarchy: class counts show items at all five levels, from Q2 through Q6. This means the graph is no longer a chapter-only snapshot and now contains a working structure that can be compared directly against the ER model.\nThe current data therefore supports a more nuanced conclusion: the graph reflects a genuinely populated report hierarchy, while the notebook continues to use the canonical ER model as the baseline for checking which entities and relationship patterns are present and how they fit together."
   },
   {
     "objectID": "sparql_queries/graph-visualisation.html",
@@ -375,14 +389,14 @@
     "href": "sparql_queries/acronyms.html",
     "title": "Acronyms",
     "section": "",
-    "text": "This notebook checks whether acronym entries are currently represented in the live ClimateKG instance and how they are linked to the report hierarchy.\nWe validate the live graph before interpreting any results, following the same query-first pattern as the other notebooks in this series.\nQuery UI: https://climatekg.tibwiki.io/query/ SPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\nPREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;\n\nSELECT ?item ?itemLabel ?class ?classLabel ?report ?reportLabel\nWHERE {\n  ?item wdt:P1 ?class .\n  ?class rdfs:label ?classLabel .\n  FILTER(LANG(?classLabel) = \"en\" && ( ?classLabel = \"Acronym\" || ?classLabel = \"Glossary term\" || ?classLabel = \"Category\" ))\n  OPTIONAL { ?item wdt:P3 ?report . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?classLabel ?itemLabel\nLIMIT 50\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\nRows returned: 0"
+    "text": "This notebook checks whether acronym entries are currently represented in the live ClimateKG instance and how they are linked to the report hierarchy.\nWe validate the live graph before interpreting any results, following the same query-first pattern as the other notebooks in this series.\nQuery UI: https://climatekg.tibwiki.io/query/ SPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\n\n\nShow code\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\n\n\n\n\nShow code\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\nPREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;\n\nSELECT ?item ?itemLabel ?class ?classLabel ?report ?reportLabel\nWHERE {\n  ?item wdt:P1 ?class .\n  ?class rdfs:label ?classLabel .\n  FILTER(LANG(?classLabel) = \"en\" && ( ?classLabel = \"Acronym\" || ?classLabel = \"Glossary term\" || ?classLabel = \"Category\" ))\n  OPTIONAL { ?item wdt:P3 ?report . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?classLabel ?itemLabel\nLIMIT 50\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\n\nRows returned: 0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf this notebook returns zero rows, that is also a valid result: it means the current live ClimateKG instance does not yet expose acronym or glossary entries under the expected class labels.\nThis is the important query-first check. Once the graph contains acronym or glossary items, the same pattern can be extended to count entries per report, summarise term families, and compare label coverage across sections and chapters."
   },
   {
     "objectID": "sparql_queries/acronyms.html#interpretation",
     "href": "sparql_queries/acronyms.html#interpretation",
     "title": "Acronyms",
-    "section": "Interpretation",
-    "text": "Interpretation\nIf this notebook returns zero rows, that is also a valid result: it means the current live ClimateKG instance does not yet expose acronym or glossary entries under the expected class labels.\nThis is the important query-first check. Once the graph contains acronym or glossary items, the same pattern can be extended to count entries per report, summarise term families, and compare label coverage across sections and chapters."
+    "section": "",
+    "text": "If this notebook returns zero rows, that is also a valid result: it means the current live ClimateKG instance does not yet expose acronym or glossary entries under the expected class labels.\nThis is the important query-first check. Once the graph contains acronym or glossary items, the same pattern can be extended to count entries per report, summarise term families, and compare label coverage across sections and chapters."
   },
   {
     "objectID": "research_data/data-vis/kg-stats-dashboard.html",
@@ -665,417 +679,11 @@
     "text": "Next step after validation\nOnce a real acronym or glossary set is present in the graph, the same pattern can be extended to:\n\ncount acronym entries by report\ncompare acronym labels across report sections\nidentify whether glossary and acronym terms share a common entity pattern\nsurface a cleaner table for narrative analysis in the Quarto site"
   },
   {
-    "objectID": "research_data/data-xml-dtd/erm/erm.html",
-    "href": "research_data/data-xml-dtd/erm/erm.html",
-    "title": "",
+    "objectID": "roadmap.html",
+    "href": "roadmap.html",
+    "title": "Roadmap",
     "section": "",
-    "text": "Code\n\n\n\n\nerDiagram\n\n    %% -- corpus-ar6.dtd ------------------------------------------\n    %% Top-level corpus structure (Work, Publication, Series, Book, Chapter)\n    %%  WORK=Q2  PUBLICATION=Q3  SERIES=Q4  BOOK=Q5  CHAPTER=Q6\n\n    WORK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2\"\n    }\n    PUBLICATION {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3\"\n        String title \"rdfs:label item label\"\n        String description \"rdfs:description item description\"\n        WikibaseItem part_of \"P3 Part of: parent Work\"\n        WikibaseItem parts \"P4 Parts: child Series or Books\"\n    }\n    SERIES {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q4\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Publication\"\n        WikibaseItem parts \"P4 Parts: child Books and Chapters\"\n    }\n    BOOK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q5\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Series\"\n        WikibaseItem parts \"P4 Parts: child Chapters\"\n    }\n    CHAPTER {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q6\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String openalex \"P9 OPENALEX\"\n        Url wiki \"P5 Wiki\"\n        Url source \"P6 Source\"\n        Url pdf \"P7 PDF\"\n        WikibaseItem tags \"P12 Has TAG\"\n        WikibaseItem part_of \"P3 Part of: parent Book\"\n    }\n    PUBLICATION ||--o{ SERIES : \"P4 contains\"\n    PUBLICATION ||--o{ BOOK : \"P4 contains\"\n    SERIES ||--o{ BOOK : \"P4 contains\"\n    SERIES |o--|{ CHAPTER : \"P4 front_matter\"\n    BOOK ||--|{ CHAPTER : \"P4 chapters\"\n\n    %% -- authors-ar6.dtd ------------------------------------------\n    %% IPCC AR6 author records linked to Chapter items via P27\n    %%  AUTHOR=Q3998\n\n    AUTHOR {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3998\"\n        String climatkg_author_id \"P20 ClimateKG Author ID: e.g. AU0001\"\n        String last_name \"P21 last name\"\n        String first_name \"P22 first name\"\n        String gender \"P23 gender: M or F\"\n        String citizenship \"P24 citizenship\"\n        String country_of_residence \"P25 country of residence\"\n        String affiliation \"P26 affiliation\"\n        WikibaseItem contributed_to \"P27 contributed to chapter: FK to Q6 Chapter\"\n    }\n    CONTRIBUTION {\n        WikibaseItem chapter_qid \"P27 contributed to chapter: FK to Chapter QID\"\n        String report \"(qualifier): AR6 report code\"\n        String role \"P28 role: qualifier on P27\"\n        Url source_url \"P6 Source: reference on P27\"\n        Time date_accessed \"P17 date accessed: reference on P27\"\n    }\n    AUTHOR ||--|{ CONTRIBUTION : \"makes\"\n    CONTRIBUTION }o--o| CHAPTER : \"P27 chapter_qid (QID ref)\"\n\n    %% -- bibliographic-ar6.dtd ------------------------------------------\n    %% DOI bibliographic enrichment added to existing Series and Chapter items\n    %%  BIB_ITEM=Q4 or Q6\n\n    BIB_ITEM {\n        WikibaseItem qid \"existing item QID: Q4 Series or Q6 Chapter\"\n        String type_disc \"type discriminator: Series or Chapter\"\n    }\n    STATEMENT {\n        String publisher_doi \"P29 Publisher (DOI)\"\n        String isbn_electronic \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        Url licence_url \"P32 Licence URL (DOI)\"\n        String abstract_doi \"P33 Abstract (DOI)\"\n    }\n    REFERENCE {\n        Url source_url \"P6 Source: reference URL\"\n        Time date_accessed \"P17 date accessed: ISO 8601\"\n        String source_version \"P19 source version: e.g. Crossref\"\n    }\n    BIB_ITEM ||--|{ STATEMENT : \"has\"\n    STATEMENT ||--|| REFERENCE : \"has\"\n    BIB_ITEM }o--o| SERIES : \"enriches (type=Series)\"\n    BIB_ITEM }o--o| CHAPTER : \"enriches (type=Chapter)\"\n\n    %% -- glossary-ar6.dtd ------------------------------------------\n    %% IPCC AR6 glossary terms (P1=Q1 Category) linked to Series via P3\n    %%  GLOSSARY_TERM=Q1\n\n    GLOSSARY_TERM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q1 Category\"\n        String name \"rdfs:label item label\"\n        String also_known_as \"skos:altLabel item alias\"\n        Monolingualtext definition \"P13 Definition\"\n        WikibaseItem part_of_series \"P3 Part of: FK to Q4 Series via series_ref\"\n    }\n    GLOSSARY_TERM }o--o{ SERIES : \"P3 Part of (series_ref)\"\n\n    %% -- acronyms-ar6.dtd ------------------------------------------\n    %% IPCC AR6 acronyms (P1=Q2087 Acronym) linked to Series reports via P3\n    %%  ACRONYM=Q2087\n\n    ACRONYM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2087\"\n        String code \"rdfs:label acronym code as item label\"\n        Monolingualtext description \"P13 Definition: multiple; source as qualifier\"\n        WikibaseItem report \"P3 Part of: FK to Q4 Series (report)\"\n    }\n    ACRONYM }o--o{ SERIES : \"P3 Part of (report)\""
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html",
-    "href": "research_data/data-vis/README-quarto.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html#prerequisites",
-    "href": "research_data/data-vis/README-quarto.html#prerequisites",
-    "title": "",
-    "section": "Prerequisites",
-    "text": "Prerequisites\nInstall Quarto from https://quarto.org/docs/get-started/"
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html#building-the-site",
-    "href": "research_data/data-vis/README-quarto.html#building-the-site",
-    "title": "",
-    "section": "Building the Site",
-    "text": "Building the Site\nNote: The Quarto project is located at the root of the repository.\nFrom the repository root:\nquarto render\nThe output will be generated in the docs/ folder at the repository root."
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html#previewing-the-site",
-    "href": "research_data/data-vis/README-quarto.html#previewing-the-site",
-    "title": "",
-    "section": "Previewing the Site",
-    "text": "Previewing the Site\nTo preview with live reload:\nquarto preview"
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
-    "href": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
-    "title": "",
-    "section": "Publishing to GitHub Pages",
-    "text": "Publishing to GitHub Pages\nIf your repository is on GitHub, you can publish to GitHub Pages:\n\nPush the docs/ folder to your repository\nGo to Settings &gt; Pages\nSet source to “Deploy from a branch”\nSelect the main branch and /docs folder\nSave\n\nYour site will be available at: https://tibhannover.github.io/Climate-KG-data/"
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html#project-structure",
-    "href": "research_data/data-vis/README-quarto.html#project-structure",
-    "title": "",
-    "section": "Project Structure",
-    "text": "Project Structure\nAt repository root: - _quarto.yml - Project configuration - index.qmd - Home page - docs/ - Generated website output\nNotebook sources: - research_data/data-vis/ar6-authors-distribution-analysis.ipynb - AR6 authors analysis - research_data/data-vis/wikibase-inventory-dashboard.ipynb - Wikibase inventory dashboard"
-  },
-  {
-    "objectID": "research_data/data-vis/README-quarto.html#configuration",
-    "href": "research_data/data-vis/README-quarto.html#configuration",
-    "title": "",
-    "section": "Configuration",
-    "text": "Configuration\nThe project is configured with: - Code folding enabled (collapsed by default, expandable) - Code tools available - Table of contents - Cosmo theme - Auto-freeze for faster re-renders"
-  },
-  {
-    "objectID": "multi-env-workflow.html",
-    "href": "multi-env-workflow.html",
-    "title": "Multi-Environment Workflow",
-    "section": "",
-    "text": "This page documents how the ClimateKG project is developed and published across the different local and public environments used during analysis and site updates.\n\n\nThe project is built as a Quarto website and rendered to the docs folder. Notebook-based analysis files under sparql_queries/ are executed against the live Wikibase instance and then published as static pages.\n\n\n\n\nUpdate the SPARQL notebooks and supporting queries.\nValidate the endpoint and credentials against the live ClimateKG instance.\nRun the site render locally with Quarto.\nCheck the generated pages in the docs output.\n\n\n\n\n\nReview the rendered site output.\nCommit the changes to the repository.\nPublish the updated site via the project deployment process."
-  },
-  {
-    "objectID": "multi-env-workflow.html#overview",
-    "href": "multi-env-workflow.html#overview",
-    "title": "Multi-Environment Workflow",
-    "section": "",
-    "text": "The project is built as a Quarto website and rendered to the docs folder. Notebook-based analysis files under sparql_queries/ are executed against the live Wikibase instance and then published as static pages."
-  },
-  {
-    "objectID": "multi-env-workflow.html#local-workflow",
-    "href": "multi-env-workflow.html#local-workflow",
-    "title": "Multi-Environment Workflow",
-    "section": "",
-    "text": "Update the SPARQL notebooks and supporting queries.\nValidate the endpoint and credentials against the live ClimateKG instance.\nRun the site render locally with Quarto.\nCheck the generated pages in the docs output."
-  },
-  {
-    "objectID": "multi-env-workflow.html#publishing-workflow",
-    "href": "multi-env-workflow.html#publishing-workflow",
-    "title": "Multi-Environment Workflow",
-    "section": "",
-    "text": "Review the rendered site output.\nCommit the changes to the repository.\nPublish the updated site via the project deployment process."
-  },
-  {
-    "objectID": "imprint.html",
-    "href": "imprint.html",
-    "title": "Imprint",
-    "section": "",
-    "text": "This is temporary Imprint content.\nLegal imprint details will be added soon."
-  },
-  {
-    "objectID": "documentation/references/ar.html",
-    "href": "documentation/references/ar.html",
-    "title": "",
-    "section": "",
-    "text": "Code\n\n\n\n\nAR1: https://www.ipcc.ch/reports/?rp=ar1 (1990) AR2: https://www.ipcc.ch/reports/?rp=ar2 (1995) AR3: https://www.ipcc.ch/reports/?rp=ar3 (2001) AR4: https://www.ipcc.ch/reports/?rp=ar4 (2007) AR5: https://www.ipcc.ch/reports/?rp=ar5 (2014)"
-  },
-  {
-    "objectID": "documentation/menu.html",
-    "href": "documentation/menu.html",
-    "title": "",
-    "section": "",
-    "text": "Code\n\n\n\n\nGet Involved! Data Analysis Data ER Model Software\nAbout Roadmap Change Log Imprint Data protection Terms of use Accessibility"
-  },
-  {
-    "objectID": "documentation/corpus-ar6-wiki-url-update.html",
-    "href": "documentation/corpus-ar6-wiki-url-update.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "documentation/corpus-ar6-wiki-url-update.html#background",
-    "href": "documentation/corpus-ar6-wiki-url-update.html#background",
-    "title": "",
-    "section": "Background",
-    "text": "Background\nThe WIKI column stores the MediaWiki page URL for each chapter item in the ClimateKG corpus. The original values used an old domain and a colon-delimited page title format, e.g.:\nhttps://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-1\nAfter the Wikibase sitelinks feature was implemented and the P5 update script (scripts/update-chapter-wiki-urls.py) was run across all environments, the canonical URLs changed to a slash-delimited format on the PROD domain, e.g.:\nhttps://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1\nThe CSV needed to be updated to match the live PROD P5 values."
-  },
-  {
-    "objectID": "documentation/corpus-ar6-wiki-url-update.html#scope",
-    "href": "documentation/corpus-ar6-wiki-url-update.html#scope",
-    "title": "",
-    "section": "Scope",
-    "text": "Scope\n\nFile: research_data/data-xml-dtd/corpus-ar6.csv\nColumn updated: WIKI (column 1)\nRows updated: 88 chapter items (all rows that already had a WIKI URL)\nRows unchanged: 17 report-level rows (WIKI column empty — these have no corresponding chapter item)"
-  },
-  {
-    "objectID": "documentation/corpus-ar6-wiki-url-update.html#update-process",
-    "href": "documentation/corpus-ar6-wiki-url-update.html#update-process",
-    "title": "",
-    "section": "Update Process",
-    "text": "Update Process\n\n1. Query PROD SPARQL for current P5 values\nThe PROD SPARQL endpoint was queried to retrieve the live P5 (Wiki URL) and P10 (DOI) for every item where P1=Q6 (Chapter):\nSELECT ?item ?p5 ?doi WHERE {\n  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P1&gt;\n        &lt;https://prod-climatekg.semanticclimate.org/entity/Q6&gt; .\n  OPTIONAL { ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P5&gt; ?p5 . }\n  OPTIONAL { ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P10&gt; ?doi . }\n}\nSPARQL endpoint: https://prod-climatekg.semanticclimate.org/query/proxy/sparql\n\n\n2. Build DOI → URL mapping\nThe SPARQL results provide a direct DOI → PROD URL mapping. DOI is stable across environments and uniquely identifies each chapter item in the CSV.\n\n\n3. Update the CSV\nFor each row in the CSV that has a non-empty WIKI value, the DOI in column 9 was looked up in the mapping and the WIKI column was replaced with the corresponding PROD URL. Rows with no WIKI value (report-level rows) were not modified.\nThe update was applied in-place using Python’s csv module to preserve field quoting."
-  },
-  {
-    "objectID": "documentation/corpus-ar6-wiki-url-update.html#url-format-change-summary",
-    "href": "documentation/corpus-ar6-wiki-url-update.html#url-format-change-summary",
-    "title": "",
-    "section": "URL Format Change Summary",
-    "text": "URL Format Change Summary\n\n\n\n\n\n\n\n\nReport\nOld format (example)\nNew format (example)\n\n\n\n\nSR15\nIPCC:Sr15:Chapter:Spm\nIPCC:AR6/SR15/SPM\n\n\nSRCCL\nIPCC:Srccl:Chapter:Summary-for-policymakers\nIPCC:AR6/SRCCL/SPM\n\n\nSROCC\nIPCC:Srocc:Chapter:Chapter-2\nIPCC:AR6/SROCC/Chapter-2\n\n\nWGI\nIPCC:Wg1:Chapter:Chapter-1\nIPCC:AR6/WGI/Chapter-1\n\n\nWGII\nIPCC:Wg2:Chapter:Chapter-1\nIPCC:AR6/WGII/Chapter-1\n\n\nWGIII\nIPCC:Wg3:Chapter:Chapter-1\nIPCC:AR6/WGIII/Chapter-1\n\n\nSYR\nIPCC:Syr\nIPCC:AR6/SYR/SPM\n\n\nSYR\nIPCC:Syr:Longer-report\nIPCC:AR6/SYR/Longer-Report\n\n\n\nAll URLs use base: https://prod-climatekg.semanticclimate.org/wiki/"
-  },
-  {
-    "objectID": "documentation/corpus-ar6-wiki-url-update.html#re-running-after-a-prod-update",
-    "href": "documentation/corpus-ar6-wiki-url-update.html#re-running-after-a-prod-update",
-    "title": "",
-    "section": "Re-running After a PROD Update",
-    "text": "Re-running After a PROD Update\nIf the PROD P5 values change (e.g. after a domain change or new chapter items), re-run the SPARQL query and apply the mapping again. The process is safe to repeat — only rows with a WIKI URL are touched.\nThe P5 update script that keeps Wikibase in sync is documented in p5-url-update-guide.md."
-  },
-  {
-    "objectID": "data-protection.html",
-    "href": "data-protection.html",
-    "title": "Data protection",
-    "section": "",
-    "text": "This is temporary Data protection content.\nA full privacy and data protection statement will be added soon."
-  },
-  {
-    "objectID": "accessibility.html",
-    "href": "accessibility.html",
-    "title": "Accessibility",
-    "section": "",
-    "text": "This is temporary Accessibility content.\nAccessibility details and contact information will be added soon."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "This is temporary About content.\nMore details will be added soon."
-  },
-  {
-    "objectID": "change-log.html",
-    "href": "change-log.html",
-    "title": "Change Log",
-    "section": "",
-    "text": "This is temporary Change Log content.\nProject updates will be tracked here."
-  },
-  {
-    "objectID": "data_protocol.html",
-    "href": "data_protocol.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "documentation/data-visualisation-and-ontology-options.html",
-    "href": "documentation/data-visualisation-and-ontology-options.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "documentation/data-visualisation-and-ontology-options.html#dataset-overview",
-    "href": "documentation/data-visualisation-and-ontology-options.html#dataset-overview",
-    "title": "",
-    "section": "Dataset Overview",
-    "text": "Dataset Overview\nFive datasets form the knowledge graph, with Corpus as the core and Chapter as the atomic unit. All other datasets connect upward to this backbone.\nWORK\n └── REPORT_SERIES\n      └── REPORT  ◄──── Bibliographic enrichment\n           └── TEXT_DIVISION\n                └── CHAPTER  ◄──── Authors (contributed_to)\n                             ◄──── Glossary (series_ref → Report)\n                             ◄──── Acronyms (part_of → Report)\n\n\n\n\n\n\n\n\nDataset\nItems\nConnects to\n\n\n\n\nCorpus\nWork, Report Series, Report, Text Division, Chapter\n— (core)\n\n\nAuthors\nAuthor + Chapter contributions + Role qualifiers\nChapter (P27)\n\n\nBibliographic\nPublisher, ISBNs, Licence, Abstract\nReport, Chapter (enrichment)\n\n\nGlossary\nTerm, Definition, AKA\nReport (series_ref)\n\n\nAcronyms\nCode, Description variants\nReport (Part of)"
-  },
-  {
-    "objectID": "documentation/data-visualisation-and-ontology-options.html#visualisation-options",
-    "href": "documentation/data-visualisation-and-ontology-options.html#visualisation-options",
-    "title": "",
-    "section": "1. Visualisation Options",
-    "text": "1. Visualisation Options\n\n1.1 Structural / Hierarchical\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nSunburst / Treemap\nCorpus hierarchy depth (Work → Chapter); relative chapter counts per Working Group\nPlotly, D3.js\n\n\nCollapsible tree\nFull Work → Series → Report → Text Division → Chapter drill-down\nD3.js, Observable\n\n\nEntity-Relationship Diagram\nFormal schema of all 5 datasets (already exists in /erm/)\nMermaid (embedded in Quarto)\n\n\n\n\n\n1.2 Author Network\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nBipartite graph\nAuthor ↔︎ Chapter contribution network; identifies high-contribution authors and co-chapter clusters\nNetworkX + matplotlib, Gephi\n\n\nChord diagram\nCross-WG author sharing (authors contributing to multiple Working Groups)\nD3.js chord, HiPlot\n\n\nHeatmap\nAuthor × Report/WG contribution density\nSeaborn, Plotly\n\n\nBar chart (country/gender)\nCitizenship or gender distribution per Working Group — good for a report section on diversity\nMatplotlib, Plotly\n\n\n\n\n\n1.3 Knowledge Graph Coverage\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nStacked bar / grouped bar\nCount of items per class (Chapter, Author, Glossary Term, Acronym) — KG size overview\nMatplotlib\n\n\nBubble chart\nChapters × Author count × Gender ratio per Working Group\nPlotly\n\n\nForce-directed graph\nAll entity types as nodes, relationship types as edges; shows connectivity of datasets\nvis.js, Gephi, Cytoscape\n\n\n\n\n\n1.4 Bibliographic / Metadata Completeness\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nCompleteness matrix (heatmap)\nWhich Reports/Chapters have DOI, ISBN, PDF, OpenAlex, Abstract filled\nSeaborn, Plotly\n\n\nTimeline\nReport publication dates across AR6\nPlotly timeline / Gantt"
-  },
-  {
-    "objectID": "documentation/data-visualisation-and-ontology-options.html#ontology-schema-options",
-    "href": "documentation/data-visualisation-and-ontology-options.html#ontology-schema-options",
-    "title": "",
-    "section": "2. Ontology & Schema Options",
-    "text": "2. Ontology & Schema Options\n\n2.1 Bibliographic Structure (Corpus)\n\nFRBR / FRBRoo\n\nFit: High. The Work → Report Series → Report → Text Division → Chapter hierarchy maps directly onto FRBR’s Work/Expression/Manifestation levels.\nfrbr:Work → WORK; frbr:Expression → REPORT; frbr:Manifestation → TEXT_DIVISION/CHAPTER\nFRBRoo (OWL version) is preferred for RDF/linked data contexts.\n\n\n\nFaBiO (FRBR-aligned Bibliographic Ontology)\n\nFit: High. Purpose-built for academic publications.\nfabio:Report → REPORT; fabio:BookChapter → CHAPTER; fabio:WorkCollection → REPORT_SERIES\nAlready uses DOI, ISBN, OpenAlex-style identifiers.\n\n\n\nBIBO (Bibliographic Ontology)\n\nFit: Medium–High. Simpler than FaBiO; good for quick RDF export.\nbibo:Book → REPORT; bibo:BookSection → CHAPTER; bibo:DocumentPart → TEXT_DIVISION\nHandles DOI (bibo:doi), ISBN (bibo:isbn13), PDF URL.\n\n\n\n\n2.2 Authors\n\nFOAF (Friend of a Friend)\n\nFit: High. foaf:Person covers last_name, first_name, affiliation (org:memberOf).\nPair with schema.org schema:Person for gender, nationality, worksFor.\n\n\n\nschema.org\n\nFit: High. schema:Person + schema:affiliation + schema:nationality.\nschema:contributor links Person → Chapter, with schema:roleName for the role qualifier.\n\n\n\nPROV-O\n\nFit: Medium. Useful if you want to record how author data was sourced (provenance on P27 statements).\n\n\n\n\n2.3 Glossary & Acronyms\n\nSKOS (Simple Knowledge Organization System)\n\nFit: Very High. Designed exactly for controlled vocabularies and glossaries.\nskos:Concept → GLOSSARY_TERM / ACRONYM\nskos:prefLabel → name / code; skos:altLabel → also_known_as\nskos:definition → definition / description\nskos:inScheme → link term to the Report it belongs to\n\n\n\nLEMON / OntoLex\n\nFit: Medium. Extends SKOS with lexical entries; useful if acronym variant descriptions (multiple &lt;description source=…&gt; elements) need finer modelling.\n\n\n\n\n2.4 Provenance & References\n\nPROV-O\n\nFit: High for the bibliographic enrichment pipeline (P17 date accessed, P19 source version).\nprov:wasDerivedFrom, prov:generatedAtTime, prov:wasAttributedTo map to the reference block on each statement.\n\n\n\nDublin Core / DataCite\n\nFit: Medium. dc:identifier (DOI), dc:date, dc:publisher, dc:rights (Licence URL) all appear in the Bibliographic dataset. DataCite Metadata Schema 4.x covers the same fields more precisely for DOI-registered items."
-  },
-  {
-    "objectID": "documentation/data-visualisation-and-ontology-options.html#summary-recommendation",
-    "href": "documentation/data-visualisation-and-ontology-options.html#summary-recommendation",
-    "title": "",
-    "section": "3. Summary Recommendation",
-    "text": "3. Summary Recommendation\n\n\n\n\n\n\n\n\nLayer\nRecommended ontology\nRationale\n\n\n\n\nCorpus structure\nFaBiO + BIBO\nBest coverage of Report/Chapter hierarchy with DOI/ISBN fields\n\n\nAuthors\nschema.org Person + FOAF\nWide tooling support; role qualifier fits schema:Role\n\n\nGlossary / Acronyms\nSKOS\nStandard for controlled vocabularies; already partially used (skos:altLabel in DTD)\n\n\nProvenance\nPROV-O\nMaps directly to existing P17/P18/P19 reference properties\n\n\nVisualisation (report)\nSunburst (structure) + Bar charts (diversity) + ERM (schema)\nCover hierarchy, people data, and formal schema in one report section"
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html",
-    "href": "documentation/p5-url-update-guide.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#background",
-    "href": "documentation/p5-url-update-guide.html#background",
-    "title": "",
-    "section": "Background",
-    "text": "Background\n\nWhat is P5?\nP5 is the Wiki URL property — it stores the MediaWiki page URL for a Wikibase item. For Chapter items this should point to the corresponding IPCC page on the ClimateKG wiki (e.g. https://dev-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1).\n\n\nWhy run this update?\nWhen the ClimateKG stack was first deployed, P5 values pointed to an older domain (wikibase.runstop.uk). After the sitelinks feature was implemented (linking items to MediaWiki pages via the climatekg-wiki site group), the P5 values must be regenerated from the sitelink titles to match the correct domain for each environment (DEV / TEST / PROD each have different base URLs).\n\n\nScope\nThe update affects all items where: - P1 = Q6 (i.e. the item is a Chapter) - The item has a climatekg-wiki sitelink\nThere are 88 Chapter items (Q6), all of which have a climatekg-wiki sitelink."
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#script",
-    "href": "documentation/p5-url-update-guide.html#script",
-    "title": "",
-    "section": "Script",
-    "text": "Script\nLocation: scripts/update-chapter-wiki-urls.py\nWhat it does: 1. Queries the SPARQL endpoint for all items with P1 = Q6 2. For each item, fetches the climatekg-wiki sitelink title via the MediaWiki API 3. Constructs the canonical URL: {wiki_base}/wiki/{sitelink_title} 4. If P5 already has the correct value — skips (idempotent) 5. If P5 has a different value — updates it via wbsetclaimvalue 6. If P5 has no value yet — creates a new claim via wbcreateclaim\nFlags:\n--env   local | dev | test | prod    (default: local)\n--dry-run                            List planned changes without writing anything\nCredentials are read from (in priority order): 1. Environment variable (WB_PASSWORD for local; DEV_MW_ADMIN_PASS, TEST_MW_ADMIN_PASS, PROD_MW_ADMIN_PASS for remotes) 2. C:\\Wikibase\\.env file 3. Interactive prompt (last resort)\nThe script is idempotent — safe to re-run at any time. Items already at the correct URL are skipped."
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#initial-deployment-workflow-local-all-environments",
-    "href": "documentation/p5-url-update-guide.html#initial-deployment-workflow-local-all-environments",
-    "title": "",
-    "section": "Initial Deployment Workflow (LOCAL → all environments)",
-    "text": "Initial Deployment Workflow (LOCAL → all environments)\nThis is the one-time workflow to apply the update to all four environments. After this, the script only needs to be run again if domain names change or if new Chapter items are added.\n\nPrerequisites\n\nDocker containers running on LOCAL (docker compose up -d)\n.env contains WB_PASSWORD, DEV_MW_ADMIN_PASS, TEST_MW_ADMIN_PASS, PROD_MW_ADMIN_PASS\nSSH key set up for DEV, TEST, PROD servers\n\n\n\n\nStep 1 — Pull fresh DEV data to LOCAL\n.\\scripts\\sync\\pull-from-dev.ps1\n\nTakes 30–45 minutes (DB is 800 MB+). No progress output during the dump/transfer steps — just wait.\n\n\n\n\nStep 2 — Snapshot LOCAL (experimental workflow)\n.\\scripts\\experimental-import-workflow.ps1 start\nThis creates a rollback point before making any changes.\n\n\n\nStep 3 — Dry-run (optional sanity check)\npython scripts/update-chapter-wiki-urls.py --env local --dry-run\nExpected output: 88 items to update, 0 to skip.\n\n\n\nStep 4 — Apply P5 updates on LOCAL\npython scripts/update-chapter-wiki-urls.py --env local\nExpected output:\nUpdated: 88   Errors: 0   Skipped: 0\n\n\n\nStep 5 — Verify on LOCAL\nBrowse to http://localhost:8080 and check a Chapter item (e.g. Q1). The P5 value should now be http://localhost:8080/wiki/IPCC:AR6/....\nAlternatively, open chapter-urls-verification.csv (generated during initial setup) to compare expected vs actual values.\n\n\n\nStep 6 — Approve the experiment\n.\\scripts\\experimental-import-workflow.ps1 approve\nLOCAL is now CLEAN with the P5 updates committed as the new base.\n\n\n\nStep 7 — Push LOCAL → DEV\n.\\scripts\\sync\\sync-local-to-dev.ps1 -DbOnly\nType PROMOTE at the confirmation prompt.\n\n-DbOnly skips images since only data (P5 claims) changed.\n\n\n\n\nStep 8 — Apply P5 updates on DEV\nRun locally, pointing at the DEV API:\npython scripts/update-chapter-wiki-urls.py --env dev\nThis rewrites the P5 URLs using the DEV base domain (https://dev-climatekg.semanticclimate.org).\n\n\n\nStep 9 — Promote DEV → TEST\n.\\scripts\\sync\\sync-dev-to-test.ps1\nThen apply P5 updates for the TEST domain:\npython scripts/update-chapter-wiki-urls.py --env test\n\n\n\nStep 10 — Promote TEST → PROD\n.\\scripts\\sync\\sync-dev-to-prod.ps1\nThen apply P5 updates for the PROD domain:\npython scripts/update-chapter-wiki-urls.py --env prod"
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#re-running-after-a-domain-change",
-    "href": "documentation/p5-url-update-guide.html#re-running-after-a-domain-change",
-    "title": "",
-    "section": "Re-running After a Domain Change",
-    "text": "Re-running After a Domain Change\nIf any environment’s domain name changes, re-run the script for that environment:\npython scripts/update-chapter-wiki-urls.py --env &lt;env&gt;\nThe script will detect that the existing P5 value doesn’t match the new domain and update it. Items with no P5 at all will have one created."
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#re-running-for-a-new-chapter-item",
-    "href": "documentation/p5-url-update-guide.html#re-running-for-a-new-chapter-item",
-    "title": "",
-    "section": "Re-running for a New Chapter Item",
-    "text": "Re-running for a New Chapter Item\nIf a new Chapter item is added (P1=Q6) with a climatekg-wiki sitelink, re-run the script for the relevant environment(s). Existing items are skipped (idempotent), so there is no risk of overwriting correct values."
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#known-issues",
-    "href": "documentation/p5-url-update-guide.html#known-issues",
-    "title": "",
-    "section": "Known Issues",
-    "text": "Known Issues\nNo known issues. All 88 Chapter items have climatekg-wiki sitelinks and correct P5 values.\n\nPreviously: Q125 (“Poverty, Livelihoods and Sustainable Development” — WGII Chapter 8) was missing its sitelink. Fixed by adding sitelink IPCC:AR6/WGII/Chapter-8 to the item and re-running the script."
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#verification",
-    "href": "documentation/p5-url-update-guide.html#verification",
-    "title": "",
-    "section": "Verification",
-    "text": "Verification\nA verification CSV was generated during the initial run:\nFile: chapter-urls-verification.csv\nColumns: QID, Label, MediaWiki_Page_Title, P5_URL\nRows: 88 (all with updated URLs)\nTo regenerate the CSV at any time (e.g. to verify DEV or PROD):\npython scripts/_gen_verification_csv.py"
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#environment-password-variable-mapping",
-    "href": "documentation/p5-url-update-guide.html#environment-password-variable-mapping",
-    "title": "",
-    "section": "Environment → Password Variable Mapping",
-    "text": "Environment → Password Variable Mapping\n\n\n\n\n\n\n\n\nEnvironment\nPassword variable\nAPI endpoint\n\n\n\n\nLOCAL\nWB_PASSWORD\nhttp://localhost:8080/w/api.php\n\n\nDEV\nDEV_MW_ADMIN_PASS\nhttps://dev-climatekg.semanticclimate.org/w/api.php\n\n\nTEST\nTEST_MW_ADMIN_PASS\nhttps://test-climatekg.semanticclimate.org/w/api.php\n\n\nPROD\nPROD_MW_ADMIN_PASS\nhttps://prod-climatekg.semanticclimate.org/w/api.php\n\n\n\nAll variables are read from C:\\Wikibase\\.env."
-  },
-  {
-    "objectID": "documentation/p5-url-update-guide.html#related",
-    "href": "documentation/p5-url-update-guide.html#related",
-    "title": "",
-    "section": "Related",
-    "text": "Related\n\nScript: scripts/update-chapter-wiki-urls.py\nSitelinks setup: internal project note (not published in this repository).\nSync workflow: multi-env-workflow.md §4\nExperimental workflow: multi-env-workflow.md §11"
-  },
-  {
-    "objectID": "documentation/references/ipcc-ar-chronology.html",
-    "href": "documentation/references/ipcc-ar-chronology.html",
-    "title": "",
-    "section": "",
-    "text": "Code\n\n\n\n\n\nIPCC Assessment Report Chronology\nThe Intergovernmental Panel on Climate Change (IPCC) has completed six assessment cycles since 1990. Each cycle produces reports from three working groups and a synthesis report.\n\n\n\nCycle\nYear(s)\nWorking Group I\nWorking Group II\nWorking Group III\nSynthesis\n\n\n\n\nAR1\n1990\nThe Scientific Assessment\nThe Impacts Assessment\nThe Response Strategies\n—\n\n\nAR2\n1995–1996\nThe Science of Climate Change\nImpacts, Adaptations and Mitigation\nEconomic and Social Dimensions\nSecond Assessment Synthesis\n\n\nAR3\n2001\nThe Scientific Basis\nImpacts, Adaptation, and Vulnerability\nMitigation\nSynthesis Report\n\n\nAR4\n2007\nThe Physical Science Basis\nImpacts, Adaptation and Vulnerability\nMitigation of Climate Change\nSynthesis Report\n\n\nAR5\n2013–2014\nThe Physical Science Basis\nImpacts, Adaptation, and Vulnerability\nMitigation of Climate Change\nSynthesis Report\n\n\nAR6\n2021–2023\nThe Physical Science Basis\nImpacts, Adaptation and Vulnerability\nMitigation of Climate Change\nSynthesis Report"
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#summary",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#summary",
-    "title": "",
-    "section": "Summary",
-    "text": "Summary\nThe local Wikibase instance contains 1,864 Q-items with P1 = Q3998 (Author class), when the expected count is 932 (matching authors-ar6.csv). This is an exact 2× duplication."
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#evidence",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#evidence",
-    "title": "",
-    "section": "Evidence",
-    "text": "Evidence\n\nSPARQL diagnostic queries run against http://localhost:9999/bigdata/namespace/wdq/sparql\n-- Query 1: COUNT(DISTINCT ?item) — returns 1864 (expected: 932)\nPREFIX wdt: &lt;http://localhost:8080/prop/direct/&gt;\nPREFIX wd:  &lt;http://localhost:8080/entity/&gt;\nSELECT (COUNT(DISTINCT ?item) AS ?count)\nWHERE { ?item wdt:P1 wd:Q3998 }\nResult: 1864\n-- Query 2: Nested SELECT DISTINCT subquery — also returns 1864\nSELECT (COUNT(*) AS ?count)\nWHERE {\n  SELECT DISTINCT ?item\n  WHERE { ?item wdt:P1 wd:Q3998 }\n}\nResult: 1864 — confirms 1864 genuinely distinct entity URIs, not a COUNT aggregation quirk.\n-- Query 3: COUNT DISTINCT P20 literal values — returns 932 (correct)\nSELECT (COUNT(DISTINCT ?uid) AS ?count)\nWHERE { ?item wdt:P20 ?uid }\nResult: 932 ✓\n\n\nConfirmed Q-number ranges (two distinct import batches)\n\n\n\nBatch\nQ-range\nAuthors\n\n\n\n\nOriginal import\nQ3999 – Q4930\nAU0001 – AU0932\n\n\nDuplicate import\nQ4932 – Q5863\nAU0001 – AU0932 (same data)\n\n\n\nQ4931 is not an author item (likely a different entity between the two imports).\n\n\nFull duplicate URI list\nAll 932 pairs are exported to wikibase-duplicate-authors.csv with columns: ClimateKG_Author_ID, Original_QID, Original_Item_URL, Duplicate_QID, Duplicate_Item_URL, Action\nSample (first 10 rows):\n\n\n\nClimateKG_Author_ID\nOriginal_QID\nOriginal Item\nDuplicate_QID\nDuplicate Item\n\n\n\n\nAU0001\nQ3999\nQ3999\nQ4932\nQ4932\n\n\nAU0002\nQ4000\nQ4000\nQ4933\nQ4933\n\n\nAU0003\nQ4001\nQ4001\nQ4934\nQ4934\n\n\nAU0004\nQ4002\nQ4002\nQ4935\nQ4935\n\n\nAU0005\nQ4003\nQ4003\nQ4936\nQ4936\n\n\nAU0006\nQ4004\nQ4004\nQ4937\nQ4937\n\n\nAU0007\nQ4005\nQ4005\nQ4938\nQ4938\n\n\nAU0008\nQ4006\nQ4006\nQ4939\nQ4939\n\n\nAU0009\nQ4007\nQ4007\nQ4940\nQ4940\n\n\nAU0010\nQ4008\nQ4008\nQ4941\nQ4941\n\n\n\n… 922 more rows in wikibase-duplicate-authors.csv\n\n\nCSV source of truth\nauthors-ar6.csv: 1,164 rows, 932 unique ClimateKG_Author_ID values (AU0001–AU0932)"
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#likely-cause",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#likely-cause",
-    "title": "",
-    "section": "Likely Cause",
-    "text": "Likely Cause\nThe author data was imported into Wikibase twice, creating two sets of Q-items for the same 932 authors. Each real author now has: - One Q-item from the original import (e.g. Q100) - One duplicate Q-item from a re-import (e.g. Q4932)\nBoth items have the same P20 (ClimateKG Author ID) literal value, P23 (gender), and P27 (chapter links)."
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#scope-what-else-may-be-affected",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#scope-what-else-may-be-affected",
-    "title": "",
-    "section": "Scope — What Else May Be Affected",
-    "text": "Scope — What Else May Be Affected\n\n\n\n\n\n\n\n\nData type\nLikely affected?\nVerification query\n\n\n\n\nAuthors (P1=Q3998)\nYES — confirmed 1864 vs 932\nCOUNT(DISTINCT ?uid) WHERE { ?item wdt:P20 ?uid } → use this\n\n\nChapters (P1=Q6)\nPossibly — check Q6 count vs Chapter_QID in CSV\nCOUNT(DISTINCT ?item) WHERE { ?item wdt:P1 wd:Q6 }\n\n\nDOIs (P10)\nPossibly — check vs bibliographic-ar6.csv\nCOUNT(DISTINCT ?doi) WHERE { ?item wdt:P10 ?doi }\n\n\nOpenAlex (P9)\nPossibly\nCOUNT(DISTINCT ?id) WHERE { ?item wdt:P9 ?id }\n\n\nSeries/Reports\nPossibly\nCheck vs bibliographic-ar6.csv Type=Series count\n\n\n\nNote: For any count that returns 2× the expected value, switch from counting entities (?item) to counting the property value (?literal) using COUNT(DISTINCT ?literal)."
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#investigation-steps",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#investigation-steps",
-    "title": "",
-    "section": "Investigation Steps",
-    "text": "Investigation Steps\n\nIdentify the two import batches — find the Q-number ranges:\nPREFIX wdt: &lt;http://localhost:8080/prop/direct/&gt;\nPREFIX wd:  &lt;http://localhost:8080/entity/&gt;\nSELECT ?item ?uid\nWHERE { ?item wdt:P1 wd:Q3998 . ?item wdt:P20 ?uid . }\nORDER BY ?uid\nLIMIT 20\nLook for the same UID (e.g. AU0001) appearing under two different Q-numbers.\nConfirm which Q-range is the duplicate — the higher-numbered range is likely the re-import. Check creation date or item structure.\nCheck if duplicates share the same property values — if yes, one set can safely be deleted:\nPREFIX wdt: &lt;http://localhost:8080/prop/direct/&gt;\nSELECT ?uid (COUNT(?item) AS ?n)\nWHERE { ?item wdt:P20 ?uid }\nGROUP BY ?uid\nHAVING (?n &gt; 1)\nORDER BY ?uid\nLIMIT 10\nIf every UID appears exactly twice, the duplicate set is systematic.\nDelete the duplicate batch via the Wikibase UI or a bot script. The Q-items in the higher range (e.g. Q4932+) are likely the ones to remove.\nRe-run the dashboard notebook after cleanup to confirm counts drop to 932."
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#temporary-workaround-applied",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#temporary-workaround-applied",
-    "title": "",
-    "section": "Temporary Workaround (Applied)",
-    "text": "Temporary Workaround (Applied)\nThe kg-stats-dashboard.ipynb notebook currently uses:\nSELECT (COUNT(DISTINCT ?uid) AS ?count) WHERE { ?item wdt:P20 ?uid }\nThis counts distinct P20 literal values (\"AU0001\", \"AU0002\", etc.) rather than entity URIs, giving the correct count of 932 regardless of how many Q-items exist per author."
-  },
-  {
-    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#files-affected",
-    "href": "investigations_md/wikibase-duplicate-authors-report.html#files-affected",
-    "title": "",
-    "section": "Files Affected",
-    "text": "Files Affected\n\nresearch_data/data-vis/kg-stats-dashboard.ipynb — workaround applied\nresearch_data/data-vis/gender-distribution-simple.ipynb — uses deduplication on P20 in Python; result unaffected\nresearch_data/data-vis/authors-top-ten.ipynb — uses CSV as primary source; result unaffected"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html",
-    "href": "research_data/data-vis/QUICKSTART.html",
-    "title": "",
-    "section": "",
-    "text": "Code"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#whats-been-created",
-    "href": "research_data/data-vis/QUICKSTART.html#whats-been-created",
-    "title": "",
-    "section": "What’s Been Created",
-    "text": "What’s Been Created\n✓ Jupyter Notebook: ar6-authors-distribution-analysis.ipynb\n✓ Requirements File: requirements.txt\n✓ Documentation: README.md\n✓ All packages verified and working"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#before-you-start",
-    "href": "research_data/data-vis/QUICKSTART.html#before-you-start",
-    "title": "",
-    "section": "Before You Start",
-    "text": "Before You Start\n\n1. Ensure Wikibase is Running\ncd C:\\Wikibase\ndocker compose ps\n# If not running: docker compose up -d\n\n\n2. Verify SPARQL Endpoint\nOpen in browser: http://localhost:9999/bigdata/sparql\n\n\n3. Check Author Data Import\nVerify your authors are in Wikibase: http://localhost:8080/wiki/Special:RecentChanges"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
-    "href": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
-    "title": "",
-    "section": "How to Use the Notebook",
-    "text": "How to Use the Notebook\n\nStep 1: Open the Notebook\nThe notebook is already open in VS Code with the Python kernel configured and running.\n\n\nStep 2: Update Property IDs (IMPORTANT!)\nIn cell 4 (Section 3), you’ll see a SPARQL query with property IDs like P3, P7, P8, etc.\nThese need to match YOUR Wikibase schema!\nTo find the correct property IDs: 1. Visit: http://localhost:8080/wiki/Special:ListProperties 2. Find the properties you need: - P3: “instance of” (or similar) - P7: Gender property - P8: Citizenship property - P9: Country of residence property - P10: Chapter contribution property\n\nUpdate the query with your actual property IDs\n\nExample of what to look for:\n?author wdt:P3 wd:Q2 .  # Change P3 to your \"instance of\" property\n?author wdt:P7 ?genderItem .  # Change P7 to your gender property\n\n\nStep 3: Run the Cells\nOption A: Run All Cells - Click “Run All” button in the notebook toolbar\nOption B: Run Step-by-Step - Execute each cell sequentially (Shift+Enter) - Review outputs as you go - Adjust code if needed\n\n\nStep 4: View Visualizations\nInteractive Plotly charts will display inline. You can: - Hover for details - Zoom and pan - Download as PNG\n\n\nStep 5: Export Results (Optional)\nAdd cells at the end to export data:\n# Save visualizations\nfig.write_html(\"author_distribution.html\")\n\n# Export data\ndf_unique_authors.to_csv(\"authors_summary.csv\", index=False)"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#troubleshooting",
-    "href": "research_data/data-vis/QUICKSTART.html#troubleshooting",
-    "title": "",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nProblem: No Data Returned (Query Returns Empty)\nLikely Causes: 1. Property IDs in SPARQL query don’t match your schema 2. Author data not imported yet 3. Wikibase not running\nSolutions:\n# Check Wikibase status\ndocker compose ps\n\n# Check if data exists\n# Open http://localhost:8080 and search for an author name\n\n\nProblem: SPARQL Query Error\nCause: Property IDs or entity IDs don’t exist\nSolution: - Visit http://localhost:8080/wiki/Special:ListProperties - Copy the exact property IDs from your instance - Update the query in cell 4\n\n\nProblem: Visualization Not Showing\nCause: Plotly display issue\nSolution:\n# In a new cell, try:\nimport plotly.io as pio\npio.renderers.default = \"notebook\"\n# Then re-run the visualization cell"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
-    "href": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
-    "title": "",
-    "section": "Understanding the Analysis",
-    "text": "Understanding the Analysis\n\n1. Regional Distribution (Global North/South)\nShows where authors are from geographically and economically.\nInterpretation: - High Global North percentage = predominantly developed countries - More balanced = better geographic diversity\n\n\n2. Gender Distribution\nShows the gender balance among authors.\nInterpretation: - Percentages show representation - Ratio indicates balance (e.g., 1.5:1 means 60% to 40%)\n\n\n3. Intersectional Analysis\nCombines region and gender to reveal compound patterns.\nKey Questions: - Is gender balance similar in North and South? - Are there regional differences in participation?\n\n\n4. Chapter-Level Variations\nShows how demographics vary across different AR6 chapters/reports.\nInsights: - Some chapters may have more diverse authorship - Patterns may reflect disciplinary norms"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#next-steps",
-    "href": "research_data/data-vis/QUICKSTART.html#next-steps",
-    "title": "",
-    "section": "Next Steps",
-    "text": "Next Steps\nOnce you have basic results:\n\nRefine Classifications\n\nAdjust Global North/South country list\nAdd more granular categories\n\nAdd More Analysis\n\nRole-based analysis (Lead Author vs Review Editor)\nTemporal comparisons (if you have AR5 data)\nStatistical significance tests\n\nCreate Presentations\n\nExport key charts as HTML or PNG\nPrepare summary statistics table\nHighlight key findings\n\nBuild Dashboard\n\nConsider Dash or Streamlit for interactive exploration\nAdd filters and drill-downs"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#key-files-reference",
-    "href": "research_data/data-vis/QUICKSTART.html#key-files-reference",
-    "title": "",
-    "section": "Key Files Reference",
-    "text": "Key Files Reference\ndata-vis/\n├── ar6-authors-distribution-analysis.ipynb  ← Main notebook\n├── requirements.txt                          ← Python dependencies\n├── README.md                                 ← Detailed documentation\n└── QUICKSTART.md                            ← This file"
-  },
-  {
-    "objectID": "research_data/data-vis/QUICKSTART.html#support-resources",
-    "href": "research_data/data-vis/QUICKSTART.html#support-resources",
-    "title": "",
-    "section": "Support Resources",
-    "text": "Support Resources\n\nWikibase properties: http://localhost:8080/wiki/Special:ListProperties\nSPARQL endpoint: http://localhost:9999/bigdata/sparql\nProject memory: C:.md\nRepo memory: Check /memories/repo/wikibase-project.md\n\n\nReady to Start? Run cell 2 in the notebook (the import cell)!"
+    "text": "This is temporary Roadmap content.\nA detailed roadmap will be added soon."
   },
   {
     "objectID": "research_data/data-xml-dtd/README-HTML.html",
@@ -1148,11 +756,473 @@
     "text": "Related Files\n\nSource data: research_data/data-import/*/ - CSV files and conversion scripts\nCSV source files: *.csv - Original data in CSV format\nDTD files: *.dtd - Document Type Definitions for XML validation\nXML files: *.xml - Structured data\nXSLT files: *.xslt - Transformation stylesheets\nHTML files: *.html - Generated documentation pages"
   },
   {
-    "objectID": "roadmap.html",
-    "href": "roadmap.html",
-    "title": "Roadmap",
+    "objectID": "research_data/data-vis/QUICKSTART.html",
+    "href": "research_data/data-vis/QUICKSTART.html",
+    "title": "",
     "section": "",
-    "text": "This is temporary Roadmap content.\nA detailed roadmap will be added soon."
+    "text": "Code"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#whats-been-created",
+    "href": "research_data/data-vis/QUICKSTART.html#whats-been-created",
+    "title": "",
+    "section": "What’s Been Created",
+    "text": "What’s Been Created\n✓ Jupyter Notebook: ar6-authors-distribution-analysis.ipynb\n✓ Requirements File: requirements.txt\n✓ Documentation: README.md\n✓ All packages verified and working"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#before-you-start",
+    "href": "research_data/data-vis/QUICKSTART.html#before-you-start",
+    "title": "",
+    "section": "Before You Start",
+    "text": "Before You Start\n\n1. Ensure Wikibase is Running\ncd C:\\Wikibase\ndocker compose ps\n# If not running: docker compose up -d\n\n\n2. Verify SPARQL Endpoint\nOpen in browser: http://localhost:9999/bigdata/sparql\n\n\n3. Check Author Data Import\nVerify your authors are in Wikibase: http://localhost:8080/wiki/Special:RecentChanges"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
+    "href": "research_data/data-vis/QUICKSTART.html#how-to-use-the-notebook",
+    "title": "",
+    "section": "How to Use the Notebook",
+    "text": "How to Use the Notebook\n\nStep 1: Open the Notebook\nThe notebook is already open in VS Code with the Python kernel configured and running.\n\n\nStep 2: Update Property IDs (IMPORTANT!)\nIn cell 4 (Section 3), you’ll see a SPARQL query with property IDs like P3, P7, P8, etc.\nThese need to match YOUR Wikibase schema!\nTo find the correct property IDs: 1. Visit: http://localhost:8080/wiki/Special:ListProperties 2. Find the properties you need: - P3: “instance of” (or similar) - P7: Gender property - P8: Citizenship property - P9: Country of residence property - P10: Chapter contribution property\n\nUpdate the query with your actual property IDs\n\nExample of what to look for:\n?author wdt:P3 wd:Q2 .  # Change P3 to your \"instance of\" property\n?author wdt:P7 ?genderItem .  # Change P7 to your gender property\n\n\nStep 3: Run the Cells\nOption A: Run All Cells - Click “Run All” button in the notebook toolbar\nOption B: Run Step-by-Step - Execute each cell sequentially (Shift+Enter) - Review outputs as you go - Adjust code if needed\n\n\nStep 4: View Visualizations\nInteractive Plotly charts will display inline. You can: - Hover for details - Zoom and pan - Download as PNG\n\n\nStep 5: Export Results (Optional)\nAdd cells at the end to export data:\n# Save visualizations\nfig.write_html(\"author_distribution.html\")\n\n# Export data\ndf_unique_authors.to_csv(\"authors_summary.csv\", index=False)"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#troubleshooting",
+    "href": "research_data/data-vis/QUICKSTART.html#troubleshooting",
+    "title": "",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nProblem: No Data Returned (Query Returns Empty)\nLikely Causes: 1. Property IDs in SPARQL query don’t match your schema 2. Author data not imported yet 3. Wikibase not running\nSolutions:\n# Check Wikibase status\ndocker compose ps\n\n# Check if data exists\n# Open http://localhost:8080 and search for an author name\n\n\nProblem: SPARQL Query Error\nCause: Property IDs or entity IDs don’t exist\nSolution: - Visit http://localhost:8080/wiki/Special:ListProperties - Copy the exact property IDs from your instance - Update the query in cell 4\n\n\nProblem: Visualization Not Showing\nCause: Plotly display issue\nSolution:\n# In a new cell, try:\nimport plotly.io as pio\npio.renderers.default = \"notebook\"\n# Then re-run the visualization cell"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
+    "href": "research_data/data-vis/QUICKSTART.html#understanding-the-analysis",
+    "title": "",
+    "section": "Understanding the Analysis",
+    "text": "Understanding the Analysis\n\n1. Regional Distribution (Global North/South)\nShows where authors are from geographically and economically.\nInterpretation: - High Global North percentage = predominantly developed countries - More balanced = better geographic diversity\n\n\n2. Gender Distribution\nShows the gender balance among authors.\nInterpretation: - Percentages show representation - Ratio indicates balance (e.g., 1.5:1 means 60% to 40%)\n\n\n3. Intersectional Analysis\nCombines region and gender to reveal compound patterns.\nKey Questions: - Is gender balance similar in North and South? - Are there regional differences in participation?\n\n\n4. Chapter-Level Variations\nShows how demographics vary across different AR6 chapters/reports.\nInsights: - Some chapters may have more diverse authorship - Patterns may reflect disciplinary norms"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#next-steps",
+    "href": "research_data/data-vis/QUICKSTART.html#next-steps",
+    "title": "",
+    "section": "Next Steps",
+    "text": "Next Steps\nOnce you have basic results:\n\nRefine Classifications\n\nAdjust Global North/South country list\nAdd more granular categories\n\nAdd More Analysis\n\nRole-based analysis (Lead Author vs Review Editor)\nTemporal comparisons (if you have AR5 data)\nStatistical significance tests\n\nCreate Presentations\n\nExport key charts as HTML or PNG\nPrepare summary statistics table\nHighlight key findings\n\nBuild Dashboard\n\nConsider Dash or Streamlit for interactive exploration\nAdd filters and drill-downs"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#key-files-reference",
+    "href": "research_data/data-vis/QUICKSTART.html#key-files-reference",
+    "title": "",
+    "section": "Key Files Reference",
+    "text": "Key Files Reference\ndata-vis/\n├── ar6-authors-distribution-analysis.ipynb  ← Main notebook\n├── requirements.txt                          ← Python dependencies\n├── README.md                                 ← Detailed documentation\n└── QUICKSTART.md                            ← This file"
+  },
+  {
+    "objectID": "research_data/data-vis/QUICKSTART.html#support-resources",
+    "href": "research_data/data-vis/QUICKSTART.html#support-resources",
+    "title": "",
+    "section": "Support Resources",
+    "text": "Support Resources\n\nWikibase properties: http://localhost:8080/wiki/Special:ListProperties\nSPARQL endpoint: http://localhost:9999/bigdata/sparql\nProject memory: C:.md\nRepo memory: Check /memories/repo/wikibase-project.md\n\n\nReady to Start? Run cell 2 in the notebook (the import cell)!"
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#summary",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#summary",
+    "title": "",
+    "section": "Summary",
+    "text": "Summary\nThe local Wikibase instance contains 1,864 Q-items with P1 = Q3998 (Author class), when the expected count is 932 (matching authors-ar6.csv). This is an exact 2× duplication."
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#evidence",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#evidence",
+    "title": "",
+    "section": "Evidence",
+    "text": "Evidence\n\nSPARQL diagnostic queries run against http://localhost:9999/bigdata/namespace/wdq/sparql\n-- Query 1: COUNT(DISTINCT ?item) — returns 1864 (expected: 932)\nPREFIX wdt: &lt;http://localhost:8080/prop/direct/&gt;\nPREFIX wd:  &lt;http://localhost:8080/entity/&gt;\nSELECT (COUNT(DISTINCT ?item) AS ?count)\nWHERE { ?item wdt:P1 wd:Q3998 }\nResult: 1864\n-- Query 2: Nested SELECT DISTINCT subquery — also returns 1864\nSELECT (COUNT(*) AS ?count)\nWHERE {\n  SELECT DISTINCT ?item\n  WHERE { ?item wdt:P1 wd:Q3998 }\n}\nResult: 1864 — confirms 1864 genuinely distinct entity URIs, not a COUNT aggregation quirk.\n-- Query 3: COUNT DISTINCT P20 literal values — returns 932 (correct)\nSELECT (COUNT(DISTINCT ?uid) AS ?count)\nWHERE { ?item wdt:P20 ?uid }\nResult: 932 ✓\n\n\nConfirmed Q-number ranges (two distinct import batches)\n\n\n\nBatch\nQ-range\nAuthors\n\n\n\n\nOriginal import\nQ3999 – Q4930\nAU0001 – AU0932\n\n\nDuplicate import\nQ4932 – Q5863\nAU0001 – AU0932 (same data)\n\n\n\nQ4931 is not an author item (likely a different entity between the two imports).\n\n\nFull duplicate URI list\nAll 932 pairs are exported to wikibase-duplicate-authors.csv with columns: ClimateKG_Author_ID, Original_QID, Original_Item_URL, Duplicate_QID, Duplicate_Item_URL, Action\nSample (first 10 rows):\n\n\n\nClimateKG_Author_ID\nOriginal_QID\nOriginal Item\nDuplicate_QID\nDuplicate Item\n\n\n\n\nAU0001\nQ3999\nQ3999\nQ4932\nQ4932\n\n\nAU0002\nQ4000\nQ4000\nQ4933\nQ4933\n\n\nAU0003\nQ4001\nQ4001\nQ4934\nQ4934\n\n\nAU0004\nQ4002\nQ4002\nQ4935\nQ4935\n\n\nAU0005\nQ4003\nQ4003\nQ4936\nQ4936\n\n\nAU0006\nQ4004\nQ4004\nQ4937\nQ4937\n\n\nAU0007\nQ4005\nQ4005\nQ4938\nQ4938\n\n\nAU0008\nQ4006\nQ4006\nQ4939\nQ4939\n\n\nAU0009\nQ4007\nQ4007\nQ4940\nQ4940\n\n\nAU0010\nQ4008\nQ4008\nQ4941\nQ4941\n\n\n\n… 922 more rows in wikibase-duplicate-authors.csv\n\n\nCSV source of truth\nauthors-ar6.csv: 1,164 rows, 932 unique ClimateKG_Author_ID values (AU0001–AU0932)"
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#likely-cause",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#likely-cause",
+    "title": "",
+    "section": "Likely Cause",
+    "text": "Likely Cause\nThe author data was imported into Wikibase twice, creating two sets of Q-items for the same 932 authors. Each real author now has: - One Q-item from the original import (e.g. Q100) - One duplicate Q-item from a re-import (e.g. Q4932)\nBoth items have the same P20 (ClimateKG Author ID) literal value, P23 (gender), and P27 (chapter links)."
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#scope-what-else-may-be-affected",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#scope-what-else-may-be-affected",
+    "title": "",
+    "section": "Scope — What Else May Be Affected",
+    "text": "Scope — What Else May Be Affected\n\n\n\n\n\n\n\n\nData type\nLikely affected?\nVerification query\n\n\n\n\nAuthors (P1=Q3998)\nYES — confirmed 1864 vs 932\nCOUNT(DISTINCT ?uid) WHERE { ?item wdt:P20 ?uid } → use this\n\n\nChapters (P1=Q6)\nPossibly — check Q6 count vs Chapter_QID in CSV\nCOUNT(DISTINCT ?item) WHERE { ?item wdt:P1 wd:Q6 }\n\n\nDOIs (P10)\nPossibly — check vs bibliographic-ar6.csv\nCOUNT(DISTINCT ?doi) WHERE { ?item wdt:P10 ?doi }\n\n\nOpenAlex (P9)\nPossibly\nCOUNT(DISTINCT ?id) WHERE { ?item wdt:P9 ?id }\n\n\nSeries/Reports\nPossibly\nCheck vs bibliographic-ar6.csv Type=Series count\n\n\n\nNote: For any count that returns 2× the expected value, switch from counting entities (?item) to counting the property value (?literal) using COUNT(DISTINCT ?literal)."
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#investigation-steps",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#investigation-steps",
+    "title": "",
+    "section": "Investigation Steps",
+    "text": "Investigation Steps\n\nIdentify the two import batches — find the Q-number ranges:\nPREFIX wdt: &lt;http://localhost:8080/prop/direct/&gt;\nPREFIX wd:  &lt;http://localhost:8080/entity/&gt;\nSELECT ?item ?uid\nWHERE { ?item wdt:P1 wd:Q3998 . ?item wdt:P20 ?uid . }\nORDER BY ?uid\nLIMIT 20\nLook for the same UID (e.g. AU0001) appearing under two different Q-numbers.\nConfirm which Q-range is the duplicate — the higher-numbered range is likely the re-import. Check creation date or item structure.\nCheck if duplicates share the same property values — if yes, one set can safely be deleted:\nPREFIX wdt: &lt;http://localhost:8080/prop/direct/&gt;\nSELECT ?uid (COUNT(?item) AS ?n)\nWHERE { ?item wdt:P20 ?uid }\nGROUP BY ?uid\nHAVING (?n &gt; 1)\nORDER BY ?uid\nLIMIT 10\nIf every UID appears exactly twice, the duplicate set is systematic.\nDelete the duplicate batch via the Wikibase UI or a bot script. The Q-items in the higher range (e.g. Q4932+) are likely the ones to remove.\nRe-run the dashboard notebook after cleanup to confirm counts drop to 932."
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#temporary-workaround-applied",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#temporary-workaround-applied",
+    "title": "",
+    "section": "Temporary Workaround (Applied)",
+    "text": "Temporary Workaround (Applied)\nThe kg-stats-dashboard.ipynb notebook currently uses:\nSELECT (COUNT(DISTINCT ?uid) AS ?count) WHERE { ?item wdt:P20 ?uid }\nThis counts distinct P20 literal values (\"AU0001\", \"AU0002\", etc.) rather than entity URIs, giving the correct count of 932 regardless of how many Q-items exist per author."
+  },
+  {
+    "objectID": "investigations_md/wikibase-duplicate-authors-report.html#files-affected",
+    "href": "investigations_md/wikibase-duplicate-authors-report.html#files-affected",
+    "title": "",
+    "section": "Files Affected",
+    "text": "Files Affected\n\nresearch_data/data-vis/kg-stats-dashboard.ipynb — workaround applied\nresearch_data/data-vis/gender-distribution-simple.ipynb — uses deduplication on P20 in Python; result unaffected\nresearch_data/data-vis/authors-top-ten.ipynb — uses CSV as primary source; result unaffected"
+  },
+  {
+    "objectID": "documentation/references/ipcc-ar-chronology.html",
+    "href": "documentation/references/ipcc-ar-chronology.html",
+    "title": "",
+    "section": "",
+    "text": "Code\n\n\n\n\n\nIPCC Assessment Report Chronology\nThe Intergovernmental Panel on Climate Change (IPCC) has completed six assessment cycles since 1990. Each cycle produces reports from three working groups and a synthesis report.\n\n\n\nCycle\nYear(s)\nWorking Group I\nWorking Group II\nWorking Group III\nSynthesis\n\n\n\n\nAR1\n1990\nThe Scientific Assessment\nThe Impacts Assessment\nThe Response Strategies\n—\n\n\nAR2\n1995–1996\nThe Science of Climate Change\nImpacts, Adaptations and Mitigation\nEconomic and Social Dimensions\nSecond Assessment Synthesis\n\n\nAR3\n2001\nThe Scientific Basis\nImpacts, Adaptation, and Vulnerability\nMitigation\nSynthesis Report\n\n\nAR4\n2007\nThe Physical Science Basis\nImpacts, Adaptation and Vulnerability\nMitigation of Climate Change\nSynthesis Report\n\n\nAR5\n2013–2014\nThe Physical Science Basis\nImpacts, Adaptation, and Vulnerability\nMitigation of Climate Change\nSynthesis Report\n\n\nAR6\n2021–2023\nThe Physical Science Basis\nImpacts, Adaptation and Vulnerability\nMitigation of Climate Change\nSynthesis Report"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html",
+    "href": "documentation/p5-url-update-guide.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#background",
+    "href": "documentation/p5-url-update-guide.html#background",
+    "title": "",
+    "section": "Background",
+    "text": "Background\n\nWhat is P5?\nP5 is the Wiki URL property — it stores the MediaWiki page URL for a Wikibase item. For Chapter items this should point to the corresponding IPCC page on the ClimateKG wiki (e.g. https://dev-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1).\n\n\nWhy run this update?\nWhen the ClimateKG stack was first deployed, P5 values pointed to an older domain (wikibase.runstop.uk). After the sitelinks feature was implemented (linking items to MediaWiki pages via the climatekg-wiki site group), the P5 values must be regenerated from the sitelink titles to match the correct domain for each environment (DEV / TEST / PROD each have different base URLs).\n\n\nScope\nThe update affects all items where: - P1 = Q6 (i.e. the item is a Chapter) - The item has a climatekg-wiki sitelink\nThere are 88 Chapter items (Q6), all of which have a climatekg-wiki sitelink."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#script",
+    "href": "documentation/p5-url-update-guide.html#script",
+    "title": "",
+    "section": "Script",
+    "text": "Script\nLocation: scripts/update-chapter-wiki-urls.py\nWhat it does: 1. Queries the SPARQL endpoint for all items with P1 = Q6 2. For each item, fetches the climatekg-wiki sitelink title via the MediaWiki API 3. Constructs the canonical URL: {wiki_base}/wiki/{sitelink_title} 4. If P5 already has the correct value — skips (idempotent) 5. If P5 has a different value — updates it via wbsetclaimvalue 6. If P5 has no value yet — creates a new claim via wbcreateclaim\nFlags:\n--env   local | dev | test | prod    (default: local)\n--dry-run                            List planned changes without writing anything\nCredentials are read from (in priority order): 1. Environment variable (WB_PASSWORD for local; DEV_MW_ADMIN_PASS, TEST_MW_ADMIN_PASS, PROD_MW_ADMIN_PASS for remotes) 2. C:\\Wikibase\\.env file 3. Interactive prompt (last resort)\nThe script is idempotent — safe to re-run at any time. Items already at the correct URL are skipped."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#initial-deployment-workflow-local-all-environments",
+    "href": "documentation/p5-url-update-guide.html#initial-deployment-workflow-local-all-environments",
+    "title": "",
+    "section": "Initial Deployment Workflow (LOCAL → all environments)",
+    "text": "Initial Deployment Workflow (LOCAL → all environments)\nThis is the one-time workflow to apply the update to all four environments. After this, the script only needs to be run again if domain names change or if new Chapter items are added.\n\nPrerequisites\n\nDocker containers running on LOCAL (docker compose up -d)\n.env contains WB_PASSWORD, DEV_MW_ADMIN_PASS, TEST_MW_ADMIN_PASS, PROD_MW_ADMIN_PASS\nSSH key set up for DEV, TEST, PROD servers\n\n\n\n\nStep 1 — Pull fresh DEV data to LOCAL\n.\\scripts\\sync\\pull-from-dev.ps1\n\nTakes 30–45 minutes (DB is 800 MB+). No progress output during the dump/transfer steps — just wait.\n\n\n\n\nStep 2 — Snapshot LOCAL (experimental workflow)\n.\\scripts\\experimental-import-workflow.ps1 start\nThis creates a rollback point before making any changes.\n\n\n\nStep 3 — Dry-run (optional sanity check)\npython scripts/update-chapter-wiki-urls.py --env local --dry-run\nExpected output: 88 items to update, 0 to skip.\n\n\n\nStep 4 — Apply P5 updates on LOCAL\npython scripts/update-chapter-wiki-urls.py --env local\nExpected output:\nUpdated: 88   Errors: 0   Skipped: 0\n\n\n\nStep 5 — Verify on LOCAL\nBrowse to http://localhost:8080 and check a Chapter item (e.g. Q1). The P5 value should now be http://localhost:8080/wiki/IPCC:AR6/....\nAlternatively, open chapter-urls-verification.csv (generated during initial setup) to compare expected vs actual values.\n\n\n\nStep 6 — Approve the experiment\n.\\scripts\\experimental-import-workflow.ps1 approve\nLOCAL is now CLEAN with the P5 updates committed as the new base.\n\n\n\nStep 7 — Push LOCAL → DEV\n.\\scripts\\sync\\sync-local-to-dev.ps1 -DbOnly\nType PROMOTE at the confirmation prompt.\n\n-DbOnly skips images since only data (P5 claims) changed.\n\n\n\n\nStep 8 — Apply P5 updates on DEV\nRun locally, pointing at the DEV API:\npython scripts/update-chapter-wiki-urls.py --env dev\nThis rewrites the P5 URLs using the DEV base domain (https://dev-climatekg.semanticclimate.org).\n\n\n\nStep 9 — Promote DEV → TEST\n.\\scripts\\sync\\sync-dev-to-test.ps1\nThen apply P5 updates for the TEST domain:\npython scripts/update-chapter-wiki-urls.py --env test\n\n\n\nStep 10 — Promote TEST → PROD\n.\\scripts\\sync\\sync-dev-to-prod.ps1\nThen apply P5 updates for the PROD domain:\npython scripts/update-chapter-wiki-urls.py --env prod"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#re-running-after-a-domain-change",
+    "href": "documentation/p5-url-update-guide.html#re-running-after-a-domain-change",
+    "title": "",
+    "section": "Re-running After a Domain Change",
+    "text": "Re-running After a Domain Change\nIf any environment’s domain name changes, re-run the script for that environment:\npython scripts/update-chapter-wiki-urls.py --env &lt;env&gt;\nThe script will detect that the existing P5 value doesn’t match the new domain and update it. Items with no P5 at all will have one created."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#re-running-for-a-new-chapter-item",
+    "href": "documentation/p5-url-update-guide.html#re-running-for-a-new-chapter-item",
+    "title": "",
+    "section": "Re-running for a New Chapter Item",
+    "text": "Re-running for a New Chapter Item\nIf a new Chapter item is added (P1=Q6) with a climatekg-wiki sitelink, re-run the script for the relevant environment(s). Existing items are skipped (idempotent), so there is no risk of overwriting correct values."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#known-issues",
+    "href": "documentation/p5-url-update-guide.html#known-issues",
+    "title": "",
+    "section": "Known Issues",
+    "text": "Known Issues\nNo known issues. All 88 Chapter items have climatekg-wiki sitelinks and correct P5 values.\n\nPreviously: Q125 (“Poverty, Livelihoods and Sustainable Development” — WGII Chapter 8) was missing its sitelink. Fixed by adding sitelink IPCC:AR6/WGII/Chapter-8 to the item and re-running the script."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#verification",
+    "href": "documentation/p5-url-update-guide.html#verification",
+    "title": "",
+    "section": "Verification",
+    "text": "Verification\nA verification CSV was generated during the initial run:\nFile: chapter-urls-verification.csv\nColumns: QID, Label, MediaWiki_Page_Title, P5_URL\nRows: 88 (all with updated URLs)\nTo regenerate the CSV at any time (e.g. to verify DEV or PROD):\npython scripts/_gen_verification_csv.py"
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#environment-password-variable-mapping",
+    "href": "documentation/p5-url-update-guide.html#environment-password-variable-mapping",
+    "title": "",
+    "section": "Environment → Password Variable Mapping",
+    "text": "Environment → Password Variable Mapping\n\n\n\n\n\n\n\n\nEnvironment\nPassword variable\nAPI endpoint\n\n\n\n\nLOCAL\nWB_PASSWORD\nhttp://localhost:8080/w/api.php\n\n\nDEV\nDEV_MW_ADMIN_PASS\nhttps://dev-climatekg.semanticclimate.org/w/api.php\n\n\nTEST\nTEST_MW_ADMIN_PASS\nhttps://test-climatekg.semanticclimate.org/w/api.php\n\n\nPROD\nPROD_MW_ADMIN_PASS\nhttps://prod-climatekg.semanticclimate.org/w/api.php\n\n\n\nAll variables are read from C:\\Wikibase\\.env."
+  },
+  {
+    "objectID": "documentation/p5-url-update-guide.html#related",
+    "href": "documentation/p5-url-update-guide.html#related",
+    "title": "",
+    "section": "Related",
+    "text": "Related\n\nScript: scripts/update-chapter-wiki-urls.py\nSitelinks setup: internal project note (not published in this repository).\nSync workflow: multi-env-workflow.md §4\nExperimental workflow: multi-env-workflow.md §11"
+  },
+  {
+    "objectID": "documentation/data-visualisation-and-ontology-options.html",
+    "href": "documentation/data-visualisation-and-ontology-options.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "documentation/data-visualisation-and-ontology-options.html#dataset-overview",
+    "href": "documentation/data-visualisation-and-ontology-options.html#dataset-overview",
+    "title": "",
+    "section": "Dataset Overview",
+    "text": "Dataset Overview\nFive datasets form the knowledge graph, with Corpus as the core and Chapter as the atomic unit. All other datasets connect upward to this backbone.\nWORK\n └── REPORT_SERIES\n      └── REPORT  ◄──── Bibliographic enrichment\n           └── TEXT_DIVISION\n                └── CHAPTER  ◄──── Authors (contributed_to)\n                             ◄──── Glossary (series_ref → Report)\n                             ◄──── Acronyms (part_of → Report)\n\n\n\n\n\n\n\n\nDataset\nItems\nConnects to\n\n\n\n\nCorpus\nWork, Report Series, Report, Text Division, Chapter\n— (core)\n\n\nAuthors\nAuthor + Chapter contributions + Role qualifiers\nChapter (P27)\n\n\nBibliographic\nPublisher, ISBNs, Licence, Abstract\nReport, Chapter (enrichment)\n\n\nGlossary\nTerm, Definition, AKA\nReport (series_ref)\n\n\nAcronyms\nCode, Description variants\nReport (Part of)"
+  },
+  {
+    "objectID": "documentation/data-visualisation-and-ontology-options.html#visualisation-options",
+    "href": "documentation/data-visualisation-and-ontology-options.html#visualisation-options",
+    "title": "",
+    "section": "1. Visualisation Options",
+    "text": "1. Visualisation Options\n\n1.1 Structural / Hierarchical\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nSunburst / Treemap\nCorpus hierarchy depth (Work → Chapter); relative chapter counts per Working Group\nPlotly, D3.js\n\n\nCollapsible tree\nFull Work → Series → Report → Text Division → Chapter drill-down\nD3.js, Observable\n\n\nEntity-Relationship Diagram\nFormal schema of all 5 datasets (already exists in /erm/)\nMermaid (embedded in Quarto)\n\n\n\n\n\n1.2 Author Network\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nBipartite graph\nAuthor ↔︎ Chapter contribution network; identifies high-contribution authors and co-chapter clusters\nNetworkX + matplotlib, Gephi\n\n\nChord diagram\nCross-WG author sharing (authors contributing to multiple Working Groups)\nD3.js chord, HiPlot\n\n\nHeatmap\nAuthor × Report/WG contribution density\nSeaborn, Plotly\n\n\nBar chart (country/gender)\nCitizenship or gender distribution per Working Group — good for a report section on diversity\nMatplotlib, Plotly\n\n\n\n\n\n1.3 Knowledge Graph Coverage\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nStacked bar / grouped bar\nCount of items per class (Chapter, Author, Glossary Term, Acronym) — KG size overview\nMatplotlib\n\n\nBubble chart\nChapters × Author count × Gender ratio per Working Group\nPlotly\n\n\nForce-directed graph\nAll entity types as nodes, relationship types as edges; shows connectivity of datasets\nvis.js, Gephi, Cytoscape\n\n\n\n\n\n1.4 Bibliographic / Metadata Completeness\n\n\n\n\n\n\n\n\nType\nWhat it shows\nBest tool\n\n\n\n\nCompleteness matrix (heatmap)\nWhich Reports/Chapters have DOI, ISBN, PDF, OpenAlex, Abstract filled\nSeaborn, Plotly\n\n\nTimeline\nReport publication dates across AR6\nPlotly timeline / Gantt"
+  },
+  {
+    "objectID": "documentation/data-visualisation-and-ontology-options.html#ontology-schema-options",
+    "href": "documentation/data-visualisation-and-ontology-options.html#ontology-schema-options",
+    "title": "",
+    "section": "2. Ontology & Schema Options",
+    "text": "2. Ontology & Schema Options\n\n2.1 Bibliographic Structure (Corpus)\n\nFRBR / FRBRoo\n\nFit: High. The Work → Report Series → Report → Text Division → Chapter hierarchy maps directly onto FRBR’s Work/Expression/Manifestation levels.\nfrbr:Work → WORK; frbr:Expression → REPORT; frbr:Manifestation → TEXT_DIVISION/CHAPTER\nFRBRoo (OWL version) is preferred for RDF/linked data contexts.\n\n\n\nFaBiO (FRBR-aligned Bibliographic Ontology)\n\nFit: High. Purpose-built for academic publications.\nfabio:Report → REPORT; fabio:BookChapter → CHAPTER; fabio:WorkCollection → REPORT_SERIES\nAlready uses DOI, ISBN, OpenAlex-style identifiers.\n\n\n\nBIBO (Bibliographic Ontology)\n\nFit: Medium–High. Simpler than FaBiO; good for quick RDF export.\nbibo:Book → REPORT; bibo:BookSection → CHAPTER; bibo:DocumentPart → TEXT_DIVISION\nHandles DOI (bibo:doi), ISBN (bibo:isbn13), PDF URL.\n\n\n\n\n2.2 Authors\n\nFOAF (Friend of a Friend)\n\nFit: High. foaf:Person covers last_name, first_name, affiliation (org:memberOf).\nPair with schema.org schema:Person for gender, nationality, worksFor.\n\n\n\nschema.org\n\nFit: High. schema:Person + schema:affiliation + schema:nationality.\nschema:contributor links Person → Chapter, with schema:roleName for the role qualifier.\n\n\n\nPROV-O\n\nFit: Medium. Useful if you want to record how author data was sourced (provenance on P27 statements).\n\n\n\n\n2.3 Glossary & Acronyms\n\nSKOS (Simple Knowledge Organization System)\n\nFit: Very High. Designed exactly for controlled vocabularies and glossaries.\nskos:Concept → GLOSSARY_TERM / ACRONYM\nskos:prefLabel → name / code; skos:altLabel → also_known_as\nskos:definition → definition / description\nskos:inScheme → link term to the Report it belongs to\n\n\n\nLEMON / OntoLex\n\nFit: Medium. Extends SKOS with lexical entries; useful if acronym variant descriptions (multiple &lt;description source=…&gt; elements) need finer modelling.\n\n\n\n\n2.4 Provenance & References\n\nPROV-O\n\nFit: High for the bibliographic enrichment pipeline (P17 date accessed, P19 source version).\nprov:wasDerivedFrom, prov:generatedAtTime, prov:wasAttributedTo map to the reference block on each statement.\n\n\n\nDublin Core / DataCite\n\nFit: Medium. dc:identifier (DOI), dc:date, dc:publisher, dc:rights (Licence URL) all appear in the Bibliographic dataset. DataCite Metadata Schema 4.x covers the same fields more precisely for DOI-registered items."
+  },
+  {
+    "objectID": "documentation/data-visualisation-and-ontology-options.html#summary-recommendation",
+    "href": "documentation/data-visualisation-and-ontology-options.html#summary-recommendation",
+    "title": "",
+    "section": "3. Summary Recommendation",
+    "text": "3. Summary Recommendation\n\n\n\n\n\n\n\n\nLayer\nRecommended ontology\nRationale\n\n\n\n\nCorpus structure\nFaBiO + BIBO\nBest coverage of Report/Chapter hierarchy with DOI/ISBN fields\n\n\nAuthors\nschema.org Person + FOAF\nWide tooling support; role qualifier fits schema:Role\n\n\nGlossary / Acronyms\nSKOS\nStandard for controlled vocabularies; already partially used (skos:altLabel in DTD)\n\n\nProvenance\nPROV-O\nMaps directly to existing P17/P18/P19 reference properties\n\n\nVisualisation (report)\nSunburst (structure) + Bar charts (diversity) + ERM (schema)\nCover hierarchy, people data, and formal schema in one report section"
+  },
+  {
+    "objectID": "data_protocol.html",
+    "href": "data_protocol.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "change-log.html",
+    "href": "change-log.html",
+    "title": "Change Log",
+    "section": "",
+    "text": "This is temporary Change Log content.\nProject updates will be tracked here."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This is temporary About content.\nMore details will be added soon."
+  },
+  {
+    "objectID": "accessibility.html",
+    "href": "accessibility.html",
+    "title": "Accessibility",
+    "section": "",
+    "text": "This is temporary Accessibility content.\nAccessibility details and contact information will be added soon."
+  },
+  {
+    "objectID": "data-protection.html",
+    "href": "data-protection.html",
+    "title": "Data protection",
+    "section": "",
+    "text": "This is temporary Data protection content.\nA full privacy and data protection statement will be added soon."
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html",
+    "href": "documentation/corpus-ar6-wiki-url-update.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#background",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#background",
+    "title": "",
+    "section": "Background",
+    "text": "Background\nThe WIKI column stores the MediaWiki page URL for each chapter item in the ClimateKG corpus. The original values used an old domain and a colon-delimited page title format, e.g.:\nhttps://test.kewl.org/wiki/IPCC:Wg2:Chapter:Chapter-1\nAfter the Wikibase sitelinks feature was implemented and the P5 update script (scripts/update-chapter-wiki-urls.py) was run across all environments, the canonical URLs changed to a slash-delimited format on the PROD domain, e.g.:\nhttps://prod-climatekg.semanticclimate.org/wiki/IPCC:AR6/WGII/Chapter-1\nThe CSV needed to be updated to match the live PROD P5 values."
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#scope",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#scope",
+    "title": "",
+    "section": "Scope",
+    "text": "Scope\n\nFile: research_data/data-xml-dtd/corpus-ar6.csv\nColumn updated: WIKI (column 1)\nRows updated: 88 chapter items (all rows that already had a WIKI URL)\nRows unchanged: 17 report-level rows (WIKI column empty — these have no corresponding chapter item)"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#update-process",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#update-process",
+    "title": "",
+    "section": "Update Process",
+    "text": "Update Process\n\n1. Query PROD SPARQL for current P5 values\nThe PROD SPARQL endpoint was queried to retrieve the live P5 (Wiki URL) and P10 (DOI) for every item where P1=Q6 (Chapter):\nSELECT ?item ?p5 ?doi WHERE {\n  ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P1&gt;\n        &lt;https://prod-climatekg.semanticclimate.org/entity/Q6&gt; .\n  OPTIONAL { ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P5&gt; ?p5 . }\n  OPTIONAL { ?item &lt;https://prod-climatekg.semanticclimate.org/prop/direct/P10&gt; ?doi . }\n}\nSPARQL endpoint: https://prod-climatekg.semanticclimate.org/query/proxy/sparql\n\n\n2. Build DOI → URL mapping\nThe SPARQL results provide a direct DOI → PROD URL mapping. DOI is stable across environments and uniquely identifies each chapter item in the CSV.\n\n\n3. Update the CSV\nFor each row in the CSV that has a non-empty WIKI value, the DOI in column 9 was looked up in the mapping and the WIKI column was replaced with the corresponding PROD URL. Rows with no WIKI value (report-level rows) were not modified.\nThe update was applied in-place using Python’s csv module to preserve field quoting."
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#url-format-change-summary",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#url-format-change-summary",
+    "title": "",
+    "section": "URL Format Change Summary",
+    "text": "URL Format Change Summary\n\n\n\n\n\n\n\n\nReport\nOld format (example)\nNew format (example)\n\n\n\n\nSR15\nIPCC:Sr15:Chapter:Spm\nIPCC:AR6/SR15/SPM\n\n\nSRCCL\nIPCC:Srccl:Chapter:Summary-for-policymakers\nIPCC:AR6/SRCCL/SPM\n\n\nSROCC\nIPCC:Srocc:Chapter:Chapter-2\nIPCC:AR6/SROCC/Chapter-2\n\n\nWGI\nIPCC:Wg1:Chapter:Chapter-1\nIPCC:AR6/WGI/Chapter-1\n\n\nWGII\nIPCC:Wg2:Chapter:Chapter-1\nIPCC:AR6/WGII/Chapter-1\n\n\nWGIII\nIPCC:Wg3:Chapter:Chapter-1\nIPCC:AR6/WGIII/Chapter-1\n\n\nSYR\nIPCC:Syr\nIPCC:AR6/SYR/SPM\n\n\nSYR\nIPCC:Syr:Longer-report\nIPCC:AR6/SYR/Longer-Report\n\n\n\nAll URLs use base: https://prod-climatekg.semanticclimate.org/wiki/"
+  },
+  {
+    "objectID": "documentation/corpus-ar6-wiki-url-update.html#re-running-after-a-prod-update",
+    "href": "documentation/corpus-ar6-wiki-url-update.html#re-running-after-a-prod-update",
+    "title": "",
+    "section": "Re-running After a PROD Update",
+    "text": "Re-running After a PROD Update\nIf the PROD P5 values change (e.g. after a domain change or new chapter items), re-run the SPARQL query and apply the mapping again. The process is safe to repeat — only rows with a WIKI URL are touched.\nThe P5 update script that keeps Wikibase in sync is documented in p5-url-update-guide.md."
+  },
+  {
+    "objectID": "documentation/menu.html",
+    "href": "documentation/menu.html",
+    "title": "",
+    "section": "",
+    "text": "Code\n\n\n\n\nGet Involved! Data Analysis Data ER Model Software\nAbout Roadmap Change Log Imprint Data protection Terms of use Accessibility"
+  },
+  {
+    "objectID": "documentation/references/ar.html",
+    "href": "documentation/references/ar.html",
+    "title": "",
+    "section": "",
+    "text": "Code\n\n\n\n\nAR1: https://www.ipcc.ch/reports/?rp=ar1 (1990) AR2: https://www.ipcc.ch/reports/?rp=ar2 (1995) AR3: https://www.ipcc.ch/reports/?rp=ar3 (2001) AR4: https://www.ipcc.ch/reports/?rp=ar4 (2007) AR5: https://www.ipcc.ch/reports/?rp=ar5 (2014)"
+  },
+  {
+    "objectID": "imprint.html",
+    "href": "imprint.html",
+    "title": "Imprint",
+    "section": "",
+    "text": "This is temporary Imprint content.\nLegal imprint details will be added soon."
+  },
+  {
+    "objectID": "multi-env-workflow.html",
+    "href": "multi-env-workflow.html",
+    "title": "Multi-Environment Workflow",
+    "section": "",
+    "text": "This page documents how the ClimateKG project is developed and published across the different local and public environments used during analysis and site updates.\n\n\nThe project is built as a Quarto website and rendered to the docs folder. Notebook-based analysis files under sparql_queries/ are executed against the live Wikibase instance and then published as static pages.\n\n\n\n\nUpdate the SPARQL notebooks and supporting queries.\nValidate the endpoint and credentials against the live ClimateKG instance.\nRun the site render locally with Quarto.\nCheck the generated pages in the docs output.\n\n\n\n\n\nReview the rendered site output.\nCommit the changes to the repository.\nPublish the updated site via the project deployment process."
+  },
+  {
+    "objectID": "multi-env-workflow.html#overview",
+    "href": "multi-env-workflow.html#overview",
+    "title": "Multi-Environment Workflow",
+    "section": "",
+    "text": "The project is built as a Quarto website and rendered to the docs folder. Notebook-based analysis files under sparql_queries/ are executed against the live Wikibase instance and then published as static pages."
+  },
+  {
+    "objectID": "multi-env-workflow.html#local-workflow",
+    "href": "multi-env-workflow.html#local-workflow",
+    "title": "Multi-Environment Workflow",
+    "section": "",
+    "text": "Update the SPARQL notebooks and supporting queries.\nValidate the endpoint and credentials against the live ClimateKG instance.\nRun the site render locally with Quarto.\nCheck the generated pages in the docs output."
+  },
+  {
+    "objectID": "multi-env-workflow.html#publishing-workflow",
+    "href": "multi-env-workflow.html#publishing-workflow",
+    "title": "Multi-Environment Workflow",
+    "section": "",
+    "text": "Review the rendered site output.\nCommit the changes to the repository.\nPublish the updated site via the project deployment process."
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html",
+    "href": "research_data/data-vis/README-quarto.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#prerequisites",
+    "href": "research_data/data-vis/README-quarto.html#prerequisites",
+    "title": "",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nInstall Quarto from https://quarto.org/docs/get-started/"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#building-the-site",
+    "href": "research_data/data-vis/README-quarto.html#building-the-site",
+    "title": "",
+    "section": "Building the Site",
+    "text": "Building the Site\nNote: The Quarto project is located at the root of the repository.\nFrom the repository root:\nquarto render\nThe output will be generated in the docs/ folder at the repository root."
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#previewing-the-site",
+    "href": "research_data/data-vis/README-quarto.html#previewing-the-site",
+    "title": "",
+    "section": "Previewing the Site",
+    "text": "Previewing the Site\nTo preview with live reload:\nquarto preview"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
+    "href": "research_data/data-vis/README-quarto.html#publishing-to-github-pages",
+    "title": "",
+    "section": "Publishing to GitHub Pages",
+    "text": "Publishing to GitHub Pages\nIf your repository is on GitHub, you can publish to GitHub Pages:\n\nPush the docs/ folder to your repository\nGo to Settings &gt; Pages\nSet source to “Deploy from a branch”\nSelect the main branch and /docs folder\nSave\n\nYour site will be available at: https://tibhannover.github.io/Climate-KG-data/"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#project-structure",
+    "href": "research_data/data-vis/README-quarto.html#project-structure",
+    "title": "",
+    "section": "Project Structure",
+    "text": "Project Structure\nAt repository root: - _quarto.yml - Project configuration - index.qmd - Home page - docs/ - Generated website output\nNotebook sources: - research_data/data-vis/ar6-authors-distribution-analysis.ipynb - AR6 authors analysis - research_data/data-vis/wikibase-inventory-dashboard.ipynb - Wikibase inventory dashboard"
+  },
+  {
+    "objectID": "research_data/data-vis/README-quarto.html#configuration",
+    "href": "research_data/data-vis/README-quarto.html#configuration",
+    "title": "",
+    "section": "Configuration",
+    "text": "Configuration\nThe project is configured with: - Code folding enabled (collapsed by default, expandable) - Code tools available - Table of contents - Cosmo theme - Auto-freeze for faster re-renders"
+  },
+  {
+    "objectID": "research_data/data-xml-dtd/erm/erm.html",
+    "href": "research_data/data-xml-dtd/erm/erm.html",
+    "title": "",
+    "section": "",
+    "text": "Code\n\n\n\n\nerDiagram\n\n    %% -- corpus-ar6.dtd ------------------------------------------\n    %% Top-level corpus structure (Work, Publication, Series, Book, Chapter)\n    %%  WORK=Q2  PUBLICATION=Q3  SERIES=Q4  BOOK=Q5  CHAPTER=Q6\n\n    WORK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2\"\n    }\n    PUBLICATION {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3\"\n        String title \"rdfs:label item label\"\n        String description \"rdfs:description item description\"\n        WikibaseItem part_of \"P3 Part of: parent Work\"\n        WikibaseItem parts \"P4 Parts: child Series or Books\"\n    }\n    SERIES {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q4\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Publication\"\n        WikibaseItem parts \"P4 Parts: child Books and Chapters\"\n    }\n    BOOK {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q5\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String isbn_elec \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        String license \"P11 LICENSE\"\n        WikibaseItem tags \"P12 Has TAG\"\n        String date \"P8 Date\"\n        Url pdf \"P7 PDF\"\n        String openalex \"P9 OPENALEX\"\n        WikibaseItem part_of \"P3 Part of: parent Series\"\n        WikibaseItem parts \"P4 Parts: child Chapters\"\n    }\n    CHAPTER {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q6\"\n        String title \"rdfs:label item label\"\n        String doi \"P10 DOI\"\n        String openalex \"P9 OPENALEX\"\n        Url wiki \"P5 Wiki\"\n        Url source \"P6 Source\"\n        Url pdf \"P7 PDF\"\n        WikibaseItem tags \"P12 Has TAG\"\n        WikibaseItem part_of \"P3 Part of: parent Book\"\n    }\n    PUBLICATION ||--o{ SERIES : \"P4 contains\"\n    PUBLICATION ||--o{ BOOK : \"P4 contains\"\n    SERIES ||--o{ BOOK : \"P4 contains\"\n    SERIES |o--|{ CHAPTER : \"P4 front_matter\"\n    BOOK ||--|{ CHAPTER : \"P4 chapters\"\n\n    %% -- authors-ar6.dtd ------------------------------------------\n    %% IPCC AR6 author records linked to Chapter items via P27\n    %%  AUTHOR=Q3998\n\n    AUTHOR {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q3998\"\n        String climatkg_author_id \"P20 ClimateKG Author ID: e.g. AU0001\"\n        String last_name \"P21 last name\"\n        String first_name \"P22 first name\"\n        String gender \"P23 gender: M or F\"\n        String citizenship \"P24 citizenship\"\n        String country_of_residence \"P25 country of residence\"\n        String affiliation \"P26 affiliation\"\n        WikibaseItem contributed_to \"P27 contributed to chapter: FK to Q6 Chapter\"\n    }\n    CONTRIBUTION {\n        WikibaseItem chapter_qid \"P27 contributed to chapter: FK to Chapter QID\"\n        String report \"(qualifier): AR6 report code\"\n        String role \"P28 role: qualifier on P27\"\n        Url source_url \"P6 Source: reference on P27\"\n        Time date_accessed \"P17 date accessed: reference on P27\"\n    }\n    AUTHOR ||--|{ CONTRIBUTION : \"makes\"\n    CONTRIBUTION }o--o| CHAPTER : \"P27 chapter_qid (QID ref)\"\n\n    %% -- bibliographic-ar6.dtd ------------------------------------------\n    %% DOI bibliographic enrichment added to existing Series and Chapter items\n    %%  BIB_ITEM=Q4 or Q6\n\n    BIB_ITEM {\n        WikibaseItem qid \"existing item QID: Q4 Series or Q6 Chapter\"\n        String type_disc \"type discriminator: Series or Chapter\"\n    }\n    STATEMENT {\n        String publisher_doi \"P29 Publisher (DOI)\"\n        String isbn_electronic \"P30 ISBN Electronic (DOI)\"\n        String isbn_print \"P31 ISBN Print (DOI)\"\n        Url licence_url \"P32 Licence URL (DOI)\"\n        String abstract_doi \"P33 Abstract (DOI)\"\n    }\n    REFERENCE {\n        Url source_url \"P6 Source: reference URL\"\n        Time date_accessed \"P17 date accessed: ISO 8601\"\n        String source_version \"P19 source version: e.g. Crossref\"\n    }\n    BIB_ITEM ||--|{ STATEMENT : \"has\"\n    STATEMENT ||--|| REFERENCE : \"has\"\n    BIB_ITEM }o--o| SERIES : \"enriches (type=Series)\"\n    BIB_ITEM }o--o| CHAPTER : \"enriches (type=Chapter)\"\n\n    %% -- glossary-ar6.dtd ------------------------------------------\n    %% IPCC AR6 glossary terms (P1=Q1 Category) linked to Series via P3\n    %%  GLOSSARY_TERM=Q1\n\n    GLOSSARY_TERM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q1 Category\"\n        String name \"rdfs:label item label\"\n        String also_known_as \"skos:altLabel item alias\"\n        Monolingualtext definition \"P13 Definition\"\n        WikibaseItem part_of_series \"P3 Part of: FK to Q4 Series via series_ref\"\n    }\n    GLOSSARY_TERM }o--o{ SERIES : \"P3 Part of (series_ref)\"\n\n    %% -- acronyms-ar6.dtd ------------------------------------------\n    %% IPCC AR6 acronyms (P1=Q2087 Acronym) linked to Series reports via P3\n    %%  ACRONYM=Q2087\n\n    ACRONYM {\n        WikibaseItem instance_of \"P1 Instance of: P1=Q2087\"\n        String code \"rdfs:label acronym code as item label\"\n        Monolingualtext description \"P13 Definition: multiple; source as qualifier\"\n        WikibaseItem report \"P3 Part of: FK to Q4 Series (report)\"\n    }\n    ACRONYM }o--o{ SERIES : \"P3 Part of (report)\""
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html",
+    "href": "sparql_queries/The Rock.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#important-links",
+    "href": "sparql_queries/The Rock.html#important-links",
+    "title": "",
+    "section": "Important links",
+    "text": "Important links\n\nERM model README\nClass instance counts notebook\nThe Rock reference\n\nThis note is the shared reference base for the ClimateKG notebooks. It captures the core ER model and keeps the graph interpretation stable across the report-structure, authors, glossary, and acronyms analyses.\nThe source of truth for this reference is the ER model documentation in research_data/data-xml-dtd/erm/README.qmd."
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#canonical-kg-structure",
+    "href": "sparql_queries/The Rock.html#canonical-kg-structure",
+    "title": "",
+    "section": "Canonical KG structure",
+    "text": "Canonical KG structure\nThe intended corpus hierarchy is:\nWork (Q2) -&gt; Report Series (Q3) -&gt; Report (Q4) -&gt; Text Division (Q5) -&gt; Chapter (Q6)\nThis is the governing structure for the report hierarchy. The notebook queries should be interpreted against this model, not the other way around."
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#relationship-semantics",
+    "href": "sparql_queries/The Rock.html#relationship-semantics",
+    "title": "",
+    "section": "Relationship semantics",
+    "text": "Relationship semantics\n\nP1 = Instance of\nP3 = Part of\nP4 = Parts\n\nIn the intended model, the report tree is represented through the part-of / parts relationships between items in the hierarchy."
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#entity-and-class-mapping",
+    "href": "sparql_queries/The Rock.html#entity-and-class-mapping",
+    "title": "",
+    "section": "Entity and class mapping",
+    "text": "Entity and class mapping\nThe ER model defines the relevant classes and their roles in the graph:\n\nQ2 Work\nQ3 Report Series\nQ4 Report\nQ5 Text Division\nQ6 Chapter\nQ1 Category / glossary terms\nQ2087 Acronym\nQ3998 Author\n\nThe same model also defines the key author and enrichment properties used across the notebooks:\n\nP20 ClimateKG Author ID\nP27 contributed to chapter\nP3/P4 for report structure\nP13 Definition\nP12 Has TAG"
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#dtd-sections-represented-in-the-model",
+    "href": "sparql_queries/The Rock.html#dtd-sections-represented-in-the-model",
+    "title": "",
+    "section": "DTD sections represented in the model",
+    "text": "DTD sections represented in the model\nThe ER model is organized around the five XML/DTD sections:\n\ncorpus-ar6 — top-level corpus hierarchy\nauthors-ar6 — author records and contributions\nbibliographic-ar6 — DOI / bibliographic enrichment\nglossary-ar6 — glossary terms / category entries\nacronyms-ar6 — acronym entries"
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#working-rule-for-the-notebooks",
+    "href": "sparql_queries/The Rock.html#working-rule-for-the-notebooks",
+    "title": "",
+    "section": "Working rule for the notebooks",
+    "text": "Working rule for the notebooks\nEach notebook should follow the same pattern:\n\nStart from the canonical ER model in this note.\nQuery the live Wikibase to see what is actually present.\nCompare the live result to the intended model.\nReport the graph faithfully, including partial or snapshot-style outputs when the live data is incomplete.\n\nThis means that a notebook should not silently assume the full hierarchy exists if only a subset is present. Instead, it should record the actual live structure and call out the difference against the ER model."
+  },
+  {
+    "objectID": "sparql_queries/The Rock.html#in-plain-terms",
+    "href": "sparql_queries/The Rock.html#in-plain-terms",
+    "title": "",
+    "section": "In plain terms",
+    "text": "In plain terms\nThe Rock is the stable reference layer: it keeps the KB structure clear, preserves the intended hierarchy, and prevents the notebooks from drifting into interpretations that are not grounded in the project ER mapping."
   },
   {
     "objectID": "sparql_queries/authors-notes.html",
@@ -1390,28 +1460,28 @@
     "href": "sparql_queries/authors.html",
     "title": "Authors",
     "section": "",
-    "text": "This notebook explores author contribution patterns in the ClimateKG graph by tracing which chapters each author contributed to.\nWe use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.\nQuery UI: https://climatekg.tibwiki.io/query/\nSPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nThis notebook follows the same query-first workflow as the Report Structure notebook: validate the graph structure before moving to analysis.\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\n\nSELECT ?author ?authorLabel ?chapter ?chapterLabel ?authorId\nWHERE {\n  ?author wdt:P20 ?authorId .\n  ?author wdt:P27 ?chapter .\n  ?chapter wdt:P1 wd:Q6 .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?authorLabel ?chapterLabel\nLIMIT 200\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\nRows returned: 0"
+    "text": "This notebook explores author contribution patterns in the ClimateKG graph by tracing which chapters each author contributed to.\nWe use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.\nQuery UI: https://climatekg.tibwiki.io/query/\nSPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nThis notebook follows the same query-first workflow as the Report Structure notebook: validate the graph structure before moving to analysis.\n\n\nShow code\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\n\n\n\n\nShow code\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\n\nSELECT ?author ?authorLabel ?chapter ?chapterLabel ?authorId\nWHERE {\n  ?author wdt:P20 ?authorId .\n  ?author wdt:P27 ?chapter .\n  ?chapter wdt:P1 wd:Q6 .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?authorLabel ?chapterLabel\nLIMIT 200\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\n\nRows returned: 200\n\n\n\n\n\n\n\n\n\nchapter\nauthor\nauthorId\nauthorLabel\nchapterLabel\n\n\n\n\n0\nhttps://climatekg.tibwiki.io/entity/Q158\nhttps://climatekg.tibwiki.io/entity/Q4750\nAU0752\nAdam Mohammed Sebbit\nMitigation Pathways Compatible with Long-term ...\n\n\n1\nhttps://climatekg.tibwiki.io/entity/Q141\nhttps://climatekg.tibwiki.io/entity/Q4833\nAU0835\nAdelle Thomas\nCities and Settlements by the Sea\n\n\n2\nhttps://climatekg.tibwiki.io/entity/Q26\nhttps://climatekg.tibwiki.io/entity/Q4833\nAU0835\nAdelle Thomas\nImpacts of 1.5°C Global Warming on Natural and...\n\n\n3\nhttps://climatekg.tibwiki.io/entity/Q133\nhttps://climatekg.tibwiki.io/entity/Q4833\nAU0835\nAdelle Thomas\nKey Risks across Sectors and Regions\n\n\n4\nhttps://climatekg.tibwiki.io/entity/Q67\nhttps://climatekg.tibwiki.io/entity/Q4592\nAU0594\nAditi Mukherji\nHigh Mountain Areas\n\n\n5\nhttps://climatekg.tibwiki.io/entity/Q192\nhttps://climatekg.tibwiki.io/entity/Q4592\nAU0594\nAditi Mukherji\nLonger Report\n\n\n6\nhttps://climatekg.tibwiki.io/entity/Q190\nhttps://climatekg.tibwiki.io/entity/Q4592\nAU0594\nAditi Mukherji\nSummary for Policymakers\n\n\n7\nhttps://climatekg.tibwiki.io/entity/Q116\nhttps://climatekg.tibwiki.io/entity/Q4592\nAU0594\nAditi Mukherji\nWater\n\n\n8\nhttps://climatekg.tibwiki.io/entity/Q178\nhttps://climatekg.tibwiki.io/entity/Q4007\nAU0009\nAdolf Acquaye\nIndustry\n\n\n9\nhttps://climatekg.tibwiki.io/entity/Q179\nhttps://climatekg.tibwiki.io/entity/Q4484\nAU0486\nAdrian Leip\nCross-sectoral Perspectives\n\n\n10\nhttps://climatekg.tibwiki.io/entity/Q44\nhttps://climatekg.tibwiki.io/entity/Q4785\nAU0787\nAdrian Spence\nFraming and context\n\n\n11\nhttps://climatekg.tibwiki.io/entity/Q126\nhttps://climatekg.tibwiki.io/entity/Q4287\nAU0289\nAdugna Gemeda\nAfrica\n\n\n12\nhttps://climatekg.tibwiki.io/entity/Q183\nhttps://climatekg.tibwiki.io/entity/Q4739\nAU0741\nAgus Pratama Sari\nInternational Cooperation\n\n\n13\nhttps://climatekg.tibwiki.io/entity/Q117\nhttps://climatekg.tibwiki.io/entity/Q4253\nAU0255\nAidan Farrell\nFood, Fibre and Other Ecosystem Products\n\n\n14\nhttps://climatekg.tibwiki.io/entity/Q149\nhttps://climatekg.tibwiki.io/entity/Q4253\nAU0255\nAidan Farrell\nTropical Forests\n\n\n15\nhttps://climatekg.tibwiki.io/entity/Q192\nhttps://climatekg.tibwiki.io/entity/Q4774\nAU0776\nAimée Slangen\nLonger Report\n\n\n16\nhttps://climatekg.tibwiki.io/entity/Q98\nhttps://climatekg.tibwiki.io/entity/Q4774\nAU0776\nAimée Slangen\nOcean, Cryosphere and Sea Level Change\n\n\n17\nhttps://climatekg.tibwiki.io/entity/Q190\nhttps://climatekg.tibwiki.io/entity/Q4774\nAU0776\nAimée Slangen\nSummary for Policymakers\n\n\n18\nhttps://climatekg.tibwiki.io/entity/Q168\nhttps://climatekg.tibwiki.io/entity/Q4769\nAU0771\nAjay Kumar Singh\nEnergy Systems\n\n\n19\nhttps://climatekg.tibwiki.io/entity/Q127\nhttps://climatekg.tibwiki.io/entity/Q4441\nAU0443\nAkio Kitoh\nAsia\n\n\n\n\n\n\n\n\n\nEach row records an author linked to a chapter they contributed to. The P20 property is a stable author identifier used to deduplicate repeated author entries, while P27 captures the chapter contribution relationship.\nThis gives us a clean starting point for author-level analysis: we can count how many chapters each author contributed to, find repeated collaborators, and then extend the analysis to a more network-oriented view."
   },
   {
     "objectID": "sparql_queries/authors.html#interpretation",
     "href": "sparql_queries/authors.html#interpretation",
     "title": "Authors",
-    "section": "Interpretation",
-    "text": "Interpretation\nEach row records an author linked to a chapter they contributed to. The P20 property is a stable author identifier used to deduplicate repeated author entries, while P27 captures the chapter contribution relationship.\nThis gives us a clean starting point for author-level analysis: we can count how many chapters each author contributed to, find repeated collaborators, and then extend the analysis to a more network-oriented view."
+    "section": "",
+    "text": "Each row records an author linked to a chapter they contributed to. The P20 property is a stable author identifier used to deduplicate repeated author entries, while P27 captures the chapter contribution relationship.\nThis gives us a clean starting point for author-level analysis: we can count how many chapters each author contributed to, find repeated collaborators, and then extend the analysis to a more network-oriented view."
   },
   {
     "objectID": "sparql_queries/glossary.html",
     "href": "sparql_queries/glossary.html",
     "title": "Glossary Terms",
     "section": "",
-    "text": "This notebook explores glossary terms in the ClimateKG graph by tracing how glossary entries are linked to report and concept structure.\nWe use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.\nQuery UI: https://climatekg.tibwiki.io/query/\nSPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nThis notebook follows the same query-first workflow as the earlier notebooks: validate the graph structure before interpreting the terminology and concept distribution.\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\n\nSELECT ?term ?termLabel ?report ?reportLabel ?termType ?termTypeLabel\nWHERE {\n  ?term wdt:P1 wd:Q1 .\n  ?term wdt:P3 ?report .\n  OPTIONAL { ?term wdt:P1 ?termType . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?reportLabel ?termLabel\nLIMIT 200\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\nRows returned: 0"
+    "text": "This notebook explores glossary terms in the ClimateKG graph by tracing how glossary entries are linked to report and concept structure.\nWe use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.\nQuery UI: https://climatekg.tibwiki.io/query/\nSPARQL endpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nThis notebook follows the same query-first workflow as the earlier notebooks: validate the graph structure before interpreting the terminology and concept distribution.\n\n\nShow code\nimport os\nimport pandas as pd\nfrom SPARQLWrapper import JSON\nfrom IPython.display import display, Markdown\n\nfrom wikibase_auth import DEFAULT_SPARQL_ENDPOINT, DEFAULT_WIKIBASE_URL, build_sparql_client\n\nos.environ.setdefault(\"CLIMATEKG_SPARQL_USERNAME\", \"ckg\")\nos.environ.setdefault(\"CLIMATEKG_SPARQL_PASSWORD\", \"fairdata\")\n\nSPARQL_ENDPOINT = os.getenv(\"CLIMATEKG_SPARQL_ENDPOINT\", DEFAULT_SPARQL_ENDPOINT)\nWIKIBASE_URL = os.getenv(\"CLIMATEKG_WIKIBASE_URL\", DEFAULT_WIKIBASE_URL)\n\nprint(f\"Endpoint: {SPARQL_ENDPOINT}\")\nprint(\"Libraries imported successfully\")\n\n\n'ckg'\n\n\n'fairdata'\n\n\nEndpoint: https://climatekg.tibwiki.io/query/proxy/sparql\nLibraries imported successfully\n\n\n\n\nShow code\nquery = '''\nPREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;\nPREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;\n\nSELECT ?term ?termLabel ?report ?reportLabel ?termType ?termTypeLabel\nWHERE {\n  ?term wdt:P1 wd:Q1 .\n  ?term wdt:P3 ?report .\n  OPTIONAL { ?term wdt:P1 ?termType . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nORDER BY ?reportLabel ?termLabel\nLIMIT 200\n'''\n\nsparql = build_sparql_client(SPARQL_ENDPOINT)\nsparql.setQuery(query)\nsparql.setReturnFormat(JSON)\nresults = sparql.query().convert()\nrows = results.get(\"results\", {}).get(\"bindings\", [])\ndf = pd.DataFrame([{k: v[\"value\"] for k, v in row.items()} for row in rows])\n\nprint(f\"Rows returned: {len(df)}\")\ndisplay(df.head(20))\n\n\nRows returned: 200\n\n\n\n\n\n\n\n\n\nterm\nreport\ntermType\ntermLabel\nreportLabel\ntermTypeLabel\n\n\n\n\n0\nhttps://climatekg.tibwiki.io/entity/Q1168\nhttps://climatekg.tibwiki.io/entity/Q10\nhttps://climatekg.tibwiki.io/entity/Q1\n1.5°C warmer worlds\nSpecial Report: Global Warming of 1.5°C\nCategory\n\n\n1\nhttps://climatekg.tibwiki.io/entity/Q1167\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\n1.5°C pathway\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n2\nhttps://climatekg.tibwiki.io/entity/Q1169\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\n13C\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n3\nhttps://climatekg.tibwiki.io/entity/Q1170\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\n14C\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n4\nhttps://climatekg.tibwiki.io/entity/Q1172\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAblation\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n5\nhttps://climatekg.tibwiki.io/entity/Q1173\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAbrupt change\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n6\nhttps://climatekg.tibwiki.io/entity/Q1174\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAbrupt climate change\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n7\nhttps://climatekg.tibwiki.io/entity/Q259\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAccumulation\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n8\nhttps://climatekg.tibwiki.io/entity/Q260\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nActive layer\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n9\nhttps://climatekg.tibwiki.io/entity/Q262\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAdaptation\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n10\nhttps://climatekg.tibwiki.io/entity/Q270\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAdaptation options\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n11\nhttps://climatekg.tibwiki.io/entity/Q272\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAdaptive capacity\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n12\nhttps://climatekg.tibwiki.io/entity/Q275\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAdded value\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n13\nhttps://climatekg.tibwiki.io/entity/Q277\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAdjustments\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n14\nhttps://climatekg.tibwiki.io/entity/Q278\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAdvection\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n15\nhttps://climatekg.tibwiki.io/entity/Q280\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAerosol\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n16\nhttps://climatekg.tibwiki.io/entity/Q282\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAerosol effective radiative forcing\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n17\nhttps://climatekg.tibwiki.io/entity/Q283\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAerosol optical depth\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n18\nhttps://climatekg.tibwiki.io/entity/Q281\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAerosol–cloud interaction\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n19\nhttps://climatekg.tibwiki.io/entity/Q284\nhttps://climatekg.tibwiki.io/entity/Q77\nhttps://climatekg.tibwiki.io/entity/Q1\nAerosol–radiation interaction\nWorking Group I: Climate Change 2021 – The Phy...\nCategory\n\n\n\n\n\n\n\n\n\nEach row connects a glossary term to a report or corpus item via the P3 relationship. That lets us see the terminology in context rather than as isolated labels.\nThis is the right starting point for glossary analysis: once the relation is confirmed, the next step is to count terms by report, identify repeated concepts, and compare the terms against the glossary pages already generated in the site."
   },
   {
     "objectID": "sparql_queries/glossary.html#interpretation",
     "href": "sparql_queries/glossary.html#interpretation",
     "title": "Glossary Terms",
-    "section": "Interpretation",
-    "text": "Interpretation\nEach row connects a glossary term to a report or corpus item via the P3 relationship. That lets us see the terminology in context rather than as isolated labels.\nThis is the right starting point for glossary analysis: once the relation is confirmed, the next step is to count terms by report, identify repeated concepts, and compare the terms against the glossary pages already generated in the site."
+    "section": "",
+    "text": "Each row connects a glossary term to a report or corpus item via the P3 relationship. That lets us see the terminology in context rather than as isolated labels.\nThis is the right starting point for glossary analysis: once the relation is confirmed, the next step is to count terms by report, identify repeated concepts, and compare the terms against the glossary pages already generated in the site."
   },
   {
     "objectID": "sparql_queries/investigate-q1-count.html",
