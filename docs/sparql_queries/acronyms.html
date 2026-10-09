@@ -361,7 +361,12 @@ document.addEventListener("DOMContentLoaded", function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link active" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#acronym-questions" id="toc-acronym-questions" class="nav-link active" data-scroll-target="#acronym-questions">Acronym questions</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a>
+  <ul class="collapse">
+  <li><a href="#how-this-answer-was-computed" id="toc-how-this-answer-was-computed" class="nav-link" data-scroll-target="#how-this-answer-was-computed">How this answer was computed</a></li>
+  </ul></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   </ul>
 </nav>
     </div>
@@ -387,9 +392,11 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<p>This notebook checks whether acronym entries are currently represented in the live ClimateKG instance and how they are linked to the report hierarchy.</p>
+<p>This notebook is available to use, reproduce, and validate the acronym results for ClimateKG. Source notebook: <a href="../../sparql_queries/acronyms.ipynb">acronyms.ipynb</a></p>
+<p>It checks whether acronym entries are currently represented in the live ClimateKG instance and how they are linked to reports.</p>
 <p>We validate the live graph before interpreting any results, following the same query-first pattern as the other notebooks in this series.</p>
-<p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/ <strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
+<p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
+<p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
 <div id="1dafd6dc" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -409,10 +416,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>'ckg'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>'fairdata'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -423,35 +430,111 @@ Libraries imported successfully</code></pre>
 <div id="09b4c119" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>entity_ns <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/entity/"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>property_ns <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/prop/direct/"</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?item ?itemLabel ?class ?classLabel ?report ?reportLabel</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE {</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  ?item wdt:P1 ?class .</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  ?class rdfs:label ?classLabel .</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">  FILTER(LANG(?classLabel) = "en" &amp;&amp; ( ?classLabel = "Acronym" || ?classLabel = "Glossary term" || ?classLabel = "Category" ))</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">  OPTIONAL { ?item wdt:P3 ?report . }</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?classLabel ?itemLabel</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 50</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sparql.query().convert()</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>count_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>entity_ns<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>property_ns<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT (COUNT(DISTINCT ?acronym) AS ?acronymCount)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?acronym wdt:P1 wd:Q2087 .</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> count_query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(count_query)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>count_results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>acronym_count <span class="op">=</span> <span class="bu">int</span>(count_results[<span class="st">"results"</span>][<span class="st">"bindings"</span>][<span class="dv">0</span>][<span class="st">"acronymCount"</span>][<span class="st">"value"</span>])</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Acronym count (Q2087 distinct items): </span><span class="sc">{</span>acronym_count<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>entity_ns<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>property_ns<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?acronym ?acronymLabel ?report ?reportLabel</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?acronym wdt:P1 wd:Q2087 .</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?acronym wdt:P3 ?report . </span><span class="ch">}}</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?acronym rdfs:label ?acronymLabel . FILTER(LANG(?acronymLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?report rdfs:label ?reportLabel . FILTER(LANG(?reportLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?acronymLabel ?reportLabel</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>df_all_acronyms <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> df_all_acronyms.empty:</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    df_all_acronyms <span class="op">=</span> df_all_acronyms.sort_values([<span class="st">"acronymLabel"</span>, <span class="st">"reportLabel"</span>], na_position<span class="op">=</span><span class="st">"last"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>cwd <span class="op">=</span> Path.cwd()</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>repo_root <span class="op">=</span> <span class="bu">next</span>((p <span class="cf">for</span> p <span class="kw">in</span> [cwd, <span class="op">*</span>cwd.parents] <span class="cf">if</span> (p <span class="op">/</span> <span class="st">"docs"</span>).exists() <span class="kw">and</span> (p <span class="op">/</span> <span class="st">"sparql_queries"</span>).exists()), cwd)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>csv_path <span class="op">=</span> repo_root <span class="op">/</span> <span class="st">"docs"</span> <span class="op">/</span> <span class="st">"sparql_queries"</span> <span class="op">/</span> <span class="st">"acronyms.csv"</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>csv_path.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>df_all_acronyms.to_csv(csv_path, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned in acronym table: </span><span class="sc">{</span><span class="bu">len</span>(df_all_acronyms)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CSV saved to: </span><span class="sc">{</span>csv_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"Download CSV: [acronyms.csv](acronyms.csv)"</span>))</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>display(df_all_acronyms.head(<span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+
+SELECT (COUNT(DISTINCT ?acronym) AS ?acronymCount)
+WHERE {
+  ?acronym wdt:P1 wd:Q2087 .
+}
+</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows returned: 0</code></pre>
+<pre><code>Acronym count (Q2087 distinct items): 1910</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+SELECT ?acronym ?acronymLabel ?report ?reportLabel
+WHERE {
+  ?acronym wdt:P1 wd:Q2087 .
+  OPTIONAL { ?acronym wdt:P3 ?report . }
+  OPTIONAL { ?acronym rdfs:label ?acronymLabel . FILTER(LANG(?acronymLabel) = "en") }
+  OPTIONAL { ?report rdfs:label ?reportLabel . FILTER(LANG(?reportLabel) = "en") }
+}
+ORDER BY ?acronymLabel ?reportLabel
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows returned in acronym table: 2993
+CSV saved to: C:\git\Climate-KG-data\docs\sparql_queries\acronyms.csv</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Download CSV: <a href="acronyms.csv">acronyms.csv</a></p>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -461,15 +544,526 @@ Libraries imported successfully</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">report</th>
+<th data-quarto-table-cell-role="th">reportLabel</th>
+<th data-quarto-table-cell-role="th">acronym</th>
+<th data-quarto-table-cell-role="th">acronymLabel</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2089</td>
+<td>1.5DS</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3038</td>
+<td>20CR</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2090</td>
+<td>2DS</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>https://climatekg.tibwiki.io/entity/Q2649</td>
+<td>3-NOP</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3325</td>
+<td>3-PG</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>https://climatekg.tibwiki.io/entity/Q2650</td>
+<td>A/F</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3326</td>
+<td>A/R</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3326</td>
+<td>A/R</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3039</td>
+<td>A1B</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>https://climatekg.tibwiki.io/entity/Q57</td>
+<td>Special Report: The Ocean and Cryosphere in a ...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2901</td>
+<td>AABW</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2901</td>
+<td>AABW</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3327</td>
+<td>AAI</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3040</td>
+<td>AAIW</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3041</td>
+<td>AAO</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3041</td>
+<td>AAO</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3328</td>
+<td>AAS</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3703</td>
+<td>AB</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>https://climatekg.tibwiki.io/entity/Q2651</td>
+<td>ABC</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>https://climatekg.tibwiki.io/entity/Q2652</td>
+<td>ABM</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>https://climatekg.tibwiki.io/entity/Q57</td>
+<td>Special Report: The Ocean and Cryosphere in a ...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2902</td>
+<td>ABNJ</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2902</td>
+<td>ABNJ</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3329</td>
+<td>ABS</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>https://climatekg.tibwiki.io/entity/Q57</td>
+<td>Special Report: The Ocean and Cryosphere in a ...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2903</td>
+<td>AC</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2903</td>
+<td>AC</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2903</td>
+<td>AC</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>https://climatekg.tibwiki.io/entity/Q57</td>
+<td>Special Report: The Ocean and Cryosphere in a ...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2904</td>
+<td>ACC</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2904</td>
+<td>ACC</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3330</td>
+<td>ACCC</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3331</td>
+<td>ACCCRN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2091</td>
+<td>ACCESS</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2091</td>
+<td>ACCESS</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2092</td>
+<td>ACCMIP</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2092</td>
+<td>ACCMIP</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2093</td>
+<td>ACCRN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3704</td>
+<td>ACCTS</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3043</td>
+<td>ACE</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3043</td>
+<td>ACE</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3705</td>
+<td>ACF</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2094</td>
+<td>ACOLA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3332</td>
+<td>ACRE</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3333</td>
+<td>ACT</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">41</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2095</td>
+<td>ACs</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">42</td>
+<td>https://climatekg.tibwiki.io/entity/Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>https://climatekg.tibwiki.io/entity/Q2096</td>
+<td>ADB</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">43</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2096</td>
+<td>ADB</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">44</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q2096</td>
+<td>ADB</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">45</td>
+<td>https://climatekg.tibwiki.io/entity/Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3706</td>
+<td>ADEME</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">46</td>
+<td>https://climatekg.tibwiki.io/entity/Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>https://climatekg.tibwiki.io/entity/Q2097</td>
+<td>ADVANCE</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">47</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3334</td>
+<td>ADW</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">48</td>
+<td>https://climatekg.tibwiki.io/entity/Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3044</td>
+<td>AED</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">49</td>
+<td>https://climatekg.tibwiki.io/entity/Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>https://climatekg.tibwiki.io/entity/Q3335</td>
+<td>AEMO</td>
+</tr>
 </tbody>
 </table>
 
 </div>
 </div>
 </div>
+<section id="acronym-questions" class="level2">
+<h2 class="anchored" data-anchor-id="acronym-questions">Acronym questions</h2>
+<p>From the GitHub issue: https://github.com/TIBHannover/ClimateKG-Data-Bench/issues/1</p>
+<ol type="1">
+<li>How many acronyms does each of the AR6 reports define?</li>
+</ol>
+</section>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p>Which acronyms appear in all three working group reports?</p>
+<p>This cell identifies acronyms linked to Working Group I, II, and III reports via <code>P3</code> and provides the reusable SPARQL query.</p>
+<div id="532af73e" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>query_report_counts <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>entity_ns<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>property_ns<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?report ?reportLabel (COUNT(DISTINCT ?acronym) AS ?acronymCount)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?acronym wdt:P1 wd:Q2087 ;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ss">           wdt:P3 ?report .</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ss">          rdfs:label ?reportLabel .</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ss">    CONTAINS(?reportLabel, "Working Group") ||</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="ss">    CONTAINS(?reportLabel, "Special Report") ||</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ss">    CONTAINS(?reportLabel, "Synthesis Report")</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="ss">  )</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?report ?reportLabel</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?reportLabel</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query_report_counts <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query_report_counts)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>report_count_results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>report_count_rows <span class="op">=</span> report_count_results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>report_counts_df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> report_count_rows])</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> report_counts_df.empty:</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No AR6 report-linked acronyms were found in the current graph."</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    report_counts_df[<span class="st">"reportQID"</span>] <span class="op">=</span> report_counts_df[<span class="st">"report"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    report_counts_df <span class="op">=</span> report_counts_df.sort_values(<span class="st">"reportLabel"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"AR6 reports returned: </span><span class="sc">{</span><span class="bu">len</span>(report_counts_df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    display(report_counts_df[[<span class="st">"reportQID"</span>, <span class="st">"reportLabel"</span>, <span class="st">"acronymCount"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+SELECT ?report ?reportLabel (COUNT(DISTINCT ?acronym) AS ?acronymCount)
+WHERE {
+  ?acronym wdt:P1 wd:Q2087 ;
+           wdt:P3 ?report .
+  ?report wdt:P1 wd:Q4 ;
+          rdfs:label ?reportLabel .
+  FILTER(LANG(?reportLabel) = "en")
+  FILTER(
+    CONTAINS(?reportLabel, "Working Group") ||
+    CONTAINS(?reportLabel, "Special Report") ||
+    CONTAINS(?reportLabel, "Synthesis Report")
+  )
+}
+GROUP BY ?report ?reportLabel
+ORDER BY ?reportLabel
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AR6 reports returned: 7</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">reportQID</th>
+<th data-quarto-table-cell-role="th">reportLabel</th>
+<th data-quarto-table-cell-role="th">acronymCount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Q189</td>
+<td>Climate Change 2023: Synthesis Report. Contrib...</td>
+<td>89</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>425</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>561</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Q57</td>
+<td>Special Report: The Ocean and Cryosphere in a ...</td>
+<td>193</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>516</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>670</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>539</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="how-this-answer-was-computed" class="level3">
+<h3 class="anchored" data-anchor-id="how-this-answer-was-computed">How this answer was computed</h3>
+<ol type="1">
+<li>The query selects acronym items using <code>P1 -&gt; Q2087</code> (Acronym class).</li>
+<li>It links each acronym to reports through <code>P3</code>.</li>
+<li>It limits results to AR6 report labels (Working Group, Special Report, Synthesis Report).</li>
+<li>It groups by report and counts distinct acronyms per report.</li>
+<li>The result table shows one row per AR6 report with the total acronym count.</li>
+</ol>
+<p>Because the full SPARQL query is shown above and run live against ClimateKG, the result is reproducible and can be validated in the query UI.</p>
+</section>
+</section>
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
 <p>If this notebook returns zero rows, that is also a valid result: it means the current live ClimateKG instance does not yet expose acronym or glossary entries under the expected class labels.</p>
