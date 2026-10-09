@@ -361,9 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#authors" id="toc-authors" class="nav-link active" data-scroll-target="#authors">Authors</a>
-  <ul class="collapse">
-  <li><a href="#er-model-baseline-the-rock" id="toc-er-model-baseline-the-rock" class="nav-link" data-scroll-target="#er-model-baseline-the-rock">ER-model baseline (The Rock)</a></li>
+  <li><a href="#er-model-baseline-the-rock" id="toc-er-model-baseline-the-rock" class="nav-link active" data-scroll-target="#er-model-baseline-the-rock">ER-model baseline (The Rock)</a></li>
   <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
   <li><a href="#statement-anatomy" id="toc-statement-anatomy" class="nav-link" data-scroll-target="#statement-anatomy">Statement anatomy</a></li>
   <li><a href="#author-property-usage-learned-from-item-inspection" id="toc-author-property-usage-learned-from-item-inspection" class="nav-link" data-scroll-target="#author-property-usage-learned-from-item-inspection">Author property usage learned from item inspection</a></li>
@@ -374,7 +372,6 @@ document.addEventListener("DOMContentLoaded", function () {
   <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
   <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
   <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -400,9 +397,8 @@ document.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<section id="authors" class="level1">
-<h1>Authors</h1>
-<p>This notebook analyzes author contributions in the ClimateKG graph using the same workflow as the Report Structure notebook and the ER reference in The Rock.</p>
+<p>This notebook is available to use, reproduce, and validate the author results for ClimateKG. Source notebook: <a href="../../sparql_queries/authors.ipynb">authors.ipynb</a></p>
+<p>It analyzes author contributions in the ClimateKG graph using the same workflow as the Report Structure notebook and the ER reference in The Rock.</p>
 <section id="er-model-baseline-the-rock" class="level2">
 <h2 class="anchored" data-anchor-id="er-model-baseline-the-rock">ER-model baseline (The Rock)</h2>
 <p>Expected author-side model:</p>
@@ -439,10 +435,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Property namespace: </span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>'ckg'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>'fairdata'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1563,11 +1559,15 @@ Distinct chapter URIs linked from P27: 74</code></pre>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?reportLabel</span></span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>report_df <span class="op">=</span> run_table(query).sort_values(<span class="st">"reportLabel"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>report_df[<span class="st">"reportQID"</span>] <span class="op">=</span> report_df[<span class="st">"report"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>display(report_df[[<span class="st">"reportQID"</span>, <span class="st">"reportLabel"</span>, <span class="st">"distinctAuthors"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>report_df <span class="op">=</span> run_table(query).sort_values(<span class="st">"reportLabel"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>report_df[<span class="st">"reportQID"</span>] <span class="op">=</span> report_df[<span class="st">"report"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>display(report_df[[<span class="st">"reportQID"</span>, <span class="st">"reportLabel"</span>, <span class="st">"distinctAuthors"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
 PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
@@ -1679,11 +1679,15 @@ ORDER BY ?reportLabel
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?workingGroupLabel DESC(?authors) ?country</span></span>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>country_df <span class="op">=</span> run_table(query)</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>country_top <span class="op">=</span> country_df.sort_values([<span class="st">"workingGroupLabel"</span>, <span class="st">"authors"</span>, <span class="st">"country"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>, <span class="va">True</span>]).groupby(<span class="st">"workingGroupLabel"</span>, as_index<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>display(country_top[[<span class="st">"workingGroupLabel"</span>, <span class="st">"country"</span>, <span class="st">"authors"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>country_df <span class="op">=</span> run_table(query)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>country_top <span class="op">=</span> country_df.sort_values([<span class="st">"workingGroupLabel"</span>, <span class="st">"authors"</span>, <span class="st">"country"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>, <span class="va">True</span>]).groupby(<span class="st">"workingGroupLabel"</span>, as_index<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>display(country_top[[<span class="st">"workingGroupLabel"</span>, <span class="st">"country"</span>, <span class="st">"authors"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
 PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
@@ -1945,52 +1949,57 @@ ORDER BY ?workingGroupLabel DESC(?authors) ?country
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?workingGroupLabel</span></span>
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>female_report_df <span class="op">=</span> run_table(query)</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>female_report_df[<span class="st">"femaleSharePct"</span>] <span class="op">=</span> (female_report_df[<span class="st">"femaleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_report_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>female_report_df[<span class="st">"maleSharePct"</span>] <span class="op">=</span> (female_report_df[<span class="st">"maleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_report_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>display(female_report_df[[<span class="st">"workingGroupLabel"</span>, <span class="st">"authors"</span>, <span class="st">"femaleAuthors"</span>, <span class="st">"maleAuthors"</span>, <span class="st">"femaleSharePct"</span>, <span class="st">"maleSharePct"</span>]])</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>chapter_query <span class="op">=</span> <span class="ss">f'''</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?workingGroupLabel ?chapter ?chapterLabel (COUNT(DISTINCT ?authorId) AS ?authors) (SUM(?isFemale) AS ?femaleAuthors) (SUM(?isMale) AS ?maleAuthors)</span></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">{{</span></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT DISTINCT ?workingGroupLabel ?chapter ?chapterLabel ?authorId ?gender</span></span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author wdt:P1 wd:Q3998 ;</span></span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P20 ?authorId ;</span></span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P23 ?gender ;</span></span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P27 ?chapter .</span></span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P1 wd:Q6 ;</span></span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="ss">               rdfs:label ?chapterLabel .</span></span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?chapterLabel) = "en")</span></span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P3+ ?report .</span></span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?report wdt:P1 wd:Q4 ;</span></span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="ss">              rdfs:label ?reportLabel .</span></span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?reportLabel) = "en")</span></span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="ss">      BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",</span></span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",</span></span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)</span></span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(?workingGroupLabel != "Other")</span></span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">}}</span></span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "f", 1, 0) AS ?isFemale)</span></span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "m", 1, 0) AS ?isMale)</span></span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?workingGroupLabel ?chapter ?chapterLabel</span></span>
-<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ASC((?femaleAuthors / ?authors)) ?workingGroupLabel ?chapterLabel</span></span>
-<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> chapter_query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>female_chapter_df <span class="op">=</span> run_table(chapter_query)</span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>female_chapter_df[<span class="st">"femaleSharePct"</span>] <span class="op">=</span> (female_chapter_df[<span class="st">"femaleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_chapter_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>female_chapter_df[<span class="st">"maleSharePct"</span>] <span class="op">=</span> (female_chapter_df[<span class="st">"maleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_chapter_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>lowest_female <span class="op">=</span> female_chapter_df.sort_values([<span class="st">"femaleSharePct"</span>, <span class="st">"workingGroupLabel"</span>, <span class="st">"chapterLabel"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>]).head(<span class="dv">10</span>)</span>
-<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>display(lowest_female[[<span class="st">"workingGroupLabel"</span>, <span class="st">"chapterLabel"</span>, <span class="st">"authors"</span>, <span class="st">"femaleAuthors"</span>, <span class="st">"maleAuthors"</span>, <span class="st">"femaleSharePct"</span>, <span class="st">"maleSharePct"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>female_report_df <span class="op">=</span> run_table(query)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>female_report_df[<span class="st">"femaleSharePct"</span>] <span class="op">=</span> (female_report_df[<span class="st">"femaleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_report_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>female_report_df[<span class="st">"maleSharePct"</span>] <span class="op">=</span> (female_report_df[<span class="st">"maleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_report_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>display(female_report_df[[<span class="st">"workingGroupLabel"</span>, <span class="st">"authors"</span>, <span class="st">"femaleAuthors"</span>, <span class="st">"maleAuthors"</span>, <span class="st">"femaleSharePct"</span>, <span class="st">"maleSharePct"</span>]])</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>chapter_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?workingGroupLabel ?chapter ?chapterLabel (COUNT(DISTINCT ?authorId) AS ?authors) (SUM(?isFemale) AS ?femaleAuthors) (SUM(?isMale) AS ?maleAuthors)</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">{{</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT DISTINCT ?workingGroupLabel ?chapter ?chapterLabel ?authorId ?gender</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P20 ?authorId ;</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P23 ?gender ;</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P27 ?chapter .</span></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P1 wd:Q6 ;</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="ss">               rdfs:label ?chapterLabel .</span></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?chapterLabel) = "en")</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P3+ ?report .</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="ss">              rdfs:label ?reportLabel .</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="ss">      BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",</span></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(?workingGroupLabel != "Other")</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">}}</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "f", 1, 0) AS ?isFemale)</span></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "m", 1, 0) AS ?isMale)</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?workingGroupLabel ?chapter ?chapterLabel</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ASC((?femaleAuthors / ?authors)) ?workingGroupLabel ?chapterLabel</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> chapter_query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>female_chapter_df <span class="op">=</span> run_table(chapter_query)</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>female_chapter_df[<span class="st">"femaleSharePct"</span>] <span class="op">=</span> (female_chapter_df[<span class="st">"femaleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_chapter_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>female_chapter_df[<span class="st">"maleSharePct"</span>] <span class="op">=</span> (female_chapter_df[<span class="st">"maleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_chapter_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>lowest_female <span class="op">=</span> female_chapter_df.sort_values([<span class="st">"femaleSharePct"</span>, <span class="st">"workingGroupLabel"</span>, <span class="st">"chapterLabel"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>]).head(<span class="dv">10</span>)</span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>display(lowest_female[[<span class="st">"workingGroupLabel"</span>, <span class="st">"chapterLabel"</span>, <span class="st">"authors"</span>, <span class="st">"femaleAuthors"</span>, <span class="st">"maleAuthors"</span>, <span class="st">"femaleSharePct"</span>, <span class="st">"maleSharePct"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
 PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
@@ -2070,6 +2079,9 @@ ORDER BY ?workingGroupLabel
 </table>
 
 </div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
 </div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
@@ -2261,10 +2273,14 @@ ORDER BY ASC((?femaleAuthors / ?authors)) ?workingGroupLabel ?chapterLabel
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY DESC(?workingGroups) ?authorLabel</span></span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>multi_wg_df <span class="op">=</span> run_table(query)</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>display(multi_wg_df[[<span class="st">"authorLabel"</span>, <span class="st">"authorId"</span>, <span class="st">"workingGroups"</span>, <span class="st">"groupLabels"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>multi_wg_df <span class="op">=</span> run_table(query)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>display(multi_wg_df[[<span class="st">"authorLabel"</span>, <span class="st">"authorId"</span>, <span class="st">"workingGroups"</span>, <span class="st">"groupLabels"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
 PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
@@ -2355,15 +2371,19 @@ ORDER BY DESC(?workingGroups) ?authorLabel
 <span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="ss">LIMIT 20</span></span>
 <span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>pairs_df <span class="op">=</span> run_table(query)</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> pairs_df.empty:</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    pairs_df <span class="op">=</span> pairs_df.sort_values([<span class="st">"sharedChapters"</span>, <span class="st">"author1Label"</span>, <span class="st">"author2Label"</span>], ascending<span class="op">=</span>[<span class="va">False</span>, <span class="va">True</span>, <span class="va">True</span>]).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    top_pairs <span class="op">=</span> pairs_df[pairs_df[<span class="st">"sharedChapters"</span>] <span class="op">==</span> pairs_df[<span class="st">"sharedChapters"</span>].<span class="bu">max</span>()]</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    display(top_pairs[[<span class="st">"author1Label"</span>, <span class="st">"author2Label"</span>, <span class="st">"sharedChapters"</span>]])</span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    display(pairs_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>pairs_df <span class="op">=</span> run_table(query)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> pairs_df.empty:</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    pairs_df <span class="op">=</span> pairs_df.sort_values([<span class="st">"sharedChapters"</span>, <span class="st">"author1Label"</span>, <span class="st">"author2Label"</span>], ascending<span class="op">=</span>[<span class="va">False</span>, <span class="va">True</span>, <span class="va">True</span>]).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    top_pairs <span class="op">=</span> pairs_df[pairs_df[<span class="st">"sharedChapters"</span>] <span class="op">==</span> pairs_df[<span class="st">"sharedChapters"</span>].<span class="bu">max</span>()]</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    display(top_pairs[[<span class="st">"author1Label"</span>, <span class="st">"author2Label"</span>, <span class="st">"sharedChapters"</span>]])</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>    display(pairs_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
 PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
@@ -2464,10 +2484,14 @@ LIMIT 20
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="ss">LIMIT 20</span></span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>institution_df <span class="op">=</span> run_table(query).rename(columns<span class="op">=</span>{<span class="st">"institution"</span>: <span class="st">"Institution"</span>, <span class="st">"authors"</span>: <span class="st">"Authors"</span>})</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>display(institution_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"**SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)**"</span>))</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>institution_df <span class="op">=</span> run_table(query).rename(columns<span class="op">=</span>{<span class="st">"institution"</span>: <span class="st">"Institution"</span>, <span class="st">"authors"</span>: <span class="st">"Authors"</span>})</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>display(institution_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>SPARQL query (copy/paste into ClimateKG Query UI: https://climatekg.tibwiki.io/query/)</strong></p>
+</div>
 <div class="cell-output cell-output-display cell-output-markdown">
 <pre class="sparql"><code>
 PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
@@ -2604,7 +2628,6 @@ LIMIT 20
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
