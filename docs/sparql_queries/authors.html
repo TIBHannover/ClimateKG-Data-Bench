@@ -366,6 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <li><a href="#statement-anatomy" id="toc-statement-anatomy" class="nav-link" data-scroll-target="#statement-anatomy">Statement anatomy</a></li>
   <li><a href="#author-property-usage-learned-from-item-inspection" id="toc-author-property-usage-learned-from-item-inspection" class="nav-link" data-scroll-target="#author-property-usage-learned-from-item-inspection">Author property usage learned from item inspection</a></li>
   <li><a href="#wikibase-provenance-and-reference-related-fields" id="toc-wikibase-provenance-and-reference-related-fields" class="nav-link" data-scroll-target="#wikibase-provenance-and-reference-related-fields">Wikibase provenance and reference-related fields</a></li>
+  <li><a href="#bibliographic-questions" id="toc-bibliographic-questions" class="nav-link" data-scroll-target="#bibliographic-questions">Bibliographic questions</a></li>
   <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
   <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
   <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
@@ -435,10 +436,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Property namespace: </span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>'ckg'</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>'fairdata'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1534,6 +1535,18 @@ Distinct chapter URIs linked from P27: 74</code></pre>
 </tbody>
 </table>
 <p>This provides a practical validation template: every Author should have <code>P1</code>, <code>P20</code>, and at least one <code>P27</code>, <code>P27</code> targets should normally resolve to class <code>Q6</code> Chapter, and provenance fields should be populated where available for traceability.</p>
+</section>
+<section id="bibliographic-questions" class="level2">
+<h2 class="anchored" data-anchor-id="bibliographic-questions">Bibliographic questions</h2>
+<p>From the GitHub issue: https://github.com/TIBHannover/ClimateKG-Data-Bench/issues/1</p>
+<ol type="1">
+<li>How many distinct authors contributed to each of the 7 reports?</li>
+<li>Which countries of residence are most represented among AR6 authors, and how does this differ between WGI, WGII and WGIII?</li>
+<li>What is the share of female authors per working group report, and which chapters have the lowest female representation?</li>
+<li>Which authors contributed to chapters in more than one working group report?</li>
+<li>Which two authors have co-authored the most chapters together?</li>
+<li>Which institutions have the most authors across AR6?</li>
+</ol>
 </section>
 <section id="question-1" class="level2">
 <h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
