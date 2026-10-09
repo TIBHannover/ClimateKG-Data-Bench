@@ -116,7 +116,7 @@ Outputs written as **UTF-8 without BOM** (required by the Mermaid parser).
 | P11 | LICENSE | String |
 | P12 | Has TAG | WikibaseItem |
 | P13 | Definition | Monolingualtext |
-| P17 | date accessed | Time |
+| P17 | Reference URL | Url |
 | P18 | date accessed | Time |
 | P19 | source version | String |
 | P20 | ClimateKG Author ID | String |

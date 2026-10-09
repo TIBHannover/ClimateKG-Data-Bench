@@ -363,7 +363,17 @@ document.addEventListener("DOMContentLoaded", function () {
   <ul>
   <li><a href="#authors" id="toc-authors" class="nav-link active" data-scroll-target="#authors">Authors</a>
   <ul class="collapse">
+  <li><a href="#er-model-baseline-the-rock" id="toc-er-model-baseline-the-rock" class="nav-link" data-scroll-target="#er-model-baseline-the-rock">ER-model baseline (The Rock)</a></li>
   <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#statement-anatomy" id="toc-statement-anatomy" class="nav-link" data-scroll-target="#statement-anatomy">Statement anatomy</a></li>
+  <li><a href="#author-property-usage-learned-from-item-inspection" id="toc-author-property-usage-learned-from-item-inspection" class="nav-link" data-scroll-target="#author-property-usage-learned-from-item-inspection">Author property usage learned from item inspection</a></li>
+  <li><a href="#wikibase-provenance-and-reference-related-fields" id="toc-wikibase-provenance-and-reference-related-fields" class="nav-link" data-scroll-target="#wikibase-provenance-and-reference-related-fields">Wikibase provenance and reference-related fields</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
+  <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
+  <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
+  <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -392,11 +402,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <section id="authors" class="level1">
 <h1>Authors</h1>
-<p>This notebook explores author contribution patterns in the ClimateKG graph by tracing which chapters each author contributed to.</p>
-<p>We use the live ClimateKG Wikibase instance and the authenticated SPARQL endpoint.</p>
+<p>This notebook analyzes author contributions in the ClimateKG graph using the same workflow as the Report Structure notebook and the ER reference in The Rock.</p>
+<section id="er-model-baseline-the-rock" class="level2">
+<h2 class="anchored" data-anchor-id="er-model-baseline-the-rock">ER-model baseline (The Rock)</h2>
+<p>Expected author-side model:</p>
+<ul>
+<li>Authors are items with <code>P1 -&gt; Q3998</code> (Author class).</li>
+<li>Authors should have a stable ClimateKG Author ID via <code>P20</code>.</li>
+<li>Author contributions are modeled with <code>P27</code> from Author to Chapter.</li>
+<li>Chapters are items with <code>P1 -&gt; Q6</code> (Chapter class).</li>
+</ul>
+<p>The queries below first check live graph conformance to that model, then summarize contributions using duplicate-safe counting by <code>P20</code> (not by item URI).</p>
 <p><strong>Query UI</strong>: https://climatekg.tibwiki.io/query/</p>
 <p><strong>SPARQL endpoint</strong>: https://climatekg.tibwiki.io/query/proxy/sparql</p>
-<p>This notebook follows the same query-first workflow as the Report Structure notebook: validate the graph structure before moving to analysis.</p>
 <div id="80fd13b5" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -413,8 +431,13 @@ document.addEventListener("DOMContentLoaded", function () {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>SPARQL_ENDPOINT <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_SPARQL_ENDPOINT"</span>, DEFAULT_SPARQL_ENDPOINT)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>WIKIBASE_URL <span class="op">=</span> os.getenv(<span class="st">"CLIMATEKG_WIKIBASE_URL"</span>, DEFAULT_WIKIBASE_URL)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ENTITY_NS <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/entity/"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>PROPERTY_NS <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/prop/direct/"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Endpoint: </span><span class="sc">{</span>SPARQL_ENDPOINT<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Entity namespace: </span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Property namespace: </span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>'ckg'</code></pre>
@@ -424,39 +447,704 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Endpoint: https://climatekg.tibwiki.io/query/proxy/sparql
+Entity namespace: https://climatekg.tibwiki.io/entity/
+Property namespace: https://climatekg.tibwiki.io/prop/direct/
 Libraries imported successfully</code></pre>
 </div>
 </div>
 <div id="41d7e684" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT ?author ?authorLabel ?chapter ?chapterLabel ?authorId</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE {</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ?author wdt:P20 ?authorId .</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">  ?author wdt:P27 ?chapter .</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">  ?chapter wdt:P1 wd:Q6 .</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY ?authorLabel ?chapterLabel</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 200</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(query)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> sparql.query().convert()</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Rows returned: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>display(df.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>author_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?author ?authorLabel ?authorId ?chapter ?chapterLabel</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P20 ?authorId ;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P27 ?chapter .</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?chapter wdt:P1 wd:Q6 .</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?chapter rdfs:label ?chapterLabel . FILTER(LANG(?chapterLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?authorLabel ?chapterLabel</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>sparql <span class="op">=</span> build_sparql_client(SPARQL_ENDPOINT)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>sparql.setQuery(author_query)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>sparql.setReturnFormat(JSON)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>author_results <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>author_rows <span class="op">=</span> author_results.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>authors_df <span class="op">=</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> author_rows])</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> authors_df.empty:</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="st">"No author-chapter rows returned from live graph."</span>))</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    authors_df[<span class="st">"authorId"</span>] <span class="op">=</span> authors_df[<span class="st">"authorId"</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    authors_df[<span class="st">"authorQID"</span>] <span class="op">=</span> authors_df[<span class="st">"author"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    dedup_authors <span class="op">=</span> authors_df.drop_duplicates(subset<span class="op">=</span>[<span class="st">"authorId"</span>])</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    chapter_counts <span class="op">=</span> (</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        authors_df.groupby(<span class="st">"authorId"</span>, as_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        .agg(</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>            authorQID<span class="op">=</span>(<span class="st">"authorQID"</span>, <span class="st">"first"</span>),</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>            authorLabel<span class="op">=</span>(<span class="st">"authorLabel"</span>, <span class="st">"first"</span>),</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>            chapter_count<span class="op">=</span>(<span class="st">"chapter"</span>, <span class="st">"nunique"</span>),</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        .sort_values([<span class="st">"chapter_count"</span>, <span class="st">"authorLabel"</span>], ascending<span class="op">=</span>[<span class="va">False</span>, <span class="va">True</span>])</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Author-chapter rows returned: </span><span class="sc">{</span><span class="bu">len</span>(authors_df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Distinct authors by P20: </span><span class="sc">{</span>dedup_authors[<span class="st">'authorId'</span>]<span class="sc">.</span>nunique()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Distinct chapter URIs linked from P27: </span><span class="sc">{</span>authors_df[<span class="st">'chapter'</span>]<span class="sc">.</span>nunique()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="st">"### Sample author-chapter links"</span>))</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    display(authors_df[[<span class="st">"authorQID"</span>, <span class="st">"authorLabel"</span>, <span class="st">"authorId"</span>, <span class="st">"chapterLabel"</span>]].head(<span class="dv">20</span>))</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="st">"### Top authors by unique chapter contributions"</span>))</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    display(chapter_counts.head(<span class="dv">20</span>))</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_count(query_text):</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    sparql.setQuery(query_text)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    sparql.setReturnFormat(JSON)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> result.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [{}])[<span class="dv">0</span>]</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> row:</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    first_key <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(row.keys()))</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(row[first_key][<span class="st">"value"</span>])</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_table(query_text):</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    sparql.setQuery(query_text)</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    sparql.setReturnFormat(JSON)</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> sparql.query().convert()</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> result.get(<span class="st">"results"</span>, {}).get(<span class="st">"bindings"</span>, [])</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame([{k: v[<span class="st">"value"</span>] <span class="cf">for</span> k, v <span class="kw">in</span> row.items()} <span class="cf">for</span> row <span class="kw">in</span> rows])</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>conformance_metrics <span class="op">=</span> [</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Author items (Q3998)"</span>,</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'''</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT (COUNT(DISTINCT ?item) AS ?count) WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?item wdt:P1 wd:Q3998 .</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="ss">        '''</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Distinct ClimateKG Author IDs (P20)"</span>,</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'''</span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT (COUNT(DISTINCT ?authorId) AS ?count) WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?item wdt:P1 wd:Q3998 ; wdt:P20 ?authorId .</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="ss">        '''</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Chapter items (Q6)"</span>,</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'''</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT (COUNT(DISTINCT ?chapter) AS ?count) WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?chapter wdt:P1 wd:Q6 .</span></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="ss">        '''</span></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Distinct P20 IDs with P27-&gt;Q6 links"</span>,</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f'''</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT (COUNT(DISTINCT ?authorId) AS ?count) WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a><span class="ss">                  wdt:P20 ?authorId ;</span></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a><span class="ss">                  wdt:P27 ?chapter .</span></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?chapter wdt:P1 wd:Q6 .</span></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a><span class="ss">        '''</span></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>metrics_rows <span class="op">=</span> []</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> metric_name, metric_query <span class="kw">in</span> conformance_metrics:</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    metrics_rows.append({</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>        <span class="st">"metric"</span>: metric_name,</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>        <span class="st">"value"</span>: run_count(metric_query),</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>conformance_df <span class="op">=</span> pd.DataFrame(metrics_rows)</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"### ER-model conformance snapshot"</span>))</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>display(conformance_df)</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>validation_queries <span class="op">=</span> {</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Authors missing P20"</span>: <span class="ss">f'''</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT ?author ?authorLabel</span></span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?author wdt:P1 wd:Q3998 .</span></span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="ss">          FILTER NOT EXISTS </span><span class="ch">{{</span><span class="ss"> ?author wdt:P20 ?authorId </span><span class="ch">}}</span></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="ss">          OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="ss">        ORDER BY ?author</span></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a><span class="ss">    '''</span>,</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Authors missing any P27 contribution"</span>: <span class="ss">f'''</span></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT ?author ?authorLabel ?authorId</span></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?author wdt:P1 wd:Q3998 ; wdt:P20 ?authorId .</span></span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a><span class="ss">          FILTER NOT EXISTS </span><span class="ch">{{</span><span class="ss"> ?author wdt:P27 ?target </span><span class="ch">}}</span></span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a><span class="ss">          OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a><span class="ss">        ORDER BY ?authorId</span></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a><span class="ss">    '''</span>,</span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Authors with P27 target not typed Q6"</span>: <span class="ss">f'''</span></span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT ?author ?authorLabel ?authorId ?target ?targetLabel ?targetClass ?targetClassLabel</span></span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?author wdt:P1 wd:Q3998 ; wdt:P20 ?authorId ; wdt:P27 ?target .</span></span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a><span class="ss">          FILTER NOT EXISTS </span><span class="ch">{{</span><span class="ss"> ?target wdt:P1 wd:Q6 </span><span class="ch">}}</span></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a><span class="ss">          OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a><span class="ss">          OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?target rdfs:label ?targetLabel . FILTER(LANG(?targetLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a><span class="ss">          OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?target wdt:P1 ?targetClass . OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?targetClass rdfs:label ?targetClassLabel . FILTER(LANG(?targetClassLabel) = "en") </span><span class="ch">}}</span><span class="ss"> </span><span class="ch">}}</span></span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a><span class="ss">        ORDER BY ?authorId ?target</span></span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a><span class="ss">    '''</span>,</span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Duplicate P20 IDs assigned to multiple author items"</span>: <span class="ss">f'''</span></span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a><span class="ss">        PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT ?authorId (COUNT(DISTINCT ?author) AS ?authorItems)</span></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a><span class="ss">          ?author wdt:P1 wd:Q3998 ; wdt:P20 ?authorId .</span></span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a><span class="ss">        </span><span class="ch">}}</span></span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a><span class="ss">        GROUP BY ?authorId</span></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="ss">        HAVING (COUNT(DISTINCT ?author) &gt; 1)</span></span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a><span class="ss">        ORDER BY DESC(?authorItems) ?authorId</span></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a><span class="ss">    '''</span>,</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"### Validation checks"</span>))</span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>validation_results <span class="op">=</span> {}</span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> check_name, check_query <span class="kw">in</span> validation_queries.items():</span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>    check_df <span class="op">=</span> run_table(check_query)</span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a>    validation_results[check_name] <span class="op">=</span> check_df</span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="ss">f"#### </span><span class="sc">{</span>check_name<span class="sc">}</span><span class="ss">"</span>))</span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Rows: </span><span class="sc">{</span><span class="bu">len</span>(check_df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(check_df) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>        display(Markdown(<span class="st">"No issues found."</span>))</span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col <span class="kw">in</span> [<span class="st">"author"</span>, <span class="st">"target"</span>, <span class="st">"targetClass"</span>]:</span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> col <span class="kw">in</span> check_df.columns:</span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a>                qid_col <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">QID"</span></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>                check_df[qid_col] <span class="op">=</span> check_df[col].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a>        display(check_df.head(<span class="dv">30</span>))</span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a>p27_class_profile <span class="op">=</span> run_table(<span class="ss">f'''</span></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT ?targetClass ?targetClassLabel (COUNT(DISTINCT ?author) AS ?authors) (COUNT(DISTINCT ?target) AS ?targets)</span></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author wdt:P1 wd:Q3998 ; wdt:P27 ?target .</span></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?target wdt:P1 ?targetClass . OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?targetClass rdfs:label ?targetClassLabel . FILTER(LANG(?targetClassLabel) = "en") </span><span class="ch">}}</span><span class="ss"> </span><span class="ch">}}</span></span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY ?targetClass ?targetClassLabel</span></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="ss">    ORDER BY DESC(?authors) DESC(?targets)</span></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span>)</span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"#### P27 target class profile"</span>))</span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>display(p27_class_profile)</span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a>sample_author_qid <span class="op">=</span> <span class="st">"Q4750"</span></span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>statement_anatomy_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX p: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/prop/&gt;</span></span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX ps: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/prop/statement/&gt;</span></span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX pq: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/prop/qualifier/&gt;</span></span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX pr: &lt;</span><span class="sc">{</span>WIKIBASE_URL<span class="sc">.</span>rstrip(<span class="st">'/'</span>)<span class="sc">}</span><span class="ss">/prop/reference/&gt;</span></span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX prov: &lt;http://www.w3.org/ns/prov#&gt;</span></span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a><span class="ss">    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT ?author ?authorLabel ?statement ?chapter ?chapterLabel ?role ?refSource ?refAccessDate</span></span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a><span class="ss">      BIND(wd:</span><span class="sc">{</span>sample_author_qid<span class="sc">}</span><span class="ss"> AS ?author)</span></span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author p:P27 ?statement .</span></span>
+<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?statement ps:P27 ?chapter .</span></span>
+<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?chapter rdfs:label ?chapterLabel . FILTER(LANG(?chapterLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?statement pq:P28 ?role . </span><span class="ch">}}</span></span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span></span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a><span class="ss">        ?statement prov:wasDerivedFrom ?refNode .</span></span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a><span class="ss">        OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?refNode pr:P17 ?refSource . </span><span class="ch">}}</span></span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a><span class="ss">        OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?refNode pr:P18 ?refAccessDate . </span><span class="ch">}}</span></span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a><span class="ss">      </span><span class="ch">}}</span></span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a><span class="ss">    ORDER BY ?chapterLabel</span></span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a>statement_df <span class="op">=</span> run_table(statement_anatomy_query)</span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="ss">f"#### Statement anatomy (sample Author </span><span class="sc">{</span>sample_author_qid<span class="sc">}</span><span class="ss">)"</span>))</span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> statement_df.empty:</span>
+<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a>    display(Markdown(<span class="st">"No statement-level rows found for the sample author."</span>))</span>
+<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a>    statement_df[<span class="st">"authorQID"</span>] <span class="op">=</span> statement_df[<span class="st">"author"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a>    statement_df[<span class="st">"chapterQID"</span>] <span class="op">=</span> statement_df[<span class="st">"chapter"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"refAccessDate"</span> <span class="kw">in</span> statement_df.columns:</span>
+<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a>        statement_df[<span class="st">"refAccessDate"</span>] <span class="op">=</span> statement_df[<span class="st">"refAccessDate"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.replace(<span class="st">"T00:00:00Z"</span>, <span class="st">""</span>, regex<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> [<span class="st">"authorQID"</span>, <span class="st">"authorLabel"</span>, <span class="st">"chapterQID"</span>, <span class="st">"chapterLabel"</span>, <span class="st">"role"</span>, <span class="st">"refSource"</span>, <span class="st">"refAccessDate"</span>]</span>
+<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a>    existing_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> cols <span class="cf">if</span> c <span class="kw">in</span> statement_df.columns]</span>
+<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a>    display(statement_df[existing_cols].drop_duplicates())</span>
+<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a><span class="co"># Notebook note block: capture key validation findings in plain language.</span></span>
+<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a>missing_p20_count <span class="op">=</span> <span class="bu">len</span>(validation_results.get(<span class="st">"Authors missing P20"</span>, pd.DataFrame()))</span>
+<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a>missing_p27_count <span class="op">=</span> <span class="bu">len</span>(validation_results.get(<span class="st">"Authors missing any P27 contribution"</span>, pd.DataFrame()))</span>
+<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a>non_q6_df <span class="op">=</span> validation_results.get(<span class="st">"Authors with P27 target not typed Q6"</span>, pd.DataFrame())</span>
+<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a>duplicate_p20_count <span class="op">=</span> <span class="bu">len</span>(validation_results.get(<span class="st">"Duplicate P20 IDs assigned to multiple author items"</span>, pd.DataFrame()))</span>
+<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a>non_q6_count <span class="op">=</span> <span class="bu">len</span>(non_q6_df)</span>
+<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> non_q6_count <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> <span class="st">"target"</span> <span class="kw">in</span> non_q6_df.columns:</span>
+<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a>    non_q6_targets <span class="op">=</span> <span class="bu">sorted</span>(non_q6_df[<span class="st">"target"</span>].dropna().astype(<span class="bu">str</span>).unique().tolist())</span>
+<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a>    non_q6_target_qids <span class="op">=</span> <span class="bu">sorted</span>([uri.rsplit(<span class="st">"/"</span>, <span class="dv">1</span>)[<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> uri <span class="kw">in</span> non_q6_targets])</span>
+<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a>    non_q6_target_qids <span class="op">=</span> []</span>
+<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a>notes_lines <span class="op">=</span> [</span>
+<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a>    <span class="st">"### Validation notes"</span>,</span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"- Authors missing P20: </span><span class="sc">{</span>missing_p20_count<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"- Authors missing P27 contributions: </span><span class="sc">{</span>missing_p27_count<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"- Duplicate P20 IDs on multiple author items: </span><span class="sc">{</span>duplicate_p20_count<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"- P27 links to non-Q6 targets: </span><span class="sc">{</span>non_q6_count<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> non_q6_target_qids:</span>
+<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a>    notes_lines.append(<span class="ss">f"- Non-Q6 target QIDs observed: </span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(non_q6_target_qids)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> statement_df.empty:</span>
+<span id="cb5-275"><a href="#cb5-275" aria-hidden="true" tabindex="-1"></a>    notes_lines.extend([</span>
+<span id="cb5-276"><a href="#cb5-276" aria-hidden="true" tabindex="-1"></a>        <span class="st">""</span>,</span>
+<span id="cb5-277"><a href="#cb5-277" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"Statement anatomy check (</span><span class="sc">{</span>sample_author_qid<span class="sc">}</span><span class="ss">) confirms claim-level metadata:"</span>,</span>
+<span id="cb5-278"><a href="#cb5-278" aria-hidden="true" tabindex="-1"></a>        <span class="st">"- Main claim: P27 (contributed to chapter)"</span>,</span>
+<span id="cb5-279"><a href="#cb5-279" aria-hidden="true" tabindex="-1"></a>        <span class="st">"- Author-side relationship role: P28 (role, e.g. Lead Author)"</span>,</span>
+<span id="cb5-280"><a href="#cb5-280" aria-hidden="true" tabindex="-1"></a>        <span class="st">"- References: P17 (reference URL) and P18 (date accessed)"</span>,</span>
+<span id="cb5-281"><a href="#cb5-281" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb5-282"><a href="#cb5-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-283"><a href="#cb5-283" aria-hidden="true" tabindex="-1"></a>notes_lines.extend([</span>
+<span id="cb5-284"><a href="#cb5-284" aria-hidden="true" tabindex="-1"></a>    <span class="st">""</span>,</span>
+<span id="cb5-285"><a href="#cb5-285" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Author property pattern observed from item-level inspection (Q4750):"</span>,</span>
+<span id="cb5-286"><a href="#cb5-286" aria-hidden="true" tabindex="-1"></a>    <span class="st">"- Structural typing and relation properties: P1 (instance of), P27 (contributed to)"</span>,</span>
+<span id="cb5-287"><a href="#cb5-287" aria-hidden="true" tabindex="-1"></a>    <span class="st">"- Identifier property: P20 (ClimateKG Author ID)"</span>,</span>
+<span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a>    <span class="st">"- Biographic profile properties: P21 (last name), P22 (first name), P23 (gender), P24 (citizenship), P25 (country of residence), P26 (affiliation)"</span>,</span>
+<span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(notes_lines)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows returned: 200</code></pre>
+<pre><code>Author-chapter rows returned: 1150
+Distinct authors by P20: 921
+Distinct chapter URIs linked from P27: 74</code></pre>
+</div>
+<section id="sample-author-chapter-links" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="sample-author-chapter-links">Sample author-chapter links</h3>
+</section>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">authorQID</th>
+<th data-quarto-table-cell-role="th">authorLabel</th>
+<th data-quarto-table-cell-role="th">authorId</th>
+<th data-quarto-table-cell-role="th">chapterLabel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Q4750</td>
+<td>Adam Mohammed Sebbit</td>
+<td>AU0752</td>
+<td>Mitigation Pathways Compatible with Long-term ...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Q4833</td>
+<td>Adelle Thomas</td>
+<td>AU0835</td>
+<td>Cities and Settlements by the Sea</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Q4833</td>
+<td>Adelle Thomas</td>
+<td>AU0835</td>
+<td>Impacts of 1.5°C Global Warming on Natural and...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Q4833</td>
+<td>Adelle Thomas</td>
+<td>AU0835</td>
+<td>Key Risks across Sectors and Regions</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Q4592</td>
+<td>Aditi Mukherji</td>
+<td>AU0594</td>
+<td>High Mountain Areas</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Q4592</td>
+<td>Aditi Mukherji</td>
+<td>AU0594</td>
+<td>Longer Report</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Q4592</td>
+<td>Aditi Mukherji</td>
+<td>AU0594</td>
+<td>Summary for Policymakers</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Q4592</td>
+<td>Aditi Mukherji</td>
+<td>AU0594</td>
+<td>Water</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Q4007</td>
+<td>Adolf Acquaye</td>
+<td>AU0009</td>
+<td>Industry</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Q4484</td>
+<td>Adrian Leip</td>
+<td>AU0486</td>
+<td>Cross-sectoral Perspectives</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Q4785</td>
+<td>Adrian Spence</td>
+<td>AU0787</td>
+<td>Framing and context</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Q4287</td>
+<td>Adugna Gemeda</td>
+<td>AU0289</td>
+<td>Africa</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Q4739</td>
+<td>Agus Pratama Sari</td>
+<td>AU0741</td>
+<td>International Cooperation</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Q4253</td>
+<td>Aidan Farrell</td>
+<td>AU0255</td>
+<td>Food, Fibre and Other Ecosystem Products</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Q4253</td>
+<td>Aidan Farrell</td>
+<td>AU0255</td>
+<td>Tropical Forests</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Q4774</td>
+<td>Aimée Slangen</td>
+<td>AU0776</td>
+<td>Longer Report</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Q4774</td>
+<td>Aimée Slangen</td>
+<td>AU0776</td>
+<td>Ocean, Cryosphere and Sea Level Change</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>Q4774</td>
+<td>Aimée Slangen</td>
+<td>AU0776</td>
+<td>Summary for Policymakers</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Q4769</td>
+<td>Ajay Kumar Singh</td>
+<td>AU0771</td>
+<td>Energy Systems</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>Q4441</td>
+<td>Akio Kitoh</td>
+<td>AU0443</td>
+<td>Asia</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<section id="top-authors-by-unique-chapter-contributions" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="top-authors-by-unique-chapter-contributions">Top authors by unique chapter contributions</h3>
+</section>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">authorId</th>
+<th data-quarto-table-cell-role="th">authorQID</th>
+<th data-quarto-table-cell-role="th">authorLabel</th>
+<th data-quarto-table-cell-role="th">chapter_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">282</td>
+<td>AU0284</td>
+<td>Q4282</td>
+<td>Matthias Garschagen</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">588</td>
+<td>AU0594</td>
+<td>Q4592</td>
+<td>Aditi Mukherji</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>AU0004</td>
+<td>Q4002</td>
+<td>Amjad Abdulla</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">696</td>
+<td>AU0704</td>
+<td>Q4702</td>
+<td>Aromar Revi</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">341</td>
+<td>AU0343</td>
+<td>Q4341</td>
+<td>Bronwyn Hayward</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">193</td>
+<td>AU0195</td>
+<td>Q4193</td>
+<td>Fatima Denton</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">718</td>
+<td>AU0727</td>
+<td>Q4725</td>
+<td>Joyashree Roy</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">108</td>
+<td>AU0109</td>
+<td>Q4107</td>
+<td>Katherine Calvin</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">917</td>
+<td>AU0929</td>
+<td>Q4927</td>
+<td>Zinta Zommers</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">825</td>
+<td>AU0835</td>
+<td>Q4833</td>
+<td>Adelle Thomas</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">767</td>
+<td>AU0776</td>
+<td>Q4774</td>
+<td>Aimée Slangen</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">719</td>
+<td>AU0728</td>
+<td>Q4726</td>
+<td>Alexander Ruane</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">569</td>
+<td>AU0575</td>
+<td>Q4573</td>
+<td>Alisher Mirzabaev</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">260</td>
+<td>AU0262</td>
+<td>Q4260</td>
+<td>Andreas Fischlin</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">674</td>
+<td>AU0682</td>
+<td>Q4680</td>
+<td>Anjal Prakash</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">809</td>
+<td>AU0818</td>
+<td>Q4816</td>
+<td>Anna Amelia Sörensson</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">792</td>
+<td>AU0801</td>
+<td>Q4799</td>
+<td>Avelino Gumersindo Suarez Rodriguez</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">210</td>
+<td>AU0212</td>
+<td>Q4210</td>
+<td>Aïda Diongue-Niang</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">300</td>
+<td>AU0302</td>
+<td>Q4300</td>
+<td>Bruce Glavovic</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12</td>
+<td>AU0013</td>
+<td>Q4011</td>
+<td>Carolina Adler</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<section id="er-model-conformance-snapshot" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="er-model-conformance-snapshot">ER-model conformance snapshot</h3>
+</section>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">metric</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Author items (Q3998)</td>
+<td>932</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Distinct ClimateKG Author IDs (P20)</td>
+<td>932</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Chapter items (Q6)</td>
+<td>87</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Distinct P20 IDs with P27-&gt;Q6 links</td>
+<td>921</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<section id="validation-checks" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="validation-checks">Validation checks</h3>
+</section>
+<section id="authors-missing-p20" class="level4 cell-output cell-output-display cell-output-markdown">
+<h4 class="anchored" data-anchor-id="authors-missing-p20">Authors missing P20</h4>
+</section>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 0</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>No issues found.</p>
+</div>
+<section id="authors-missing-any-p27-contribution" class="level4 cell-output cell-output-display cell-output-markdown">
+<h4 class="anchored" data-anchor-id="authors-missing-any-p27-contribution">Authors missing any P27 contribution</h4>
+</section>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 0</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>No issues found.</p>
+</div>
+<section id="authors-with-p27-target-not-typed-q6" class="level4 cell-output cell-output-display cell-output-markdown">
+<h4 class="anchored" data-anchor-id="authors-with-p27-target-not-typed-q6">Authors with P27 target not typed Q6</h4>
+</section>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 14</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -466,173 +1154,494 @@ Libraries imported successfully</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">chapter</th>
 <th data-quarto-table-cell-role="th">author</th>
-<th data-quarto-table-cell-role="th">authorId</th>
 <th data-quarto-table-cell-role="th">authorLabel</th>
-<th data-quarto-table-cell-role="th">chapterLabel</th>
+<th data-quarto-table-cell-role="th">authorId</th>
+<th data-quarto-table-cell-role="th">target</th>
+<th data-quarto-table-cell-role="th">authorQID</th>
+<th data-quarto-table-cell-role="th">targetQID</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>https://climatekg.tibwiki.io/entity/Q158</td>
-<td>https://climatekg.tibwiki.io/entity/Q4750</td>
-<td>AU0752</td>
-<td>Adam Mohammed Sebbit</td>
-<td>Mitigation Pathways Compatible with Long-term ...</td>
+<td>https://climatekg.tibwiki.io/entity/Q4142</td>
+<td>Francis Chiew</td>
+<td>AU0144</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4142</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>https://climatekg.tibwiki.io/entity/Q141</td>
-<td>https://climatekg.tibwiki.io/entity/Q4833</td>
-<td>AU0835</td>
-<td>Adelle Thomas</td>
-<td>Cities and Settlements by the Sea</td>
+<td>https://climatekg.tibwiki.io/entity/Q4165</td>
+<td>Mark Costello</td>
+<td>AU0167</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4165</td>
+<td>Q128</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>https://climatekg.tibwiki.io/entity/Q26</td>
-<td>https://climatekg.tibwiki.io/entity/Q4833</td>
-<td>AU0835</td>
-<td>Adelle Thomas</td>
-<td>Impacts of 1.5°C Global Warming on Natural and...</td>
+<td>https://climatekg.tibwiki.io/entity/Q4345</td>
+<td>Kevin Hennessy</td>
+<td>AU0347</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4345</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>https://climatekg.tibwiki.io/entity/Q133</td>
-<td>https://climatekg.tibwiki.io/entity/Q4833</td>
-<td>AU0835</td>
-<td>Adelle Thomas</td>
-<td>Key Risks across Sectors and Regions</td>
+<td>https://climatekg.tibwiki.io/entity/Q4360</td>
+<td>Ove Hoegh-Guldberg</td>
+<td>AU0362</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4360</td>
+<td>Q128</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>https://climatekg.tibwiki.io/entity/Q67</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>High Mountain Areas</td>
+<td>https://climatekg.tibwiki.io/entity/Q4474</td>
+<td>Nina Lansbury</td>
+<td>AU0476</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4474</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
-<td>https://climatekg.tibwiki.io/entity/Q192</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>Longer Report</td>
+<td>https://climatekg.tibwiki.io/entity/Q4476</td>
+<td>Judy Lawrence</td>
+<td>AU0478</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4476</td>
+<td>Q128</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
-<td>https://climatekg.tibwiki.io/entity/Q190</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>Summary for Policymakers</td>
+<td>https://climatekg.tibwiki.io/entity/Q4518</td>
+<td>Brendan Mackey</td>
+<td>AU0520</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4518</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
-<td>https://climatekg.tibwiki.io/entity/Q116</td>
-<td>https://climatekg.tibwiki.io/entity/Q4592</td>
-<td>AU0594</td>
-<td>Aditi Mukherji</td>
-<td>Water</td>
+<td>https://climatekg.tibwiki.io/entity/Q4620</td>
+<td>Uday Bhaskar Nidumolu</td>
+<td>AU0622</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4620</td>
+<td>Q128</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
-<td>https://climatekg.tibwiki.io/entity/Q178</td>
-<td>https://climatekg.tibwiki.io/entity/Q4007</td>
-<td>AU0009</td>
-<td>Adolf Acquaye</td>
-<td>Industry</td>
+<td>https://climatekg.tibwiki.io/entity/Q4658</td>
+<td>Gretta Pecl</td>
+<td>AU0660</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4658</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
-<td>https://climatekg.tibwiki.io/entity/Q179</td>
-<td>https://climatekg.tibwiki.io/entity/Q4484</td>
-<td>AU0486</td>
-<td>Adrian Leip</td>
-<td>Cross-sectoral Perspectives</td>
+<td>https://climatekg.tibwiki.io/entity/Q4707</td>
+<td>Lauren Rickards</td>
+<td>AU0709</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4707</td>
+<td>Q128</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">10</td>
-<td>https://climatekg.tibwiki.io/entity/Q44</td>
-<td>https://climatekg.tibwiki.io/entity/Q4785</td>
-<td>AU0787</td>
-<td>Adrian Spence</td>
-<td>Framing and context</td>
+<td>https://climatekg.tibwiki.io/entity/Q4825</td>
+<td>Nigel Tapper</td>
+<td>AU0827</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4825</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">11</td>
-<td>https://climatekg.tibwiki.io/entity/Q126</td>
-<td>https://climatekg.tibwiki.io/entity/Q4287</td>
-<td>AU0289</td>
-<td>Adugna Gemeda</td>
-<td>Africa</td>
+<td>https://climatekg.tibwiki.io/entity/Q4894</td>
+<td>Alistair Woodward</td>
+<td>AU0896</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4894</td>
+<td>Q128</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">12</td>
-<td>https://climatekg.tibwiki.io/entity/Q183</td>
-<td>https://climatekg.tibwiki.io/entity/Q4739</td>
-<td>AU0741</td>
-<td>Agus Pratama Sari</td>
-<td>International Cooperation</td>
+<td>https://climatekg.tibwiki.io/entity/Q4896</td>
+<td>David Wratt</td>
+<td>AU0898</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4896</td>
+<td>Q128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">13</td>
-<td>https://climatekg.tibwiki.io/entity/Q117</td>
-<td>https://climatekg.tibwiki.io/entity/Q4253</td>
-<td>AU0255</td>
-<td>Aidan Farrell</td>
-<td>Food, Fibre and Other Ecosystem Products</td>
+<td>https://climatekg.tibwiki.io/entity/Q4897</td>
+<td>Anita Wreford</td>
+<td>AU0899</td>
+<td>https://climatekg.tibwiki.io/entity/Q128</td>
+<td>Q4897</td>
+<td>Q128</td>
 </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<section id="duplicate-p20-ids-assigned-to-multiple-author-items" class="level4 cell-output cell-output-display cell-output-markdown">
+<h4 class="anchored" data-anchor-id="duplicate-p20-ids-assigned-to-multiple-author-items">Duplicate P20 IDs assigned to multiple author items</h4>
+</section>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 0</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>No issues found.</p>
+</div>
+<section id="p27-target-class-profile" class="level4 cell-output cell-output-display cell-output-markdown">
+<h4 class="anchored" data-anchor-id="p27-target-class-profile">P27 target class profile</h4>
+</section>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">targetClass</th>
+<th data-quarto-table-cell-role="th">targetClassLabel</th>
+<th data-quarto-table-cell-role="th">authors</th>
+<th data-quarto-table-cell-role="th">targets</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">14</td>
-<td>https://climatekg.tibwiki.io/entity/Q149</td>
-<td>https://climatekg.tibwiki.io/entity/Q4253</td>
-<td>AU0255</td>
-<td>Aidan Farrell</td>
-<td>Tropical Forests</td>
+<td data-quarto-table-cell-role="th">0</td>
+<td>https://climatekg.tibwiki.io/entity/Q6</td>
+<td>Chapter</td>
+<td>921</td>
+<td>74</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">15</td>
-<td>https://climatekg.tibwiki.io/entity/Q192</td>
-<td>https://climatekg.tibwiki.io/entity/Q4774</td>
-<td>AU0776</td>
-<td>Aimée Slangen</td>
-<td>Longer Report</td>
+<td data-quarto-table-cell-role="th">1</td>
+<td>https://climatekg.tibwiki.io/entity/Q5</td>
+<td>Text Division</td>
+<td>19</td>
+<td>1</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">16</td>
-<td>https://climatekg.tibwiki.io/entity/Q98</td>
-<td>https://climatekg.tibwiki.io/entity/Q4774</td>
-<td>AU0776</td>
-<td>Aimée Slangen</td>
-<td>Ocean, Cryosphere and Sea Level Change</td>
+<td data-quarto-table-cell-role="th">2</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>14</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<section id="statement-anatomy-sample-author-q4750" class="level4 cell-output cell-output-display cell-output-markdown">
+<h4 class="anchored" data-anchor-id="statement-anatomy-sample-author-q4750">Statement anatomy (sample Author Q4750)</h4>
+</section>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">authorQID</th>
+<th data-quarto-table-cell-role="th">authorLabel</th>
+<th data-quarto-table-cell-role="th">chapterQID</th>
+<th data-quarto-table-cell-role="th">chapterLabel</th>
+<th data-quarto-table-cell-role="th">role</th>
+<th data-quarto-table-cell-role="th">refSource</th>
+<th data-quarto-table-cell-role="th">refAccessDate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Q4750</td>
+<td>Adam Mohammed Sebbit</td>
+<td>Q158</td>
+<td>Mitigation Pathways Compatible with Long-term ...</td>
+<td>Lead Author</td>
+<td>https://apps.ipcc.ch/report/authors/</td>
+<td>2026-03-18</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<section id="validation-notes" class="level3 cell-output cell-output-display cell-output-markdown">
+<h3 class="anchored" data-anchor-id="validation-notes">Validation notes</h3>
+<ul>
+<li>Authors missing P20: 0</li>
+<li>Authors missing P27 contributions: 0</li>
+<li>Duplicate P20 IDs on multiple author items: 0</li>
+<li>P27 links to non-Q6 targets: 14</li>
+<li>Non-Q6 target QIDs observed: Q128</li>
+</ul>
+<p>Statement anatomy check (Q4750) confirms claim-level metadata: - Main claim: P27 (contributed to chapter) - Author-side relationship role: P28 (role, e.g.&nbsp;Lead Author) - References: P17 (reference URL) and P18 (date accessed)</p>
+<p>Author property pattern observed from item-level inspection (Q4750): - Structural typing and relation properties: P1 (instance of), P27 (contributed to) - Identifier property: P20 (ClimateKG Author ID) - Biographic profile properties: P21 (last name), P22 (first name), P23 (gender), P24 (citizenship), P25 (country of residence), P26 (affiliation)</p>
+</section>
+</div>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>This notebook now follows the same structure used in Report Structure:</p>
+<ol type="1">
+<li>Start from the ER baseline in The Rock (<code>Q3998</code> Author, <code>Q6</code> Chapter, <code>P20</code> author ID, <code>P27</code> contributed-to relation).</li>
+<li>Query the live graph for author-chapter links.</li>
+<li>Report duplicate-safe metrics by deduplicating authors on <code>P20</code>.</li>
+<li>Run validation checks to flag modeling exceptions.</li>
+</ol>
+<p>The key lesson from the structure notebook also applies here: we should not infer completeness from raw item counts alone. Where duplicate imports exist, author-level counts must be grounded on distinct <code>P20</code> values, while relationships (<code>P27</code>) are validated against chapters typed as <code>Q6</code>.</p>
+</section>
+<section id="statement-anatomy" class="level2">
+<h2 class="anchored" data-anchor-id="statement-anatomy">Statement anatomy</h2>
+<p>The validation cell now includes a statement-level anatomy view for sample author <code>Q4750</code>, showing how one <code>P27</code> contribution is represented with:</p>
+<ul>
+<li>Main claim value (<code>P27</code> -&gt; chapter item)</li>
+<li>Author-side relationship role (<code>P28</code> role, e.g.&nbsp;Lead Author)</li>
+<li>References (<code>P17</code> reference URL and <code>P18</code> date accessed)</li>
+</ul>
+<p>This helps verify that the graph carries provenance at claim level, not only at item level.</p>
+</section>
+<section id="author-property-usage-learned-from-item-inspection" class="level2">
+<h2 class="anchored" data-anchor-id="author-property-usage-learned-from-item-inspection">Author property usage learned from item inspection</h2>
+<p>From the concrete author item Q4750 and the broader validation checks, the current Author pattern uses the following fields.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Label / Purpose</th>
+<th>Role in Author model</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>P1</code></td>
+<td>Instance of</td>
+<td>Class typing (<code>Q3998</code> Author)</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">17</td>
-<td>https://climatekg.tibwiki.io/entity/Q190</td>
-<td>https://climatekg.tibwiki.io/entity/Q4774</td>
-<td>AU0776</td>
-<td>Aimée Slangen</td>
-<td>Summary for Policymakers</td>
+<td><code>P20</code></td>
+<td>ClimateKG Author ID</td>
+<td>Stable author identifier used for deduplication</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">18</td>
-<td>https://climatekg.tibwiki.io/entity/Q168</td>
-<td>https://climatekg.tibwiki.io/entity/Q4769</td>
-<td>AU0771</td>
-<td>Ajay Kumar Singh</td>
-<td>Energy Systems</td>
+<td><code>P27</code></td>
+<td>contributed to chapter</td>
+<td>Link from Author to contribution target (expected class <code>Q6</code> Chapter)</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">19</td>
-<td>https://climatekg.tibwiki.io/entity/Q127</td>
-<td>https://climatekg.tibwiki.io/entity/Q4441</td>
-<td>AU0443</td>
-<td>Akio Kitoh</td>
-<td>Asia</td>
+<td><code>P28</code></td>
+<td>author role on chapter contribution</td>
+<td>Author-side contribution role qualifier used on the <code>P27</code> statement</td>
+</tr>
+<tr class="odd">
+<td><code>P21</code></td>
+<td>last name</td>
+<td>Biographic/profile attribute</td>
+</tr>
+<tr class="even">
+<td><code>P22</code></td>
+<td>first name</td>
+<td>Biographic/profile attribute</td>
+</tr>
+<tr class="odd">
+<td><code>P23</code></td>
+<td>gender</td>
+<td>Biographic/profile attribute</td>
+</tr>
+<tr class="even">
+<td><code>P24</code></td>
+<td>citizenship</td>
+<td>Biographic/profile attribute</td>
+</tr>
+<tr class="odd">
+<td><code>P25</code></td>
+<td>country of residence</td>
+<td>Biographic/profile attribute</td>
+</tr>
+<tr class="even">
+<td><code>P26</code></td>
+<td>affiliation</td>
+<td>Biographic/profile attribute</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="wikibase-provenance-and-reference-related-fields" class="level2">
+<h2 class="anchored" data-anchor-id="wikibase-provenance-and-reference-related-fields">Wikibase provenance and reference-related fields</h2>
+<p>These fields are important for source tracking and auditability when present in the graph (either on author records or related records used in the pipeline).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Property</th>
+<th>Label / Purpose</th>
+<th>Provenance use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>P6</code></td>
+<td>Source</td>
+<td>Original source URL for imported data</td>
+</tr>
+<tr class="even">
+<td><code>P17</code></td>
+<td>Reference URL</td>
+<td>Reference URL attached to a statement reference</td>
+</tr>
+<tr class="odd">
+<td><code>P18</code></td>
+<td>date accessed</td>
+<td>Alternate/duplicate access-date field seen in model</td>
+</tr>
+<tr class="even">
+<td><code>P19</code></td>
+<td>source version</td>
+<td>Captures source version metadata</td>
+</tr>
+<tr class="odd">
+<td><code>P5</code></td>
+<td>Wiki</td>
+<td>Link to corresponding wiki page/resource</td>
+</tr>
+<tr class="even">
+<td><code>P7</code></td>
+<td>PDF</td>
+<td>Link to source PDF resource when relevant</td>
+</tr>
+</tbody>
+</table>
+<p>This provides a practical validation template: every Author should have <code>P1</code>, <code>P20</code>, and at least one <code>P27</code>, <code>P27</code> targets should normally resolve to class <code>Q6</code> Chapter, and provenance fields should be populated where available for traceability.</p>
+</section>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p>How many distinct authors contributed to each of the 7 reports? This cell uses the live SPARQL endpoint and counts distinct author IDs (<code>P20</code>) for each report.</p>
+<div id="b6a7d797" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?report ?reportLabel (COUNT(DISTINCT ?authorId) AS ?distinctAuthors)</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P20 ?authorId ;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P27 ?chapter .</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?chapter wdt:P3+ ?report .</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="ss">          rdfs:label ?reportLabel .</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?report ?reportLabel</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?reportLabel</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>report_df <span class="op">=</span> run_table(query).sort_values(<span class="st">"reportLabel"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>report_df[<span class="st">"reportQID"</span>] <span class="op">=</span> report_df[<span class="st">"report"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.rsplit(<span class="st">"/"</span>, n<span class="op">=</span><span class="dv">1</span>).<span class="bu">str</span>[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>display(report_df[[<span class="st">"reportQID"</span>, <span class="st">"reportLabel"</span>, <span class="st">"distinctAuthors"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?report ?reportLabel (COUNT(DISTINCT ?authorId) AS ?distinctAuthors)
+WHERE {
+  ?author wdt:P1 wd:Q3998 ;
+          wdt:P20 ?authorId ;
+          wdt:P27 ?chapter .
+  ?chapter wdt:P3+ ?report .
+  ?report wdt:P1 wd:Q4 ;
+          rdfs:label ?reportLabel .
+  FILTER(LANG(?reportLabel) = "en")
+}
+GROUP BY ?report ?reportLabel
+ORDER BY ?reportLabel
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">reportQID</th>
+<th data-quarto-table-cell-role="th">reportLabel</th>
+<th data-quarto-table-cell-role="th">distinctAuthors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Q189</td>
+<td>Climate Change 2023: Synthesis Report. Contrib...</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Q35</td>
+<td>Special Report: Climate Change and Land</td>
+<td>107</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Q10</td>
+<td>Special Report: Global Warming of 1.5°C</td>
+<td>91</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Q57</td>
+<td>Special Report: The Ocean and Cryosphere in a ...</td>
+<td>103</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Q77</td>
+<td>Working Group I: Climate Change 2021 – The Phy...</td>
+<td>234</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Q106</td>
+<td>Working Group II: Climate Change 2022 – Impact...</td>
+<td>257</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Q150</td>
+<td>Working Group III: Climate Change 2022 – Mitig...</td>
+<td>239</td>
 </tr>
 </tbody>
 </table>
@@ -640,10 +1649,959 @@ Libraries imported successfully</code></pre>
 </div>
 </div>
 </div>
-<section id="interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
-<p>Each row records an author linked to a chapter they contributed to. The <code>P20</code> property is a stable author identifier used to deduplicate repeated author entries, while <code>P27</code> captures the chapter contribution relationship.</p>
-<p>This gives us a clean starting point for author-level analysis: we can count how many chapters each author contributed to, find repeated collaborators, and then extend the analysis to a more network-oriented view.</p>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<p>Which countries of residence are most represented among AR6 authors, and how does this differ between WGI, WGII and WGIII? This cell uses the live SPARQL endpoint and counts distinct authors (<code>P20</code>) by country (<code>P25</code>).</p>
+<div id="0f03664e" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?workingGroupLabel ?country (COUNT(DISTINCT ?authorId) AS ?authors)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P20 ?authorId ;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P25 ?country ;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P27 ?chapter .</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?chapter wdt:P3+ ?report .</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="ss">          rdfs:label ?reportLabel .</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="ss">       IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="ss">       IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(?workingGroupLabel != "Other")</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?workingGroupLabel ?country</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?workingGroupLabel DESC(?authors) ?country</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>country_df <span class="op">=</span> run_table(query)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>country_top <span class="op">=</span> country_df.sort_values([<span class="st">"workingGroupLabel"</span>, <span class="st">"authors"</span>, <span class="st">"country"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>, <span class="va">True</span>]).groupby(<span class="st">"workingGroupLabel"</span>, as_index<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>display(country_top[[<span class="st">"workingGroupLabel"</span>, <span class="st">"country"</span>, <span class="st">"authors"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?workingGroupLabel ?country (COUNT(DISTINCT ?authorId) AS ?authors)
+WHERE {
+  ?author wdt:P1 wd:Q3998 ;
+          wdt:P20 ?authorId ;
+          wdt:P25 ?country ;
+          wdt:P27 ?chapter .
+  ?chapter wdt:P3+ ?report .
+  ?report wdt:P1 wd:Q4 ;
+          rdfs:label ?reportLabel .
+  FILTER(LANG(?reportLabel) = "en")
+  BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",
+       IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",
+       IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)
+  FILTER(?workingGroupLabel != "Other")
+}
+GROUP BY ?workingGroupLabel ?country
+ORDER BY ?workingGroupLabel DESC(?authors) ?country
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">workingGroupLabel</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">authors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Working Group I</td>
+<td>Canada</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Working Group I</td>
+<td>Germany</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Working Group I</td>
+<td>Norway</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Working Group I</td>
+<td>Brazil</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Working Group I</td>
+<td>India</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Working Group I</td>
+<td>Italy</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Working Group I</td>
+<td>Argentina</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Working Group I</td>
+<td>Netherlands</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Working Group I</td>
+<td>Republic of Korea</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Working Group I</td>
+<td>South Africa</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">71</td>
+<td>Working Group II</td>
+<td>Canada</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">72</td>
+<td>Working Group II</td>
+<td>Mexico</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">73</td>
+<td>Working Group II</td>
+<td>South Africa</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">74</td>
+<td>Working Group II</td>
+<td>France</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75</td>
+<td>Working Group II</td>
+<td>Norway</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">76</td>
+<td>Working Group II</td>
+<td>Switzerland</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">77</td>
+<td>Working Group II</td>
+<td>Netherlands</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">78</td>
+<td>Working Group II</td>
+<td>Brazil</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">79</td>
+<td>Working Group II</td>
+<td>Spain</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">80</td>
+<td>Working Group II</td>
+<td>Tanzania</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">133</td>
+<td>Working Group III</td>
+<td>Brazil</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">134</td>
+<td>Working Group III</td>
+<td>Austria</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">135</td>
+<td>Working Group III</td>
+<td>France</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">136</td>
+<td>Working Group III</td>
+<td>Italy</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">137</td>
+<td>Working Group III</td>
+<td>Canada</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">138</td>
+<td>Working Group III</td>
+<td>Netherlands</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">139</td>
+<td>Working Group III</td>
+<td>Norway</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">140</td>
+<td>Working Group III</td>
+<td>Argentina</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">141</td>
+<td>Working Group III</td>
+<td>Denmark</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">142</td>
+<td>Working Group III</td>
+<td>Spain</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="question-3" class="level2">
+<h2 class="anchored" data-anchor-id="question-3">Question 3</h2>
+<p>What is the share of female authors per working group report, and which chapters have the lowest female representation? This cell uses the live SPARQL endpoint and deduplicates authors by <code>P20</code> before calculating shares.</p>
+<div id="43861032" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?workingGroupLabel (COUNT(DISTINCT ?authorId) AS ?authors) (SUM(?isFemale) AS ?femaleAuthors) (SUM(?isMale) AS ?maleAuthors)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">{{</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT DISTINCT ?workingGroupLabel ?authorId ?gender</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P20 ?authorId ;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P23 ?gender ;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P27 ?chapter .</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P3+ ?report .</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="ss">              rdfs:label ?reportLabel .</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="ss">      BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(?workingGroupLabel != "Other")</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">}}</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "f", 1, 0) AS ?isFemale)</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "m", 1, 0) AS ?isMale)</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?workingGroupLabel</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ?workingGroupLabel</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>female_report_df <span class="op">=</span> run_table(query)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>female_report_df[<span class="st">"femaleSharePct"</span>] <span class="op">=</span> (female_report_df[<span class="st">"femaleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_report_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>female_report_df[<span class="st">"maleSharePct"</span>] <span class="op">=</span> (female_report_df[<span class="st">"maleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_report_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>display(female_report_df[[<span class="st">"workingGroupLabel"</span>, <span class="st">"authors"</span>, <span class="st">"femaleAuthors"</span>, <span class="st">"maleAuthors"</span>, <span class="st">"femaleSharePct"</span>, <span class="st">"maleSharePct"</span>]])</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>chapter_query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?workingGroupLabel ?chapter ?chapterLabel (COUNT(DISTINCT ?authorId) AS ?authors) (SUM(?isFemale) AS ?femaleAuthors) (SUM(?isMale) AS ?maleAuthors)</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">{{</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT DISTINCT ?workingGroupLabel ?chapter ?chapterLabel ?authorId ?gender</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P20 ?authorId ;</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P23 ?gender ;</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="ss">              wdt:P27 ?chapter .</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P1 wd:Q6 ;</span></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="ss">               rdfs:label ?chapterLabel .</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?chapterLabel) = "en")</span></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?chapter wdt:P3+ ?report .</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="ss">              rdfs:label ?reportLabel .</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="ss">      BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",</span></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="ss">           IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(?workingGroupLabel != "Other")</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">}}</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "f", 1, 0) AS ?isFemale)</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(LCASE(STR(?gender)) = "m", 1, 0) AS ?isMale)</span></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?workingGroupLabel ?chapter ?chapterLabel</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY ASC((?femaleAuthors / ?authors)) ?workingGroupLabel ?chapterLabel</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> chapter_query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>female_chapter_df <span class="op">=</span> run_table(chapter_query)</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>female_chapter_df[<span class="st">"femaleSharePct"</span>] <span class="op">=</span> (female_chapter_df[<span class="st">"femaleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_chapter_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>female_chapter_df[<span class="st">"maleSharePct"</span>] <span class="op">=</span> (female_chapter_df[<span class="st">"maleAuthors"</span>].astype(<span class="bu">float</span>) <span class="op">/</span> female_chapter_df[<span class="st">"authors"</span>].astype(<span class="bu">float</span>) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>lowest_female <span class="op">=</span> female_chapter_df.sort_values([<span class="st">"femaleSharePct"</span>, <span class="st">"workingGroupLabel"</span>, <span class="st">"chapterLabel"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>]).head(<span class="dv">10</span>)</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>display(lowest_female[[<span class="st">"workingGroupLabel"</span>, <span class="st">"chapterLabel"</span>, <span class="st">"authors"</span>, <span class="st">"femaleAuthors"</span>, <span class="st">"maleAuthors"</span>, <span class="st">"femaleSharePct"</span>, <span class="st">"maleSharePct"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?workingGroupLabel (COUNT(DISTINCT ?authorId) AS ?authors) (SUM(?isFemale) AS ?femaleAuthors) (SUM(?isMale) AS ?maleAuthors)
+WHERE {
+  {
+    SELECT DISTINCT ?workingGroupLabel ?authorId ?gender
+    WHERE {
+      ?author wdt:P1 wd:Q3998 ;
+              wdt:P20 ?authorId ;
+              wdt:P23 ?gender ;
+              wdt:P27 ?chapter .
+      ?chapter wdt:P3+ ?report .
+      ?report wdt:P1 wd:Q4 ;
+              rdfs:label ?reportLabel .
+      FILTER(LANG(?reportLabel) = "en")
+      BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",
+           IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",
+           IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)
+      FILTER(?workingGroupLabel != "Other")
+    }
+  }
+  BIND(IF(LCASE(STR(?gender)) = "f", 1, 0) AS ?isFemale)
+  BIND(IF(LCASE(STR(?gender)) = "m", 1, 0) AS ?isMale)
+}
+GROUP BY ?workingGroupLabel
+ORDER BY ?workingGroupLabel
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">workingGroupLabel</th>
+<th data-quarto-table-cell-role="th">authors</th>
+<th data-quarto-table-cell-role="th">femaleAuthors</th>
+<th data-quarto-table-cell-role="th">maleAuthors</th>
+<th data-quarto-table-cell-role="th">femaleSharePct</th>
+<th data-quarto-table-cell-role="th">maleSharePct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Working Group I</td>
+<td>234</td>
+<td>66</td>
+<td>168</td>
+<td>28.2</td>
+<td>71.8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Working Group II</td>
+<td>257</td>
+<td>106</td>
+<td>151</td>
+<td>41.2</td>
+<td>58.8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Working Group III</td>
+<td>239</td>
+<td>77</td>
+<td>162</td>
+<td>32.2</td>
+<td>67.8</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?workingGroupLabel ?chapter ?chapterLabel (COUNT(DISTINCT ?authorId) AS ?authors) (SUM(?isFemale) AS ?femaleAuthors) (SUM(?isMale) AS ?maleAuthors)
+WHERE {
+  {
+    SELECT DISTINCT ?workingGroupLabel ?chapter ?chapterLabel ?authorId ?gender
+    WHERE {
+      ?author wdt:P1 wd:Q3998 ;
+              wdt:P20 ?authorId ;
+              wdt:P23 ?gender ;
+              wdt:P27 ?chapter .
+      ?chapter wdt:P1 wd:Q6 ;
+               rdfs:label ?chapterLabel .
+      FILTER(LANG(?chapterLabel) = "en")
+      ?chapter wdt:P3+ ?report .
+      ?report wdt:P1 wd:Q4 ;
+              rdfs:label ?reportLabel .
+      FILTER(LANG(?reportLabel) = "en")
+      BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "Working Group I",
+           IF(CONTAINS(?reportLabel, "Working Group II:"), "Working Group II",
+           IF(CONTAINS(?reportLabel, "Working Group III:"), "Working Group III", "Other"))) AS ?workingGroupLabel)
+      FILTER(?workingGroupLabel != "Other")
+    }
+  }
+  BIND(IF(LCASE(STR(?gender)) = "f", 1, 0) AS ?isFemale)
+  BIND(IF(LCASE(STR(?gender)) = "m", 1, 0) AS ?isMale)
+}
+GROUP BY ?workingGroupLabel ?chapter ?chapterLabel
+ORDER BY ASC((?femaleAuthors / ?authors)) ?workingGroupLabel ?chapterLabel
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">workingGroupLabel</th>
+<th data-quarto-table-cell-role="th">chapterLabel</th>
+<th data-quarto-table-cell-role="th">authors</th>
+<th data-quarto-table-cell-role="th">femaleAuthors</th>
+<th data-quarto-table-cell-role="th">maleAuthors</th>
+<th data-quarto-table-cell-role="th">femaleSharePct</th>
+<th data-quarto-table-cell-role="th">maleSharePct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Working Group II</td>
+<td>Tropical Forests</td>
+<td>8</td>
+<td>1</td>
+<td>7</td>
+<td>12.5</td>
+<td>87.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Working Group I</td>
+<td>The Earth’s Energy Budget, Climate Feedbacks a...</td>
+<td>15</td>
+<td>2</td>
+<td>13</td>
+<td>13.3</td>
+<td>86.7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Working Group III</td>
+<td>Cross-sectoral Perspectives</td>
+<td>13</td>
+<td>2</td>
+<td>11</td>
+<td>15.4</td>
+<td>84.6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Working Group III</td>
+<td>Industry</td>
+<td>11</td>
+<td>2</td>
+<td>9</td>
+<td>18.2</td>
+<td>81.8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Working Group I</td>
+<td>Global Carbon and Other Biogeochemical Cycles ...</td>
+<td>19</td>
+<td>4</td>
+<td>15</td>
+<td>21.1</td>
+<td>78.9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Working Group I</td>
+<td>Linking Global to Regional Climate Change</td>
+<td>19</td>
+<td>4</td>
+<td>15</td>
+<td>21.1</td>
+<td>78.9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Working Group II</td>
+<td>Point of Departure and Key Concepts</td>
+<td>14</td>
+<td>3</td>
+<td>11</td>
+<td>21.4</td>
+<td>78.6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Working Group III</td>
+<td>Energy Systems</td>
+<td>14</td>
+<td>3</td>
+<td>11</td>
+<td>21.4</td>
+<td>78.6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Working Group I</td>
+<td>Climate Change Information for Regional Impact...</td>
+<td>18</td>
+<td>4</td>
+<td>14</td>
+<td>22.2</td>
+<td>77.8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Working Group I</td>
+<td>Future Global Climate: Scenario-based Projecti...</td>
+<td>18</td>
+<td>4</td>
+<td>14</td>
+<td>22.2</td>
+<td>77.8</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="question-4" class="level2">
+<h2 class="anchored" data-anchor-id="question-4">Question 4</h2>
+<p>Which authors contributed to chapters in more than one working group report? This cell uses the live SPARQL endpoint and deduplicates authors by <code>P20</code> before counting working groups.</p>
+<div id="6bd65f5c" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?authorId ?authorLabel (COUNT(DISTINCT ?workingGroup) AS ?workingGroups) (GROUP_CONCAT(DISTINCT ?workingGroupLabel; separator=", ") AS ?groupLabels)</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P20 ?authorId ;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P27 ?chapter .</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="ss">  OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") </span><span class="ch">}}</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?chapter wdt:P3+ ?report .</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?report wdt:P1 wd:Q4 ;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="ss">          rdfs:label ?reportLabel .</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(LANG(?reportLabel) = "en")</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "WGI",</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="ss">       IF(CONTAINS(?reportLabel, "Working Group II:"), "WGII",</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="ss">       IF(CONTAINS(?reportLabel, "Working Group III:"), "WGIII", "Other"))) AS ?workingGroup)</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="ss">  FILTER(?workingGroup != "Other")</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="ss">  BIND(IF(?workingGroup = "WGI", "Working Group I", IF(?workingGroup = "WGII", "Working Group II", "Working Group III")) AS ?workingGroupLabel)</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?authorId ?authorLabel</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="ss">HAVING (COUNT(DISTINCT ?workingGroup) &gt; 1)</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY DESC(?workingGroups) ?authorLabel</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>multi_wg_df <span class="op">=</span> run_table(query)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>display(multi_wg_df[[<span class="st">"authorLabel"</span>, <span class="st">"authorId"</span>, <span class="st">"workingGroups"</span>, <span class="st">"groupLabels"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?authorId ?authorLabel (COUNT(DISTINCT ?workingGroup) AS ?workingGroups) (GROUP_CONCAT(DISTINCT ?workingGroupLabel; separator=", ") AS ?groupLabels)
+WHERE {
+  ?author wdt:P1 wd:Q3998 ;
+          wdt:P20 ?authorId ;
+          wdt:P27 ?chapter .
+  OPTIONAL { ?author rdfs:label ?authorLabel . FILTER(LANG(?authorLabel) = "en") }
+  ?chapter wdt:P3+ ?report .
+  ?report wdt:P1 wd:Q4 ;
+          rdfs:label ?reportLabel .
+  FILTER(LANG(?reportLabel) = "en")
+  BIND(IF(CONTAINS(?reportLabel, "Working Group I:"), "WGI",
+       IF(CONTAINS(?reportLabel, "Working Group II:"), "WGII",
+       IF(CONTAINS(?reportLabel, "Working Group III:"), "WGIII", "Other"))) AS ?workingGroup)
+  FILTER(?workingGroup != "Other")
+  BIND(IF(?workingGroup = "WGI", "Working Group I", IF(?workingGroup = "WGII", "Working Group II", "Working Group III")) AS ?workingGroupLabel)
+}
+GROUP BY ?authorId ?authorLabel
+HAVING (COUNT(DISTINCT ?workingGroup) &gt; 1)
+ORDER BY DESC(?workingGroups) ?authorLabel
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">authorLabel</th>
+<th data-quarto-table-cell-role="th">authorId</th>
+<th data-quarto-table-cell-role="th">workingGroups</th>
+<th data-quarto-table-cell-role="th">groupLabels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Linda Mearns</td>
+<td>AU0554</td>
+<td>2</td>
+<td>Working Group II, Working Group I</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Patricia Romero Lankao</td>
+<td>AU0721</td>
+<td>2</td>
+<td>Working Group III, Working Group II</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="question-5" class="level2">
+<h2 class="anchored" data-anchor-id="question-5">Question 5</h2>
+<p>Which two authors have co-authored the most chapters together? This cell uses the live SPARQL endpoint and counts shared chapters per author pair.</p>
+<div id="383d8b7f" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?author1Id ?author1Label ?author2Id ?author2Label (COUNT(DISTINCT ?chapter) AS ?sharedChapters)</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">{{</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT DISTINCT ?author1 ?author1Id ?author1Label ?author2 ?author2Id ?author2Label ?chapter</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE </span><span class="ch">{{</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author1 wdt:P1 wd:Q3998 ; wdt:P20 ?author1Id ; wdt:P27 ?chapter .</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="ss">      ?author2 wdt:P1 wd:Q3998 ; wdt:P20 ?author2Id ; wdt:P27 ?chapter .</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="ss">      FILTER(?author1Id &lt; ?author2Id)</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author1 rdfs:label ?author1Label . FILTER(LANG(?author1Label) = "en") </span><span class="ch">}}</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="ss">      OPTIONAL </span><span class="ch">{{</span><span class="ss"> ?author2 rdfs:label ?author2Label . FILTER(LANG(?author2Label) = "en") </span><span class="ch">}}</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="ch">}}</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="ss">  </span><span class="ch">}}</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?author1Id ?author1Label ?author2Id ?author2Label</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY DESC(?sharedChapters) ?author1Label ?author2Label</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="ss">LIMIT 20</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>pairs_df <span class="op">=</span> run_table(query)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> pairs_df.empty:</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    pairs_df <span class="op">=</span> pairs_df.sort_values([<span class="st">"sharedChapters"</span>, <span class="st">"author1Label"</span>, <span class="st">"author2Label"</span>], ascending<span class="op">=</span>[<span class="va">False</span>, <span class="va">True</span>, <span class="va">True</span>]).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    top_pairs <span class="op">=</span> pairs_df[pairs_df[<span class="st">"sharedChapters"</span>] <span class="op">==</span> pairs_df[<span class="st">"sharedChapters"</span>].<span class="bu">max</span>()]</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    display(top_pairs[[<span class="st">"author1Label"</span>, <span class="st">"author2Label"</span>, <span class="st">"sharedChapters"</span>]])</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    display(pairs_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?author1Id ?author1Label ?author2Id ?author2Label (COUNT(DISTINCT ?chapter) AS ?sharedChapters)
+WHERE {
+  {
+    SELECT DISTINCT ?author1 ?author1Id ?author1Label ?author2 ?author2Id ?author2Label ?chapter
+    WHERE {
+      ?author1 wdt:P1 wd:Q3998 ; wdt:P20 ?author1Id ; wdt:P27 ?chapter .
+      ?author2 wdt:P1 wd:Q3998 ; wdt:P20 ?author2Id ; wdt:P27 ?chapter .
+      FILTER(?author1Id &lt; ?author2Id)
+      OPTIONAL { ?author1 rdfs:label ?author1Label . FILTER(LANG(?author1Label) = "en") }
+      OPTIONAL { ?author2 rdfs:label ?author2Label . FILTER(LANG(?author2Label) = "en") }
+    }
+  }
+}
+GROUP BY ?author1Id ?author1Label ?author2Id ?author2Label
+ORDER BY DESC(?sharedChapters) ?author1Label ?author2Label
+LIMIT 20
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">author1Label</th>
+<th data-quarto-table-cell-role="th">author2Label</th>
+<th data-quarto-table-cell-role="th">sharedChapters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Aïda Diongue-Niang</td>
+<td>Malte Meinshausen</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Bronwyn Hayward</td>
+<td>Joyashree Roy</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Christopher Jones</td>
+<td>June-yi Lee</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>David Dodman</td>
+<td>Bronwyn Hayward</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Gerhard Krinner</td>
+<td>Aimée Slangen</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Katherine Calvin</td>
+<td>Detlef Van Vuuren</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="question-6" class="level2">
+<h2 class="anchored" data-anchor-id="question-6">Question 6</h2>
+<p>Which institutions have the most authors across AR6? This cell uses the live SPARQL endpoint and counts distinct author IDs (<code>P20</code>) per affiliation (<code>P26</code>).</p>
+<div id="c237bd51" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wd: &lt;</span><span class="sc">{</span>ENTITY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ss">PREFIX wdt: &lt;</span><span class="sc">{</span>PROPERTY_NS<span class="sc">}</span><span class="ss">&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT ?institution (COUNT(DISTINCT ?authorId) AS ?authors)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE </span><span class="ch">{{</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="ss">  ?author wdt:P1 wd:Q3998 ;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P20 ?authorId ;</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="ss">          wdt:P26 ?institution .</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="ch">}}</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="ss">GROUP BY ?institution</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY DESC(?authors) ?institution</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="ss">LIMIT 20</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>display(Markdown(<span class="st">"```sparql</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> query <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">```"</span>))</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>institution_df <span class="op">=</span> run_table(query).rename(columns<span class="op">=</span>{<span class="st">"institution"</span>: <span class="st">"Institution"</span>, <span class="st">"authors"</span>: <span class="st">"Authors"</span>})</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>display(institution_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display cell-output-markdown">
+<pre class="sparql"><code>
+PREFIX wd: &lt;https://climatekg.tibwiki.io/entity/&gt;
+PREFIX wdt: &lt;https://climatekg.tibwiki.io/prop/direct/&gt;
+SELECT ?institution (COUNT(DISTINCT ?authorId) AS ?authors)
+WHERE {
+  ?author wdt:P1 wd:Q3998 ;
+          wdt:P20 ?authorId ;
+          wdt:P26 ?institution .
+}
+GROUP BY ?institution
+ORDER BY DESC(?authors) ?institution
+LIMIT 20
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Institution</th>
+<th data-quarto-table-cell-role="th">Authors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>University of Cape Town</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>University of Leeds</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Institute of Atmospheric Physics, Chinese Acad...</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>International Institute for Applied Systems An...</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Met Office Hadley Centre</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Tsinghua University</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>University of Bristol</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>University of Exeter</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Australian National University</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>ETH Zurich</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Federal University of Rio de Janeiro</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Potsdam Institute for Climate Impact Research</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>University of Reading</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Beijing Normal University</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Environment and Climate Change Canada</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Imperial College London</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Institute of Marine Research</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>Lund University</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Max Planck Institute for Meteorology</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>National Institute for Environmental Studies</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 
 
 </section>
