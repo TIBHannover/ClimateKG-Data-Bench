@@ -245,5 +245,5 @@ LIMIT 50
 
 ## See Also
 
-- [Multi-Environment Workflow](multi-env-workflow.md) — Environment URLs and access
+- [Multi-Environment Workflow](../multi-env-workflow.md) — Environment URLs and access
 - [Wikidata SPARQL Query Help](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/Wikidata_Query_Help) — General SPARQL guidance

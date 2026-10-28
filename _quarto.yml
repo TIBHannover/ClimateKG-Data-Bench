@@ -27,13 +27,10 @@ website:
   description: "A community portal for working on the Climate Knowledge Graph"
   navbar:
     left:
-      - text: "Get Involved!"
-        file: get-involved.qmd
-      - text: "|"
-      - text: "IPCC AR6:"
+      - text: "IPCC AR6 >>"
       - text: "Knowledge Graph"
         file: knowledge-graph.qmd
-      - text: "Browse MediaWiki"
+      - text: "Browse Text"
         href: https://climatekg.tibwiki.io/wiki/IPCC:AR6
       - text: "Data Analysis"
         menu:
@@ -66,9 +63,9 @@ website:
             file: sparql_queries/class-counts.ipynb
           - text: "Investigation: Q1 Count Discrepancy"
             file: sparql_queries/investigate-q1-count.ipynb
-      - text: "Data"
+      - text: "Datasets"
         menu:
-          - text: "Data"
+          - text: "Datasets"
             file: about-data.qmd
           - text: "XML/HTML Pipeline Overview"
             file: xml-html-documentation.md
@@ -97,24 +94,16 @@ website:
             file: research_data/data-xml-dtd/erm/erm-diagram.qmd  
           - text: "ER Model Documentation"
             file: research_data/data-xml-dtd/erm/README.qmd
-      - text: "|"
-      - text: "Software"
-        menu:
-          - text: "Software"
-            file: software.qmd
-          - text: "CKG Scrape"
-            file: ckg-scrape.qmd
-          - text: "CKG Data"
-            file: ckg-data.qmd
   page-footer:
     left: |
-      <div class="site-footer-project">Climate Knowledge Graph is a research and development project from TIB.</div>
+      <div class="site-footer-project">ClimateKG is an TIB R&Dproject in partnership with #semanticClimate.</div>
     center: |
       <nav class="site-footer-nav" aria-label="Footer navigation">
         <ul class="site-footer-links">
           <li><a href="/about.html">About</a></li>
-          <li><a href="/documentation/test-report-7/incite.html">Our publications</a></li>
+          <li><a href="/about.html">Tech</a></li>
           <li><a href="/roadmap.html">Roadmap</a></li>
+          <li><a href="/documentation/test-report-7/incite.html">Publications</a></li>
           <li><a href="/change-log.html">Change Log</a></li>
           <li><a href="/imprint.html">Imprint</a></li>
           <li><a href="/data-protection.html">Data protection</a></li>
@@ -190,5 +179,7 @@ format:
 execute:
   freeze: false
   warning: false
-  enabled: true
+  # TEMPORARY: SPARQL endpoint is returning 502; render notebooks from stored outputs.
+  # Set back to true once the endpoint is available.
+  enabled: false
   execute-dir: project
